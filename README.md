@@ -29,13 +29,7 @@ docker compose up -d --build
 docker compose ps
 ```
 
-容器使用 `uv` 从锁文件安装 Python 依赖，Node 构建前端；SQLite 数据和证据快照保存在宿主机 `data/`。服务默认只监听服务器的 `127.0.0.1:8000`。从本机访问远端实例可执行：
-
-```bash
-ssh -N -L 18000:127.0.0.1:8000 hk
-```
-
-然后打开 <http://127.0.0.1:18000>。需要停止服务时运行 `docker compose down`；这不会删除 `data/`。更新代码后执行 `git pull --ff-only && docker compose up -d --build`。
+容器使用 `uv` 从锁文件安装 Python 依赖，Node 构建前端；SQLite 数据和证据快照保存在宿主机 `data/`。服务监听服务器的 8000 端口，可在浏览器打开 `http://服务器公网 IP:8000/`。需要停止服务时运行 `docker compose down`；这不会删除 `data/`。更新代码后执行 `git pull --ff-only && docker compose up -d --build`。
 
 若服务器已有 Python 3.12，也可以用 `uv` 安装依赖并用 systemd 运行，不需要在服务器构建前端：
 
@@ -51,7 +45,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable --now forecastlab
 ```
 
-systemd 服务使用独立的 `forecastlab` 用户。若该用户已存在，跳过 `useradd`。服务同样只监听服务器本机的 8000 端口。
+systemd 服务使用独立的 `forecastlab` 用户。若该用户已存在，跳过 `useradd`。服务同样监听服务器的 8000 端口，可直接通过公网 IP 在浏览器访问。
 
 ## 启用真实运行
 
