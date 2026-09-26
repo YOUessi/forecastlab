@@ -1,0 +1,76 @@
+{
+  "_note": "教学虚构情境，不能用作真实预测或评分",
+  "question": {
+    "id": "Q-DEMO",
+    "question": "青岚开源社区能否在 2026 年 11 月 15 日前发布 V2 正式版？",
+    "as_of": "2026-09-26T08:00:00Z",
+    "resolve_by": "2026-11-15T23:59:00Z",
+    "outcomes": [
+      "是",
+      "否"
+    ],
+    "resolution_rule": "以青岚开源社区官方版本页出现 V2 正式版且可下载为是，否则为否。",
+    "resolution_source": "教学虚构情境：不存在真实结算来源",
+    "mode": "binary",
+    "user_assumptions": []
+  },
+  "evidence": [
+    {
+      "id": "E001",
+      "source_url": null,
+      "file_id": "exercise:1",
+      "title": "项目路线图",
+      "publisher": "项目组",
+      "published_at": null,
+      "updated_at": null,
+      "retrieved_at": "2026-09-26T08:00:00Z",
+      "event_at": null,
+      "excerpt": "教学虚构材料：项目组计划在 11 月中旬发布 V2，核心功能已进入集成阶段。",
+      "claim": "教学虚构材料：项目组计划在 11 月中旬发布 V2，核心功能已进入集成阶段。",
+      "snapshot_path": null,
+      "content_hash": "8f470cf7248b1b7fb698eb4a18c47407c839ce97bbecf4499483b98508117d9a",
+      "source_type": "exercise",
+      "source_group": "exercise-1",
+      "date_status": "synthetic",
+      "conflict_group": null
+    },
+    {
+      "id": "E002",
+      "source_url": null,
+      "file_id": "exercise:2",
+      "title": "测试记录",
+      "publisher": "测试组",
+      "published_at": null,
+      "updated_at": null,
+      "retrieved_at": "2026-09-26T08:00:00Z",
+      "event_at": null,
+      "excerpt": "教学虚构材料：9 月回归测试发现两个高优先级兼容问题，修复时间尚未确认。",
+      "claim": "教学虚构材料：9 月回归测试发现两个高优先级兼容问题，修复时间尚未确认。",
+      "snapshot_path": null,
+      "content_hash": "2701aedbecc2d19ed45d27f24b0334efcc7096a7a02fe62978d15e56cfed46b2",
+      "source_type": "exercise",
+      "source_group": "exercise-2",
+      "date_status": "synthetic",
+      "conflict_group": null
+    },
+    {
+      "id": "E003",
+      "source_url": null,
+      "file_id": "exercise:3",
+      "title": "合作方说明",
+      "publisher": "合作方",
+      "published_at": null,
+      "updated_at": null,
+      "retrieved_at": "2026-09-26T08:00:00Z",
+      "event_at": null,
+      "excerpt": "教学虚构材料：托管合作方可提供额外测试资源，但要在 10 月前确认排期。",
+      "claim": "教学虚构材料：托管合作方可提供额外测试资源，但要在 10 月前确认排期。",
+      "snapshot_path": null,
+      "content_hash": "d323160766ca610e65e1e835f0ddd57e83f36ceb7e2a08fed1daaaf4b2366589",
+      "source_type": "exercise",
+      "source_group": "exercise-3",
+      "date_status": "synthetic",
+      "conflict_group": null
+    }
+  ]
+}

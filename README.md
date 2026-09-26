@@ -1,0 +1,117 @@
+# ForecastLab
+
+基于证据溯源与多主体推演的课程级预测工作台。这个仓库实现了所附 [工程计划](docs/agent-framework-plan-v1.html) 的核心 Demo：统一问题格式、证据包或在线检索、LangGraph 状态图、主体独立行动、两轮环境推进、审查、主观概率、SQLite 回放与报告导出。
+
+**状态说明：**教学演示使用明确标注的虚构材料与固定输出，用于无密钥联调。真实预测需要模型服务 Key；在线检索另需 Tavily Key。当前没有真实实验结果，也不声称概率已校准。
+
+## 快速启动
+
+环境：macOS/Linux、Python 3.12、`uv`、Node.js 20.19+/22.12+、npm。
+
+```bash
+uv sync --locked
+cd frontend && npm ci && npm run build && cd ..
+uv run uvicorn app.api:app --app-dir backend --host 127.0.0.1 --port 8000
+```
+
+打开 <http://127.0.0.1:8000>，点击“运行教学演示”。它会经过同一个 LangGraph 流程，显示 3 个主体、2 轮行动、审查、引用和回放。首次运行会在 `data/` 创建 SQLite 与各阶段 JSON 快照。
+
+首页另有科技、体育、公共事件三个**问题预设**。它们只填写问题和结算规则；需要真实证据与模型密钥才能生成新预测。
+
+前端开发模式可另开终端运行 `cd frontend && npm run dev`，Vite 将 `/api` 代理到 8000 端口。后端修改后需重启服务。
+
+## 启用真实运行
+
+1. 将 `.env.example` 复制为 `.env`，填写 `QWEN_API_KEY`、`QWEN_BASE_URL` 和 `QWEN_MODEL`。项目使用 OpenAI 兼容接口调用模型；已有 DeepSeek 官方接口配置也可继续使用 `DEEPSEEK_API_KEY`、`DEEPSEEK_BASE_URL` 和 `DEEPSEEK_MODEL`。两组同时设置时，优先使用 `QWEN_*`。
+2. 若使用在线检索，另填 `TAVILY_API_KEY`。没有检索 Key 时，导入 JSON 证据包即可。
+3. 输入可结算的二元问题、信息截至时间、截止时间和结算规则。开放问题改选“情景分析”，其概率始终为 `null`。
+4. 导入证据包或选择在线检索，提交运行。单进程同一时间只接受一个运行；页面每 2 秒查询进度。失败或中断后可从已保存的阶段继续，不重复执行成功的阶段。
+
+导入证据包是 JSON 数组，或包含 `evidence` 数组的对象。最小条目：
+
+```json
+[
+  {
+    "title": "来源标题",
+    "source_url": "https://example.org/actual-source",
+    "publisher": "发布方",
+    "published_at": "2026-09-01T00:00:00Z",
+    "excerpt": "从原始来源保存的支持判断的原文片段。"
+  }
+]
+```
+
+把示例网址和内容替换为真实来源。后端会分配 `E001...` 编号、抓取/导入时间和 SHA-256 内容哈希。历史预测必须导入在预测截点前冻结的快照；今天搜索到的旧文章不能自动当作当年的证据。若来源只有搜索摘要，请在导入材料中明确注明；在线 Tavily 返回没有正文时会自动标为 `snippet_only`。
+
+当前兼容接口配置使用 `deepseek-v4.1-flash`；实际可用模型以对应服务提供方的模型列表为准。`QWEN_MODEL` 可切换模型。首次接入应使用少量问题确认账户权限、模型参数和账单。运行上限由 `.env` 中的 `FORECASTLAB_MAX_CALLS`（默认 18）与 `FORECASTLAB_MAX_SECONDS`（默认 300）控制。
+
+## 工作流与边界
+
+```text
+QuestionSpec → QuestionAnalysis → Evidence[] + EvidenceAssessment
+             → WorldState + ActorProfile[]
+             → {ActorAction × 3} → SimulationStep S1
+             → {ActorAction × 3} → SimulationStep S2
+             → Review → Forecast
+```
+
+- 模型只生成结构化判断候选；URL、证据编号、内容哈希和运行状态由代码管理。模型读取长度受控的证据节选，完整检索内容保存在本地快照中。
+- 同一轮的主体读取同一个父状态；环境在收齐行动后统一推进。模拟结果保持 `M/S` 身份，不会变成 `E` 类外部证据。
+- 代码核对引用 ID、时间截点、父状态和概率；审查 Agent 核对内容支持度。证据不足或审查阻断时不输出概率。
+- 所有角色共用同一个已配置模型，不等于独立专家；概率是主观判断，未经校准。
+- 在线检索由 Tavily 提供，模型本身不承担互联网搜索。首版没有账号、GPU、断点自动续算和全网持续监控。
+
+## API
+
+启动后访问 `/docs` 查看 OpenAPI。主要接口：
+
+| 方法 | 路径 | 用途 |
+| --- | --- | --- |
+| POST | `/api/questions/parse` | 检查可结算目标，返回缺失字段 |
+| POST | `/api/runs` | 创建运行，返回 202 与 `run_id` |
+| POST | `/api/runs/{id}/resume` | 从失败、中断或部分完成运行的首个未完成阶段继续 |
+| GET | `/api/runs` | 历史列表 |
+| GET | `/api/runs/{id}` | 阶段、运行记录与结果 |
+| GET | `/api/runs/{id}/evidence` | 来源详情 |
+| GET | `/api/runs/{id}/export?format=html\|json` | 导出报告或原始记录 |
+| GET | `/api/health` | 密钥配置状态，不返回密钥 |
+
+`POST /api/runs` 的请求体包含 `question`（`QuestionSpec`）、`evidence_mode`（`import` / `online` / `reuse` / `demo`）、`evidence`（导入时必填）和可选 `parent_run_id`。`reuse` 必须提供父运行 ID，后端沿用已保存的证据快照；修改条件后重新提交会产生新 ID，历史记录不被覆盖。
+
+## 测试与评估
+
+```bash
+uv run pytest -q
+cd frontend && npm run build
+```
+
+测试覆盖完整演示、引用与概率约束、时间截点、服务重启标记，以及 HTML 导出转义。`examples/classroom-demo.json` 是**教学虚构情境**，不能用于真实预测质量评估。
+
+实际实验应先冻结问题、提示词、模型、证据包和预算。`eval/baseline.py` 用**同一问题与证据包**做一次单 Agent 模型调用：
+
+```bash
+uv run python eval/baseline.py path/to/frozen-pack.json --output baseline.json
+```
+
+结算后的结果表使用 `[{"id":"Q1","category":"tech","outcome":1,"full_p":0.6,"baseline_p":0.5}]` 格式，缺失概率填 `null`。评分脚本同时输出成功覆盖率、成功样本 Brier 与将拒答按 0.5 回退的全样本 Brier：
+
+```bash
+uv run python eval/score.py path/to/settled-results.json
+```
+
+请保留失败/拒答、引用人工抽查、耗时与 token 记录；历史问题要说明模型可能记住答案。仓库不附带虚构的实验得分。
+
+## 目录
+
+```text
+backend/app/       数据契约、证据入口、兼容接口适配、状态图、API、SQLite
+backend/tests/     契约与端到端测试
+frontend/src/      React 四视图工作台
+examples/          教学演示数据
+eval/              单 Agent 基线与 Brier/覆盖率脚本
+docs/              原始工程计划与课程交付模板
+```
+
+## 项目材料与披露
+
+本工程根据用户提供的 v0.1 计划搭建。课程要求、Decitron 相关描述和参考资料仍需小组在最终提交前逐项核对。Codex 参与了代码、测试、页面及文档起草；正式报告中的 LLM Usage Statement 应补充后续真实使用情况和人工核查记录。
