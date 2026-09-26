@@ -1,0 +1,23 @@
+[Unit]
+Description=ForecastLab API and web UI
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=forecastlab
+Group=forecastlab
+WorkingDirectory=/opt/forecastlab
+EnvironmentFile=/opt/forecastlab/.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/opt/forecastlab/.venv/bin/uvicorn app.api:app --app-dir backend --host 127.0.0.1 --port 8000
+Restart=on-failure
+RestartSec=3
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/opt/forecastlab/data
+
+[Install]
+WantedBy=multi-user.target

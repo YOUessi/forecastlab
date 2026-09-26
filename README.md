@@ -37,6 +37,22 @@ ssh -N -L 18000:127.0.0.1:8000 hk
 
 然后打开 <http://127.0.0.1:18000>。需要停止服务时运行 `docker compose down`；这不会删除 `data/`。更新代码后执行 `git pull --ff-only && docker compose up -d --build`。
 
+若服务器已有 Python 3.12，也可以用 `uv` 安装依赖并用 systemd 运行，不需要在服务器构建前端：
+
+```bash
+uv sync --locked --no-dev
+# 将本地 frontend/dist/ 上传到服务器的 frontend/dist/
+sudo useradd --system --home-dir /opt/forecastlab --shell /usr/sbin/nologin forecastlab
+sudo chown forecastlab:forecastlab .env data
+sudo chmod 600 .env
+sudo chmod 700 data
+sudo cp deploy/forecastlab.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now forecastlab
+```
+
+systemd 服务使用独立的 `forecastlab` 用户。若该用户已存在，跳过 `useradd`。服务同样只监听服务器本机的 8000 端口。
+
 ## 启用真实运行
 
 1. 将 `.env.example` 复制为 `.env`，填写 `QWEN_API_KEY`、`QWEN_BASE_URL` 和 `QWEN_MODEL`。项目使用 OpenAI 兼容接口调用模型；已有 DeepSeek 官方接口配置也可继续使用 `DEEPSEEK_API_KEY`、`DEEPSEEK_BASE_URL` 和 `DEEPSEEK_MODEL`。两组同时设置时，优先使用 `QWEN_*`。
