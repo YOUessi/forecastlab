@@ -20,6 +20,23 @@ uv run uvicorn app.api:app --app-dir backend --host 127.0.0.1 --port 8000
 
 前端开发模式可另开终端运行 `cd frontend && npm run dev`，Vite 将 `/api` 代理到 8000 端口。后端修改后需重启服务。
 
+## Docker 部署
+
+服务器安装 Docker 和 Docker Compose 后，在项目根目录放置仅服务器可读的 `.env`，运行：
+
+```bash
+docker compose up -d --build
+docker compose ps
+```
+
+容器使用 `uv` 从锁文件安装 Python 依赖，Node 构建前端；SQLite 数据和证据快照保存在宿主机 `data/`。服务默认只监听服务器的 `127.0.0.1:8000`。从本机访问远端实例可执行：
+
+```bash
+ssh -N -L 18000:127.0.0.1:8000 hk
+```
+
+然后打开 <http://127.0.0.1:18000>。需要停止服务时运行 `docker compose down`；这不会删除 `data/`。更新代码后执行 `git pull --ff-only && docker compose up -d --build`。
+
 ## 启用真实运行
 
 1. 将 `.env.example` 复制为 `.env`，填写 `QWEN_API_KEY`、`QWEN_BASE_URL` 和 `QWEN_MODEL`。项目使用 OpenAI 兼容接口调用模型；已有 DeepSeek 官方接口配置也可继续使用 `DEEPSEEK_API_KEY`、`DEEPSEEK_BASE_URL` 和 `DEEPSEEK_MODEL`。两组同时设置时，优先使用 `QWEN_*`。
