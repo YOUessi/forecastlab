@@ -6,7 +6,7 @@ from fastapi.testclient import TestClient
 from app import config
 from app.api import create_app, report_html
 from app.demo import DEMO_QUESTION, demo_evidence, demo_output
-from app.graph import build_graph, evidence_for_model, execute, validate_forecast
+from app.graph import build_graph, canonicalize_forecast_ids, evidence_for_model, execute, validate_forecast
 from app.schemas import Forecast, ImportedEvidence, Review, RunRecord, WorldState
 from app.sources import normalize_import, public_url
 from app.storage import RunStore
@@ -53,6 +53,18 @@ def test_references_and_probabilities_are_checked():
         validate_forecast(forecast, DEMO_QUESTION, evidence, world, [], review)
 
 
+def test_explanatory_text_around_known_references_is_canonicalized():
+    evidence = demo_evidence()
+    world = WorldState.model_validate(demo_output("world"))
+    forecast = Forecast.model_validate(demo_output("forecast"))
+    forecast.key_assumptions = ["兼容问题能按时修复（H001）"]
+    forecast.supporting[0].evidence_ids = ["路线图证据 E001"]
+    canonicalize_forecast_ids(forecast, evidence, world, [])
+    assert forecast.key_assumptions == ["H001"]
+    assert forecast.supporting[0].evidence_ids == ["E001"]
+    validate_forecast(forecast, DEMO_QUESTION, evidence, world, [], Review.model_validate(demo_output("review")))
+
+
 def test_import_rejects_future_or_private_source():
     assert not public_url("http://127.0.0.1/private")
     assert not public_url("http://localhost/private")
@@ -78,7 +90,21 @@ def test_real_graph_contract_with_fake_model():
     assert len(state["actions"]) == 6
 
 
-def test_environment_retries_unknown_state_variable():
+def test_imported_evidence_skips_unused_question_model_call():
+    class FakeModel:
+        def complete(self, role, payload, schema, instructions):
+            assert role != "question"
+            actor = payload.get("actor", {})
+            return schema.model_validate(demo_output(role, actor.get("id"), payload.get("round", 1)))
+
+    record = RunRecord(run_id="run_import_fast", question=DEMO_QUESTION, evidence_mode="import", model="fake")
+    state = build_graph(record, demo_evidence(), FakeModel(), Path("/tmp")).invoke(
+        {"question": DEMO_QUESTION.model_dump(mode="json")})
+    assert state["question_analysis"]["normalized_question"] == DEMO_QUESTION.question
+    assert state["forecast"]["status"] == "completed"
+
+
+def test_environment_drops_unknown_state_variable_with_audit_note():
     class FakeModel:
         environment_calls = 0
 
@@ -95,8 +121,9 @@ def test_environment_retries_unknown_state_variable():
     model = FakeModel()
     record = RunRecord(run_id="run_retry", question=DEMO_QUESTION, evidence_mode="import", model="fake")
     state = build_graph(record, demo_evidence(), model, Path("/tmp")).invoke({"question": DEMO_QUESTION.model_dump(mode="json")})
-    assert model.environment_calls == 3
+    assert model.environment_calls == 2
     assert "invented_variable" not in state["simulation"][0]["state_changes"]
+    assert "invented_variable" in state["simulation"][0]["unresolved"][-1]
     assert state["forecast"]["status"] == "completed"
 
 
@@ -121,6 +148,44 @@ def test_forecast_retries_claim_without_reference():
     assert state["forecast"]["supporting"][0]["evidence_ids"] == ["E001"]
 
 
+def test_review_accepts_actor_action_reference_and_receives_compact_context():
+    class FakeModel:
+        def complete(self, role, payload, schema, instructions):
+            output = demo_output(role, payload.get("actor", {}).get("id"), payload.get("round", 1))
+            if role == "review":
+                output["issues"][0]["affected_ids"] = ["M1-A1"]
+                assert all(len(item["excerpt"]) <= 1200 for item in payload["evidence"])
+                assert all("rationale_summary" not in action for action in payload["actions"])
+            if role == "forecast":
+                assert all(len(item["excerpt"]) <= 900 for item in payload["evidence"])
+            return schema.model_validate(output)
+
+    record = RunRecord(run_id="run_review_action", question=DEMO_QUESTION, evidence_mode="import", model="fake")
+    state = build_graph(record, demo_evidence(), FakeModel(), Path("/tmp")).invoke({"question": DEMO_QUESTION.model_dump(mode="json")})
+    assert state["review"]["issues"][0]["affected_ids"] == ["M1-A1"]
+
+
+def test_forecast_falls_back_without_probability_when_citations_never_validate():
+    class FakeModel:
+        calls = 0
+
+        def complete(self, role, payload, schema, instructions):
+            output = demo_output(role, payload.get("actor", {}).get("id"), payload.get("round", 1))
+            if role == "forecast":
+                self.calls += 1
+                output["supporting"][0]["evidence_ids"] = []
+            return schema.model_validate(output)
+
+    model = FakeModel()
+    record = RunRecord(run_id="run_forecast_fallback", question=DEMO_QUESTION, evidence_mode="import", model="fake")
+    state = build_graph(record, demo_evidence(), model, Path("/tmp")).invoke({"question": DEMO_QUESTION.model_dump(mode="json")})
+    assert model.calls == 2
+    assert state["forecast"]["status"] == "partial"
+    assert state["forecast"]["probabilities"] is None
+    assert len(state["forecast"]["supporting"]) == 1
+    assert any("无法追溯" in item for item in state["forecast"]["limitations"])
+
+
 def test_model_receives_bounded_excerpt_without_changing_snapshot():
     evidence = demo_evidence()[0].model_copy(update={"excerpt": "x" * 4000})
     compact = evidence_for_model([evidence], limit=2400)[0]
@@ -139,9 +204,9 @@ def test_resume_runs_only_the_failed_stage(monkeypatch):
 
         def complete(self, role, payload, schema, instructions):
             self.usage["calls"] += 1
-            output = demo_output(role, payload.get("actor", {}).get("id"), payload.get("round", 1))
             if role == "forecast" and should_fail["forecast"]:
-                output["supporting"][0]["evidence_ids"] = []
+                raise RuntimeError("temporary model outage")
+            output = demo_output(role, payload.get("actor", {}).get("id"), payload.get("round", 1))
             return schema.model_validate(output)
 
     monkeypatch.setattr(config, "MODEL_API_KEY", "test-only")
@@ -152,6 +217,8 @@ def test_resume_runs_only_the_failed_stage(monkeypatch):
         execute(record, demo_evidence(), store)
         failed = store.get(record.run_id)
         assert failed.status == "failed"
+        assert failed.failed_stage == "forecast"
+        assert "forecast" in failed.stage_durations
         assert "review" in failed.stage_outputs and "forecast" not in failed.stage_outputs
         previous_calls = failed.usage["calls"]
         should_fail["forecast"] = False

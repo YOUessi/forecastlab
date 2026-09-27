@@ -1,0 +1,23 @@
+{
+  "_about": "Python 3.13.0 历史回测。retrieved_at 记录第三方归档或版本库固定该版本的时间；以下仅包含 2024-09-10T00:00:00Z 之前已经存在的资料，不含事后结果。excerpt 为对快照内容的中文摘要。",
+  "evidence": [
+    {
+      "title": "Python 3.13.0rc2 官方发布页：2024-09-07 归档快照",
+      "source_url": "https://web.archive.org/web/20240907232733/https://www.python.org/downloads/release/python-3130rc2/",
+      "publisher": "Python Software Foundation",
+      "retrieved_at": "2024-09-07T23:27:33Z",
+      "excerpt": "对 2024-09-07 官方页面快照的摘要：Python 3.13.0rc2 被描述为当时计划中的最后一个候选版本。若没有发现关键问题，正式稳定版计划于 2024-10-01 发布；页面同时说明关键问题可能改变这一计划。此时尚未发布正式稳定版。",
+      "claim": "截至该快照时，官方计划在 2024-10-01 发布 Python 3.13.0 正式版，但关键问题可能导致变化。",
+      "source_group": "python-core-release"
+    },
+    {
+      "title": "PEP 719 发布日程：2024-09-07 Git 固定版本",
+      "source_url": "https://github.com/python/peps/blob/a9fec384f2be8c13e01b20a16a1e1704f16a9365/peps/pep-0719.rst",
+      "publisher": "Python PEP Repository",
+      "retrieved_at": "2024-09-07T09:38:37Z",
+      "excerpt": "对 2024-09-07 固定 Git 版本的摘要：PEP 719 当时的 Python 3.13.0 日程列出第二个候选版为 2024-09-06，正式稳定版计划为 2024-10-01。这是事前计划日期，不是最终发布日期。",
+      "claim": "截至该 Git 版本时，正式稳定版计划日期仍为 2024-10-01。",
+      "source_group": "python-core-release"
+    }
+  ]
+}

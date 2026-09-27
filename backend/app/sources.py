@@ -2,6 +2,7 @@
 import hashlib
 import ipaddress
 import json
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from urllib.parse import urlparse
 import httpx
@@ -59,9 +60,11 @@ def online_search(question: QuestionSpec, data_dir: Path, queries: list[str] | N
         raise ValueError("在线检索需要 TAVILY_API_KEY；可改用导入证据包。")
     if (utcnow() - question.as_of).days > 1:
         raise ValueError("历史问题不能用今天的网页作为截点前证据，请导入冻结证据包。")
-    queries = [q[:400] for q in (queries or [question.question])[:3]]
-    results = []
-    for query in queries:
+    queries = list(dict.fromkeys(q[:400] for q in (queries or [question.question])[:3] if q.strip()))
+    if not queries:
+        queries = [question.question[:400]]
+
+    def search_one(query: str) -> list[dict]:
         with httpx.Client(timeout=25) as client:
             response = client.post("https://api.tavily.com/search", json={
                 "api_key": config.TAVILY_API_KEY, "query": query,
@@ -69,7 +72,21 @@ def online_search(question: QuestionSpec, data_dir: Path, queries: list[str] | N
                 "include_raw_content": "text", "include_answer": False,
             })
             response.raise_for_status()
-            results.extend({**item, "query": query} for item in response.json().get("results", []))
+            return [{**item, "query": query} for item in response.json().get("results", [])]
+
+    results = []
+    failures = []
+    with ThreadPoolExecutor(max_workers=len(queries)) as pool:
+        futures = [pool.submit(search_one, query) for query in queries]
+        # Read futures in query order so evidence IDs and duplicate selection stay stable.
+        for index, future in enumerate(futures, 1):
+            try:
+                results.extend(future.result())
+            except Exception as exc:
+                detail = f"HTTP {exc.response.status_code}" if isinstance(exc, httpx.HTTPStatusError) else type(exc).__name__
+                failures.append(f"第 {index} 条：{detail}")
+    if len(failures) == len(queries):
+        raise RuntimeError(f"Tavily 在线检索全部失败（{'；'.join(failures)}）")
     evidence = []
     seen = set()
     snapshot_dir = data_dir / "sources"
@@ -78,13 +95,13 @@ def online_search(question: QuestionSpec, data_dir: Path, queries: list[str] | N
         url = result.get("url", "")
         if not public_url(url) or url in seen:
             continue
-        seen.add(url)
         content = (result.get("raw_content") or result.get("content") or "").strip()[:12000]
         if not content:
             continue
+        seen.add(url)
         digest = hashlib.sha256(content.encode()).hexdigest()
         retrieved_at = utcnow()
-        path = snapshot_dir / f"{digest}.json"
+        path = snapshot_dir / f"{hashlib.sha256(url.encode()).hexdigest()[:12]}-{digest}.json"
         path.write_text(json.dumps({"provider": "tavily", "query": result.get("query"), "url": url, "title": result.get("title"), "content": content, "retrieved_at": retrieved_at.isoformat()}, ensure_ascii=False), encoding="utf-8")
         evidence.append(Evidence(
             id=f"E{len(evidence)+1:03}", source_url=url, title=result.get("title") or url,

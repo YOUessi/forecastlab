@@ -189,9 +189,15 @@ class ReviewIssue(BaseModel):
 
 class Review(BaseModel):
     status: Literal["passed", "qualified", "blocked"]
+    probability_basis: Literal["full", "evidence_only", "none"] = "full"
     issues: list[ReviewIssue] = Field(default_factory=list)
     unsupported_claims: list[str] = Field(default_factory=list)
     missing_evidence: list[str] = Field(default_factory=list)
+
+
+class EvidenceOnlyAudit(BaseModel):
+    can_estimate: bool
+    blocking_reasons: list[str] = Field(default_factory=list)
 
 
 class Claim(BaseModel):
@@ -203,6 +209,7 @@ class Claim(BaseModel):
 
 class Forecast(BaseModel):
     status: Literal["completed", "insufficient_evidence", "scenario_only", "partial"]
+    probability_basis: Literal["full", "evidence_only"] = "full"
     conclusion: str
     probabilities: dict[str, float] | None = None
     calibrated: Literal[False] = False
@@ -212,6 +219,30 @@ class Forecast(BaseModel):
     scenarios: list[str] = Field(default_factory=list)
     limitations: list[str] = Field(default_factory=list)
     new_information: list[str] = Field(default_factory=list)
+
+
+class EvidenceOnlyForecast(Forecast):
+    """An approved evidence-only binary forecast cannot silently omit probability."""
+    status: Literal["completed"] = "completed"
+    probability_basis: Literal["evidence_only"] = "evidence_only"
+    probabilities: dict[str, float]
+
+
+class SettlementRequest(BaseModel):
+    """A manually verified outcome, recorded only after the resolution deadline."""
+    outcome: str = Field(min_length=1)
+    source_url: HttpUrl
+    source_title: str = Field(default="", max_length=300)
+    observed_value: str = Field(default="", max_length=200)
+    note: str = Field(default="", max_length=1000)
+
+
+class Settlement(SettlementRequest):
+    recorded_at: datetime = Field(default_factory=utcnow)
+    forecast_probabilities: dict[str, float] | None = None
+    brier_score: float | None = None
+
+    _aware_recorded_at = field_validator("recorded_at")(aware)
 
 
 class RunRequest(BaseModel):
@@ -230,6 +261,8 @@ class RunRecord(BaseModel):
     demo: bool = False
     status: Literal["queued", "running", "completed", "insufficient_evidence", "scenario_only", "partial", "failed", "interrupted"] = "queued"
     stage: str = "queued"
+    failed_stage: str | None = None
+    stage_durations: dict[str, float] = Field(default_factory=dict)
     stage_outputs: dict[str, object] = Field(default_factory=dict)
     question_analysis: QuestionAnalysis | None = None
     evidence: list[Evidence] = Field(default_factory=list)
@@ -239,8 +272,9 @@ class RunRecord(BaseModel):
     simulation: list[SimulationStep] = Field(default_factory=list)
     review: Review | None = None
     forecast: Forecast | None = None
+    settlement: Settlement | None = None
     model: str
-    prompt_version: str = "v1"
+    prompt_version: str = "v2"
     started_at: datetime = Field(default_factory=utcnow)
     finished_at: datetime | None = None
     usage: dict[str, int] = Field(default_factory=lambda: {"calls": 0, "prompt_tokens": 0, "completion_tokens": 0})
