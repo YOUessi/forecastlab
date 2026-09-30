@@ -329,4 +329,29 @@ def import_evidence(items, question: QuestionSpec, data_dir: Path):
                 e.date_basis[field] = "导入者提供，未独立核实"
         e.passages = select_passages(split_passages(snapshot), [question.question])
         evidence.append(e)
-    return RetrievalResult(evidence=evidence, exclusions=exclusions, status="partial" if exclusions else "completed")
+    return RetrievalResult(evidence=_deduplicate_imports(evidence), exclusions=exclusions, status="partial" if exclusions else "completed")
+
+
+
+def _deduplicate_imports(items):
+    from .schemas import SourceAlias
+    by_location, by_body, unique = {}, {}, []
+    for evidence in items:
+        location = canonical_source_url(str(evidence.source_url)) if evidence.source_url else "file:" + evidence.file_id
+        alias = SourceAlias(source_url=str(evidence.source_url or evidence.file_id), publisher=evidence.publisher,
+            published_at=evidence.published_at, updated_at=evidence.updated_at,
+            metadata={"snapshot_hash": evidence.snapshot_hash, "source_group": evidence.source_group,
+                      "source_group_basis": evidence.source_group_basis})
+        existing = by_location.get(location) or by_body.get(evidence.snapshot_hash)
+        if existing is not None:
+            if alias not in existing.aliases:
+                existing.aliases.append(alias)
+            existing.source_group_basis += "；规范化地址或相同正文去重，别名元数据已保留"
+            by_location[location] = existing
+        else:
+            evidence.aliases = [alias]
+            unique.append(evidence)
+            by_location[location] = by_body[evidence.snapshot_hash] = evidence
+    for index, evidence in enumerate(unique, 1):
+        evidence.id = f"E{index:03}"
+    return unique

@@ -27,7 +27,7 @@ def resolve_run_input(request: RunRequest, store: RunStore):
         if bool(confirmation.demo_case_id) != (request.evidence_mode == "demo"):
             raise ValueError("真实确认不能使用教学证据，教学确认也不能使用真实取证模式")
         return (confirmation.question.model_copy(deep=True), confirmation.framing.model_copy(deep=True),
-                [c.model_copy(deep=True) for c in store.list_calls(confirmation.draft_id)])
+                [c.model_copy(deep=True) for c in store.list_calls(confirmation.draft_id) if c.phase == "preparation"])
     return request.question.model_copy(deep=True), None, []
 
 
@@ -173,6 +173,8 @@ def create_app(data_dir: Path | None = None, *, question_model_factory=None) -> 
             parent = store.get(request.parent_run_id) if request.parent_run_id else None
             if request.parent_run_id and not parent:
                 raise HTTPException(404, "父运行不存在")
+            if request.evidence_mode == "reuse" and parent and parent.demo:
+                raise HTTPException(422, "教学虚构来源不能复用为真实运行的证据；请使用教学模式或真实证据包")
             question, framing, preparation = resolve_run_input(request, store)
             retrieval = None
             if request.evidence_mode == "demo":

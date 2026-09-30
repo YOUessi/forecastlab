@@ -20,6 +20,23 @@ def unique_request_count(records: list[ModelCallRecord]) -> int:
     return len({r.request_id for r in records})
 
 
+def request_active_seconds(records: list[ModelCallRecord]) -> float:
+    """Union of measured request intervals: repeated IDs and parallel calls count once."""
+    unique = {r.request_id: r for r in records}
+    intervals = sorted((r.started_at.timestamp(), r.started_at.timestamp()+r.elapsed_seconds) for r in unique.values())
+    total = 0.0
+    start = end = None
+    for lo, hi in intervals:
+        if start is None:
+            start, end = lo, hi
+        elif lo <= end:
+            end = max(end, hi)
+        else:
+            total += end-start
+            start, end = lo, hi
+    return total + (end-start if start is not None else 0)
+
+
 def remaining_run_budget(preparation_records, runtime_records, *, max_calls: int) -> int:
     return max(0, max_calls - unique_request_count([*preparation_records, *runtime_records]))
 

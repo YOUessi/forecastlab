@@ -192,6 +192,7 @@ class QuestionConfirmation(StrictModel):
 class DraftView(StrictModel):
     framing: QuestionFraming
     confirmation: QuestionConfirmation | None = None
+    preparation_records: list["ModelCallRecord"] = Field(default_factory=list)
 
 
 class ModelCallRecord(StrictModel):

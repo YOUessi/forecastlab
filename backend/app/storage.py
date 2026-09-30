@@ -117,8 +117,10 @@ class RunStore:
                 return None
             confirmation = con.execute("SELECT data FROM question_confirmations WHERE draft_id=? AND revision=?",
                                        (draft_id, row["revision"])).fetchone()
+            calls = con.execute("SELECT data FROM model_calls WHERE owner_id=? AND phase='preparation' ORDER BY rowid", (draft_id,)).fetchall()
         return DraftView(framing=QuestionFraming.model_validate_json(row["data"]),
-                         confirmation=QuestionConfirmation.model_validate_json(confirmation["data"]) if confirmation else None)
+                         confirmation=QuestionConfirmation.model_validate_json(confirmation["data"]) if confirmation else None,
+                         preparation_records=[ModelCallRecord.model_validate_json(c["data"]) for c in calls])
 
     def confirm_draft(self, draft_id: str, request: ConfirmQuestionRequest) -> QuestionConfirmation:
         with self.connect() as con:
@@ -152,7 +154,7 @@ class RunStore:
             for task in frame.retrieval_plan:
                 old_targets = task.target_premise_ids
                 task.target_premise_ids = [pid for pid in old_targets if pid in active]
-                if not old_targets or task.target_premise_ids:
+                if not old_targets or set(old_targets) <= active:
                     tasks.append(task)
             frame.retrieval_plan = tasks
             spec = QuestionSpec.model_validate(frame.proposed_spec.model_dump())
@@ -171,6 +173,11 @@ class RunStore:
         if require_current and row["revision"] != row["latest_revision"]:
             raise VersionConflict("确认对应旧草稿，请重新分析并确认")
         return QuestionConfirmation.model_validate_json(row["data"])
+
+    def get_operation(self, operation_id: str) -> dict | None:
+        with self.connect() as con:
+            row = con.execute("SELECT * FROM analysis_operations WHERE operation_id=?", (operation_id,)).fetchone()
+        return dict(row) if row else None
 
     def claim_operation(self, operation_id: str, input_hash: str, draft_id: str) -> dict:
         with self.connect() as con:

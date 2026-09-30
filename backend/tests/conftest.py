@@ -47,3 +47,12 @@ class FixtureModel:
 @pytest.fixture
 def mock_model():
     return FixtureModel
+
+
+@pytest.fixture(autouse=True)
+def forbid_external_http(monkeypatch):
+    """Unit/integration tests must never escape to a real provider with dummy keys."""
+    import httpx
+    def blocked(*args, **kwargs):
+        raise RuntimeError("External HTTP disabled in automated tests")
+    monkeypatch.setattr(httpx.HTTPTransport, "handle_request", blocked)

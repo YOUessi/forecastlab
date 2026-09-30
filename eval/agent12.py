@@ -31,6 +31,7 @@ def run_cases(cases: list[dict], *, mode: str = "fixture", data_dir: Path) -> di
         started = time.monotonic()
         row = {"id": case.get("id", str(index)), "input": case, "validation_mode": mode,
                "semantic_review": "not_performed", "status": "not_run", "request_ids": [], "model_calls": []}
+        request = None
         try:
             if mode == "live" and not config.MODEL_API_KEY:
                 row["reason"] = "未配置真实模型密钥；未发起付费调用"
@@ -80,8 +81,10 @@ def run_cases(cases: list[dict], *, mode: str = "fixture", data_dir: Path) -> di
             row["error"] = f"{type(exc).__name__}: {str(exc)[:500]}"
         finally:
             # All failures and unexecuted cases remain in the denominator.
-            if "question_framing" in row:
-                calls = store.list_calls(row["question_framing"]["draft_id"])
+            operation = store.get_operation(request.operation_id) if request is not None else None
+            owner = row.get("question_framing", {}).get("draft_id") or (operation["draft_id"] if operation else None)
+            if owner:
+                calls = store.list_calls(owner)
                 row["model_calls"] = [c.model_dump(mode="json") for c in calls]
                 row["request_ids"] = [c.request_id for c in calls]
             row["elapsed_seconds"] = round(time.monotonic()-started, 6)

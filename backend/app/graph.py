@@ -12,7 +12,7 @@ from .schemas import (QuestionSpec, QuestionAnalysis, Evidence, EvidenceAssessme
 from .sources import online_search, retrieve_evidence
 from .schemas import RetrievalResult, RetrievalLog, Assumption
 from .agents.evidence import (assess_evidence, active_framing, make_evidence_context, EvidenceStageError)
-from .llm import unique_request_count
+from .llm import unique_request_count, request_active_seconds
 from .llm import BudgetExceeded, ModelClient
 from .demo import demo_output
 from . import config
@@ -535,8 +535,10 @@ def execute(record: RunRecord, imported: list[Evidence], store, *, resume: bool 
                 "completion_tokens": max(sum(c.completion_tokens for c in previous_calls), record.usage["completion_tokens"])}
             cap = max(0, config.MAX_CALLS - unique_request_count(record.preparation_records))
             prep_seconds = sum(c.elapsed_seconds for c in record.preparation_records)
+            retrieval_seconds = max((log.elapsed_seconds for log in record.retrieval_result.retrieval_log), default=0) if record.retrieval_result else 0
+            measured_runtime = request_active_seconds(previous_calls) + retrieval_seconds
             model = ModelClient(initial_usage=prior_usage,
-                initial_active_seconds=prep_seconds + max(record.active_seconds, max((c.elapsed_seconds for c in previous_calls), default=0)),
+                initial_active_seconds=prep_seconds + max(record.active_seconds, measured_runtime),
                 call_limit=cap, on_reserve=lambda h, v: store.reserve_call(record.run_id, "runtime", call_limit=cap,
                     input_hash=h, prompt_version=v), on_finish=store.finish_call)
         else:
@@ -590,6 +592,8 @@ def execute(record: RunRecord, imported: list[Evidence], store, *, resume: bool 
             if model:
                 record.usage = model.usage.copy()
                 record.model = getattr(model, "actual_model", None) or record.model
+                if record.question_framing and hasattr(model, "active_seconds"):
+                    record.active_seconds = max(record.active_seconds, model.active_seconds-sum(c.elapsed_seconds for c in record.preparation_records))
             next_index = stage_names.index(stage) + 1
             current_stage = stage_names[next_index] if next_index < len(stage_names) else "done"
             record.stage = current_stage

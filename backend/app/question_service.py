@@ -35,6 +35,18 @@ class QuestionService:
             validate_demo_request(request)
         if self.requires_key and not request.demo_case_id and not config.MODEL_API_KEY:
             raise ModelNotConfigured("未配置模型密钥；真实问题不能使用固定答案代替分析。可使用教学演示。")
+        raw = request.model_dump(mode="json", exclude={"operation_id"})
+        digest = hashlib.sha256(json.dumps(raw, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
+        operation = self.store.get_operation(request.operation_id)
+        if operation:
+            if operation["input_hash"] != digest:
+                raise VersionConflict("operation_id 已用于不同输入")
+            if operation["status"] == "done":
+                return QuestionFraming.model_validate_json(operation["data"])
+            existing = self.store.get_draft(operation["draft_id"])
+            if existing and existing.framing.analysis_record.input_hash == digest:
+                self.store.finish_operation(request.operation_id, existing.framing)
+                return existing.framing
         previous = None
         if request.draft_id:
             view = self.get(request.draft_id)
@@ -43,8 +55,6 @@ class QuestionService:
                 raise ValueError("教学与真实模式不能沿用同一草稿，请创建新问题")
             if previous.revision != request.expected_revision:
                 raise VersionConflict("草稿已被修改，请重新加载后分析")
-        raw = request.model_dump(mode="json", exclude={"operation_id"})
-        digest = hashlib.sha256(json.dumps(raw, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
         op = self.store.claim_operation(request.operation_id, digest, request.draft_id or f"draft_{uuid4().hex}")
         if op["status"] == "done":
             return QuestionFraming.model_validate_json(op["data"])
@@ -54,7 +64,7 @@ class QuestionService:
             if existing and existing.framing.analysis_record.input_hash == digest:
                 self.store.finish_operation(request.operation_id, existing.framing)
                 return existing.framing
-            calls = self.store.list_calls(owner)
+            calls = [c for c in self.store.list_calls(owner) if c.phase == "preparation"]
             usage = {"calls": len(calls), "prompt_tokens": sum(c.prompt_tokens for c in calls),
                      "completion_tokens": sum(c.completion_tokens for c in calls)}
             model_factory = self.model_factory
@@ -77,7 +87,7 @@ class QuestionService:
                     feedback = str(exc)[:500]
                     if attempt == 1:
                         raise
-            actual_calls = self.store.list_calls(owner)
+            actual_calls = [c for c in self.store.list_calls(owner) if c.phase == "preparation"]
             frame.analysis_record = AnalysisRecord(model=getattr(model, "actual_model", None) or config.MODEL_NAME,
                 input_hash=digest, request_ids=[c.request_id for c in actual_calls],
                 elapsed_seconds=sum(c.elapsed_seconds for c in actual_calls),

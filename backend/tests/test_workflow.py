@@ -243,7 +243,9 @@ def test_reuse_keeps_frozen_evidence_and_history(monkeypatch):
     monkeypatch.setattr(config, "MODEL_API_KEY", "test-only")
     monkeypatch.setattr("app.graph.ModelClient", FakeModel)
     with TemporaryDirectory() as directory, TestClient(create_app(Path(directory))) as client:
-        first_id = client.post("/api/runs", json={"question": DEMO_QUESTION.model_dump(mode="json"), "evidence_mode": "demo"}).json()["run_id"]
+        # Seed a non-demo run with the fake model. Reusing a demo as real evidence is now rejected.
+        first_id = client.post("/api/runs", json={"question": DEMO_QUESTION.model_dump(mode="json"), "evidence_mode": "import",
+            "evidence": [e.model_dump(mode="json") for e in demo_evidence()]}).json()["run_id"]
         second_id = client.post("/api/runs", json={"question": DEMO_QUESTION.model_dump(mode="json"), "evidence_mode": "reuse", "parent_run_id": first_id}).json()["run_id"]
         first = client.get(f"/api/runs/{first_id}").json()
         second = client.get(f"/api/runs/{second_id}").json()
