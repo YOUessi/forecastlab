@@ -5,6 +5,7 @@ export function sliceCodepoints(text: string, start: number, end: number): strin
 const relations: Record<string, string> = { supports: '支持', challenges: '挑战', alternative: '替代解释', background: '背景', unclear: '尚不明确' }
 export function SourceLimitations({ evidence: e }: { evidence: Evidence }) {
   return <div className="source-limitations">
+    {e.date_status === 'synthetic' && <span>教学虚构材料</span>}
     {(e.content_kind === 'snippet' || e.source_type === 'snippet_only') && <span>只有搜索摘要，未取得正文</span>}
     {!e.published_at && <span>发布时间未知</span>}
     {e.content_truncated && <span>正文已截断，不是完整原文</span>}

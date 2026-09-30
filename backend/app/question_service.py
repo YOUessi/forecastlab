@@ -31,13 +31,16 @@ class QuestionService:
 
     def analyze(self, request: AnalyzeQuestionRequest) -> QuestionFraming:
         if request.demo_case_id:
-            raise ValueError("该固定教学案例暂未注册")
-        if self.requires_key and not config.MODEL_API_KEY:
+            from .agent12_demo import validate_demo_request
+            validate_demo_request(request)
+        if self.requires_key and not request.demo_case_id and not config.MODEL_API_KEY:
             raise ModelNotConfigured("未配置模型密钥；真实问题不能使用固定答案代替分析。可使用教学演示。")
         previous = None
         if request.draft_id:
             view = self.get(request.draft_id)
             previous = view.confirmation.framing if view.confirmation else view.framing
+            if previous.demo_case_id != request.demo_case_id:
+                raise ValueError("教学与真实模式不能沿用同一草稿，请创建新问题")
             if previous.revision != request.expected_revision:
                 raise VersionConflict("草稿已被修改，请重新加载后分析")
         raw = request.model_dump(mode="json", exclude={"operation_id"})
@@ -54,7 +57,11 @@ class QuestionService:
             calls = self.store.list_calls(owner)
             usage = {"calls": len(calls), "prompt_tokens": sum(c.prompt_tokens for c in calls),
                      "completion_tokens": sum(c.completion_tokens for c in calls)}
-            model = self.model_factory(initial_usage=usage, initial_active_seconds=sum(c.elapsed_seconds for c in calls),
+            model_factory = self.model_factory
+            if request.demo_case_id:
+                from .agent12_demo import QuestionFixtureModel
+                model_factory = lambda **kwargs: QuestionFixtureModel()
+            model = model_factory(initial_usage=usage, initial_active_seconds=sum(c.elapsed_seconds for c in calls),
                 call_limit=6, on_reserve=lambda h, v: self.store.reserve_call(owner, "preparation", call_limit=6,
                     input_hash=h, prompt_version=v), on_finish=self.store.finish_call)
             feedback = ""
@@ -73,7 +80,8 @@ class QuestionService:
             actual_calls = self.store.list_calls(owner)
             frame.analysis_record = AnalysisRecord(model=getattr(model, "actual_model", None) or config.MODEL_NAME,
                 input_hash=digest, request_ids=[c.request_id for c in actual_calls],
-                elapsed_seconds=sum(c.elapsed_seconds for c in actual_calls))
+                elapsed_seconds=sum(c.elapsed_seconds for c in actual_calls),
+                validation_mode="fixture" if request.demo_case_id else "live")
             if previous:
                 self.store.append_revision(frame, expected_revision=previous.revision)
             else:

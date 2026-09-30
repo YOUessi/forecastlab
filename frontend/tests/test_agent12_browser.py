@@ -183,3 +183,26 @@ def test_mobile_findings_and_drawer_fit_viewport(page, app_url):
     assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
     page.get_by_role("button", name="关闭详情", exact=True).click()
     expect(page.get_by_role("button", name="查看 E001 原文", exact=True)).to_be_focused()
+
+
+
+def test_real_backend_fixed_teaching_flow(page, app_url):
+    # No page.route: this test exercises the actual backend, SQLite, graph and UI.
+    page.goto(app_url)
+    page.get_by_role("button", name="体验问题与证据新流程", exact=True).click()
+    page.get_by_role("button", name="分析问题", exact=True).click()
+    expect(page.get_by_text("需要补充信息", exact=True)).to_be_visible()
+    page.get_by_label("这里的发布是可下载的正式版，还是测试版？（需补充）").fill("可下载的正式版")
+    page.get_by_role("button", name="提交补充并重新分析", exact=True).click()
+    expect(page.get_by_text("请核对系统理解", exact=True)).to_be_visible()
+    page.get_by_label("P001 前提处理").select_option("to_verify")
+    page.get_by_label("P002 前提处理").select_option("to_verify")
+    page.get_by_role("button", name="确认并继续", exact=True).click()
+    expect(page.get_by_text("问题已确认", exact=True)).to_be_visible()
+    page.get_by_role("button", name=re.compile("^开始预测")).click()
+    expect(page.get_by_text("已完成", exact=True).first).to_be_visible(timeout=10000)
+    page.get_by_role("button", name=re.compile("02.*证据与模型")).click()
+    expect(page.get_by_test_id("valid-findings")).to_be_visible()
+    page.get_by_role("button", name="查看 E002 原文", exact=True).click()
+    expect(page.locator("mark")).to_have_text("两个高优先级兼容问题")
+    expect(page.get_by_role("dialog").get_by_text("教学虚构材料", exact=True)).to_be_visible()
