@@ -353,7 +353,12 @@ class Evidence(BaseModel):
 
 
 class ImportedEvidence(BaseModel):
-    """Input shape; the server assigns IDs and content hashes."""
+    """Input shape; claimed provenance is not a server attestation."""
+    body: str | None = Field(default=None, max_length=1_000_000)
+    source_kind: Literal["primary", "secondary", "unknown"] = "unknown"
+    source_kind_basis: str = ""
+    source_group_basis: str = ""
+    event_status: Literal["observed", "planned", "unknown"] = "unknown"
     id: str | None = None
     source_url: HttpUrl | None = None
     file_id: str | None = None

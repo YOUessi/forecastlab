@@ -113,3 +113,54 @@ def online_search(question: QuestionSpec, data_dir: Path, queries: list[str] | N
         if len(evidence) >= 10:
             break
     return evidence
+
+
+
+def import_evidence(items, question: QuestionSpec, data_dir: Path):
+    """Save new imports, never trust a client-supplied old path or timestamp."""
+    from .provenance import save_snapshot, split_passages, select_passages
+    from .schemas import RetrievalResult
+    if len(items) > 20:
+        raise ValueError("每个证据包最多20条")
+    seen_ids = set()
+    evidence, exclusions = [], []
+    now = utcnow()
+    historical = (now - question.as_of).total_seconds() > 86400
+    for item in items:
+        if item.id and item.id in seen_ids:
+            raise ValueError("重复导入证据编号")
+        if item.id:
+            seen_ids.add(item.id)
+        reason = None
+        if item.source_url and not public_url(str(item.source_url)):
+            reason = "来源地址不是公开HTTP(S) URL"
+        elif (item.published_at and item.published_at > question.as_of) or (item.updated_at and item.updated_at > question.as_of):
+            reason = "来源发布或更新晚于信息截至时间"
+        elif historical and item.source_type != "exercise":
+            reason = "客户端声明不能证明截点前冻结；请使用明确标注回看风险的历史练习"
+        if reason:
+            exclusions.append({"source": str(item.source_url or item.file_id), "reason": reason})
+            continue
+        safe = item.model_copy(update={"retrieved_at": now, "snapshot_path": None, "date_status": "unknown"})
+        e = normalize_import([safe], question)[0]
+        e.id = f"E{len(evidence)+1:03}"
+        snapshot = save_snapshot(item.body or item.excerpt, {"provider": "import",
+            "source_url": str(item.source_url) if item.source_url else None, "file_id": item.file_id,
+            "title": item.title, "declared_snapshot_path": item.snapshot_path,
+            "declared_retrieved_at": item.retrieved_at.isoformat() if item.retrieved_at else None}, data_dir)
+        e.snapshot_path, e.snapshot_hash = snapshot.snapshot_path, snapshot.snapshot_hash
+        e.content_truncated = snapshot.content_truncated
+        e.content_kind = "body" if item.body else "imported_excerpt"
+        e.source_kind = item.source_kind if item.source_kind_basis else "unknown"
+        e.source_kind_basis = "导入者声明（未独立核实）：" + item.source_kind_basis if item.source_kind_basis else ""
+        e.source_group = item.source_group or "document:" + hashlib.sha256(str(item.source_url or item.file_id).encode()).hexdigest()[:16]
+        e.source_group_basis = ("导入者声明：" + (item.source_group_basis or "未提供分组依据")) if item.source_group else "单独资料，未核实独立性"
+        e.availability = "historical_exercise" if historical else "unverified"
+        e.event_status = "planned" if item.event_at and item.event_at > question.as_of else item.event_status
+        e.date_basis = {"retrieved_at": "本次实际导入时间"}
+        for field in ("published_at", "updated_at", "event_at"):
+            if getattr(item, field):
+                e.date_basis[field] = "导入者提供，未独立核实"
+        e.passages = select_passages(split_passages(snapshot), [question.question])
+        evidence.append(e)
+    return RetrievalResult(evidence=evidence, exclusions=exclusions, status="partial" if exclusions else "completed")
