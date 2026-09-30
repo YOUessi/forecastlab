@@ -65,7 +65,9 @@ def test_explanatory_text_around_known_references_is_canonicalized():
     validate_forecast(forecast, DEMO_QUESTION, evidence, world, [], Review.model_validate(demo_output("review")))
 
 
-def test_import_rejects_future_or_private_source():
+def test_import_rejects_future_or_private_source(monkeypatch):
+    # This normalization test is about the demo cutoff, not the wall clock.
+    monkeypatch.setattr("app.sources.utcnow", lambda: DEMO_QUESTION.as_of)
     assert not public_url("http://127.0.0.1/private")
     assert not public_url("http://localhost/private")
     item = demo_evidence()[0].model_copy(update={"published_at": DEMO_QUESTION.as_of + timedelta(days=1)})
