@@ -192,6 +192,15 @@ export default function App() {
     if (!agent12Demo) return
     framing.newDraft(); applyQuestionFields(fieldsFromSpec(agent12Demo.question)); framing.setDemoCaseId(agent12Demo.case_id)
     setEvidenceMode('demo'); setEvidence([]); setParentRunId(null); setView('create'); setError('')
+    // Loading fills a form below the fold: make the next action visible and focused.
+    window.requestAnimationFrame(() => {
+      const nextAction = document.getElementById('analyze-question')
+      nextAction?.focus({ preventScroll: true })
+      nextAction?.scrollIntoView({
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+        block: 'center',
+      })
+    })
   }
   function chooseEvidenceMode(next: 'import' | 'online' | 'reuse') {
     if (framing.demoCaseId) framing.newDraft()
@@ -289,7 +298,7 @@ export default function App() {
           <SectionHeading eyebrow="01 / DEFINE THE QUESTION" title="创建一次预测" description="先定义目标和结算方式。开放问题可切换为情景分析。" right={<Badge>新运行</Badge>}/>
           <div className="form-grid"><section className="panel form-panel"><label className="field"><span>预测问题 <b>*</b></span><textarea value={question} onChange={e => setQuestion(e.target.value)} placeholder="例如：某产品能否在 12 月 20 日前发布正式版？" rows={3}/><small>用可以被真实结果核对的句子提问。</small></label><div className="field-row"><label className="field"><span>信息截至时间</span><input type="datetime-local" value={asOf} onChange={e => setAsOf(e.target.value)}/></label><label className="field"><span>结算时间</span><input type="datetime-local" value={resolveBy} onChange={e => setResolveBy(e.target.value)} disabled={mode === 'scenario'}/></label></div><label className="field"><span>结算规则 <b>{mode === 'binary' ? '*' : ''}</b></span><input value={resolutionRule} onChange={e => setResolutionRule(e.target.value)} placeholder="什么情况算“是”？由哪个记录核对？"/></label><label className="field"><span>结算来源</span><input value={resolutionSource} onChange={e => setResolutionSource(e.target.value)} placeholder="官方网站、公告或赛事记录"/></label><label className="field"><span>用户指定的情景条件（每行一条，不代表事实）</span><textarea value={assumptions} onChange={e => setAssumptions(e.target.value)} placeholder="可选：用于修改条件并重跑" rows={2}/></label></section>
           <section className="panel options-panel"><div className="panel-head"><span className="panel-index">A</span><div><h3>分析模式</h3><p>根据问题形态选择输出。</p></div></div><div className="option-stack"><button className={mode === 'binary' ? 'option selected' : 'option'} onClick={() => setMode('binary')}><span className="radio"/><div><strong>二元事件预测</strong><small>输出“是 / 否”主观概率，需要截止时间与结算规则。</small></div></button><button className={mode === 'scenario' ? 'option selected' : 'option'} onClick={() => setMode('scenario')}><span className="radio"/><div><strong>开放情景分析</strong><small>描述可能路径，不强行给出可评分概率。</small></div></button></div><div className="divider"/><div className="panel-head"><span className="panel-index">B</span><div><h3>证据入口</h3><p>资料由后端记录，模型只能引用编号。</p></div></div><div className="segmented"><button className={evidenceMode === 'import' ? 'on' : ''} onClick={() => chooseEvidenceMode('import')}>导入证据包</button><button className={evidenceMode === 'online' ? 'on' : ''} onClick={() => chooseEvidenceMode('online')}>在线检索</button>{parentRunId && <button className={evidenceMode === 'reuse' ? 'on' : ''} onClick={() => chooseEvidenceMode('reuse')}>沿用证据</button>}</div>{evidenceMode === 'demo' ? <p className="framing-warning">固定教学证据 · 不联网，不产生付费调用。仅接受样例问题；澄清回答请填写“可下载的正式版”。切换证据入口会退出教学模式。</p> : evidenceMode === 'import' ? <label className="upload"><span>↑</span><strong>选择 JSON 证据包</strong><small>{evidence.length ? `已载入 ${evidence.length} 条证据` : '使用 Evidence[] 或 { evidence: [...] } 格式'}</small><input type="file" accept=".json,application/json" onChange={e => uploadEvidence(e.target.files?.[0])}/></label> : evidenceMode === 'reuse' ? <p className="hint">沿用父运行保存的证据快照，方便只修改假设或结算条件后比较结果。</p> : <p className="hint">在线模式使用 Tavily API。若未配置检索密钥，先选择导入证据包。</p>}{/(指数|股价|股票|股指|A股|科创50)/.test(question) && <p className="hint">市场方向预测可补充截至日已发布的同期限历史涨跌、波动与回撤、估值等资料；仅有一两个价格点很难说明一个月的基准概率。</p>}<button className="button button-primary full" onClick={startRun} disabled={busy || framing.busy || !framing.confirmationId}>{busy ? '正在提交…' : parentRunId ? '创建新版本并运行 →' : '开始预测 →'}</button><p className="form-note">真实运行需要模型 API Key。模型输出与来源将在完成后单独展示。</p></section></div>
-          <QuestionConfirmationPanel framing={framing.framing} confirmationId={framing.confirmationId} busy={busy || framing.busy} dirty={framing.dirty}
+          <QuestionConfirmationPanel demoQuestion={framing.demoCaseId ? question : undefined} framing={framing.framing} confirmationId={framing.confirmationId} busy={busy || framing.busy} dirty={framing.dirty}
             onAnalyze={() => framing.analyze()} onAnswer={framing.analyze} onConfirm={framing.confirm} onEdit={framing.editDecisions} onReload={framing.reload}/>
         </>}
 

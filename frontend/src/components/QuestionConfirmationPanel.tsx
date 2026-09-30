@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react'
 import type { ClarificationAnswer, PremiseDecision, QuestionFraming } from '../types'
 
 type Choice = '' | 'to_verify' | 'scenario_condition' | 'rejected'
-type Props = { framing: QuestionFraming | null; confirmationId: string | null; busy: boolean; dirty: boolean;
+type Props = { demoQuestion?: string; framing: QuestionFraming | null; confirmationId: string | null; busy: boolean; dirty: boolean;
   onAnalyze: () => void; onAnswer: (answers: ClarificationAnswer[]) => void; onConfirm: (decisions: PremiseDecision[]) => void;
   onEdit: () => void; onReload: () => void }
 
-export function QuestionConfirmationPanel({ framing, confirmationId, busy, dirty, onAnalyze, onAnswer, onConfirm, onEdit, onReload }: Props) {
+export function QuestionConfirmationPanel({ demoQuestion, framing, confirmationId, busy, dirty, onAnalyze, onAnswer, onConfirm, onEdit, onReload }: Props) {
   const [choices, setChoices] = useState<Record<string, Choice>>({})
   const [answers, setAnswers] = useState<Record<string, string>>({})
   useEffect(() => {
@@ -21,8 +21,12 @@ export function QuestionConfirmationPanel({ framing, confirmationId, busy, dirty
   return <section className="panel framing-panel" aria-label="问题分析与确认">
     <div className="panel-title"><h3>先确认研究问题</h3><span className="badge">Agent 1</span></div>
     <div className="framing-body">
+      {demoQuestion && !framing && <div role="status" className="framing-warning">
+        <strong>已载入教学问题</strong><p>{demoQuestion}</p>
+        <span>请点击“分析问题”开始；不会自动启动预测。</span>
+      </div>}
       <p className="muted">把问题、解释与待核查前提分开。分析不会启动后续推演。</p>
-      <button className="button button-primary" onClick={onAnalyze} disabled={busy}>{busy ? '正在分析或保存…' : '分析问题'}</button>
+      <button id="analyze-question" className="button button-primary" onClick={onAnalyze} disabled={busy}>{busy ? '正在分析或保存…' : '分析问题'}</button>
       {dirty && <p className="framing-warning" role="status">内容已修改，请重新分析后确认</p>}
       {framing && <>
         <div className="framing-status"><strong>{confirmationId ? '问题已确认' : framing.status === 'needs_clarification' ? '需要补充信息' : '请核对系统理解'}</strong><span>草稿版本 {framing.revision}</span><button className="text-button" onClick={onReload} disabled={busy}>重新加载草稿</button></div>
