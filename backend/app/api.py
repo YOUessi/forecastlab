@@ -12,7 +12,10 @@ from .demo import DEMO_QUESTION, demo_evidence
 from .graph import execute
 from .schemas import QuestionDraft, QuestionSpec, RunRecord, RunRequest, Settlement, SettlementRequest, utcnow
 from .sources import normalize_import
-from .storage import RunStore
+from .storage import RunStore, VersionConflict
+from .question_service import QuestionService, ModelNotConfigured
+from .llm import BudgetExceeded
+from .schemas import AnalyzeQuestionRequest, ConfirmQuestionRequest
 
 
 def report_html(run: RunRecord) -> str:
@@ -54,7 +57,7 @@ def report_html(run: RunRecord) -> str:
 <footer><small>生成于 {esc(utcnow().isoformat())}；证据来源、假设和模拟记录分开保存。此报告不保证预测正确。</small></footer></html>"""
 
 
-def create_app(data_dir: Path | None = None) -> FastAPI:
+def create_app(data_dir: Path | None = None, *, question_model_factory=None) -> FastAPI:
     store = RunStore(data_dir or config.DATA_DIR)
     run_lock = Lock()
     settlement_lock = Lock()
@@ -66,6 +69,37 @@ def create_app(data_dir: Path | None = None) -> FastAPI:
 
     app = FastAPI(title="ForecastLab API", version="0.1.0", lifespan=lifespan)
     app.state.store = store
+    question_service = QuestionService(store, model_factory=question_model_factory)
+    app.state.question_service = question_service
+
+    def question_call(method, *args):
+        try:
+            return method(*args)
+        except ModelNotConfigured as exc:
+            raise HTTPException(503, str(exc)) from exc
+        except VersionConflict as exc:
+            raise HTTPException(409, str(exc)) from exc
+        except KeyError as exc:
+            raise HTTPException(404, str(exc)) from exc
+        except BudgetExceeded as exc:
+            raise HTTPException(429, str(exc)) from exc
+        except ValueError as exc:
+            raise HTTPException(422, str(exc)) from exc
+        except RuntimeError as exc:
+            raise HTTPException(502, str(exc)) from exc
+
+    @app.post("/api/questions/analyze")
+    def analyze_question_endpoint(request: AnalyzeQuestionRequest):
+        return question_call(question_service.analyze, request)
+
+    @app.get("/api/questions/{draft_id}")
+    def get_question_draft(draft_id: str):
+        return question_call(question_service.get, draft_id)
+
+    @app.post("/api/questions/{draft_id}/confirm")
+    def confirm_question_endpoint(draft_id: str, request: ConfirmQuestionRequest):
+        return question_call(question_service.confirm, draft_id, request)
+
 
     @app.get("/api/health")
     def health():
