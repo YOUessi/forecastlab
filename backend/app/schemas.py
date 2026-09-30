@@ -551,6 +551,8 @@ class RunRequest(StrictModel):
 
 
 class RunRecord(BaseModel):
+    retrieval_result: RetrievalResult | None = None
+    retrieval_started: bool = False
     question_framing: QuestionFraming | None = None
     confirmation_id: str | None = None
     question_origin: Literal["confirmed", "legacy_direct"] = "legacy_direct"

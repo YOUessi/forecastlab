@@ -52,6 +52,13 @@ class RunStore:
     def save(self, record: RunRecord, snapshot: bool = True):
         data = record.model_dump_json()
         with self.lock, self.connect() as con:
+            con.execute("BEGIN IMMEDIATE")
+            exists = con.execute("SELECT 1 FROM runs WHERE run_id=?", (record.run_id,)).fetchone()
+            if not exists and record.confirmation_id:
+                row = con.execute("SELECT c.revision,d.latest_revision FROM question_confirmations c JOIN question_drafts d "
+                                  "ON c.draft_id=d.draft_id WHERE c.confirmation_id=?", (record.confirmation_id,)).fetchone()
+                if not row or row["revision"] != row["latest_revision"]:
+                    raise VersionConflict("确认已失效，创建运行前请重新确认")
             con.execute("INSERT INTO runs(run_id,status,started_at,data) VALUES(?,?,?,?) ON CONFLICT(run_id) DO UPDATE SET status=excluded.status,data=excluded.data", (record.run_id, record.status, record.started_at.isoformat(), data))
         if snapshot:
             folder = self.snapshots / record.run_id
