@@ -96,3 +96,90 @@ def test_missing_key_does_not_create_fake_analysis(page, app_url):
     expect(page.get_by_text("未配置模型密钥，不能生成真实分析", exact=True)).to_be_visible()
     expect(page.get_by_text("需要核查实际范围", exact=True)).to_have_count(0)
     expect(page.get_by_role("button", name=re.compile("^开始预测"))).to_be_disabled()
+
+
+SOURCE_TEXT = "说明😀：计划🙂延期，不代表项目取消。"
+
+def evidence_run():
+    run = deepcopy(RUN)
+    run["question_framing"]["premises"].append({**run["question_framing"]["premises"][0], "id": "P002", "content": "另一项前提"})
+    def evidence(eid, content, kind):
+        return {"id": eid, "source_url": "https://example.org/" + "long-path-"*20, "file_id": None, "title": "来源 " + eid,
+            "publisher": "样例来源", "published_at": None, "updated_at": None, "retrieved_at": QUESTION["as_of"], "event_at": None,
+            "excerpt": content, "claim": "", "snapshot_path": "sources-v1/server-owned.json", "content_hash": "abc", "snapshot_hash": "fixture-hash",
+            "source_type": "snippet_only" if kind == "snippet" else "secondary", "source_group": "root-1", "date_status": "unknown", "conflict_group": None,
+            "content_kind": kind, "content_truncated": True, "source_kind": "unknown", "source_kind_basis": "无法确定是否一手来源",
+            "source_group_basis": "明确转载标记，尚待人工核查", "possible_same_source": [], "aliases": [],
+            "date_basis": {"retrieved_at": "后端实际取得时间"}, "availability": "unverified", "event_status": "planned"}
+    run["evidence"] = [evidence("E001", SOURCE_TEXT, "snippet"), evidence("E002", "测试已完成", "body")]
+    c1 = {"evidence_id": "E001", "snapshot_hash": "fixture-hash", "paragraph_id": "B000001", "quote": "计划🙂延期", "start": 4, "end": 9}
+    c2 = {"evidence_id": "E002", "snapshot_hash": "fixture-hash", "paragraph_id": "B000001", "quote": "测试已完成", "start": 0, "end": 5}
+    run["evidence_assessment"] = {"summary": "固定样例中的两项发现", "evidence_ids": ["E001", "E002"], "conflicts": [], "gaps": [],
+        "findings": [{"id": "F001", "target_premise_ids": ["P001"], "claim": "计划延期的迹象", "relation": "challenges", "citations": [c1], "limitation": "只有摘要，不能断言结果"},
+                     {"id": "F002", "target_premise_ids": ["P002"], "claim": "另一项有效判断", "relation": "supports", "citations": [c2], "limitation": "测试范围有待核查"}],
+        "conflict_details": [], "gap_details": [], "retrieval_log": [], "exclusions": [],
+        "rejected_findings": [{"candidate": {"claim": "不应进入有效结果的伪造内容"}, "reason": "引文未出现在原文"}]}
+    return run
+
+
+def inspect_view(page, app_url, run=None):
+    run = run or evidence_run()
+    routes(page, runs=[run], passages={"evidence_id": "E001", "text": SOURCE_TEXT, "snapshot_hash": "fixture-hash", "content_truncated": True,
+        "passages": [{"paragraph_id": "B000001", "text": SOURCE_TEXT, "start": 0, "end": len(SOURCE_TEXT), "snapshot_hash": "fixture-hash"}]})
+    page.goto(app_url)
+    page.get_by_role("button", name=re.compile("02.*证据与模型")).click()
+
+
+def test_filter_findings_by_premise_and_relation(page, app_url):
+    inspect_view(page, app_url)
+    page.get_by_label("按前提筛选").select_option("P001")
+    expect(page.get_by_test_id("valid-findings").get_by_text("计划延期的迹象", exact=True)).to_be_visible()
+    expect(page.get_by_test_id("valid-findings").get_by_text("另一项有效判断", exact=True)).to_have_count(0)
+    page.get_by_label("按前提筛选").select_option("")
+    page.get_by_label("按关系筛选").select_option("supports")
+    expect(page.get_by_test_id("valid-findings").get_by_text("另一项有效判断", exact=True)).to_be_visible()
+    expect(page.get_by_test_id("valid-findings").get_by_text("计划延期的迹象", exact=True)).to_have_count(0)
+
+
+def test_quote_highlight_keeps_emoji_offsets(page, app_url):
+    inspect_view(page, app_url)
+    page.get_by_role("button", name="查看 E001 原文", exact=True).click()
+    expect(page.locator("mark")).to_have_text("计划🙂延期")
+    expect(page.get_by_role("dialog")).to_be_visible()
+    page.keyboard.press("Escape")
+    expect(page.get_by_role("dialog")).to_have_count(0)
+    expect(page.get_by_role("button", name="查看 E001 原文", exact=True)).to_be_focused()
+
+
+def test_rejected_findings_not_in_valid_results(page, app_url):
+    inspect_view(page, app_url)
+    expect(page.get_by_test_id("valid-findings").get_by_text("不应进入有效结果的伪造内容", exact=True)).to_have_count(0)
+    expect(page.get_by_text("校验未通过", exact=True)).to_be_visible()
+    page.get_by_text("校验未通过", exact=True).click()
+    expect(page.get_by_text("引文未出现在原文", exact=True)).to_be_visible()
+
+
+def test_legacy_record_has_no_fabricated_framing(page, app_url):
+    run = deepcopy(RUN); run["question_framing"] = None; run["question_origin"] = "legacy_direct"
+    inspect_view(page, app_url, run)
+    expect(page.get_by_text("旧版记录未包含问题理解/逐项发现", exact=True)).to_be_visible()
+    expect(page.get_by_test_id("valid-findings")).to_have_count(0)
+
+
+def test_source_limitations_visible(page, app_url):
+    inspect_view(page, app_url)
+    expect(page.get_by_text("只有搜索摘要，未取得正文", exact=True).first).to_be_visible()
+    page.get_by_role("button", name="查看 E001 原文", exact=True).click()
+    expect(page.get_by_role("dialog").get_by_text("发布时间未知", exact=True)).to_be_visible()
+    expect(page.get_by_role("dialog").get_by_text("正文已截断，不是完整原文", exact=True)).to_be_visible()
+    expect(page.get_by_text("明确转载标记，尚待人工核查", exact=True)).to_be_visible()
+
+
+def test_mobile_findings_and_drawer_fit_viewport(page, app_url):
+    page.set_viewport_size({"width": 390, "height": 844})
+    inspect_view(page, app_url)
+    page.get_by_role("button", name="查看 E001 原文", exact=True).click()
+    expect(page.locator("mark")).to_have_text("计划🙂延期")
+    assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
+    page.get_by_role("button", name="关闭详情", exact=True).click()
+    expect(page.get_by_role("button", name="查看 E001 原文", exact=True)).to_be_focused()
