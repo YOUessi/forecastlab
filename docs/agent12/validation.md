@@ -2,9 +2,9 @@
 
 ## 已执行结果
 
-本机最终工作树验证：**105 个 Python 后端/包装测试通过，11 个 Chromium 浏览器测试通过，TypeScript/Vite 生产构建通过**。无跳过测试；Python 汇总保留两条原依赖警告。重新执行过锁定依赖安装和 npm ci，具体版本与锁文件哈希见 `validation-artifacts/environment.json`。
+PR 分支从最新 `origin/main` 新建后重新验证：**105 个 Python 后端/包装测试通过，15 个 Chromium 浏览器测试通过，TypeScript/Vite 生产构建通过**。无跳过测试；Python 汇总保留两条原依赖警告。
 
-浏览器十项使用拦截 API 的固定响应测试交互，一项不拦截后端响应，实际访问临时本机 FastAPI、SQLite 和 LangGraph，走完固定教学案例。测试服务器仅在环回地址启动，测试结束自动终止自己的进程。
+15 项浏览器测试中，10 项使用拦截 API 的固定响应验证 UI 状态机；4 项使用实际本地后端验证教学入口在桌面/手机、普通/减少动画模式下能把下一步真正显示到视口；1 项不拦截 API，实际访问临时本机 FastAPI、SQLite 和 LangGraph，走完固定教学案例。测试服务器仅在环回地址启动，测试结束自动终止自己的进程。当前环境与锁文件信息见 `validation-artifacts/environment.json`。
 
 固定题对评估保留两个同事件的中性/引导性输入：两者均是预制教学响应，`semantic_review=not_performed`。真实模型、在线搜索和人工语义评估**尚未执行**，不得把以下矩阵中的结构/流程通过写成真实效果已证明。
 
@@ -15,7 +15,7 @@ uv sync --locked --group browser
 uv run pytest -q
 (cd frontend && npm ci && npm run build)
 uv run --group browser python -m playwright install chromium
-uv run --group browser pytest frontend/tests/test_agent12_browser.py -q
+uv run --group browser pytest frontend/tests -q
 uv run python eval/agent12.py --mode fixture --cases examples/agent12/neutral-leading-pairs.json --output fixture-eval.json
 git diff --check
 ```
@@ -63,6 +63,6 @@ git diff --check
 
 ## 日志
 
-`final-sync.log`、`final-backend.log`、`final-frontend.log`、`final-browser.log`、`final-eval.log` 和 `t12-red/green.log` 为本次实际命令输出，绝对工作树路径已替换成 `<checkout>`。`fixture-eval.json` 包含全部固定案例、输入、输出、耗时及未做语义检查的标记。
+`final-sync.log`、`final-backend.log`、`final-frontend.log`、`final-browser.log`、`final-eval.log` 和 `t12-red/green.log` 为阶段性命令输出，绝对工作树路径已替换成 `<checkout>`。大型 `fixture-eval.json` 属于可由 `eval/agent12.py` 重建的生成产物，不再提交到 PR；仓库只保留样例输入、评估脚本、复跑命令和小型日志摘要。
 
 详细限制见 [limitations.md](limitations.md)。

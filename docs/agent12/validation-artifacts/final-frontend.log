@@ -1,11 +1,4 @@
 
-added 69 packages, and audited 70 packages in 3s
-
-9 packages are looking for funding
-  run `npm fund` for details
-
-found 0 vulnerabilities
-
 > forecastlab-workspace@0.1.0 build
 > tsc -b && vite build
 
@@ -16,5 +9,5 @@ rendering chunks...
 computing gzip size...
 dist/index.html                   0.43 kB │ gzip:  0.33 kB
 dist/assets/index-Otejk7IU.css   26.94 kB │ gzip:  6.95 kB
-dist/assets/index-DkrT7EjI.js   284.12 kB │ gzip: 87.51 kB
-✓ built in 672ms
+dist/assets/index-kDy9Jpuv.js   284.69 kB │ gzip: 87.70 kB
+✓ built in 1.74s

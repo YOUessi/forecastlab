@@ -6,14 +6,14 @@
 
 无密钥演示：点击“体验问题与证据新流程”，点击“分析问题”，澄清填写“可下载的正式版”，处理两项前提，确认后开始预测。材料、模型响应和概率均为固定教学虚构，不代表真实模型质量。
 
-交接材料：[实现与下游兼容](docs/agent12/integration.md) · [API](docs/agent12/api.md) · [验证记录](docs/agent12/validation.md) · [局限](docs/agent12/limitations.md) · [LLM 使用](docs/agent12/llm-usage.md)。原说明的旧路径仍可使用，但未经过新版确认的运行明确标为“旧版直接输入”。
+交接材料：[Agent 1–2 完整实现记录](docs/agent12/implementation-report.md) · [实现与下游兼容](docs/agent12/integration.md) · [API](docs/agent12/api.md) · [验证记录](docs/agent12/validation.md) · [局限](docs/agent12/limitations.md) · [LLM 使用](docs/agent12/llm-usage.md)。原说明的旧路径仍可使用，但未经过新版确认的运行明确标为“旧版直接输入”。
 
 ```bash
 uv sync --locked --group browser
 uv run pytest -q
 (cd frontend && npm ci && npm run build)
 uv run --group browser python -m playwright install chromium
-uv run --group browser pytest frontend/tests/test_agent12_browser.py -q
+uv run --group browser pytest frontend/tests -q
 uv run python eval/agent12.py --mode fixture --cases examples/agent12/neutral-leading-pairs.json --output fixture-eval.json
 ```
 
@@ -123,12 +123,17 @@ QuestionSpec → QuestionAnalysis → Evidence[] + EvidenceAssessment
 
 | 方法 | 路径 | 用途 |
 | --- | --- | --- |
-| POST | `/api/questions/parse` | 检查可结算目标，返回缺失字段 |
-| POST | `/api/runs` | 创建运行，返回 202 与 `run_id` |
+| POST | `/api/questions/analyze` | Agent 1 分析问题、提出澄清、识别候选前提 |
+| GET | `/api/questions/{draft_id}` | 读取问题草稿、版本和确认记录 |
+| POST | `/api/questions/{draft_id}/confirm` | 保存用户对候选前提的逐项决定 |
+| POST | `/api/questions/parse` | 旧版/兼容字段检查接口 |
+| POST | `/api/runs` | 通过 `confirmation_id` 创建新版运行，或兼容旧版直接输入 |
 | POST | `/api/runs/{id}/resume` | 从失败、中断或部分完成运行的首个未完成阶段继续 |
 | GET | `/api/runs` | 历史列表 |
 | GET | `/api/runs/{id}` | 阶段、运行记录与结果 |
 | GET | `/api/runs/{id}/evidence` | 来源详情 |
+| GET | `/api/runs/{id}/evidence-assessment` | Agent 2 的逐项发现、冲突、缺口和检索日志 |
+| GET | `/api/runs/{id}/evidence/{evidence_id}/passages` | 查看登记快照中的原文段落和引用位置 |
 | POST | `/api/runs/{id}/settlement` | 截止后记录实际结果与来源，计算二元 Brier |
 | GET | `/api/settlements/summary` | 已结算数量与平均评分 |
 | GET | `/api/runs/{id}/export?format=html\|json` | 导出报告或原始记录 |
