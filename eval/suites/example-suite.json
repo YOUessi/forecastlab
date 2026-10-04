@@ -1,0 +1,47 @@
+{
+  "name": "forecastlab-example-suite",
+  "frozen": {
+    "note": "两个仓库自带的历史回看案例，用来跑通评测流程；不是正式评测集",
+    "prompt_version": "v2"
+  },
+  "cases": [
+    {
+      "id": "C01-python313",
+      "category": "tech",
+      "question": {
+        "question": "Python 官方是否会在 UTC 2024 年 10 月 1 日 23:59 前发布 Python 3.13.0 正式稳定版？",
+        "as_of": "2024-09-10T00:00:00Z",
+        "resolve_by": "2024-10-01T23:59:00Z",
+        "resolution_rule": "以 Python.org 的 Python 3.13.0 正式版发布日期为准；rc、beta 不算。",
+        "resolution_source": "https://www.python.org/downloads/",
+        "mode": "binary"
+      },
+      "evidence_file": "examples/python-313-2024-backtest-evidence.json",
+      "outcome": 0,
+      "resolution": {
+        "source_url": "https://www.python.org/downloads/release/python-3130/",
+        "observed_value": "2024-10-07 发布 Python 3.13.0 正式版",
+        "note": "按规则：2024-10-01 23:59 UTC 前未发布，故为否"
+      }
+    },
+    {
+      "id": "C02-star50",
+      "category": "finance",
+      "question": {
+        "question": "2026年7月31日科创50指数收盘点位是否严格高于2026年6月30日的2207.86点？",
+        "as_of": "2026-06-30T23:59:00+08:00",
+        "resolve_by": "2026-07-31T15:30:00+08:00",
+        "resolution_rule": "严格高于2207.86点为是，否则为否。",
+        "resolution_source": "https://english.sse.com.cn/news/publications/newsletter/",
+        "mode": "binary"
+      },
+      "evidence_file": "examples/star50-2026-0630-backtest-evidence.json",
+      "outcome": 0,
+      "resolution": {
+        "source_url": "https://english.sse.com.cn/news/publications/newsletter/c/10827993/files/a3a75e0b15654ce7a030a6ea803fb916.html",
+        "observed_value": "1635.96点",
+        "note": "上交所 7 月月报记录 7 月末 1635.96 点，月跌幅 25.90%"
+      }
+    }
+  ]
+}
