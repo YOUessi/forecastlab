@@ -9,3 +9,11 @@ frontend/dist/
 data/
 *.db
 .DS_Store
+
+.superpowers/
+
+# Generated browser screenshots stay local; selected previews may be exported separately.
+docs/agent12/validation-artifacts/screenshots/
+
+# Generated Agent 1–2 fixture evaluation output
+/fixture-eval.json
