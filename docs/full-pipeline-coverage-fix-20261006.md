@@ -279,3 +279,95 @@ uv run python eval/run_suite.py \
 5. 再决定是否调整 `blocked / qualified / evidence_only` policy。
 
 只有完成这一步后，才进入第二阶段的 blocking policy 调整。
+
+## 12. 第二个发现：24-case 的历史证据日期覆盖不完整
+
+修 F-ID contract 后，对 24-case 的冻结证据包做了不调用模型的静态检查。
+
+结果：
+
+| 证据日期状态 | 案例数 |
+| --- | ---: |
+| 所有 evidence 都有 `published_at`，且不晚于 `as_of` | 9 |
+| 部分 evidence 缺少 `published_at` | 6 |
+| 全部 evidence 缺少 `published_at` | 9 |
+| 合计 | 24 |
+
+旧运行中的 7 个 `insufficient_evidence`：
+
+- 6 个案例的 evidence 是 `0/N` publication-date coverage；
+- 1 个案例只有部分 evidence 有 `published_at`；
+- 0 个属于 strict cutoff-ready。
+
+这不等于“缺日期必然导致弃权”。如果完整 world/review 流程本身通过，系统仍可能给出 full probability；日期 gate 主要影响 review 被阻断后的 `evidence_only` fallback。
+
+但这说明当前实验存在一个必须先处理的数据质量问题：
+
+> 对历史回测来说，如果无法证明资料在 `as_of` 前已经公开，就不能把它当成严格的 cutoff evidence。
+
+因此目前不应为了提高 coverage 直接放宽 `blocked / evidence_only` policy。优先级应是：
+
+1. 为历史 evidence 补可核查的 `published_at`；
+2. 无法补日期的来源明确标为 historical-unverified；
+3. 必要时替换成有日期的一手/权威来源；
+4. 再用同一模型重跑 full arm；
+5. 最后才判断剩余 abstention 是否属于 policy 过严。
+
+## 13. 原 `validate_cases.py` 实际没有验证 24-case
+
+检查中还发现，旧脚本 `eval/validate_cases.py` 扫描的是 `eval/cases/C*.json`，并排除 `*-evidence.json`。
+
+但当前 `eval/cases/` 中实际只有 22 个 `*-evidence.json`，case 定义集中在 `eval/suites/forecastlab-v1.json`。所以旧命令会输出：
+
+```text
+total cases: 0
+```
+
+也就是说它并没有验证实际的 24-case suite。
+
+本分支已重写 validator，使其默认直接读取 `eval/suites/forecastlab-v1.json`。
+
+当前离线结果：
+
+```text
+READY:         9
+NEEDS REVIEW: 15
+BROKEN:        0
+TOTAL:        24
+```
+
+其中 `NEEDS REVIEW` 目前主要表示 `published_at` 覆盖不完整，而不是 JSON 损坏。
+
+validator 现在检查：
+
+- 24-case 是否真正加载；
+- outcome / question time 是否有效；
+- evidence_file 是否存在并可解析；
+- 已知 `published_at / updated_at` 是否晚于 cutoff；
+- source URL 是否重复；
+- publication-date coverage；
+- strict cutoff-ready case count。
+
+缺少 `published_at` 当前是 warning，不直接使 validator 非零退出；明确晚于 cutoff、证据包损坏等才是 hard error。
+
+## 14. 评测公平性的解释
+
+当前 full pipeline 与 single-agent + evidence 都读取同一个 evidence pack，但完整框架会进一步执行 provenance/cutoff 审查，而 single-agent baseline 不会自动因为日期不可核实而弃权。
+
+这可以被解释为“完整 workflow 的一部分”，但报告中不能把二者的 coverage/Brier 差异简单归因于多 Agent 推演本身。
+
+更准确的拆分应是：
+
+```text
+证据内容质量
++
+历史 cutoff provenance 质量
++
+多阶段 workflow
++
+review / abstention policy
+```
+
+当前 24-case 结果同时混合了这些因素。
+
+因此正式报告至少要把 publication-date coverage 作为 evaluation limitation；若能把 15 个 case 的日期补齐，再重跑会得到更干净的 workflow 对照。

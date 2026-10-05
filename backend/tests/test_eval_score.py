@@ -117,6 +117,30 @@ def test_run_suite_validates_cases(tmp_path):
         pass
 
 
+
+def test_historical_evidence_date_coverage_flags_unknown_cutoff_availability():
+    validate = load_module("validate_cases")
+    as_of = validate.parse_ts("2025-01-31T23:59:00Z")
+    status = validate.publication_date_coverage([
+        {"source_url": "https://example.org/known", "published_at": "2025-01-01T00:00:00Z"},
+        {"source_url": "https://example.org/unknown", "published_at": None},
+    ], as_of)
+    assert status["known"] == 1 and status["total"] == 2
+    assert status["coverage"] == 0.5
+    assert status["strict_cutoff_ready"] is False
+    assert status["missing"] == ["https://example.org/unknown"]
+
+
+def test_historical_evidence_date_coverage_accepts_all_pre_cutoff_dates():
+    validate = load_module("validate_cases")
+    as_of = validate.parse_ts("2025-01-31T23:59:00Z")
+    status = validate.publication_date_coverage([
+        {"source_url": "https://example.org/a", "published_at": "2025-01-01T00:00:00Z"},
+        {"source_url": "https://example.org/b", "published_at": "2025-01-15T00:00:00Z"},
+    ], as_of)
+    assert status["strict_cutoff_ready"] is True
+    assert status["coverage"] == 1.0
+
 def global_question():
     return {"question": "某某事件会在 2024-10-01 前发生吗？", "as_of": "2024-09-10T00:00:00Z",
             "resolve_by": "2024-10-01T23:59:00Z", "resolution_rule": "以官方公告为准。", "mode": "binary"}
