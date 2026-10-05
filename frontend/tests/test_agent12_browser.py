@@ -206,3 +206,41 @@ def test_real_backend_fixed_teaching_flow(page, app_url):
     page.get_by_role("button", name="查看 E002 原文", exact=True).click()
     expect(page.locator("mark")).to_have_text("两个高优先级兼容问题")
     expect(page.get_by_role("dialog").get_by_text("教学虚构材料", exact=True)).to_be_visible()
+
+
+def test_review_finding_reference_opens_traceable_finding(page, app_url):
+    run = evidence_run()
+    run["review"] = {
+        "status": "qualified",
+        "probability_basis": "full",
+        "issues": [{
+            "severity": "medium",
+            "claim": "需要复核 Agent 2 的延期判断",
+            "explanation": "审查对象是 F001，不把 F001 当作外部证据。",
+            "affected_ids": ["F001"],
+        }],
+        "unsupported_claims": [],
+        "missing_evidence": [],
+    }
+    routes(page, runs=[run], passages={
+        "evidence_id": "E001",
+        "text": SOURCE_TEXT,
+        "snapshot_hash": "fixture-hash",
+        "content_truncated": True,
+        "passages": [{
+            "paragraph_id": "B000001",
+            "text": SOURCE_TEXT,
+            "start": 0,
+            "end": len(SOURCE_TEXT),
+            "snapshot_hash": "fixture-hash",
+        }],
+    })
+    page.goto(app_url)
+    page.get_by_role("button", name=re.compile("03.*推演过程")).click()
+    page.get_by_role("button", name="F001", exact=True).click()
+    dialog = page.get_by_role("dialog")
+    expect(dialog.get_by_text("证据发现", exact=True)).to_be_visible()
+    expect(dialog.get_by_text("计划延期的迹象", exact=True)).to_be_visible()
+    expect(dialog.get_by_text("只有摘要，不能断言结果", exact=True)).to_be_visible()
+    dialog.get_by_role("button", name="E001", exact=True).click()
+    expect(page.locator("mark")).to_have_text("计划🙂延期")

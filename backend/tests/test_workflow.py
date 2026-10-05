@@ -272,3 +272,80 @@ def test_export_escapes_untrusted_evidence():
     assert "<script>alert(1)</script>" not in html
     assert "&lt;script&gt;" in html
     assert "<img src=x" not in html
+
+
+def test_review_accepts_agent2_finding_reference():
+    """Review may point at an Agent 2 finding; the finding remains traceable to E evidence."""
+
+    class FakeModel:
+        def complete(self, role, payload, schema, instructions):
+            output = demo_output(role, payload.get("actor", {}).get("id"), payload.get("round", 1))
+            if role == "evidence":
+                output["findings"] = [{
+                    "id": "F001",
+                    "target_premise_ids": [],
+                    "claim": "兼容问题仍未确认修复。",
+                    "relation": "challenges",
+                    "citations": [{
+                        "evidence_id": "E002",
+                        "snapshot_hash": "test-hash",
+                        "paragraph_id": "P001",
+                        "quote": "两个高优先级兼容问题仍未解决。",
+                        "start": 0,
+                        "end": 16,
+                    }],
+                    "limitation": "教学测试 finding。",
+                }]
+            if role == "review":
+                assert payload["evidence_assessment"]["findings"][0]["id"] == "F001"
+                output["issues"][0]["affected_ids"] = ["F001"]
+            return schema.model_validate(output)
+
+    record = RunRecord(
+        run_id="run_review_finding",
+        question=DEMO_QUESTION,
+        evidence_mode="import",
+        model="fake",
+    )
+    state = build_graph(record, demo_evidence(), FakeModel(), Path("/tmp")).invoke(
+        {"question": DEMO_QUESTION.model_dump(mode="json")}
+    )
+    assert state["review"]["issues"][0]["affected_ids"] == ["F001"]
+
+
+def test_world_assumption_may_depend_on_traceable_agent2_finding():
+    """A model assumption may cite F, provided that F itself traces to valid E evidence."""
+
+    class FakeModel:
+        def complete(self, role, payload, schema, instructions):
+            output = demo_output(role, payload.get("actor", {}).get("id"), payload.get("round", 1))
+            if role == "evidence":
+                output["findings"] = [{
+                    "id": "F001",
+                    "target_premise_ids": [],
+                    "claim": "兼容问题仍未确认修复。",
+                    "relation": "challenges",
+                    "citations": [{
+                        "evidence_id": "E002",
+                        "snapshot_hash": "test-hash",
+                        "paragraph_id": "P001",
+                        "quote": "两个高优先级兼容问题仍未解决。",
+                        "start": 0,
+                        "end": 16,
+                    }],
+                    "limitation": "教学测试 finding。",
+                }]
+            if role == "world":
+                output["assumptions"][0]["parent_ids"] = ["F001"]
+            return schema.model_validate(output)
+
+    record = RunRecord(
+        run_id="run_world_finding_parent",
+        question=DEMO_QUESTION,
+        evidence_mode="import",
+        model="fake",
+    )
+    state = build_graph(record, demo_evidence(), FakeModel(), Path("/tmp")).invoke(
+        {"question": DEMO_QUESTION.model_dump(mode="json")}
+    )
+    assert state["world"]["assumptions"][0]["parent_ids"] == ["F001"]

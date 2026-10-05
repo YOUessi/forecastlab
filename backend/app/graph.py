@@ -113,6 +113,16 @@ def canonical_ids(values: list[str], valid: set[str]) -> list[str]:
     return list(dict.fromkeys(normalized))
 
 
+def validated_finding_ids(assessment: EvidenceAssessment, evidence_ids: set[str]) -> set[str]:
+    """Return only structurally unique F IDs whose citations trace to current E evidence."""
+    finding_ids = [finding.id for finding in assessment.findings]
+    if len(set(finding_ids)) != len(finding_ids):
+        raise ValueError("证据发现 ID 重复")
+    for finding in assessment.findings:
+        check_ids([citation.evidence_id for citation in finding.citations], evidence_ids, "证据发现")
+    return set(finding_ids)
+
+
 def canonicalize_forecast_ids(forecast: Forecast, evidence: list[Evidence], world: WorldState,
                               simulation: list[SimulationStep]) -> None:
     evidence_ids = {item.id for item in evidence}
@@ -214,7 +224,11 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
                 payload[key] = context["evidence"]
                 payload["evidence_assessment"] = context["assessment"].model_dump(mode="json")
                 payload["evidence_context_limitations"] = context["limitations"]
-            instructions += " 待核查前提不是事实；F编号只是组织发现，最终引用必须回到E/H/M/S编号，不能引用F或P作为外部证据。"
+            if role == "review":
+                instructions += (" 待核查前提不是事实；F编号是Agent 2的结构化证据发现，可在affected_ids中用于定位审查对象，"
+                                 "但F本身不是外部证据。解释支持关系时仍应回到其底层E引用；P不能作为外部证据。")
+            else:
+                instructions += " 待核查前提不是事实；F编号只是组织发现，最终引用必须回到E/H/M/S编号，不能引用F或P作为外部证据。"
         return model.complete(role, payload, schema, instructions)
 
     def question_node(state: FlowState):
@@ -281,7 +295,8 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
         question = QuestionSpec.model_validate(state["question"])
         evidence = [Evidence.model_validate(x) for x in state["evidence"]]
         world = ask("world", {"question": question.model_dump(mode="json"), "evidence": evidence_for_model(evidence, 1600), "evidence_assessment": state["evidence_assessment"]}, WorldState,
-                    "只用证据编号引用事实；不确定的动机必须写为 assumption。若无战略主体，可留空 actors 并说明原因。主体最多 3 个。"
+                    "只用 E 编号引用外部事实；不确定的动机必须写为 assumption。assumption.parent_ids 可引用合法 F finding 作为中间溯源节点，"
+                    "但 world.evidence_refs 和 actor.visible_evidence_ids 仍只能引用 E。若无战略主体，可留空 actors 并说明原因。主体最多 3 个。"
                     "信息截至时间之后的事件均未发生，计划发布日期不能写成实际发布日期。"
                     "市场价格问题可以没有战略主体；预测期行情未知是需要预测的目标，不能据此认定无法预测。")
         world.actors = world.actors[:3]
@@ -319,7 +334,10 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
         check_ids(world.evidence_refs, {e.id for e in evidence}, "世界状态")
         for actor in world.actors:
             check_ids(actor.visible_evidence_ids, {e.id for e in evidence}, "主体画像")
-        valid_parents = {e.id for e in evidence} | {a.id for a in world.assumptions}
+        evidence_ids = {e.id for e in evidence}
+        assessment = EvidenceAssessment.model_validate(state["evidence_assessment"])
+        finding_ids = validated_finding_ids(assessment, evidence_ids)
+        valid_parents = evidence_ids | finding_ids | {a.id for a in world.assumptions}
         for assumption in world.assumptions:
             check_ids(assumption.parent_ids, valid_parents, "假设")
         return {"world": world.model_dump(mode="json"), "premise_assumption_map": mapping}
@@ -409,7 +427,10 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
             review.status = "blocked"
         elif future_gap_found and review.status == "blocked":
             review.status = "qualified"
-        valid = ({e.id for e in evidence} | {a.id for a in world.assumptions} | {a.id for a in world.actors}
+        evidence_ids = {e.id for e in evidence}
+        assessment = EvidenceAssessment.model_validate(state["evidence_assessment"])
+        finding_ids = validated_finding_ids(assessment, evidence_ids)
+        valid = (evidence_ids | finding_ids | {a.id for a in world.assumptions} | {a.id for a in world.actors}
                  | {a["id"] for a in state["actions"]} | {s["id"] for s in state["simulation"]})
         for issue in review.issues:
             issue.affected_ids = canonical_ids(issue.affected_ids, valid)

@@ -77,6 +77,33 @@ def yes_outcome(question: QuestionSpec) -> str:
     return question.outcomes[0]
 
 
+def full_diagnostics(record: RunRecord) -> dict:
+    """Persist why the full arm answered, abstained, or failed without changing scoring."""
+    review = record.review
+    assessment = record.evidence_assessment
+    findings = []
+    if assessment:
+        for finding in assessment.findings:
+            findings.append({
+                "id": finding.id,
+                "claim": finding.claim,
+                "relation": finding.relation,
+                "target_premise_ids": finding.target_premise_ids,
+                "evidence_ids": list(dict.fromkeys(c.evidence_id for c in finding.citations)),
+            })
+    return {
+        "full_failed_stage": record.failed_stage,
+        "full_review_status": review.status if review else None,
+        "full_probability_basis": review.probability_basis if review else None,
+        "full_review_issues": [issue.model_dump(mode="json") for issue in review.issues] if review else [],
+        "full_unsupported_claims": list(review.unsupported_claims) if review else [],
+        "full_missing_evidence": list(review.missing_evidence) if review else [],
+        "full_evidence_findings": findings,
+        "full_evidence_gaps": [gap.model_dump(mode="json") for gap in assessment.gap_details] if assessment else [],
+        "full_rejected_findings": len(assessment.rejected_findings) if assessment else 0,
+    }
+
+
 def run_full_arm(case: dict, data_dir: Path) -> dict:
     question = QuestionSpec.model_validate(case["question"])
     imported = [ImportedEvidence.model_validate(item) for item in case_evidence(case)]
@@ -97,6 +124,7 @@ def run_full_arm(case: dict, data_dir: Path) -> dict:
         "full_tokens": (finished.usage.get("prompt_tokens") or 0) + (finished.usage.get("completion_tokens") or 0),
         "run_id": finished.run_id,
         "errors": " | ".join(finished.errors),
+        **full_diagnostics(finished),
     }
 
 

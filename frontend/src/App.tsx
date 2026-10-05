@@ -134,6 +134,8 @@ export default function App() {
     if (!ref || !run) return null
     const evidence = run.evidence.find(item => item.id === ref)
     if (evidence) return { kind: '外部证据' as const, item: evidence }
+    const finding = run.evidence_assessment?.findings?.find(item => item.id === ref)
+    if (finding) return { kind: '证据发现' as const, item: finding }
     const assumption = run.world?.assumptions.find(item => item.id === ref)
     if (assumption) return { kind: '建模假设' as const, item: assumption }
     const actor = run.world?.actors.find(item => item.id === ref)
@@ -315,7 +317,7 @@ export default function App() {
         <div className="drawer-top"><span>REFERENCE / {ref}</span><button onClick={closeRef} aria-label="关闭详情">×</button></div>
         {selected ? <>
           <Badge tone={selected.kind === '建模假设' ? 'amber' : selected.kind === '模拟状态' || selected.kind === '模拟行动' ? 'green' : 'soft'}>{selected.kind}</Badge>
-          <h2>{selected.kind === '外部证据' ? selected.item.title : selected.kind === '建模假设' ? selected.item.content : selected.kind === '相关主体' ? selected.item.name : selected.kind === '模拟行动' ? selected.item.action : selected.item.summary}</h2>
+          <h2>{selected.kind === '外部证据' ? selected.item.title : selected.kind === '证据发现' ? selected.item.claim : selected.kind === '建模假设' ? selected.item.content : selected.kind === '相关主体' ? selected.item.name : selected.kind === '模拟行动' ? selected.item.action : selected.item.summary}</h2>
           {selected.kind === '外部证据' && <>
             <div className="drawer-meta"><div>发布方 <strong>{selected.item.publisher || '未知'}</strong></div><div>资料类型 <strong>{selected.item.source_type}</strong></div><div>抓取/导入时间 <strong>{new Date(selected.item.retrieved_at).toLocaleString('zh-CN')}</strong></div><div>内容哈希 <strong>{selected.item.content_hash.slice(0, 16)}…</strong></div></div>
             <SourceLimitations evidence={selected.item}/>
@@ -334,6 +336,13 @@ export default function App() {
             {!!selected.item.aliases?.length && <details><summary>重复网址与别名（{selected.item.aliases.length}）</summary>{selected.item.aliases.map((a,i) => <p key={i}>{a.source_url}<small> · {a.published_at || '发布日期未知'}</small></p>)}</details>}
             {!!selected.item.possible_same_source?.length && <p className="framing-warning">疑似同源，尚未合并：{selected.item.possible_same_source.join('；')}</p>}
             {selected.item.source_url && <a href={selected.item.source_url} target="_blank" rel="noopener noreferrer" className="button button-primary">查看原始来源 ↗</a>}
+          </>}
+          {selected.kind === '证据发现' && <>
+            <div className="drawer-meta"><div>关系 <strong>{selected.item.relation}</strong></div><div>目标前提 <strong>{selected.item.target_premise_ids.join('、') || '无'}</strong></div></div>
+            {selected.item.limitation && <><h3>限制</h3><p>{selected.item.limitation}</p></>}
+            <h3>底层外部证据</h3>
+            <div className="ref-row">{selected.item.citations.map((c, i) => <button className="ref" key={`${c.evidence_id}-${i}`} onClick={() => openRef(c.evidence_id, c)}>{c.evidence_id}</button>)}</div>
+            <p className="muted">F 编号用于定位 Agent 2 的结构化发现；最终结论仍需回到 E/H/M/S。</p>
           </>}
           {selected.kind === '建模假设' && <><p>{selected.item.rationale}</p><div className="drawer-meta"><div>提出者 <strong>{selected.item.created_by === 'user' ? '用户' : '模型'}</strong></div></div>{selected.item.parent_ids.length > 0 && <><h3>依赖</h3><div className="ref-row">{refs(selected.item.parent_ids)}</div></>}</>}
           {selected.kind === '相关主体' && <><p>目标：{selected.item.goal}</p><div className="drawer-meta"><div>可用资源 <strong>{selected.item.resources.join('；') || '未记录'}</strong></div><div>约束 <strong>{selected.item.constraints.join('；') || '未记录'}</strong></div></div>{selected.item.visible_evidence_ids.length > 0 && <><h3>可见证据</h3><div className="ref-row">{refs(selected.item.visible_evidence_ids)}</div></>}</>}
