@@ -148,6 +148,7 @@ def assess_evidence(question, framing, retrieval, model, data_dir) -> EvidenceAs
             rejected += more_rejected
             assessment.summary = candidate.summary
             assessment.findings, assessment.conflict_details = findings, conflicts
+            assessment.findings_validated = True
             assessment.gap_details = _source_gaps(retrieval) + gaps
             assessment.rejected_findings = rejected
             if not rejected:

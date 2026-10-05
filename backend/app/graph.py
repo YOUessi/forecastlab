@@ -114,7 +114,9 @@ def canonical_ids(values: list[str], valid: set[str]) -> list[str]:
 
 
 def validated_finding_ids(assessment: EvidenceAssessment, evidence_ids: set[str]) -> set[str]:
-    """Return only structurally unique F IDs whose citations trace to current E evidence."""
+    """Return only server-validated F IDs whose citations trace to current E evidence."""
+    if assessment.findings and not assessment.findings_validated:
+        raise ValueError("证据发现未经过原文校验")
     finding_ids = [finding.id for finding in assessment.findings]
     if len(set(finding_ids)) != len(finding_ids):
         raise ValueError("证据发现 ID 重复")
@@ -224,11 +226,16 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
                 payload[key] = context["evidence"]
                 payload["evidence_assessment"] = context["assessment"].model_dump(mode="json")
                 payload["evidence_context_limitations"] = context["limitations"]
+            instructions += " 待核查前提不是事实；P不能作为外部证据。"
+        if record.evidence_assessment and record.evidence_assessment.findings_validated:
             if role == "review":
-                instructions += (" 待核查前提不是事实；F编号是Agent 2的结构化证据发现，可在affected_ids中用于定位审查对象，"
-                                 "但F本身不是外部证据。解释支持关系时仍应回到其底层E引用；P不能作为外部证据。")
-            else:
-                instructions += " 待核查前提不是事实；F编号只是组织发现，最终引用必须回到E/H/M/S编号，不能引用F或P作为外部证据。"
+                instructions += (" F编号是经过原文校验的Agent 2结构化发现，可在affected_ids中定位审查对象，"
+                                 "但F本身不是外部证据；解释支持关系时仍应回到其底层E引用。")
+            elif role == "world":
+                instructions += (" assumption.parent_ids可引用经过原文校验的F作为中间溯源节点；"
+                                 "外部事实、world.evidence_refs和actor.visible_evidence_ids仍只能引用E。")
+            elif role == "forecast":
+                instructions += " 最终报告不能引用F，必须回到E/H/M/S。"
         return model.complete(role, payload, schema, instructions)
 
     def question_node(state: FlowState):
@@ -251,7 +258,7 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
 
     def evidence_node(state: FlowState):
         question = QuestionSpec.model_validate(state["question"])
-        if record.question_framing:
+        if record.question_framing or record.retrieval_result is not None:
             retrieval = record.retrieval_result
             if retrieval is None and record.evidence_mode == "online":
                 if record.retrieval_started:
@@ -283,6 +290,8 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
         assessment = ask("evidence", {"question": state["question"], "evidence": evidence_for_model(items)}, EvidenceAssessment,
                          "归纳资料冲突和缺口，只引用实际存在的证据编号。搜索摘要不是全文证据；不可编造新来源。"
                          "缺口只列信息截至时间当时可能取得却未提供的资料；未来结算结果尚未发生是预测对象，不是证据缺口。")
+        # Never trust a model-supplied validation flag on the legacy path.
+        assessment.findings_validated = False
         check_ids(assessment.evidence_ids, {e.id for e in items}, "证据评估")
         assessment.gaps = [gap for gap in assessment.gaps
                            if not mistakes_future_outcome_for_missing_evidence(gap, question, assume_missing=True)]
@@ -400,8 +409,7 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
         review = ask("review", {"question": state["question"], "evidence": evidence_for_model(evidence, 1200), "evidence_assessment": state["evidence_assessment"], "world": state["world"], **trace_for_model(state)}, Review,
                      "检查给定证据节选是否支持关键判断、遗漏反证和模拟跳步。最多列 5 条关键问题，每条不超过 80 字；严重问题用 blocked。"
                      "信息截至日之后的结果未知是预测对象，不得要求未来证据来证明结果；可指出截至日当时缺少的资料。"
-                     "affected_ids 可引用已有证据发现F、外部证据E、假设H、主体A、行动M或模拟S编号；"
-                     "F只用于定位Agent 2的结构化发现，不是外部证据，不能新造编号或证据。")
+                     "affected_ids 可引用已有证据、假设、主体、行动或模拟编号，不能新造编号或证据。")
         future_gap_found = any(mistakes_future_outcome_for_missing_evidence(
             f"{issue.claim} {issue.explanation}", question) for issue in review.issues)
         future_gap_found |= any(mistakes_future_outcome_for_missing_evidence(x, question, assume_missing=True)

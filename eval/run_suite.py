@@ -28,7 +28,7 @@ from app import config  # noqa: E402
 from app.graph import execute  # noqa: E402
 from app.llm import ModelClient  # noqa: E402
 from app.schemas import ImportedEvidence, QuestionSpec, RunRecord  # noqa: E402
-from app.sources import normalize_import  # noqa: E402
+from app.sources import import_evidence, normalize_import  # noqa: E402
 from app.storage import RunStore  # noqa: E402
 from single_agent import predict  # noqa: E402
 
@@ -98,6 +98,7 @@ def full_diagnostics(record: RunRecord) -> dict:
         "full_review_issues": [issue.model_dump(mode="json") for issue in review.issues] if review else [],
         "full_unsupported_claims": list(review.unsupported_claims) if review else [],
         "full_missing_evidence": list(review.missing_evidence) if review else [],
+        "full_findings_validated": bool(assessment and assessment.findings_validated),
         "full_evidence_findings": findings,
         "full_evidence_gaps": [gap.model_dump(mode="json") for gap in assessment.gap_details] if assessment else [],
         "full_rejected_findings": len(assessment.rejected_findings) if assessment else 0,
@@ -107,10 +108,11 @@ def full_diagnostics(record: RunRecord) -> dict:
 def run_full_arm(case: dict, data_dir: Path) -> dict:
     question = QuestionSpec.model_validate(case["question"])
     imported = [ImportedEvidence.model_validate(item) for item in case_evidence(case)]
-    evidence = normalize_import(imported, question) if imported else []
     store = RunStore(data_dir)
+    retrieval = import_evidence(imported, question, data_dir) if imported else None
+    evidence = retrieval.evidence if retrieval else []
     record = RunRecord(run_id=f"eval_{case['id']}_{uuid4().hex[:6]}", question=question,
-                       evidence_mode="import", model=config.MODEL_NAME)
+                       evidence_mode="import", model=config.MODEL_NAME, retrieval_result=retrieval)
     store.save(record)
     started = time.monotonic()
     execute(record, evidence, store)

@@ -207,9 +207,9 @@ def test_real_backend_fixed_teaching_flow(page, app_url):
     expect(page.locator("mark")).to_have_text("两个高优先级兼容问题")
     expect(page.get_by_role("dialog").get_by_text("教学虚构材料", exact=True)).to_be_visible()
 
-
 def test_review_finding_reference_opens_traceable_finding(page, app_url):
     run = evidence_run()
+    run["evidence_assessment"]["findings_validated"] = True
     run["review"] = {
         "status": "qualified",
         "probability_basis": "full",

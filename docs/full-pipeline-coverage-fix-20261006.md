@@ -371,3 +371,53 @@ review / abstention policy
 当前 24-case 结果同时混合了这些因素。
 
 因此正式报告至少要把 publication-date coverage 作为 evaluation limitation；若能把 15 个 case 的日期补齐，再重跑会得到更干净的 workflow 对照。
+
+
+## Strict F trust boundary added after the first contract repair
+
+The initial F-ID repair made downstream World/Review aware of Agent 2 finding IDs. A second pass tightened the trust boundary so this does not become a provenance bypass.
+
+### Server-controlled validation
+
+`EvidenceAssessment.findings_validated` defaults to `false`.
+
+A model cannot grant itself this status. The legacy evidence path forcibly resets it to `false`. Only `assess_evidence()` sets it to `true`, after validating the finding against:
+
+- the current evidence ID;
+- a server-owned snapshot hash;
+- a supplied paragraph ID;
+- the exact quote in that paragraph;
+- server-computed code-point offsets.
+
+World/Review may reference `Fxxx` only when this server-controlled flag is true.
+
+### Import / reuse / evaluation alignment
+
+Real imported evidence now always goes through `import_evidence()`, so the server owns the snapshot and passages even for legacy-direct runs.
+
+Reuse is wrapped in a `RetrievalResult` and reassessed under the current run.
+
+The 24-case full arm now follows the same `import_evidence -> assess_evidence` path instead of creating un-snapshotted evidence with `normalize_import()`.
+
+This matters because the previous post-Agent1/2 evaluation could deserialize F-shaped model output on the legacy evidence path without the new exact quote/snapshot validation.
+
+### Security regression
+
+A new negative test explicitly lets a legacy fake model return:
+
+```text
+findings_validated = true
+F001 -> forged snapshot / quote
+```
+
+The pipeline must still reject it with:
+
+```text
+证据发现未经过原文校验
+```
+
+### Validation note
+
+This strict pass does not change the Brier formula, Review blocking policy, evidence-only audit policy, or probability validation.
+
+The 24-case suite still requires a real model-key rerun before any new coverage percentage can be reported.

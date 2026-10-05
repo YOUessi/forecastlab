@@ -400,6 +400,9 @@ class QuestionAnalysis(BaseModel):
 
 class EvidenceAssessment(BaseModel):
     summary: str
+    # Server-controlled trust bit. Legacy/model output is forced to False; only
+    # assess_evidence() may set it True after exact snapshot/passage validation.
+    findings_validated: bool = False
     findings: list[EvidenceFinding] = Field(default_factory=list)
     conflict_details: list[ConflictDetail] = Field(default_factory=list)
     gap_details: list[GapDetail] = Field(default_factory=list)

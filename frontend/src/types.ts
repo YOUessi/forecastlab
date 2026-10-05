@@ -28,7 +28,7 @@ export type ModelCall = { request_id: string; status: string; usage_known: boole
 export type EvidencePassage = { paragraph_id: string; start: number; end: number; text: string; snapshot_hash: string }
 export type FindingCitation = { evidence_id: string; snapshot_hash: string; paragraph_id: string; quote: string; start: number; end: number }
 export type EvidenceFinding = { id: string; target_premise_ids: string[]; claim: string; relation: string; citations: FindingCitation[]; limitation: string }
-export type EvidenceAssessment = { summary: string; evidence_ids: string[]; conflicts: string[]; gaps: string[]; findings?: EvidenceFinding[];
+export type EvidenceAssessment = { summary: string; findings_validated?: boolean; evidence_ids: string[]; conflicts: string[]; gaps: string[]; findings?: EvidenceFinding[];
   conflict_details?: { issue: string; finding_ids: string[]; scope_comparison: string; status: string; explanation: string }[];
   gap_details?: { missing: string; cause: string; target_premise_ids: string[]; attempted_query_ids: string[] }[];
   retrieval_log?: { task_id: string; query: string; purpose: string; status: string; result_count: number; error: string | null }[];
