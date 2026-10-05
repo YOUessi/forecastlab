@@ -400,7 +400,8 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
         review = ask("review", {"question": state["question"], "evidence": evidence_for_model(evidence, 1200), "evidence_assessment": state["evidence_assessment"], "world": state["world"], **trace_for_model(state)}, Review,
                      "检查给定证据节选是否支持关键判断、遗漏反证和模拟跳步。最多列 5 条关键问题，每条不超过 80 字；严重问题用 blocked。"
                      "信息截至日之后的结果未知是预测对象，不得要求未来证据来证明结果；可指出截至日当时缺少的资料。"
-                     "affected_ids 可引用已有证据、假设、主体、行动或模拟编号，不能新造编号或证据。")
+                     "affected_ids 可引用已有证据发现F、外部证据E、假设H、主体A、行动M或模拟S编号；"
+                     "F只用于定位Agent 2的结构化发现，不是外部证据，不能新造编号或证据。")
         future_gap_found = any(mistakes_future_outcome_for_missing_evidence(
             f"{issue.claim} {issue.explanation}", question) for issue in review.issues)
         future_gap_found |= any(mistakes_future_outcome_for_missing_evidence(x, question, assume_missing=True)

@@ -298,6 +298,7 @@ def test_review_accepts_agent2_finding_reference():
                 }]
             if role == "review":
                 assert payload["evidence_assessment"]["findings"][0]["id"] == "F001"
+                assert "证据发现F" in instructions
                 output["issues"][0]["affected_ids"] = ["F001"]
             return schema.model_validate(output)
 
