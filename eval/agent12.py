@@ -33,7 +33,7 @@ def run_cases(cases: list[dict], *, mode: str = "fixture", data_dir: Path) -> di
                "semantic_review": "not_performed", "status": "not_run", "request_ids": [], "model_calls": []}
         request = None
         try:
-            if mode == "live" and not config.MODEL_API_KEY:
+            if mode == "live" and not config.model_configured():
                 row["reason"] = "未配置真实模型密钥；未发起付费调用"
                 continue
             request = AnalyzeQuestionRequest(question=case["question"],
@@ -90,6 +90,7 @@ def run_cases(cases: list[dict], *, mode: str = "fixture", data_dir: Path) -> di
             row["elapsed_seconds"] = round(time.monotonic()-started, 6)
             rows.append(row)
     return {"validation_mode": mode, "semantic_review": "not_performed", "created_at": datetime.now(timezone.utc).isoformat(),
+            "model_provider": config.MODEL_PROVIDER, "configured_model": config.MODEL_NAME,
             "case_count": len(cases), "cases": rows,
             "limitations": ["固定响应只验证软件流程，不证明假设识别、反证质量或中性/引导性稳健性。", "人工语义评分未执行。"]}
 

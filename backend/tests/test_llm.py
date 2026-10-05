@@ -22,6 +22,7 @@ def test_qwen_flash_disables_thinking_for_json_calls(monkeypatch):
             requests.append(kwargs)
             return response('{"normalized_question":"测试问题","search_queries":["检索词"]}')
 
+    monkeypatch.setattr(config, "MODEL_PROVIDER", "qwen")
     monkeypatch.setattr(config, "MODEL_API_KEY", "test-only")
     monkeypatch.setattr(config, "MODEL_NAME", "qwen3.8-flash")
     monkeypatch.setattr("app.llm.OpenAI", lambda **kwargs: SimpleNamespace(chat=SimpleNamespace(completions=FakeCompletions())))

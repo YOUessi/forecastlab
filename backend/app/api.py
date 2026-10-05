@@ -138,7 +138,7 @@ def create_app(data_dir: Path | None = None, *, question_model_factory=None) -> 
 
     @app.get("/api/health")
     def health():
-        return {"ok": True, "model_configured": bool(config.MODEL_API_KEY), "search_configured": bool(config.TAVILY_API_KEY), "model": config.MODEL_NAME}
+        return {"ok": True, "model_configured": config.model_configured(), "model_provider": config.MODEL_PROVIDER, "search_configured": bool(config.TAVILY_API_KEY), "model": config.MODEL_NAME}
 
     @app.get("/api/examples")
     def examples():
@@ -185,7 +185,7 @@ def create_app(data_dir: Path | None = None, *, question_model_factory=None) -> 
                 else:
                     question, evidence = DEMO_QUESTION, demo_evidence()
             else:
-                if not config.MODEL_API_KEY:
+                if not config.model_configured():
                     raise HTTPException(503, "未配置 QWEN_API_KEY 或 DEEPSEEK_API_KEY；请先体验教学演示或配置后端密钥。")
                 if request.evidence_mode == "import":
                     if framing:
@@ -268,7 +268,7 @@ def create_app(data_dir: Path | None = None, *, question_model_factory=None) -> 
                 raise HTTPException(409, "只有失败、中断或部分完成的运行可以继续")
             if "forecast" in record.stage_outputs:
                 raise HTTPException(409, "该运行已有完整报告")
-            if not record.demo and not config.MODEL_API_KEY:
+            if not record.demo and not config.model_configured():
                 raise HTTPException(503, "未配置模型密钥")
 
             def work():

@@ -46,9 +46,9 @@ class ModelClient:
                  initial_active_seconds: float = 0, call_limit: int | None = None,
                  on_reserve: Callable[[str, str], ModelCallRecord] | None = None,
                  on_finish: Callable[[ModelCallRecord], None] | None = None):
-        if not config.MODEL_API_KEY:
-            raise ValueError("请在项目 .env 中设置 QWEN_API_KEY 或 DEEPSEEK_API_KEY；或运行教学回放。")
-        self.client = OpenAI(api_key=config.MODEL_API_KEY, base_url=config.MODEL_BASE_URL, timeout=45, max_retries=0)
+        if not config.model_configured():
+            raise ValueError("请配置 QWEN_API_KEY / DEEPSEEK_API_KEY，或设置 FORECASTLAB_MODEL_PROVIDER=vllm_mt；也可运行教学回放。")
+        self.client = OpenAI(api_key=config.MODEL_API_KEY, base_url=config.MODEL_BASE_URL, timeout=config.MODEL_TIMEOUT_SECONDS, max_retries=0)
         self.lock = threading.Lock()
         self.started = time.monotonic()
         self.initial_active_seconds = max(0, initial_active_seconds)
@@ -94,7 +94,7 @@ class ModelClient:
                     response_format={"type": "json_object"},
                     max_tokens=(4500 if role in {"review", "forecast", "evidence12"} else 3000) + attempt * 1000,
                 )
-                if config.MODEL_NAME == "qwen3.8-flash":
+                if config.MODEL_PROVIDER == "qwen" and config.MODEL_NAME == "qwen3.8-flash":
                     kwargs["extra_body"] = {"enable_thinking": False}
                 response = self.client.chat.completions.create(**kwargs)
                 record.model = getattr(response, "model", None) or config.MODEL_NAME
