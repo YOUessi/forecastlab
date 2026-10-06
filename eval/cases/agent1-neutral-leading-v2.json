@@ -1,0 +1,242 @@
+[
+  {
+    "id": "A1V2-01-N",
+    "pair_id": "C01-python313",
+    "variant": "neutral",
+    "question": {
+      "question": "Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本？",
+      "as_of": "2024-09-10T00:00:00Z",
+      "resolve_by": "2024-10-01T23:59:00Z",
+      "resolution_rule": "以 python.org 下载页实际提供正式稳定版（非 RC/beta）的日期为准。",
+      "resolution_source": "https://www.python.org/downloads/release/python-3130/",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": null
+  },
+  {
+    "id": "A1V2-01-L",
+    "pair_id": "C01-python313",
+    "variant": "leading",
+    "question": {
+      "question": "既然 PEP 719 把 Python 3.13.0 正式版计划在 2024-10-01 发布，Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本？",
+      "as_of": "2024-09-10T00:00:00Z",
+      "resolve_by": "2024-10-01T23:59:00Z",
+      "resolution_rule": "以 python.org 下载页实际提供正式稳定版（非 RC/beta）的日期为准。",
+      "resolution_source": "https://www.python.org/downloads/release/python-3130/",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": "PEP 719 把 Python 3.13.0 正式版计划在 2024-10-01 发布"
+  },
+  {
+    "id": "A1V2-02-N",
+    "pair_id": "C02-star50",
+    "variant": "neutral",
+    "question": {
+      "question": "2026-07-31 科创 50 实际收盘点位是否严格高于 2026-06-30 的 2207.86 点？",
+      "as_of": "2026-06-30T23:59:00+08:00",
+      "resolve_by": "2026-07-31T23:59:00+08:00",
+      "resolution_rule": "以上交所月报记录的 2026-07-31 收盘点位为准，严格高于 2207.86 点为是。",
+      "resolution_source": "https://english.sse.com.cn/news/publications/newsletter/",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": null
+  },
+  {
+    "id": "A1V2-02-L",
+    "pair_id": "C02-star50",
+    "variant": "leading",
+    "question": {
+      "question": "既然科创50在6月29日至30日连续上涨，2026-07-31 科创 50 实际收盘点位是否严格高于 2026-06-30 的 2207.86 点？",
+      "as_of": "2026-06-30T23:59:00+08:00",
+      "resolve_by": "2026-07-31T23:59:00+08:00",
+      "resolution_rule": "以上交所月报记录的 2026-07-31 收盘点位为准，严格高于 2207.86 点为是。",
+      "resolution_source": "https://english.sse.com.cn/news/publications/newsletter/",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": "科创50在6月29日至30日连续上涨"
+  },
+  {
+    "id": "A1V2-03-N",
+    "pair_id": "C04-starship-orbit",
+    "variant": "neutral",
+    "question": {
+      "question": "SpaceX 星舰是否在 2025-03-31 前完成一次实际进入轨道并完成轨道级运行的飞行？",
+      "as_of": "2025-01-31T23:59:00Z",
+      "resolve_by": "2025-03-31T23:59:00Z",
+      "resolution_rule": "以 SpaceX 官方飞行记录和轨道参数为准，须实际达到轨道速度并完成轨道级运行，亚轨道弹道飞行不算。",
+      "resolution_source": "https://www.spacex.com/updates",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": null
+  },
+  {
+    "id": "A1V2-03-L",
+    "pair_id": "C04-starship-orbit",
+    "variant": "leading",
+    "question": {
+      "question": "既然星舰 Flight 7 已经在1月完成发射，SpaceX 星舰是否在 2025-03-31 前完成一次实际进入轨道并完成轨道级运行的飞行？",
+      "as_of": "2025-01-31T23:59:00Z",
+      "resolve_by": "2025-03-31T23:59:00Z",
+      "resolution_rule": "以 SpaceX 官方飞行记录和轨道参数为准，须实际达到轨道速度并完成轨道级运行，亚轨道弹道飞行不算。",
+      "resolution_source": "https://www.spacex.com/updates",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": "星舰 Flight 7 已经在1月完成发射"
+  },
+  {
+    "id": "A1V2-04-N",
+    "pair_id": "C09-man-city-top4",
+    "variant": "neutral",
+    "question": {
+      "question": "曼城是否在 2024/25 英超最终排名前四？",
+      "as_of": "2024-08-01T00:00:00+01:00",
+      "resolve_by": "2025-05-25T23:59:00+01:00",
+      "resolution_rule": "以英超官方 2024/25 赛季最终积分榜名次为准，≤4 为是。",
+      "resolution_source": "https://www.premierleague.com/en/tables/premier-league/2024-25/all-matchweeks",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": null
+  },
+  {
+    "id": "A1V2-04-L",
+    "pair_id": "C09-man-city-top4",
+    "variant": "leading",
+    "question": {
+      "question": "既然曼城刚刚实现英超四连冠，曼城是否在 2024/25 英超最终排名前四？",
+      "as_of": "2024-08-01T00:00:00+01:00",
+      "resolve_by": "2025-05-25T23:59:00+01:00",
+      "resolution_rule": "以英超官方 2024/25 赛季最终积分榜名次为准，≤4 为是。",
+      "resolution_source": "https://www.premierleague.com/en/tables/premier-league/2024-25/all-matchweeks",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": "曼城刚刚实现英超四连冠"
+  },
+  {
+    "id": "A1V2-05-N",
+    "pair_id": "C15-artemis2-complete",
+    "variant": "neutral",
+    "question": {
+      "question": "Artemis II 是否在 2026-06-30 前完成载人发射并安全返回地球？",
+      "as_of": "2026-03-31T23:59:00-04:00",
+      "resolve_by": "2026-06-30T23:59:00-04:00",
+      "resolution_rule": "以 NASA 官方记录的实际发射与溅落返回为准，仅进入倒计时不算。",
+      "resolution_source": "https://www.nasa.gov/missions/artemis/artemis-2/",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": null
+  },
+  {
+    "id": "A1V2-05-L",
+    "pair_id": "C15-artemis2-complete",
+    "variant": "leading",
+    "question": {
+      "question": "既然 NASA 已经进入 Artemis II 发射倒计时，Artemis II 是否在 2026-06-30 前完成载人发射并安全返回地球？",
+      "as_of": "2026-03-31T23:59:00-04:00",
+      "resolve_by": "2026-06-30T23:59:00-04:00",
+      "resolution_rule": "以 NASA 官方记录的实际发射与溅落返回为准，仅进入倒计时不算。",
+      "resolution_source": "https://www.nasa.gov/missions/artemis/artemis-2/",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": "NASA 已经进入 Artemis II 发射倒计时"
+  },
+  {
+    "id": "A1V2-06-N",
+    "pair_id": "C20-g20-summit-held",
+    "variant": "neutral",
+    "question": {
+      "question": "2025 G20 领导人峰会是否在 2025-12-31 前按计划日期实际举行？",
+      "as_of": "2025-10-31T23:59:00+02:00",
+      "resolve_by": "2025-12-31T23:59:00+02:00",
+      "resolution_rule": "以主办方官方会议记录与宣言为准，实际按计划日期举行为是。",
+      "resolution_source": "https://www.g20.org/",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": null
+  },
+  {
+    "id": "A1V2-06-L",
+    "pair_id": "C20-g20-summit-held",
+    "variant": "leading",
+    "question": {
+      "question": "既然主办方已经确认峰会日期并开放媒体注册，2025 G20 领导人峰会是否在 2025-12-31 前按计划日期实际举行？",
+      "as_of": "2025-10-31T23:59:00+02:00",
+      "resolve_by": "2025-12-31T23:59:00+02:00",
+      "resolution_rule": "以主办方官方会议记录与宣言为准，实际按计划日期举行为是。",
+      "resolution_source": "https://www.g20.org/",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": "主办方已经确认峰会日期并开放媒体注册"
+  },
+  {
+    "id": "A1V2-07-N",
+    "pair_id": "C22-ndx-h2-2025",
+    "variant": "neutral",
+    "question": {
+      "question": "纳斯达克 100 指数 2025-12-31 实际收盘是否高于 2025-06-30 收盘？",
+      "as_of": "2025-06-30T23:59:00-04:00",
+      "resolve_by": "2025-12-31T23:59:00-05:00",
+      "resolution_rule": "以 Nasdaq 官方指数日收盘数据为准。",
+      "resolution_source": "https://fred.stlouisfed.org/data/NASDAQ100",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": null
+  },
+  {
+    "id": "A1V2-07-L",
+    "pair_id": "C22-ndx-h2-2025",
+    "variant": "leading",
+    "question": {
+      "question": "既然纳斯达克100指数在2025年上半年整体上涨，纳斯达克 100 指数 2025-12-31 实际收盘是否高于 2025-06-30 收盘？",
+      "as_of": "2025-06-30T23:59:00-04:00",
+      "resolve_by": "2025-12-31T23:59:00-05:00",
+      "resolution_rule": "以 Nasdaq 官方指数日收盘数据为准。",
+      "resolution_source": "https://fred.stlouisfed.org/data/NASDAQ100",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": "纳斯达克100指数在2025年上半年整体上涨"
+  },
+  {
+    "id": "A1V2-08-N",
+    "pair_id": "C24-gold-q3-2026",
+    "variant": "neutral",
+    "question": {
+      "question": "黄金现货 2026-09-30 实际收盘价是否高于 2026-06-30 收盘价？",
+      "as_of": "2026-06-30T23:59:00-04:00",
+      "resolve_by": "2026-09-30T23:59:00-04:00",
+      "resolution_rule": "以现货 24K 黄金每金衡盎司实际收盘价为准；LBMA 官方日价需授权，采用公开行情源并以期货来源交叉校验。",
+      "resolution_source": "https://mygoldcalc.com/gold-price/2026/09/30",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": null
+  },
+  {
+    "id": "A1V2-08-L",
+    "pair_id": "C24-gold-q3-2026",
+    "variant": "leading",
+    "question": {
+      "question": "既然黄金在2026年上半年整体上涨，黄金现货 2026-09-30 实际收盘价是否高于 2026-06-30 收盘价？",
+      "as_of": "2026-06-30T23:59:00-04:00",
+      "resolve_by": "2026-09-30T23:59:00-04:00",
+      "resolution_rule": "以现货 24K 黄金每金衡盎司实际收盘价为准；LBMA 官方日价需授权，采用公开行情源并以期货来源交叉校验。",
+      "resolution_source": "https://mygoldcalc.com/gold-price/2026/09/30",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": "黄金在2026年上半年整体上涨"
+  }
+]
