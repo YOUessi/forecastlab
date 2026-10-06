@@ -1,0 +1,25 @@
+{
+  "_about": "Node.js 22 是否在 2024-12-31 前进入 LTS 的 v2 冻结证据包。信息截至 2024-10-20；不包含 2024-10-29 已发生的 LTS 最终结果。",
+  "evidence": [
+    {
+      "source_url": "https://nodejs.org/en/blog/release/v22.0.0",
+      "title": "Node.js 22.0.0 (Current)",
+      "publisher": "Node.js",
+      "published_at": "2024-04-24T00:00:00Z",
+      "excerpt": "Node.js 22 will enter long-term support (LTS) in October, but until then, it will be the Current release for the next six months.",
+      "claim": "Node.js 官方在 v22.0.0 发布时已明确 22.x 计划于 2024 年 10 月进入 LTS。",
+      "source_type": "exercise",
+      "source_group": "nodejs.org"
+    },
+    {
+      "source_url": "https://openjsf.org/blog/announcing-node.js-23-key-features-and-enhancement",
+      "title": "Node.js 23 Now Available",
+      "publisher": "OpenJS Foundation",
+      "published_at": "2024-10-16T00:00:00Z",
+      "excerpt": "Node.js 22 will be promoted to Long-Term Support (LTS) in the week of October 29th.",
+      "claim": "截至 10 月 20 日，OpenJS 已给出更具体的计划：Node.js 22 将在 10 月 29 日当周进入 LTS，但最终动作尚未发生。",
+      "source_type": "exercise",
+      "source_group": "openjsf.org"
+    }
+  ]
+}

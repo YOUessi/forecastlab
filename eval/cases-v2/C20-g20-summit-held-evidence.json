@@ -1,0 +1,25 @@
+{
+  "_about": "2025 G20 领导人峰会是否按计划实际举行的冻结证据包。信息截至 2025-10-31；使用截点前南非政府/G20 官方资料。",
+  "evidence": [
+    {
+      "source_url": "https://dirco.gov.za/media-accreditation-for-the-g20-leaders-summit-in-johannesburg-south-africa/",
+      "title": "Media accreditation for the G20 Leaders' Summit in Johannesburg, South Africa",
+      "publisher": "South Africa DIRCO",
+      "published_at": "2025-09-01T00:00:00+02:00",
+      "excerpt": "South Africa will host the G20 Leaders' Summit on 22 and 23 November 2025 in Johannesburg, Gauteng Province.",
+      "claim": "主办方在 9 月已正式确认峰会日期、地点并开启媒体注册，支持按计划举行。",
+      "source_type": "exercise",
+      "source_group": "dirco.gov.za"
+    },
+    {
+      "source_url": "https://www.g20.org.za/g20-media/commencement-of-media-accreditation-for-the-g20-summit/",
+      "title": "Commencement of Media Accreditation for the G20 Summit",
+      "publisher": "G20 South Africa",
+      "published_at": "2025-08-29T11:35:00+02:00",
+      "excerpt": "Members of the media are informed that accreditation for the G20 Summit, which will be hosted in Johannesburg, South Africa, on 22 and 23 November 2025, will commence on Monday, 01 September 2025.",
+      "claim": "G20 South Africa 官方在 8 月底已启动峰会媒体筹备并确认 11 月 22–23 日日期。",
+      "source_type": "exercise",
+      "source_group": "g20.org.za"
+    }
+  ]
+}

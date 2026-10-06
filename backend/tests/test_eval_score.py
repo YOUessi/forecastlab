@@ -144,3 +144,53 @@ def test_historical_evidence_date_coverage_accepts_all_pre_cutoff_dates():
 def global_question():
     return {"question": "某某事件会在 2024-10-01 前发生吗？", "as_of": "2024-09-10T00:00:00Z",
             "resolve_by": "2024-10-01T23:59:00Z", "resolution_rule": "以官方公告为准。", "mode": "binary"}
+
+
+def test_cutoff_proof_does_not_trust_arbitrary_retrieved_at():
+    validate = load_module("validate_cases")
+    as_of = validate.parse_ts("2024-09-10T00:00:00Z")
+    status = validate.publication_date_coverage([{
+        "source_url": "https://example.org/page",
+        "published_at": None,
+        "retrieved_at": "2024-09-07T00:00:00Z",
+    }], as_of)
+    assert status["strict_cutoff_ready"] is False
+    assert status["availability_known"] == 0
+
+
+def test_cutoff_proof_accepts_matching_wayback_capture():
+    validate = load_module("validate_cases")
+    as_of = validate.parse_ts("2024-09-10T00:00:00Z")
+    url = "https://web.archive.org/web/20240907232733/https://www.python.org/example"
+    status = validate.publication_date_coverage([{
+        "source_url": url,
+        "published_at": None,
+        "cutoff_proof": {"kind": "web_archive", "timestamp": "2024-09-07T23:27:33Z", "reference": url},
+    }], as_of)
+    assert status["strict_cutoff_ready"] is True
+    assert status["cutoff_proof_known"] == 1
+
+
+def test_cutoff_proof_accepts_matching_git_commit_and_rejects_mismatch():
+    validate = load_module("validate_cases")
+    as_of = validate.parse_ts("2024-09-10T00:00:00Z")
+    sha = "a9fec384f2be8c13e01b20a16a1e1704f16a9365"
+    good = {"source_url": f"https://github.com/python/peps/blob/{sha}/peps/pep-0719.rst",
+            "cutoff_proof": {"kind": "git_commit", "timestamp": "2024-09-07T09:38:37Z",
+                             "reference": f"https://github.com/python/peps/commit/{sha}"}}
+    assert validate.publication_date_coverage([good], as_of)["strict_cutoff_ready"] is True
+    bad = json.loads(json.dumps(good)); bad["cutoff_proof"]["reference"] = "https://github.com/python/peps/commit/0000000000000000000000000000000000000000"
+    result = validate.publication_date_coverage([bad], as_of)
+    assert result["strict_cutoff_ready"] is False and result["invalid_proofs"]
+
+
+def test_forecastlab_v2_is_cutoff_ready_and_c05_is_pre_outcome():
+    validate = load_module("validate_cases")
+    root = Path(__file__).resolve().parents[2]
+    report = validate.validate_suite(root / "eval" / "suites" / "forecastlab-v2.json")
+    assert report["case_count"] == 24
+    assert report["strict_cutoff_ready"] == 24
+    assert report["status_counts"] == {"ready": 24, "needs_review": 0, "broken": 0}
+    suite = json.loads((root / "eval" / "suites" / "forecastlab-v2.json").read_text())
+    c05 = next(c for c in suite["cases"] if c["id"] == "C05-node22-lts")
+    assert validate.parse_ts(c05["question"]["as_of"]) < validate.parse_ts("2024-10-29T00:00:00Z")

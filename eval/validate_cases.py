@@ -21,10 +21,11 @@ from __future__ import annotations
 import argparse
 from datetime import datetime
 import json
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_SUITE = ROOT / "eval" / "suites" / "forecastlab-v1.json"
+DEFAULT_SUITE = ROOT / "eval" / "suites" / "forecastlab-v2.json"
 
 
 def parse_ts(value: str) -> datetime:
@@ -39,27 +40,94 @@ def evidence_items(path: Path) -> list[dict]:
     return items
 
 
+def _cutoff_proof_time(item: dict) -> datetime | None:
+    """Accept only explicitly verifiable immutable snapshot proofs.
+
+    A client-provided retrieved_at alone is never enough. The proof must tie its timestamp
+    to an immutable URL identity: a Wayback capture timestamp or a fixed Git commit SHA.
+    """
+    proof = item.get("cutoff_proof")
+    if not isinstance(proof, dict):
+        return None
+    kind = proof.get("kind")
+    timestamp = proof.get("timestamp")
+    reference = str(proof.get("reference") or "")
+    source_url = str(item.get("source_url") or "")
+    if not timestamp or kind not in {"web_archive", "git_commit"}:
+        return None
+    try:
+        proved_at = parse_ts(timestamp)
+    except ValueError:
+        return None
+
+    if kind == "web_archive":
+        match = re.search(r"web\.archive\.org/web/(\d{14})/", source_url)
+        if not match or reference != source_url:
+            return None
+        raw = match.group(1)
+        encoded = datetime.strptime(raw, "%Y%m%d%H%M%S").replace(tzinfo=proved_at.tzinfo)
+        return proved_at if encoded == proved_at else None
+
+    blob = re.search(r"github\.com/[^/]+/[^/]+/blob/([0-9a-f]{40})/", source_url, re.I)
+    commit = re.search(r"github\.com/[^/]+/[^/]+/commit/([0-9a-f]{40})(?:$|[/?#])", reference, re.I)
+    if not blob or not commit or blob.group(1).lower() != commit.group(1).lower():
+        return None
+    return proved_at
+
+
 def publication_date_coverage(items: list[dict], as_of: datetime) -> dict:
-    """Describe whether a historical evidence pack proves availability by the cutoff."""
-    known = 0
+    """Describe whether each historical evidence item proves availability by the cutoff."""
+    published_known = 0
+    proof_known = 0
+    availability_known = 0
     after_cutoff = 0
     missing = []
+    invalid_proofs = []
     for item in items:
+        location = item.get("source_url") or item.get("title") or "?"
         published = item.get("published_at")
-        if not published:
-            missing.append(item.get("source_url") or item.get("title") or "?")
-            continue
-        known += 1
-        if parse_ts(published) > as_of:
-            after_cutoff += 1
+        published_ok = False
+        if published:
+            published_known += 1
+            try:
+                published_time = parse_ts(published)
+                if published_time > as_of:
+                    after_cutoff += 1
+                else:
+                    published_ok = True
+            except ValueError:
+                invalid_proofs.append(location)
+
+        proof_present = item.get("cutoff_proof") is not None
+        proved_at = _cutoff_proof_time(item)
+        proof_ok = False
+        if proved_at is not None:
+            proof_known += 1
+            if proved_at > as_of:
+                after_cutoff += 1
+            else:
+                proof_ok = True
+        elif proof_present:
+            invalid_proofs.append(location)
+
+        if published_ok or proof_ok:
+            availability_known += 1
+        else:
+            missing.append(location)
+
     total = len(items)
     return {
-        "known": known,
+        "known": published_known,
+        "published_known": published_known,
+        "cutoff_proof_known": proof_known,
+        "availability_known": availability_known,
         "total": total,
         "missing": missing,
+        "invalid_proofs": list(dict.fromkeys(invalid_proofs)),
         "after_cutoff": after_cutoff,
-        "coverage": (known / total) if total else 0.0,
-        "strict_cutoff_ready": bool(total) and known == total and after_cutoff == 0,
+        "coverage": (published_known / total) if total else 0.0,
+        "availability_coverage": (availability_known / total) if total else 0.0,
+        "strict_cutoff_ready": bool(total) and availability_known == total and after_cutoff == 0 and not invalid_proofs,
     }
 
 
@@ -75,7 +143,7 @@ def validate_case(case: dict) -> dict:
     if not isinstance(question, dict):
         return {
             "id": cid, "category": case.get("category", "unknown"),
-            "evidence_count": 0, "published_known": 0, "published_total": 0,
+            "evidence_count": 0, "published_known": 0, "cutoff_proof_known": 0, "availability_known": 0, "published_total": 0,
             "strict_cutoff_ready": False, "problems": ["question 缺失或不是对象"],
             "warnings": [], "status": "broken",
         }
@@ -88,7 +156,7 @@ def validate_case(case: dict) -> dict:
     except (KeyError, TypeError, ValueError) as exc:
         return {
             "id": cid, "category": case.get("category", "unknown"),
-            "evidence_count": 0, "published_known": 0, "published_total": 0,
+            "evidence_count": 0, "published_known": 0, "cutoff_proof_known": 0, "availability_known": 0, "published_total": 0,
             "strict_cutoff_ready": False,
             "problems": [f"问题时间字段无效：{type(exc).__name__}"],
             "warnings": [], "status": "broken",
@@ -132,11 +200,14 @@ def validate_case(case: dict) -> dict:
 
     if not items:
         warnings.append("证据包为空")
-    elif dates["known"] < dates["total"]:
+    elif not dates["strict_cutoff_ready"]:
         warnings.append(
-            f"published_at 覆盖 {dates['known']}/{dates['total']}；"
+            f"cutoff provenance 覆盖 {dates['availability_known']}/{dates['total']} "
+            f"(published_at {dates['published_known']}/{dates['total']}, immutable proof {dates['cutoff_proof_known']}/{dates['total']})；"
             "无法证明全部历史证据在 as_of 前已可获得"
         )
+    if dates["invalid_proofs"]:
+        problems.append("cutoff_proof 无法验证：" + "、".join(dates["invalid_proofs"]))
 
     status = "broken" if problems else "needs_review" if warnings else "ready"
     return {
@@ -145,9 +216,12 @@ def validate_case(case: dict) -> dict:
         "as_of": as_of.isoformat(),
         "outcome": case.get("outcome"),
         "evidence_count": len(items),
-        "published_known": dates["known"],
+        "published_known": dates["published_known"],
+        "cutoff_proof_known": dates["cutoff_proof_known"],
+        "availability_known": dates["availability_known"],
         "published_total": dates["total"],
         "publication_coverage": round(dates["coverage"], 6),
+        "availability_coverage": round(dates["availability_coverage"], 6),
         "strict_cutoff_ready": dates["strict_cutoff_ready"] and not problems,
         "problems": problems,
         "warnings": warnings,
@@ -188,6 +262,8 @@ def print_report(report: dict) -> None:
             print(
                 f"  {row['id']:<34} category={row['category']:<7} "
                 f"n={row['evidence_count']} published={row['published_known']}/{row['published_total']} "
+                f"proof={row.get('cutoff_proof_known', 0)}/{row['published_total']} "
+                f"available={row.get('availability_known', row['published_known'])}/{row['published_total']} "
                 f"cutoff_ready={'yes' if row['strict_cutoff_ready'] else 'no'} {note}"
             )
     print(f"\nsuite: {report['suite']}")

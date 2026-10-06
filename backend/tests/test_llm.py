@@ -29,6 +29,7 @@ def test_qwen_flash_disables_thinking_for_json_calls(monkeypatch):
     result = model.complete("question", {"question": "测试问题"}, QuestionAnalysis, "测试指令")
     assert result.search_queries == ["检索词"]
     assert requests[0]["extra_body"] == {"enable_thinking": False}
+    assert requests[0]["temperature"] == config.MODEL_TEMPERATURE == 0
     assert model.usage == {"calls": 1, "prompt_tokens": 20, "completion_tokens": 10}
 
 

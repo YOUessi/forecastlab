@@ -175,6 +175,7 @@ def main():
             "arms": arms,
             "categories": sorted({str(case.get("category", "unknown")) for case in cases}),
             "model": config.MODEL_NAME,
+            "temperature": config.MODEL_TEMPERATURE,
             "model_key_configured": bool(config.MODEL_API_KEY),
             "max_calls_per_run": config.MAX_CALLS,
             "estimated_model_calls_upper_bound": len(cases) * (
@@ -219,8 +220,8 @@ def main():
 
     output = {
         "suite": meta.get("name", args.suite.stem),
-        "frozen": {**frozen, "model": config.MODEL_NAME, "prompt_version": "v2",
-                   "max_calls": config.MAX_CALLS, "max_seconds": config.MAX_SECONDS},
+        "frozen": {**frozen, "model": config.MODEL_NAME, "temperature": config.MODEL_TEMPERATURE,
+                   "prompt_version": "v2", "max_calls": config.MAX_CALLS, "max_seconds": config.MAX_SECONDS},
         "arms": arms,
         "started_at": started_at.isoformat(),
         "finished_at": datetime.now(timezone.utc).isoformat(),

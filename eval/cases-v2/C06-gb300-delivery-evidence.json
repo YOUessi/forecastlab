@@ -1,0 +1,25 @@
+{
+  "_about": "GB300 NVL72 是否在 2025-06-30 前实际交付的冻结证据包。信息截至 2025-04-30；原两条后截点资料已替换为 2025-03-18 官方发布。",
+  "evidence": [
+    {
+      "source_url": "https://nvidianews.nvidia.com/news/nvidia-blackwell-ultra-ai-factory-platform-paves-way-for-age-of-ai-reasoning",
+      "title": "NVIDIA Blackwell Ultra AI Factory Platform Paves Way for Age of AI Reasoning",
+      "publisher": "NVIDIA Newsroom",
+      "published_at": "2025-03-18T00:00:00Z",
+      "excerpt": "Blackwell Ultra-based products are expected to be available from partners starting from the second half of 2025.",
+      "claim": "NVIDIA 在截点前明确把合作伙伴 Blackwell Ultra 产品可用时间指向 2025 年下半年，不支持 6 月底前已交付。",
+      "source_type": "exercise",
+      "source_group": "nvidia.com"
+    },
+    {
+      "source_url": "https://ir.supermicro.com/news/news-details/2025/Supermicro-Adds-Portfolio-for-Next-Wave-of-AI-with-NVIDIA-Blackwell-Ultra-Solutions-Featuring-NVIDIA-HGX-B300-NVL16-and-GB300-NVL72/default.aspx",
+      "title": "Supermicro Adds Portfolio for Next Wave of AI with NVIDIA Blackwell Ultra Solutions",
+      "publisher": "Supermicro",
+      "published_at": "2025-03-18T00:00:00Z",
+      "excerpt": "Supermicro is announcing new systems and rack solutions powered by NVIDIA's Blackwell Ultra platform.",
+      "claim": "Supermicro 在 GTC 2025 宣布 GB300 NVL72 方案，属于发布/产品规划信息，而非已完成客户交付的证明。",
+      "source_type": "exercise",
+      "source_group": "supermicro.com"
+    }
+  ]
+}
