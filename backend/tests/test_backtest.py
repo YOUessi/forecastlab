@@ -330,3 +330,39 @@ def test_verified_cutoff_exercise_is_available_even_if_imported_after_cutoff():
         "retrieved_at": question.as_of.replace(year=2026),
     })
     assert available_at_cutoff(evidence, question.as_of) is True
+
+
+def test_champion_inference_gap_is_not_mistaken_for_future_result():
+    from app.schemas import EvidenceOnlyAudit
+    from app.graph import sanitize_evidence_audit
+
+    question = historical_question()
+    evidence = [item.model_copy(update={"availability": "verified_before_cutoff"})
+                for item in historical_evidence(question)]
+    audit = EvidenceOnlyAudit(
+        can_estimate=False,
+        blocking_reasons=[
+            "缺少皇家马德里在该赛季欧冠的参赛与晋级情况，缺少可用于推断冠军归属的任何战绩信息。"
+        ],
+    )
+    can_estimate, effective, discarded = sanitize_evidence_audit(audit, question, evidence)
+    assert can_estimate is False
+    assert effective == audit.blocking_reasons
+    assert discarded == []
+
+
+def test_actual_final_result_reason_is_still_discarded():
+    from app.schemas import EvidenceOnlyAudit
+    from app.graph import sanitize_evidence_audit
+
+    question = historical_question()
+    evidence = [item.model_copy(update={"availability": "verified_before_cutoff"})
+                for item in historical_evidence(question)]
+    audit = EvidenceOnlyAudit(
+        can_estimate=False,
+        blocking_reasons=["证据未包含决赛实际比赛结果，无法直接确认最终冠军。"],
+    )
+    can_estimate, effective, discarded = sanitize_evidence_audit(audit, question, evidence)
+    assert can_estimate is True
+    assert effective == []
+    assert discarded == audit.blocking_reasons

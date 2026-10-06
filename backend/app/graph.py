@@ -55,7 +55,7 @@ def mistakes_future_outcome_for_missing_evidence(text: str, question: QuestionSp
     """Catch the common error of demanding observations from the forecast period."""
     if not assume_missing and not re.search(r"缺少|缺失|不足|尚未|未知|无法|不能|没有|未有|未发生|未提供|不具备", text):
         return False
-    if re.search(r"未来(?:的)?(?:结果|行情|数据|信息)|预测期|结算(?:日|时|结果)|截至日之后|截止日之后|后续(?:的)?(?:行情|数据|结果)|最终(?:结果|行情|冠军)|冠军(?:结果|归属)|决赛(?:的)?(?:实际)?(?:比赛)?结果|实际收盘(?:价|点位)|结果日(?:数据|行情)", text):
+    if re.search(r"未来(?:的)?(?:结果|行情|数据|信息)|预测期|结算(?:日|时|结果)|截至日之后|截止日之后|后续(?:的)?(?:行情|数据|结果)|最终(?:结果|行情|冠军)|冠军结果|决赛(?:的)?(?:实际)?(?:比赛)?结果|实际收盘(?:价|点位)|结果日(?:数据|行情)", text):
         return True
     for match in re.finditer(r"(?:(\d{4})\s*[年/-]\s*)?(\d{1,2})\s*[月/-]\s*(?:(\d{1,2})\s*日?)?", text):
         year = int(match.group(1)) if match.group(1) else question.as_of.year
