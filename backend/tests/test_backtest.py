@@ -285,3 +285,48 @@ def test_evidence_audit_blocking_reasons_are_persisted():
     assert state["review"]["evidence_audit_blocking_reasons"] == ["没有可用的截止日前证据"]
     assert state["forecast"]["status"] == "insufficient_evidence"
     assert state["forecast"]["probabilities"] is None
+
+
+def test_future_outcome_audit_reason_is_discarded_for_verified_cutoff_evidence():
+    from app.schemas import EvidenceOnlyAudit
+    from app.graph import sanitize_evidence_audit
+
+    question = historical_question()
+    evidence = [item.model_copy(update={"availability": "verified_before_cutoff"})
+                for item in historical_evidence(question)]
+    audit = EvidenceOnlyAudit(
+        can_estimate=False,
+        blocking_reasons=["缺少 2024-10-01 的实际发布结果，无法判断是否按期发布。"],
+    )
+    can_estimate, effective, discarded = sanitize_evidence_audit(audit, question, evidence)
+    assert can_estimate is True
+    assert effective == []
+    assert discarded == audit.blocking_reasons
+    assert all(available_at_cutoff(item, question.as_of) for item in evidence)
+
+
+def test_substantive_pre_cutoff_audit_reason_remains_blocking():
+    from app.schemas import EvidenceOnlyAudit
+    from app.graph import sanitize_evidence_audit
+
+    question = historical_question()
+    evidence = [item.model_copy(update={"availability": "verified_before_cutoff"})
+                for item in historical_evidence(question)]
+    audit = EvidenceOnlyAudit(
+        can_estimate=False,
+        blocking_reasons=["截至信息日没有任何与目标事件直接相关的可核查证据。"],
+    )
+    can_estimate, effective, discarded = sanitize_evidence_audit(audit, question, evidence)
+    assert can_estimate is False
+    assert effective == audit.blocking_reasons
+    assert discarded == []
+
+
+def test_verified_cutoff_exercise_is_available_even_if_imported_after_cutoff():
+    question = historical_question()
+    evidence = historical_evidence(question)[0].model_copy(update={
+        "availability": "verified_before_cutoff",
+        "published_at": None,
+        "retrieved_at": question.as_of.replace(year=2026),
+    })
+    assert available_at_cutoff(evidence, question.as_of) is True

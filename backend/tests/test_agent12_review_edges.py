@@ -78,3 +78,21 @@ def test_mixed_rejected_target_query_does_not_retain_rejected_framing(tmp_path, 
     c = store.confirm_draft(frame.draft_id, ConfirmQuestionRequest(expected_revision=1, decisions=[
         PremiseDecision(premise_id="P001", user_review="rejected"), PremiseDecision(premise_id="P002", user_review="retained")]))
     assert c.framing.retrieval_plan == [], "drop tainted query text, let retrieval use a neutral fallback"
+
+
+def test_import_evidence_can_mark_server_validated_cutoff(tmp_path):
+    from datetime import timedelta
+    from app.demo import DEMO_QUESTION
+    from app.schemas import ImportedEvidence
+    from app.sources import import_evidence
+
+    q = DEMO_QUESTION.model_copy(update={"as_of": DEMO_QUESTION.as_of - timedelta(days=30)})
+    item = ImportedEvidence(
+        file_id="cutoff-fixture",
+        title="冻结评测资料",
+        excerpt="这是截点前已经存在的固定资料。",
+        source_type="exercise",
+    )
+    result = import_evidence([item], q, tmp_path, cutoff_verified=True)
+    assert result.evidence[0].availability == "verified_before_cutoff"
+    assert "cutoff_validation" in result.evidence[0].date_basis

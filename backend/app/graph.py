@@ -39,7 +39,9 @@ def evidence_for_model(items: list[Evidence], limit: int = 2400) -> list[dict]:
 
 
 def available_at_cutoff(evidence: Evidence, as_of) -> bool:
-    """Allow dated exercise material without pretending it was fetched at the cutoff."""
+    """Allow server-validated frozen evidence or dated exercise material at the cutoff."""
+    if evidence.availability == "verified_before_cutoff":
+        return True
     if evidence.retrieved_at <= as_of:
         return True
     return (evidence.source_type == "exercise" and evidence.published_at is not None
@@ -53,7 +55,7 @@ def mistakes_future_outcome_for_missing_evidence(text: str, question: QuestionSp
     """Catch the common error of demanding observations from the forecast period."""
     if not assume_missing and not re.search(r"缺少|缺失|不足|尚未|未知|无法|不能|没有|未有|未发生|未提供|不具备", text):
         return False
-    if re.search(r"未来(?:的)?(?:结果|行情|数据|信息)|预测期|结算(?:日|时|结果)|截至日之后|截止日之后|后续(?:的)?(?:行情|数据|结果)|最终(?:结果|行情)", text):
+    if re.search(r"未来(?:的)?(?:结果|行情|数据|信息)|预测期|结算(?:日|时|结果)|截至日之后|截止日之后|后续(?:的)?(?:行情|数据|结果)|最终(?:结果|行情|冠军)|冠军(?:结果|归属)|决赛(?:的)?(?:实际)?(?:比赛)?结果|实际收盘(?:价|点位)|结果日(?:数据|行情)", text):
         return True
     for match in re.finditer(r"(?:(\d{4})\s*[年/-]\s*)?(\d{1,2})\s*[月/-]\s*(?:(\d{1,2})\s*日?)?", text):
         year = int(match.group(1)) if match.group(1) else question.as_of.year
@@ -66,6 +68,31 @@ def mistakes_future_outcome_for_missing_evidence(text: str, question: QuestionSp
         if day is not None and (year, month, day) > (question.as_of.year, question.as_of.month, question.as_of.day):
             return True
     return False
+
+
+def nonblocking_audit_reason(reason: str, question: QuestionSpec, evidence: list[Evidence]) -> bool:
+    """Drop only reasons that violate forecast-time semantics, never substantive pre-cutoff gaps."""
+    if mistakes_future_outcome_for_missing_evidence(reason, question, assume_missing=True):
+        return True
+    cutoff_verified = bool(evidence) and all(e.availability == "verified_before_cutoff" for e in evidence)
+    if cutoff_verified and re.search(
+        r"历史练习|事后整理|非(?:当时)?冻结|盲回测|回看偏差|source_type\s*=\s*exercise|date_status\s*(?:为|=)\s*unknown",
+        reason, re.I,
+    ):
+        return True
+    return False
+
+
+def sanitize_evidence_audit(audit: EvidenceOnlyAudit, question: QuestionSpec,
+                            evidence: list[Evidence]) -> tuple[bool, list[str], list[str]]:
+    """Return effective can_estimate, blocking reasons, and discarded non-blocking reasons."""
+    raw = list(audit.blocking_reasons)
+    discarded = [reason for reason in raw if nonblocking_audit_reason(reason, question, evidence)]
+    effective = [reason for reason in raw if reason not in discarded]
+    can_estimate = audit.can_estimate
+    if not can_estimate and raw and not effective:
+        can_estimate = True
+    return can_estimate, effective, discarded
 
 
 def market_price_context(question: QuestionSpec, evidence: list[Evidence]) -> dict | None:
@@ -453,9 +480,13 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
                         "但不是当时冻结的盲回测，应提示回看偏差。"
                         "判断是否足以给一个有保留、未经校准的主观概率。未来结果尚未发生、资料仅有一两个来源或存在延期风险，"
                         "都不是自动阻断理由，应通过不确定的概率表达；若证据本身为空、晚于截至日、无法核查或不支持问题，才设 can_estimate=false。")
-            review.evidence_audit_can_estimate = audit.can_estimate
-            review.evidence_audit_blocking_reasons = list(audit.blocking_reasons)
-            if audit.can_estimate and all(available_at_cutoff(e, question.as_of) for e in evidence):
+            effective_can_estimate, effective_reasons, discarded_reasons = sanitize_evidence_audit(
+                audit, question, evidence)
+            review.evidence_audit_model_can_estimate = audit.can_estimate
+            review.evidence_audit_can_estimate = effective_can_estimate
+            review.evidence_audit_blocking_reasons = effective_reasons
+            review.evidence_audit_discarded_reasons = discarded_reasons
+            if effective_can_estimate and all(available_at_cutoff(e, question.as_of) for e in evidence):
                 review.probability_basis = "evidence_only"
             elif future_gap_found:
                 review.status = "blocked"

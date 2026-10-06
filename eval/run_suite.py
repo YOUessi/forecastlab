@@ -31,6 +31,7 @@ from app.schemas import ImportedEvidence, QuestionSpec, RunRecord  # noqa: E402
 from app.sources import import_evidence, normalize_import  # noqa: E402
 from app.storage import RunStore  # noqa: E402
 from single_agent import predict  # noqa: E402
+from validate_cases import validate_case  # noqa: E402
 
 ARMS = ("full", "single_agent", "no_evidence")
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -98,8 +99,10 @@ def full_diagnostics(record: RunRecord) -> dict:
         "full_review_issues": [issue.model_dump(mode="json") for issue in review.issues] if review else [],
         "full_unsupported_claims": list(review.unsupported_claims) if review else [],
         "full_missing_evidence": list(review.missing_evidence) if review else [],
+        "full_evidence_audit_model_can_estimate": review.evidence_audit_model_can_estimate if review else None,
         "full_evidence_audit_can_estimate": review.evidence_audit_can_estimate if review else None,
         "full_evidence_audit_blocking_reasons": list(review.evidence_audit_blocking_reasons) if review else [],
+        "full_evidence_audit_discarded_reasons": list(review.evidence_audit_discarded_reasons) if review else [],
         "full_findings_validated": bool(assessment and assessment.findings_validated),
         "full_evidence_findings": findings,
         "full_evidence_gaps": [gap.model_dump(mode="json") for gap in assessment.gap_details] if assessment else [],
@@ -111,7 +114,10 @@ def run_full_arm(case: dict, data_dir: Path) -> dict:
     question = QuestionSpec.model_validate(case["question"])
     imported = [ImportedEvidence.model_validate(item) for item in case_evidence(case)]
     store = RunStore(data_dir)
-    retrieval = import_evidence(imported, question, data_dir) if imported else None
+    validation = validate_case(case)
+    if not validation["strict_cutoff_ready"]:
+        raise ValueError(f"评测案例未通过 cutoff validator：{case['id']}")
+    retrieval = import_evidence(imported, question, data_dir, cutoff_verified=True) if imported else None
     evidence = retrieval.evidence if retrieval else []
     record = RunRecord(run_id=f"eval_{case['id']}_{uuid4().hex[:6]}", question=question,
                        evidence_mode="import", model=config.MODEL_NAME, retrieval_result=retrieval)

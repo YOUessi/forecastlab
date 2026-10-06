@@ -282,7 +282,7 @@ def online_search(question: QuestionSpec, data_dir: Path, queries: list[str] | N
     return result.evidence
 
 
-def import_evidence(items, question: QuestionSpec, data_dir: Path):
+def import_evidence(items, question: QuestionSpec, data_dir: Path, *, cutoff_verified: bool = False):
     """Save new imports, never trust a client-supplied old path or timestamp."""
     from .provenance import save_snapshot, split_passages, select_passages
     from .schemas import RetrievalResult
@@ -321,9 +321,12 @@ def import_evidence(items, question: QuestionSpec, data_dir: Path):
         e.source_kind_basis = "导入者声明（未独立核实）：" + item.source_kind_basis if item.source_kind_basis else ""
         e.source_group = item.source_group or "document:" + hashlib.sha256(str(item.source_url or item.file_id).encode()).hexdigest()[:16]
         e.source_group_basis = ("导入者声明：" + (item.source_group_basis or "未提供分组依据")) if item.source_group else "单独资料，未核实独立性"
-        e.availability = "historical_exercise" if historical else "unverified"
+        e.availability = ("verified_before_cutoff" if cutoff_verified else
+                          "historical_exercise" if historical else "unverified")
         e.event_status = "planned" if item.event_at and item.event_at > question.as_of else item.event_status
         e.date_basis = {"retrieved_at": "本次实际导入时间"}
+        if cutoff_verified:
+            e.date_basis["cutoff_validation"] = "服务端离线校验通过的冻结评测证据"
         for field in ("published_at", "updated_at", "event_at"):
             if getattr(item, field):
                 e.date_basis[field] = "导入者提供，未独立核实"

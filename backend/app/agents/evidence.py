@@ -57,7 +57,26 @@ def validate_findings(candidate, framing, evidence, passages):
     return valid, rejected
 
 
-def _details(candidate, findings, framing, logs):
+
+def _future_information_gap(gap, question) -> bool:
+    """A gap is not a pre-cutoff evidence gap when it asks for future resolution-period information."""
+    if gap.topic == "future_outcome":
+        return True
+    text = gap.missing
+    if re.search(r"最终(?:结果|冠军)|冠军(?:结果|归属)|决赛(?:的)?(?:实际)?(?:比赛)?结果|实际收盘(?:价|点位)|结果日(?:数据|行情)|结算(?:日|时|结果)", text):
+        return True
+    for match in re.finditer(r"(?:(\d{4})\s*[年/-]\s*)?(\d{1,2})\s*[月/-]\s*(?:(\d{1,2})\s*日?)?", text):
+        year = int(match.group(1)) if match.group(1) else question.as_of.year
+        month = int(match.group(2)); day = int(match.group(3)) if match.group(3) else None
+        if not 1 <= month <= 12:
+            continue
+        if (year, month) > (question.as_of.year, question.as_of.month):
+            return True
+        if day is not None and (year, month, day) > (question.as_of.year, question.as_of.month, question.as_of.day):
+            return True
+    return False
+
+def _details(candidate, findings, framing, logs, question):
     ids = {f.id for f in findings}
     active = {p.id for p in framing.premises if p.user_review != "rejected"} if framing else set()
     queries = {log.task_id for log in logs}
@@ -70,7 +89,7 @@ def _details(candidate, findings, framing, logs):
             conflicts.append(ConflictDetail(issue=c.issue, finding_ids=references, scope_comparison=c.scope_comparison,
                                              status=c.status, explanation=c.explanation))
     for gap in candidate.gaps:
-        if gap.topic == "future_outcome" or re.search(r"未来.*(?:实际结果|最终结果)|结算日.*实际结果", gap.missing):
+        if _future_information_gap(gap, question):
             continue
         if set(gap.target_premise_ids) - active or set(gap.attempted_query_ids) - queries:
             rejected.append(RejectedFinding(candidate={"gap": gap.model_dump()}, reason="缺口引用未执行查询或无效前提"))
@@ -144,7 +163,7 @@ def assess_evidence(question, framing, retrieval, model, data_dir) -> EvidenceAs
         try:
             candidate = model.complete("evidence12", payload, AssessmentCandidate, PROMPT, attempt_limit=1)
             findings, rejected = validate_findings(candidate, framing, good_sources, passages)
-            conflicts, gaps, more_rejected = _details(candidate, findings, framing, retrieval.retrieval_log)
+            conflicts, gaps, more_rejected = _details(candidate, findings, framing, retrieval.retrieval_log, question)
             rejected += more_rejected
             assessment.summary = candidate.summary
             assessment.findings, assessment.conflict_details = findings, conflicts

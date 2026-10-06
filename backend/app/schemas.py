@@ -487,8 +487,10 @@ class Review(BaseModel):
     issues: list[ReviewIssue] = Field(default_factory=list)
     unsupported_claims: list[str] = Field(default_factory=list)
     missing_evidence: list[str] = Field(default_factory=list)
+    evidence_audit_model_can_estimate: bool | None = None
     evidence_audit_can_estimate: bool | None = None
     evidence_audit_blocking_reasons: list[str] = Field(default_factory=list)
+    evidence_audit_discarded_reasons: list[str] = Field(default_factory=list)
 
 
 class EvidenceOnlyAudit(BaseModel):
