@@ -244,3 +244,21 @@ def test_review_finding_reference_opens_traceable_finding(page, app_url):
     expect(dialog.get_by_text("只有摘要，不能断言结果", exact=True)).to_be_visible()
     dialog.get_by_role("button", name="E001", exact=True).click()
     expect(page.locator("mark")).to_have_text("计划🙂延期")
+
+
+def test_evidence_audit_blocking_reasons_visible(page, app_url):
+    run = evidence_run()
+    run["review"] = {
+        "status": "blocked",
+        "probability_basis": "none",
+        "issues": [],
+        "unsupported_claims": [],
+        "missing_evidence": [],
+        "evidence_audit_can_estimate": False,
+        "evidence_audit_blocking_reasons": ["缺少与目标事件直接相关的事前证据"],
+    }
+    routes(page, runs=[run])
+    page.goto(app_url)
+    page.get_by_role("button", name=re.compile("03.*推演过程")).click()
+    expect(page.get_by_text("证据概率审查：拒绝估计", exact=True)).to_be_visible()
+    expect(page.get_by_text("缺少与目标事件直接相关的事前证据", exact=True)).to_be_visible()

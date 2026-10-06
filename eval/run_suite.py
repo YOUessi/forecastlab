@@ -98,6 +98,8 @@ def full_diagnostics(record: RunRecord) -> dict:
         "full_review_issues": [issue.model_dump(mode="json") for issue in review.issues] if review else [],
         "full_unsupported_claims": list(review.unsupported_claims) if review else [],
         "full_missing_evidence": list(review.missing_evidence) if review else [],
+        "full_evidence_audit_can_estimate": review.evidence_audit_can_estimate if review else None,
+        "full_evidence_audit_blocking_reasons": list(review.evidence_audit_blocking_reasons) if review else [],
         "full_findings_validated": bool(assessment and assessment.findings_validated),
         "full_evidence_findings": findings,
         "full_evidence_gaps": [gap.model_dump(mode="json") for gap in assessment.gap_details] if assessment else [],

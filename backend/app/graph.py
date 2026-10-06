@@ -453,6 +453,8 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
                         "但不是当时冻结的盲回测，应提示回看偏差。"
                         "判断是否足以给一个有保留、未经校准的主观概率。未来结果尚未发生、资料仅有一两个来源或存在延期风险，"
                         "都不是自动阻断理由，应通过不确定的概率表达；若证据本身为空、晚于截至日、无法核查或不支持问题，才设 can_estimate=false。")
+            review.evidence_audit_can_estimate = audit.can_estimate
+            review.evidence_audit_blocking_reasons = list(audit.blocking_reasons)
             if audit.can_estimate and all(available_at_cutoff(e, question.as_of) for e in evidence):
                 review.probability_basis = "evidence_only"
             elif future_gap_found:

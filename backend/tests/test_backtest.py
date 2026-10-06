@@ -94,6 +94,8 @@ def test_historical_forecast_estimates_without_future_result_evidence():
     state = build_graph(record, evidence, model, Path("/tmp")).invoke({"question": question.model_dump(mode="json")})
 
     assert state["review"]["probability_basis"] == "evidence_only"
+    assert state["review"]["evidence_audit_can_estimate"] is True
+    assert state["review"]["evidence_audit_blocking_reasons"] == []
     assert state["forecast"]["status"] == "completed"
     assert state["forecast"]["probabilities"] == {"是": 0.65, "否": 0.35}
     assert state["forecast"]["calibrated"] is False
@@ -269,3 +271,17 @@ def test_market_evidence_only_forecast_ignores_future_result_gap_and_returns_pro
     assert payload["market_price_context"]["price_source_groups"] == 1
     assert "没有查到利空消息不是上涨证据" in instructions
     assert any("价格资料只有 2 个交易日" in item for item in state["forecast"]["limitations"])
+
+def test_evidence_audit_blocking_reasons_are_persisted():
+    question = historical_question()
+    evidence = historical_evidence(question)
+    model = BacktestModel(can_estimate=False)
+    record = RunRecord(run_id="run_audit_reasons", question=question, evidence_mode="import", model="fake")
+
+    state = build_graph(record, evidence, model, Path("/tmp")).invoke({"question": question.model_dump(mode="json")})
+
+    assert state["review"]["probability_basis"] == "none"
+    assert state["review"]["evidence_audit_can_estimate"] is False
+    assert state["review"]["evidence_audit_blocking_reasons"] == ["没有可用的截止日前证据"]
+    assert state["forecast"]["status"] == "insufficient_evidence"
+    assert state["forecast"]["probabilities"] is None
