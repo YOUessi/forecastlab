@@ -73,7 +73,7 @@ class ModelClient:
             prompt = json.dumps(payload, ensure_ascii=False, default=str)
             if error:
                 prompt += f"\n上次输出无效：{error}。请仅输出符合 schema 的 JSON。"
-            request_fingerprint = f"{config.MODEL_NAME}|temperature={config.MODEL_TEMPERATURE}|{role}|{instructions}|{prompt}"
+            request_fingerprint = f"{config.MODEL_PROVIDER}|{config.MODEL_NAME}|temperature={config.MODEL_TEMPERATURE}|{role}|{instructions}|{prompt}"
             digest = hashlib.sha256(request_fingerprint.encode()).hexdigest()
             with self.lock:
                 if self.usage["calls"] >= self.call_limit or self.active_seconds >= config.MAX_SECONDS:
@@ -96,8 +96,12 @@ class ModelClient:
                     temperature=config.MODEL_TEMPERATURE,
                     max_tokens=(4500 if role in {"review", "forecast", "evidence12"} else 3000) + attempt * 1000,
                 )
-                if config.MODEL_NAME == "qwen3.8-flash":
+                if config.MODEL_PROVIDER == "qwen" and config.MODEL_NAME == "qwen3.8-flash":
                     kwargs["extra_body"] = {"enable_thinking": False}
+                elif config.MODEL_PROVIDER == "deepseek":
+                    # DeepSeek V4.1 Flash enables high-effort thinking by default.
+                    # Structured ForecastLab agents need concise JSON, not hidden reasoning.
+                    kwargs["extra_body"] = {"thinking": {"type": "disabled"}}
                 response = self.client.chat.completions.create(**kwargs)
                 record.model = getattr(response, "model", None) or config.MODEL_NAME
                 self.actual_model = record.model

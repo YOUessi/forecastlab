@@ -16,7 +16,8 @@
         "kind": "web_archive",
         "timestamp": "2024-09-07T23:27:33Z",
         "reference": "https://web.archive.org/web/20240907232733/https://www.python.org/downloads/release/python-3130rc2/"
-      }
+      },
+      "published_at": "2024-09-06T00:00:00Z"
     },
     {
       "title": "PEP 719 release schedule — fixed Git commit from 2024-09-07",
@@ -33,7 +34,8 @@
         "kind": "git_commit",
         "timestamp": "2024-09-07T09:38:37Z",
         "reference": "https://github.com/python/peps/commit/a9fec384f2be8c13e01b20a16a1e1704f16a9365"
-      }
+      },
+      "published_at": "2024-09-07T09:38:37Z"
     }
   ]
 }

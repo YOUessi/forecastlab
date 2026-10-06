@@ -22,6 +22,7 @@ def test_qwen_flash_disables_thinking_for_json_calls(monkeypatch):
             requests.append(kwargs)
             return response('{"normalized_question":"测试问题","search_queries":["检索词"]}')
 
+    monkeypatch.setattr(config, "MODEL_PROVIDER", "qwen")
     monkeypatch.setattr(config, "MODEL_API_KEY", "test-only")
     monkeypatch.setattr(config, "MODEL_NAME", "qwen3.8-flash")
     monkeypatch.setattr("app.llm.OpenAI", lambda **kwargs: SimpleNamespace(chat=SimpleNamespace(completions=FakeCompletions())))
@@ -44,6 +45,7 @@ def test_connection_error_retries_and_preserves_budget(monkeypatch):
                 raise APIConnectionError(request=httpx.Request("POST", "https://example.test/chat"))
             return response('{"normalized_question":"测试问题","search_queries":["检索词"]}')
 
+    monkeypatch.setattr(config, "MODEL_PROVIDER", "qwen")
     monkeypatch.setattr(config, "MODEL_API_KEY", "test-only")
     monkeypatch.setattr(config, "MODEL_NAME", "qwen3.8-flash")
     monkeypatch.setattr("app.llm.OpenAI", lambda **kwargs: SimpleNamespace(chat=SimpleNamespace(completions=FakeCompletions())))
@@ -52,3 +54,22 @@ def test_connection_error_retries_and_preserves_budget(monkeypatch):
     model.complete("question", {"question": "测试问题"}, QuestionAnalysis, "测试指令")
     assert calls == 3
     assert model.usage["calls"] == 3
+
+
+def test_deepseek_structured_calls_disable_thinking(monkeypatch):
+    requests = []
+
+    class FakeCompletions:
+        def create(self, **kwargs):
+            requests.append(kwargs)
+            return response('{"normalized_question":"测试问题","search_queries":["检索词"]}')
+
+    monkeypatch.setattr(config, "MODEL_PROVIDER", "deepseek")
+    monkeypatch.setattr(config, "MODEL_API_KEY", "test-only")
+    monkeypatch.setattr(config, "MODEL_NAME", "deepseek-flash")
+    monkeypatch.setattr("app.llm.OpenAI", lambda **kwargs: SimpleNamespace(chat=SimpleNamespace(completions=FakeCompletions())))
+    model = ModelClient()
+    result = model.complete("question", {"question": "测试问题"}, QuestionAnalysis, "测试指令")
+    assert result.search_queries == ["检索词"]
+    assert requests[0]["extra_body"] == {"thinking": {"type": "disabled"}}
+    assert requests[0]["temperature"] == 0
