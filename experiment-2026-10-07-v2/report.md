@@ -251,3 +251,130 @@ Full pipeline 当前成本显著高于 Single Agent，并且在相同 18 个已�
 - coverage 的全部提升都由 Agent 1–2 / F-ID 修复造成；
 - 当前概率已经校准；
 - 结果可以直接外推到真实未来预测。
+
+
+## 15. Future-outcome audit sanitation：Run 2
+
+在 Run 1 的 abstention 诊断中，EvidenceOnlyAudit 多次把“未来结算期结果尚未发生”当成不能预测的理由，例如要求未来月末收盘价、最终冠军或决赛结果。
+
+本轮没有放宽 Review 全局策略，而是做了确定性语义修复：
+
+1. 明确要求 `as_of` 之后的实际结果/冠军/收盘价，不再作为事前证据 blocker；
+2. 已由离线 validator 验证 cutoff provenance 的评测证据，不再仅因 `exercise / historical / non-blind` 元数据被阻断；
+3. 来源权威性、口径、参赛/种子规则、与目标事件相关性等**实质性事前缺口仍然保留**；
+4. 原始 audit 判断、有效 blocker 和被丢弃的非 blocker 分开保存，便于审计。
+
+最终修复提交：
+
+```text
+9aaa5701f3afaca08b9cbb094dfb8e225318fc5c
+fix: keep source-quality audit blockers
+```
+
+### 15.1 Run 2 结果
+
+| 指标 | 正式 Run 1 | Run 2 |
+| --- | ---: | ---: |
+| completed | 18 | 21 |
+| insufficient_evidence | 6 | 3 |
+| failed | 0 | 0 |
+| coverage | 75.0% | **87.5%** |
+| Brier（仅已答） | **0.1337** | 0.1578 |
+| Brier（abstain→0.5） | **0.1628** | 0.1694 |
+| model calls | 185 | 190 |
+| tokens | 670,815 | 682,477 |
+
+Run 2 的 coverage 明显提高，但 Brier 反而变差。
+
+因此：
+
+> 更高 coverage 不等于更好的预测系统；当前 abstention 本身具有一定保护价值。
+
+### 15.2 Coverage 状态变化
+
+| Case | Run 1 | Run 2 | Run 2 概率 |
+| --- | --- | --- | ---: |
+| C02-star50 | abstain | completed | 0.55 |
+| C08-typescript6-release | abstain | completed | 0.45 |
+| C16-cop30-roadmap-adopted | completed | abstain | — |
+| C18-xflare-2025 | abstain | completed | 0.70 |
+| C24-gold-q3-2026 | abstain | completed | 0.50 |
+
+这同时说明：即使 `temperature=0`，远端模型仍存在运行级非确定性。C16 在 Run 1 有概率，Run 2 却正常 abstain；C18 则相反。
+
+### 15.3 共同回答案例的 matched comparison
+
+Run 1 与 Run 2 共同回答 17 个案例。
+
+| 方法 | 17-case matched Brier |
+| --- | ---: |
+| Full Run 1 | 0.1379 |
+| Full Run 2 | 0.1394 |
+| Single Agent + 同证据 | **0.1119** |
+
+因此，即使去掉 coverage 差异，Full pipeline 仍没有超过 Single Agent + evidence。
+
+这比单看总体 Brier 更重要，因为它控制了“Full 只回答较容易案例”的选择效应。
+
+### 15.4 Run 2 仍然 abstain 的 3 个案例
+
+**C10 Real Madrid UCL**
+
+有效 blocker：
+
+- 缺少皇马在该赛季欧冠中的参赛、晋级或竞争力证据；
+- 证据主要是赛制/抽签标题性材料，不能支持冠军概率。
+
+未来决赛结果未发生这一理由已被正确剔除。
+
+**C12 Wimbledon top seed**
+
+有效 blocker：
+
+- 只有 ATP 排名；
+- 缺少温网官方 1 号种子标注/种子规则信息。
+
+未来冠军结果未发生这一理由已被正确剔除。
+
+**C16 COP30 roadmap**
+
+有效 blocker：
+
+- 只有主席国倡议/磋商材料；
+- resolution rule 要求 UNFCCC cover decision；
+- 缺少官方决定文本或截点前草案/谈判文本。
+
+这些都是真正的事前 evidence gap，因此继续 abstain 是合理行为。
+
+### 15.5 Audit override
+
+Run 2 有两个案例的模型原始 EvidenceOnlyAudit 返回 `can_estimate=false`，后端根据确定性规则纠正：
+
+- C02-star50 → completed，p=0.55；
+- C24-gold-q3-2026 → completed，p=0.50。
+
+其中 C02 的原始 blocker 只是在要求 7 月 31 日未来行情，因此纠正合理。
+
+C24 更能说明模型非确定性：一次 targeted rerun 中，模型额外指出“次级来源、非 LBMA 官方日价、基准口径无法交叉核验”，系统因此仍然 abstain；而完整 Run 2 中模型没有提出这条来源质量 blocker，于是后端只看到未来结果型理由并允许给出 0.50。
+
+因此当前 audit 仍不能被视为确定性质量门。
+
+### 15.6 Run 2 后的结论
+
+当前可以安全声称：
+
+1. F-ID contract hard failure 已消失，工程稳定性恢复；
+2. cutoff provenance 和 future-outcome 语义已经由后端确定性规则约束；
+3. evidence 对本套件有明确价值；
+4. 继续降低 abstention 并没有改善 Brier；
+5. Full 多阶段 pipeline 在 matched case 上仍落后于 Single Agent + evidence；
+6. 当前 Full 的主要价值更像“复杂的审计/安全层”，而不是已经证明能提高预测准确率的 simulation 方法。
+
+下一步不应继续放宽 abstention。
+
+更值得做的是：
+
+- 为非战略型问题增加路由，直接进入 evidence-only forecast，避免无意义 World/Actor/Simulation；
+- 为适合战略主体推演的问题保留 full path；
+- 单独评估 routing 是否降低 7–20 倍推理成本，同时不损失 Brier；
+- 补 Agent 1 neutral-vs-leading 和 Agent 2 finding→quote 人工语义评估。

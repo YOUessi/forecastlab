@@ -1,0 +1,160 @@
+{
+  "code_commit": "9aaa5701f3afaca08b9cbb094dfb8e225318fc5c",
+  "suite": "forecastlab-v2",
+  "model": "deepseek-flash",
+  "temperature": 0.0,
+  "run2": {
+    "answered": 21,
+    "coverage": 0.875,
+    "brier_on_answered": 0.15784285714285715,
+    "brier_with_half_fallback": 0.1693625,
+    "status_counts": {
+      "completed": 21,
+      "insufficient_evidence": 3
+    },
+    "hard_error_count": 0,
+    "calls": 190,
+    "tokens": 682477,
+    "seconds": 474.0399999999999
+  },
+  "official_run1": {
+    "answered": 18,
+    "coverage": 0.75,
+    "brier_on_answered": 0.13366666666666668,
+    "brier_with_half_fallback": 0.16275
+  },
+  "baseline_run1": {
+    "single_agent_evidence_brier": 0.1443041666666667,
+    "no_evidence_brier": 0.18814583333333335
+  },
+  "matched_answered": {
+    "n": 17,
+    "ids": [
+      "C01-python313",
+      "C03-apple-m4-mac",
+      "C04-starship-orbit",
+      "C05-node22-lts",
+      "C06-gb300-delivery",
+      "C07-gpt5-availability",
+      "C09-man-city-top4",
+      "C11-usa-paris-gold",
+      "C13-worldcup-southamerica",
+      "C14-nba-east-champ",
+      "C15-artemis2-complete",
+      "C17-iss-crewed-2024",
+      "C19-copernicus-h1",
+      "C20-g20-summit-held",
+      "C21-fed-sep-cut",
+      "C22-ndx-h2-2025",
+      "C23-china-cpi-dec2025"
+    ],
+    "run1_full_brier": 0.1378529411764706,
+    "run2_full_brier": 0.13939411764705884,
+    "single_agent_evidence_brier": 0.11191764705882348
+  },
+  "coverage_status_changes": [
+    {
+      "id": "C02-star50",
+      "outcome": 0,
+      "run1_p": null,
+      "run2_p": 0.55,
+      "run1_status": "insufficient_evidence",
+      "run2_status": "completed"
+    },
+    {
+      "id": "C08-typescript6-release",
+      "outcome": 1,
+      "run1_p": null,
+      "run2_p": 0.45,
+      "run1_status": "insufficient_evidence",
+      "run2_status": "completed"
+    },
+    {
+      "id": "C16-cop30-roadmap-adopted",
+      "outcome": 0,
+      "run1_p": 0.25,
+      "run2_p": null,
+      "run1_status": "completed",
+      "run2_status": "insufficient_evidence"
+    },
+    {
+      "id": "C18-xflare-2025",
+      "outcome": 1,
+      "run1_p": null,
+      "run2_p": 0.7,
+      "run1_status": "insufficient_evidence",
+      "run2_status": "completed"
+    },
+    {
+      "id": "C24-gold-q3-2026",
+      "outcome": 1,
+      "run1_p": null,
+      "run2_p": 0.5,
+      "run1_status": "insufficient_evidence",
+      "run2_status": "completed"
+    }
+  ],
+  "audit_overrides": [
+    {
+      "id": "C02-star50",
+      "outcome": 0,
+      "p": 0.55,
+      "discarded_reasons": [
+        "所有证据均截至2026-06-30，仅覆盖基准日及前一交易日的科创50收盘数据与6月PMI，没有任何2026年7月的行情或上交所月报数据，无法判断2026-07-31收盘点位是否严格高于2207.86点。",
+        "证据来源标注为exercise（用户事后整理的历史练习资料），非当时冻结的盲回测，存在回看偏差，且日期未独立核实。"
+      ],
+      "effective_reasons": []
+    },
+    {
+      "id": "C24-gold-q3-2026",
+      "outcome": 1,
+      "p": 0.5,
+      "discarded_reasons": [
+        "证据仅覆盖截至日（2026-06-30）及之前的资料，未提供 2026-09-30 的实际收盘价，无法判断该日收盘价是否高于 2026-06-30 收盘价。",
+        "问题要求比较两个未来/后续时点的实际收盘价，而现有证据中没有任何关于 2026-09-30 价格的信息，证据本身不支持该问题的结论。"
+      ],
+      "effective_reasons": []
+    }
+  ],
+  "run2_abstentions": [
+    {
+      "id": "C10-real-madrid-ucl",
+      "outcome": 0,
+      "blocking_reasons": [
+        "现有证据仅为 2024-08-29 前后的赛前资料（联赛阶段抽签与赛制概览），未包含任何比赛结果或冠军归属信息。",
+        "两条证据均为标题性片段，无正文内容，无法支持对皇家马德里是否夺冠的判断。"
+      ],
+      "discarded_reasons": [
+        "证据来源为 exercise 类型的历史练习资料，非当时冻结的盲回测，存在回看偏差风险。"
+      ]
+    },
+    {
+      "id": "C12-wimbledon-topseed",
+      "outcome": 1,
+      "blocking_reasons": [
+        "现有证据仅涉及 ATP 排名，未提供 2025 年温网官方签表中 1 号种子的具体标注信息。"
+      ],
+      "discarded_reasons": [
+        "没有任何证据涉及 2025 年温网男单冠军或决赛结果，无法判断冠军与 1 号种子是否一致。",
+        "证据来源为 exercise 类型的历史练习资料，存在回看偏差，且不足以支持对该二元问题的概率估计。"
+      ]
+    },
+    {
+      "id": "C16-cop30-roadmap-adopted",
+      "outcome": 0,
+      "blocking_reasons": [
+        "现有证据仅为主席国信函（第四封、第六封），属于主席国倡议/磋商安排层面材料，按 resolution_rule 主席国倡议不算数，无法支持对 UNFCCC 官方 cover decision 是否通过含化石燃料退出路线图条款的判断。",
+        "证据中不含任何 UNFCCC 官方通过的 cover decision 文本，也不含截点前关于该条款状态的草案或谈判文本，既不能证实也不能证伪目标问题。"
+      ],
+      "discarded_reasons": [
+        "两条证据的 published_at 均为导入者提供、未独立核实，date_status 为 unknown，且 source_type=exercise 为事后整理的历史练习资料，存在回看偏差，不能作为当时冻结的盲回测依据。"
+      ]
+    }
+  ],
+  "interpretation": [
+    "Future-outcome blocker sanitation increased coverage but did not improve Brier.",
+    "Substantive pre-cutoff gaps remained blocking for C10, C12 and C16.",
+    "On the 17 cases answered in both Full runs, Single Agent + evidence remained better than Full.",
+    "Temperature 0 did not eliminate remote-model nondeterminism; status changed for several cases across runs."
+  ]
+}

@@ -90,3 +90,24 @@ v2 run #1：
 相对 Single Agent + evidence，Full 约为 7.7 倍模型调用、21.4 倍 token、16.6 倍模型耗时。
 
 正式结果仍属于历史回看实验，并非实时盲测。
+
+
+## Run 2：abstention 语义修复后的结果
+
+在保存 EvidenceOnlyAudit 阻断原因后，我们确认部分 abstention 错把未来结算期结果当成事前证据要求。后端现已确定性过滤此类理由，同时继续保留来源质量、目标相关性、规则/参赛信息等真实事前缺口。
+
+最终修复提交：`9aaa570`。
+
+| Full arm | Coverage | Brier（已答） | 0.5 fallback Brier |
+| --- | ---: | ---: | ---: |
+| v2 Run 1 | 75.0% | **0.1337** | **0.1628** |
+| v2 Run 2 | **87.5%** | 0.1578 | 0.1694 |
+
+结论：coverage 提升没有改善预测质量；不能为了减少 abstention 继续放宽审查。
+
+Run 2 原始与分析结果：
+
+- `results/v2-full-run2.json`
+- `results/v2-full-run2-score.json`
+- `results/v2-run2-analysis.json`
+- `results/v2-full-run2-meta.json`
