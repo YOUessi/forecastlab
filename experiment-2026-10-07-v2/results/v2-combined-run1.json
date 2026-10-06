@@ -1,0 +1,3089 @@
+{
+  "suite": "forecastlab-v2",
+  "frozen": {
+    "note": "24 案例修正版套件（2026-10-06）。保留 v1 历史实验快照；v2 修复 cutoff provenance，并把 C05 的 as_of 移到 Node.js 22 LTS 正式发生之前。",
+    "prompt_version": "v2",
+    "suite_version": "v2-2026-10-06",
+    "model": "deepseek-flash",
+    "temperature": 0.0,
+    "max_calls": 18,
+    "max_seconds": 300
+  },
+  "arms": [
+    "full",
+    "single_agent",
+    "no_evidence"
+  ],
+  "started_at": "2026-10-06T18:41:54.133707+00:00",
+  "finished_at": "2026-10-06T18:49:43.119123+00:00",
+  "n_cases": 24,
+  "rows": [
+    {
+      "id": "C01-python313",
+      "category": "tech",
+      "outcome": 0,
+      "yes_outcome": "是",
+      "full_p": 0.9,
+      "full_status": "completed",
+      "full_seconds": 24.7,
+      "full_calls": 9,
+      "full_tokens": 35928,
+      "run_id": "eval_C01-python313_457667",
+      "errors": "",
+      "full_failed_stage": null,
+      "full_review_status": "blocked",
+      "full_probability_basis": "evidence_only",
+      "full_review_issues": [
+        {
+          "severity": "medium",
+          "claim": "证据仅支持计划日期，不能直接推出实际发布结果",
+          "explanation": "E001、E002均为发布前计划/预期材料，未提供python.org实际提供3.13.0正式稳定版可下载的证据；预测应明确标注为基于计划与惯例的推断，而非已证实事实。",
+          "affected_ids": [
+            "E001",
+            "E002",
+            "F001",
+            "F002",
+            "AS001"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "E001带“若无关键bug”条件，模拟未量化该风险",
+          "explanation": "E001明确发布以未发现关键bug为条件，S1/S2虽提及条件式，但未评估该条件对2024-10-01前可下载概率的影响。",
+          "affected_ids": [
+            "E001",
+            "S1",
+            "S2"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "两份证据同源组，独立性有限",
+          "explanation": "E001与E002同属python-core-release来源组且内容一致，互为佐证但非独立来源，不能显著增强对实际发布结果的置信度。",
+          "affected_ids": [
+            "E001",
+            "E002"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "预测期结果未知应由概率表达",
+          "explanation": "审查排除了要求未来行情的判断；概率仅使用截至日证据。",
+          "affected_ids": []
+        }
+      ],
+      "full_unsupported_claims": [
+        "Python核心团队将按PEP 719计划于2024-10-01发布3.13.0正式稳定版且未出现关键bug（AS001为推断，非证据支持）",
+        "若3.13.0于2024-10-01发布，python.org下载页将在同日或之前提供正式稳定版可下载版本（AS002为惯例假设）"
+      ],
+      "full_missing_evidence": [
+        "截至2024-09-10，缺少python.org下载页实际提供Python 3.13.0正式稳定版（非RC/beta）可下载的证据",
+        "缺少RC阶段是否发现关键bug的截至日信息",
+        "缺少最终构建与发布流程是否按计划完成的截至日信息"
+      ],
+      "full_findings_validated": true,
+      "full_evidence_findings": [
+        {
+          "id": "F001",
+          "claim": "在 2024-09-07 的 python.org 3.13.0rc2 发布页快照中，3.13.0rc2 被描述为最终发布预览，并称若无关键 bug，该版本预计成为最终 3.13.0 版本；3.13.0 正式版计划于 2024-10-01（周二）发布。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E001"
+          ]
+        },
+        {
+          "id": "F002",
+          "claim": "在 2024-09-07 固定提交的 PEP 719 中，3.13.0 candidate 2 列为 2024-09-06 的实际项，而 3.13.0 final 列在“Expected”下，日期为 2024-10-01。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E002"
+          ]
+        }
+      ],
+      "full_evidence_gaps": [
+        {
+          "missing": "E001 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E002 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "截至信息截点，缺少 python.org 下载页实际提供 Python 3.13.0 正式稳定版（非 RC/beta）可下载的证据，包括实际发布日期与下载链接状态。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        }
+      ],
+      "full_rejected_findings": 0,
+      "single_agent_p": 0.85,
+      "single_agent_seconds": 1.54,
+      "single_agent_calls": 1,
+      "single_agent_tokens": 1324,
+      "no_evidence_p": 0.97,
+      "no_evidence_seconds": 1.01,
+      "no_evidence_calls": 1,
+      "no_evidence_tokens": 512
+    },
+    {
+      "id": "C02-star50",
+      "category": "finance",
+      "outcome": 0,
+      "yes_outcome": "是",
+      "full_p": null,
+      "full_status": "insufficient_evidence",
+      "full_seconds": 16.7,
+      "full_calls": 5,
+      "full_tokens": 27836,
+      "run_id": "eval_C02-star50_1a5d4e",
+      "errors": "",
+      "full_failed_stage": null,
+      "full_review_status": "blocked",
+      "full_probability_basis": "none",
+      "full_review_issues": [
+        {
+          "severity": "medium",
+          "claim": "A002将基准日前两日强势动能作为背景，存在被误读为看涨依据的风险。",
+          "explanation": "E001、E002显示6月29-30日连续大涨且放量，但历史动能不能外推至一个月后；A002已声明不确定性，需避免在概率中隐含方向。",
+          "affected_ids": [
+            "A002",
+            "E001",
+            "E002"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "E003宏观PMI与科创50点位无直接映射，作为背景证据相关性弱。",
+          "explanation": "E003显示制造业PMI 50.3%但小型企业、库存、就业分项低于临界点，与指数一个月后收盘点位无直接对应，A003已作限定。",
+          "affected_ids": [
+            "E003",
+            "A003"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "所有证据均为导入者提供的练习性摘录，date_status为unknown，未独立核实。",
+          "explanation": "E001、E002、E003的published_at与event_at均标注未独立核实，来源可靠性存疑，但基准点位与问题设定一致，影响有限。",
+          "affected_ids": [
+            "E001",
+            "E002",
+            "E003"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "预测期结果未知应由概率表达",
+          "explanation": "审查排除了要求未来行情的判断；概率仅使用截至日证据。",
+          "affected_ids": []
+        }
+      ],
+      "full_unsupported_claims": [],
+      "full_missing_evidence": [],
+      "full_findings_validated": true,
+      "full_evidence_findings": [
+        {
+          "id": "F001",
+          "claim": "2026年6月30日科创50指数收于2207.86点，日涨3.85%，盘中最高2214.61点，日内振幅4.73%，成交额约2193.5亿元；该点位即问题设定的比较基准。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E001"
+          ]
+        },
+        {
+          "id": "F002",
+          "claim": "2026年6月29日科创50指数收于2126.01点，日涨4.61%，成分股成交额约2301亿元，日内振幅5.62%，科创板可交易个股中337只收涨（约占55.52%）。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E002"
+          ]
+        },
+        {
+          "id": "F003",
+          "claim": "2026年6月制造业PMI为50.3%，较5月上升0.3个百分点，生产指数51.4%、新订单指数51.2%；同时小型企业PMI为48.2%、原材料库存指数48.4%、从业人员指数48.5%，仍低于50%临界点。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E003"
+          ]
+        }
+      ],
+      "full_evidence_gaps": [
+        {
+          "missing": "E001 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E002 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E003 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "2026年7月（尤其是2026-07-31）科创50指数收盘点位，或上交所月报中记录的该日收盘数据。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        },
+        {
+          "missing": "2026年7月1日至7月31日期间任何交易日的科创50行情记录，用于判断基准点位之后的走势方向。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        },
+        {
+          "missing": "resolution_source（https://english.sse.com.cn/news/publications/newsletter/）所载上交所月报原文，用于按resolution_rule核对2026-07-31收盘点位。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        }
+      ],
+      "full_rejected_findings": 0,
+      "single_agent_p": 0.5,
+      "single_agent_seconds": 1.9,
+      "single_agent_calls": 1,
+      "single_agent_tokens": 1853,
+      "no_evidence_p": 0.5,
+      "no_evidence_seconds": 1.8,
+      "no_evidence_calls": 1,
+      "no_evidence_tokens": 561
+    },
+    {
+      "id": "C03-apple-m4-mac",
+      "category": "tech",
+      "outcome": 1,
+      "yes_outcome": "是",
+      "full_p": 0.62,
+      "full_status": "completed",
+      "full_seconds": 23.24,
+      "full_calls": 9,
+      "full_tokens": 30427,
+      "run_id": "eval_C03-apple-m4-mac_46497b",
+      "errors": "",
+      "full_failed_stage": null,
+      "full_review_status": "blocked",
+      "full_probability_basis": "evidence_only",
+      "full_review_issues": [
+        {
+          "severity": "medium",
+          "claim": "AS002 以“历史惯例”推断发布会后数日内开放预售，属模拟跳步。",
+          "explanation": "E001/E002 未提供 Apple 官网开放下单时间信息，发布会与开放下单间隔为未知项，不应作为默认路径。",
+          "affected_ids": [
+            "AS002",
+            "M1-A001",
+            "M2-A001",
+            "S1",
+            "S2"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "M1-A001/M2-A001 将“10 月内开放下单”写成既定行动，超出证据支持。",
+          "explanation": "证据仅支持“预期 2024 年末更新”，未确认 10 月发布或开放下单，行动设定把预期当作已定计划。",
+          "affected_ids": [
+            "M1-A001",
+            "M2-A001",
+            "AS001"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "E001 标题称“October 2024”，但摘录未含 10 月字样，日期归属存疑。",
+          "explanation": "摘录仅提及 M4 MacBook Pro 机型，未直接支持“10 月”窗口，标题与正文证据强度不一致。",
+          "affected_ids": [
+            "E001",
+            "F001"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "S1/S2 两轮推演内容几乎重复，未体现轮次间信息增量。",
+          "explanation": "两轮 summary、state_changes 与 unresolved 高度雷同，模拟未推进状态，削弱推演价值。",
+          "affected_ids": [
+            "S1",
+            "S2"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "预测期结果未知应由概率表达",
+          "explanation": "审查排除了要求未来行情的判断；概率仅使用截至日证据。",
+          "affected_ids": []
+        }
+      ],
+      "full_unsupported_claims": [
+        "Apple 有较大概率在 2024 年 10 月内发布并随后开放 M4 Mac 预售或销售（AS001 的“较大概率”缺乏证据支撑）",
+        "若 10 月举行发布会，按历史惯例通常会在发布会当日或数日内开放预售（AS002 的惯例推断无证据引用）"
+      ],
+      "full_missing_evidence": [
+        "截至 2024-09-30，Apple 官网是否已出现 M4 Mac 预售或下单页面及其开放时间",
+        "Apple 官方对 M4 Mac 发布/开售时间的公告或新闻稿"
+      ],
+      "full_findings_validated": true,
+      "full_evidence_findings": [
+        {
+          "id": "F001",
+          "claim": "截至信息截点，已有报道预期 Apple 将在 2024 年 10 月更新 M4 Mac 产品线，并提及搭载 M4 芯片的低端 14 英寸 MacBook Pro 机型。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E001"
+          ]
+        },
+        {
+          "id": "F002",
+          "claim": "2024 年 4 月的报道称 Apple 将于 2024 年末开始用 M4 芯片更新 Mac 产品线。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E002"
+          ]
+        }
+      ],
+      "full_evidence_gaps": [
+        {
+          "missing": "E001 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E002 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "信息截点前 Apple 官网是否实际开放搭载 M4 芯片 Mac 的预售或下单页面，以及对应的开放时间。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        }
+      ],
+      "full_rejected_findings": 0,
+      "single_agent_p": 0.75,
+      "single_agent_seconds": 1.43,
+      "single_agent_calls": 1,
+      "single_agent_tokens": 1314,
+      "no_evidence_p": 0.85,
+      "no_evidence_seconds": 0.94,
+      "no_evidence_calls": 1,
+      "no_evidence_tokens": 513
+    },
+    {
+      "id": "C04-starship-orbit",
+      "category": "tech",
+      "outcome": 0,
+      "yes_outcome": "是",
+      "full_p": 0.3,
+      "full_status": "completed",
+      "full_seconds": 25.46,
+      "full_calls": 11,
+      "full_tokens": 40366,
+      "run_id": "eval_C04-starship-orbit_9f1d01",
+      "errors": "",
+      "full_failed_stage": null,
+      "full_review_status": "blocked",
+      "full_probability_basis": "evidence_only",
+      "full_review_issues": [
+        {
+          "severity": "medium",
+          "claim": "AS001 将“截至截点未确认入轨”表述为“尚未完成入轨”，存在证据缺口到事实的跳步。",
+          "explanation": "E001/E002 仅覆盖 Flight 7 且未提供轨道参数，不能排除截点前已有未记录入轨；应表述为“无官方确认”。",
+          "affected_ids": [
+            "AS001",
+            "E001",
+            "E002",
+            "F001",
+            "F002"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "AS002 推断事故调查可能推迟后续发射，缺乏调查时长或许可流程证据。",
+          "explanation": "E001 仅说明 FAA 要求事故调查，未给出时间表或对后续许可的影响，属推测性假设。",
+          "affected_ids": [
+            "AS002",
+            "E001",
+            "M1-A002",
+            "M2-A002"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "模拟将 FAA 未完成调查即不批准新许可作为既定条件，缺少监管依据。",
+          "explanation": "E001 未说明调查期间是否暂停许可；该条件直接决定“否”分支，需标注为假设而非事实。",
+          "affected_ids": [
+            "M1-A002",
+            "M2-A002",
+            "S1",
+            "S2",
+            "E001"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "证据未覆盖 2025-01-17 至 2025-03-31 窗口，模拟对“是/否”分支权重无依据。",
+          "explanation": "该缺口已由 gap_details 承认，但模拟未说明如何据此形成概率，仅作条件性分支。",
+          "affected_ids": [
+            "S1",
+            "S2",
+            "AS003"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "E001/E002 的发布日期为导入者提供且未独立核实，时间锚定可靠性有限。",
+          "explanation": "date_basis 已标注未核实；若日期有误，截点前证据覆盖范围可能变化。",
+          "affected_ids": [
+            "E001",
+            "E002"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "预测期结果未知应由概率表达",
+          "explanation": "审查排除了要求未来行情的判断；概率仅使用截至日证据。",
+          "affected_ids": []
+        }
+      ],
+      "full_unsupported_claims": [
+        "截至 2025-01-31，Starship 尚未完成一次被官方确认的实际入轨并完成轨道级运行的飞行（仅能说无官方确认，不能断言未发生）。",
+        "FAA 在事故调查完成前不批准新发射许可（E001 未支持该许可暂停规则）。"
+      ],
+      "full_missing_evidence": [
+        "Flight 7 是否达到轨道速度、轨道参数及轨道级运行的官方结论。",
+        "FAA 事故调查通常时长及对后续 Starship 发射许可影响的规则或先例。"
+      ],
+      "full_findings_validated": true,
+      "full_evidence_findings": [
+        {
+          "id": "F001",
+          "claim": "FAA 要求 SpaceX 就 2025-01-16 发射操作中 Starship 飞行器的损失开展事故调查。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E001"
+          ]
+        },
+        {
+          "id": "F002",
+          "claim": "SpaceX 官方记录显示，Starship 于 2025-01-16 从得克萨斯州 Starbase 成功升空。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E002"
+          ]
+        }
+      ],
+      "full_evidence_gaps": [
+        {
+          "missing": "E001 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E002 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "2025-01-17 至 2025-03-31 期间 SpaceX 星舰是否进行过其他飞行，以及是否有任何一次实际达到轨道速度并完成轨道级运行的官方飞行记录或轨道参数。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        },
+        {
+          "missing": "Flight 7 是否达到轨道速度、其轨道参数以及是否完成轨道级运行的官方结论。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        }
+      ],
+      "full_rejected_findings": 0,
+      "single_agent_p": 0.05,
+      "single_agent_seconds": 0.72,
+      "single_agent_calls": 1,
+      "single_agent_tokens": 1192,
+      "no_evidence_p": 0.05,
+      "no_evidence_seconds": 0.88,
+      "no_evidence_calls": 1,
+      "no_evidence_tokens": 455
+    },
+    {
+      "id": "C05-node22-lts",
+      "category": "tech",
+      "outcome": 1,
+      "yes_outcome": "是",
+      "full_p": 0.93,
+      "full_status": "completed",
+      "full_seconds": 20.96,
+      "full_calls": 9,
+      "full_tokens": 29295,
+      "run_id": "eval_C05-node22-lts_d1f1a6",
+      "errors": "",
+      "full_failed_stage": null,
+      "full_review_status": "blocked",
+      "full_probability_basis": "evidence_only",
+      "full_review_issues": [
+        {
+          "severity": "low",
+          "claim": "AS002 假设提升动作会同步反映在官方版本表标注上，但无证据支持同步性。",
+          "explanation": "resolution_rule 以版本表标注为准，而 E001/E002 未说明标注更新时间；若标注滞后，按规则可能影响判定。",
+          "affected_ids": [
+            "AS002"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "E001、E002 的发布日期由导入者提供且未独立核实，来源为事后整理的历史练习。",
+          "explanation": "两段证据 date_status 为 unknown、availability 为 historical_exercise，非严格盲测快照，时间锚点可靠性有限。",
+          "affected_ids": [
+            "E001",
+            "E002"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "模拟 S1/S2 未明确给出概率数值或依据，仅作条件性叙述。",
+          "explanation": "S1、S2 描述“若按期则判是、若推迟则判否”，但未量化按期概率，概率基础偏弱。",
+          "affected_ids": [
+            "S1",
+            "S2"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "预测期结果未知应由概率表达",
+          "explanation": "审查排除了要求未来行情的判断；概率仅使用截至日证据。",
+          "affected_ids": []
+        }
+      ],
+      "full_unsupported_claims": [
+        "Node.js 22.x 将在 2024-12-31 前实际成为 Active LTS（截至 as_of 无实际发布记录支持）",
+        "官方版本表标注会与 LTS 提升动作同步更新（无证据支持）"
+      ],
+      "full_missing_evidence": [
+        "Node.js 22 实际进入 LTS 的具体日期与版本号（如 v22.11.0 公告）"
+      ],
+      "full_findings_validated": true,
+      "full_evidence_findings": [
+        {
+          "id": "F001",
+          "claim": "Node.js 官方在 v22.0.0 发布说明中表示 Node.js 22 将于 10 月进入长期支持（LTS），在此之前为 Current 版本。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E001"
+          ]
+        },
+        {
+          "id": "F002",
+          "claim": "OpenJS Foundation 在 2024-10-16 的博文中称 Node.js 22 将在 10 月 29 日当周被提升为长期支持（LTS）。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E002"
+          ]
+        }
+      ],
+      "full_evidence_gaps": [
+        {
+          "missing": "E001 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E002 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "2024-12-31 前 Node.js 22.x 实际被标注为 Active LTS 的官方版本表或发布记录（如 previous-releases 页面在截点时的状态）。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        },
+        {
+          "missing": "Node.js 22 实际进入 LTS 的具体日期与版本号（例如 v22.11.0 的 LTS 发布公告）。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        }
+      ],
+      "full_rejected_findings": 0,
+      "single_agent_p": 0.97,
+      "single_agent_seconds": 1.4,
+      "single_agent_calls": 1,
+      "single_agent_tokens": 1340,
+      "no_evidence_p": 0.97,
+      "no_evidence_seconds": 0.64,
+      "no_evidence_calls": 1,
+      "no_evidence_tokens": 466
+    },
+    {
+      "id": "C06-gb300-delivery",
+      "category": "tech",
+      "outcome": 0,
+      "yes_outcome": "是",
+      "full_p": 0.15,
+      "full_status": "completed",
+      "full_seconds": 26.82,
+      "full_calls": 11,
+      "full_tokens": 43593,
+      "run_id": "eval_C06-gb300-delivery_394e8e",
+      "errors": "",
+      "full_failed_stage": null,
+      "full_review_status": "blocked",
+      "full_probability_basis": "evidence_only",
+      "full_review_issues": [
+        {
+          "severity": "medium",
+          "claim": "E001 未点名 GB300 NVL72，AS001 将其外推至该型号",
+          "explanation": "E001 仅称 Blackwell Ultra 产品预计 2025 年下半年由合作伙伴提供，未指明 GB300 NVL72；AS001 据此推断该型号 6 月底前交付概率低，属型号层面的外推，需说明该型号确属该平台产品线。",
+          "affected_ids": [
+            "E001",
+            "AS001",
+            "F001"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "证据仅覆盖发布/规划口径，无法直接判定二元结果",
+          "explanation": "E001、E002 均为 2025-03-18 发布类材料，无出货或部署记录；世界状态已承认此为预测目标，但 S1/S2 的“倾向否”判断仍主要依赖官方口径，缺少独立佐证。",
+          "affected_ids": [
+            "E001",
+            "E002",
+            "S1",
+            "S2"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "resolution_source 未在证据集中被引用或核验",
+          "explanation": "问题指定的 resolution_source（Coreweave 部署公告）未作为证据出现，也未说明其发布时间是否落在截点后；截点前缺少该来源属正常，但应标注其未被纳入。",
+          "affected_ids": [
+            "E001",
+            "E002"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "E001/E002 发布时间为导入者提供、未独立核实",
+          "explanation": "两条证据的 date_basis 均标注 published_at 未独立核实，且为事后整理的历史练习，非严格盲测快照，影响时间口径的可靠性。",
+          "affected_ids": [
+            "E001",
+            "E002"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "S1/S2 两轮模拟内容高度重复，未推进新信息",
+          "explanation": "S2 与 S1 的 summary、conflicts、unresolved 基本一致，未引入新证据或新分支，模拟跳步有限但信息增量低。",
+          "affected_ids": [
+            "S1",
+            "S2"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "预测期结果未知应由概率表达",
+          "explanation": "审查排除了要求未来行情的判断；概率仅使用截至日证据。",
+          "affected_ids": []
+        }
+      ],
+      "full_unsupported_claims": [
+        "AS001 将 E001 的 Blackwell Ultra 通用可用性口径直接外推至 GB300 NVL72 型号层面",
+        "S1/S2 中“倾向否”的判断缺少截点前独立于官方口径的佐证"
+      ],
+      "full_missing_evidence": [
+        "NVIDIA 或系统集成商关于 GB300 NVL72 具体交付时间表与首批客户名单的说明",
+        "resolution_source（Coreweave 部署公告）的发布时间与内容核验"
+      ],
+      "full_findings_validated": true,
+      "full_evidence_findings": [
+        {
+          "id": "F001",
+          "claim": "NVIDIA 在 2025-03-18 的发布中表示，基于 Blackwell Ultra 的产品预计自 2025 年下半年起由合作伙伴提供，属于未来可用性预告，而非已完成交付或部署的记录。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E001"
+          ]
+        },
+        {
+          "id": "F002",
+          "claim": "Supermicro 在 2025-03-18 宣布推出基于 NVIDIA Blackwell Ultra 平台的新系统与机架方案，属于产品发布/规划信息，未包含已完成客户交付或部署的陈述。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E002"
+          ]
+        }
+      ],
+      "full_evidence_gaps": [
+        {
+          "missing": "E001 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E002 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "2025-06-30 前 GB300 NVL72 的实际出货记录或客户实际部署证据（如客户公告、部署上线说明、出货凭证）。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        },
+        {
+          "missing": "NVIDIA 或系统集成商关于 GB300 NVL72 具体交付时间表与首批客户名单的说明。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        }
+      ],
+      "full_rejected_findings": 0,
+      "single_agent_p": 0.12,
+      "single_agent_seconds": 1.0,
+      "single_agent_calls": 1,
+      "single_agent_tokens": 1275,
+      "no_evidence_p": 0.55,
+      "no_evidence_seconds": 1.69,
+      "no_evidence_calls": 1,
+      "no_evidence_tokens": 624
+    },
+    {
+      "id": "C07-gpt5-availability",
+      "category": "tech",
+      "outcome": 0,
+      "yes_outcome": "是",
+      "full_p": 0.2,
+      "full_status": "completed",
+      "full_seconds": 24.11,
+      "full_calls": 10,
+      "full_tokens": 33728,
+      "run_id": "eval_C07-gpt5-availability_5a17cb",
+      "errors": "",
+      "full_failed_stage": null,
+      "full_review_status": "blocked",
+      "full_probability_basis": "evidence_only",
+      "full_review_issues": [
+        {
+          "severity": "high",
+          "claim": "证据仅覆盖2025年2月中旬，未覆盖至信息截点2025-04-30，无法支撑截点时的发布状态判断。",
+          "explanation": "E001、E002均为2月路线图/计划报道，2025-02-14至2025-04-30期间OpenAI官方发布状态无证据，AS001据此推断截点未发布属跳步。",
+          "affected_ids": [
+            "E001",
+            "E002",
+            "AS001"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "模拟S1/S2直接设定‘未开放’为情景结果，未检验‘提前发布’分支，存在单边跳步。",
+          "explanation": "M1-A001、M2-A001虽列条件，但模拟未对‘研发快于预期’等条件做对称情景，结论倾向‘否’缺乏分支比较。",
+          "affected_ids": [
+            "S1",
+            "S2",
+            "M1-A001",
+            "M2-A001"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "E001、E002为标题式摘要片段，日期未经独立核实，作为关键判断依据强度不足。",
+          "explanation": "两条证据均为导入摘要，无正文细节，date_status为unknown，仅能证明当时存在计划报道，不能证明发布状态。",
+          "affected_ids": [
+            "E001",
+            "E002"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "未检索resolution_source（openai.com/news）在截点前的官方说明，遗漏关键一手来源。",
+          "explanation": "问题指定官方新闻页为裁决来源，现有证据未包含该来源，应补充截点前官方公告以缩小缺口。",
+          "affected_ids": [
+            "E001",
+            "E002"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "预测期结果未知应由概率表达",
+          "explanation": "审查排除了要求未来行情的判断；概率仅使用截至日证据。",
+          "affected_ids": []
+        }
+      ],
+      "full_unsupported_claims": [
+        "截至2025-04-30信息截点，OpenAI尚未实际向公众开放GPT-5的API或产品使用。",
+        "OpenAI在2025-06-30前实际向公众开放GPT-5的API或产品使用的可能性较低。"
+      ],
+      "full_missing_evidence": [
+        "2025-02-14至2025-04-30期间OpenAI官方关于GPT-5发布状态的公告或发布记录。",
+        "OpenAI官方新闻页（https://openai.com/news/）在信息截点前关于GPT-5发布状态的直接说明。",
+        "2025年2月至4月间关于GPT-5研发进度、安全评估或发布时间表的可核实报道。"
+      ],
+      "full_findings_validated": true,
+      "full_evidence_findings": [
+        {
+          "id": "F001",
+          "claim": "截至2025年2月12日的报道，OpenAI仅更新了GPT-4.5与GPT-5的路线图，未显示GPT-5已实际开放使用。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E001"
+          ]
+        },
+        {
+          "id": "F002",
+          "claim": "截至2025年2月14日的报道，Sam Altman公布的是GPT-5与GPT-4.5的计划，属于计划而非实际发布。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E002"
+          ]
+        }
+      ],
+      "full_evidence_gaps": [
+        {
+          "missing": "E001 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E002 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "2025-02-14至2025-04-30（信息截点）期间OpenAI官方关于GPT-5是否实际向公众开放API或产品使用的公告或发布记录。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        },
+        {
+          "missing": "OpenAI官方新闻页（resolution_source: https://openai.com/news/）在信息截点前关于GPT-5发布状态的直接说明。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        }
+      ],
+      "full_rejected_findings": 0,
+      "single_agent_p": 0.05,
+      "single_agent_seconds": 0.71,
+      "single_agent_calls": 1,
+      "single_agent_tokens": 1174,
+      "no_evidence_p": 0.05,
+      "no_evidence_seconds": 1.0,
+      "no_evidence_calls": 1,
+      "no_evidence_tokens": 460
+    },
+    {
+      "id": "C08-typescript6-release",
+      "category": "tech",
+      "outcome": 1,
+      "yes_outcome": "是",
+      "full_p": null,
+      "full_status": "insufficient_evidence",
+      "full_seconds": 15.85,
+      "full_calls": 5,
+      "full_tokens": 20969,
+      "run_id": "eval_C08-typescript6-release_b99cc3",
+      "errors": "",
+      "full_failed_stage": null,
+      "full_review_status": "blocked",
+      "full_probability_basis": "none",
+      "full_review_issues": [
+        {
+          "severity": "high",
+          "claim": "A001 断言 6.0 稳定版发布概率较低，属方向性判断但无直接证据",
+          "explanation": "E002 仅称 7.0 为 2026 年初更新重点，未说明 6.0 被推迟或排在 7.0 之后；将“重点在 7.0”外推为“6.0 概率较低”是模拟跳步。",
+          "affected_ids": [
+            "A001",
+            "E002"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "A003 由“缺少 npm 记录”推断“截点前尚未发布”，属以证据缺失代替事实",
+          "explanation": "检索未找到 npm 版本记录不等于 6.0 未发布；证据缺口只能说明状态未知，不能支持“尚未发布”的结论。",
+          "affected_ids": [
+            "A003"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "E001/E002 的 published_at 为导入者提供且未独立核实，date_status 为 unknown",
+          "explanation": "两条证据日期未核实，若日期有误，则其作为截点前背景信息的时效性受影响，进而影响基于其的路线图推断。",
+          "affected_ids": [
+            "E001",
+            "E002"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "world 未记录 6.0 与 7.0 发布顺序的官方明确表述",
+          "explanation": "E002 仅称 6.0 为过渡大版本，未给出 6.0 与 7.0 的先后安排；world 变量 known_roadmap_signal 的表述需与底层证据严格对应。",
+          "affected_ids": [
+            "E002"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "预测期结果未知应由概率表达",
+          "explanation": "审查排除了要求未来行情的判断；概率仅使用截至日证据。",
+          "affected_ids": []
+        }
+      ],
+      "full_unsupported_claims": [
+        "TypeScript 6.0 稳定版在 2026-03-31 前发布到 npm 的概率较低（A001）",
+        "TypeScript 6.0 稳定版在 2026-03-31 前发布到 npm 的概率存在（A002）",
+        "截至 2026-01-31 截点 TypeScript 6.0 稳定版尚未在 npm 上发布（A003）"
+      ],
+      "full_missing_evidence": [
+        "截至 2026-01-31 截点，npm 上 TypeScript 6.0 稳定版的实际版本记录或可安装状态",
+        "官方对 6.0 与 7.0 发布顺序及时间安排的明确表述"
+      ],
+      "full_findings_validated": true,
+      "full_evidence_findings": [
+        {
+          "id": "F001",
+          "claim": "官方博客片段提到此前三月公布了将 TypeScript 编译器移植（原生移植）的工作，属于路线图/项目背景信息，未涉及 6.0 稳定版是否已发布到 npm。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E001"
+          ]
+        },
+        {
+          "id": "F002",
+          "claim": "InfoWorld 片段称微软在 12 月 2 日的博客中更新了 TypeScript 7.0（Project Corsa）的情况，该项目于三月公布并基于 Go 语言；该片段未提及 6.0 稳定版在 npm 上的实际发布状态。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E002"
+          ]
+        }
+      ],
+      "full_evidence_gaps": [
+        {
+          "missing": "E001 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E002 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "截至 2026-01-31 信息截点，缺少 TypeScript 6.0 稳定版在 npm 上实际发布与可安装状态的直接证据（如 npm 版本记录或官方 6.0 发布说明）。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        },
+        {
+          "missing": "缺少官方发布说明（resolution_source 指向的 announcing-typescript-6-0 页面）在截点前的内容，无法据此判断 6.0 是否已正式发布。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        }
+      ],
+      "full_rejected_findings": 0,
+      "single_agent_p": 0.35,
+      "single_agent_seconds": 1.0,
+      "single_agent_calls": 1,
+      "single_agent_tokens": 1199,
+      "no_evidence_p": 0.35,
+      "no_evidence_seconds": 1.77,
+      "no_evidence_calls": 1,
+      "no_evidence_tokens": 548
+    },
+    {
+      "id": "C09-man-city-top4",
+      "category": "sport",
+      "outcome": 1,
+      "yes_outcome": "是",
+      "full_p": 0.85,
+      "full_status": "completed",
+      "full_seconds": 21.76,
+      "full_calls": 9,
+      "full_tokens": 28147,
+      "run_id": "eval_C09-man-city-top4_c8e91e",
+      "errors": "",
+      "full_failed_stage": null,
+      "full_review_status": "blocked",
+      "full_probability_basis": "evidence_only",
+      "full_review_issues": [
+        {
+          "severity": "medium",
+          "claim": "S1与S2内容几乎完全重复，未体现第二轮应有的状态推进或新信息。",
+          "explanation": "两轮模拟摘要、state_changes与unresolved高度雷同，M1-A001与M2-A001行动也基本一致，模拟未产生实质分支或更新，属模拟跳步/冗余。",
+          "affected_ids": [
+            "S1",
+            "S2",
+            "M1-A001",
+            "M2-A001"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "AS001将事前冠军基线直接转为“进入前四先验概率较高”，但未给出任何量化或竞争对比依据。",
+          "explanation": "E001/E002仅证明曼城是卫冕冠军，未提供2024/25赛季阵容、对手实力或博彩/模型概率；由冠军身份推出前四高概率属合理但未充分支撑的推断。",
+          "affected_ids": [
+            "AS001",
+            "E001",
+            "E002"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "证据仅覆盖赛季前基线，未包含截点前可得的转会、伤病或阵容变动信息。",
+          "explanation": "截至2024-08-01，夏窗转会与季前状态本可部分获取，缺失使事前基线偏薄；但最终排名属未来预测对象，不要求未来证据。",
+          "affected_ids": [
+            "E001",
+            "E002",
+            "AS001"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "E001、E002被标注为historical_exercise，非严格盲测快照，存在事后整理风险。",
+          "explanation": "证据评估已自认两证据为事后整理的历史练习，date_status为unknown，published_at未独立核实，削弱其作为截点前证据的严谨性。",
+          "affected_ids": [
+            "E001",
+            "E002"
+          ]
+        }
+      ],
+      "full_unsupported_claims": [
+        "曼城进入2024/25赛季前四的先验概率较高（AS001）缺乏量化或竞争对比支撑",
+        "若赛季正常进行且核心阵容稳定则进入前四概率较高（S1/S2）为条件性推断，无模型或数据支撑"
+      ],
+      "full_missing_evidence": [
+        "截至2024-08-01的2024/25赛季前转会、伤病与阵容变动信息",
+        "截点前对曼城及主要竞争对手实力的可比评估或预测模型数据"
+      ],
+      "full_findings_validated": true,
+      "full_evidence_findings": [
+        {
+          "id": "F001",
+          "claim": "曼城在 2023/24 赛季末以创纪录的四连冠身份结束该赛季，构成其进入 2024/25 赛季前的事前基线。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E001"
+          ]
+        },
+        {
+          "id": "F002",
+          "claim": "英超官方在 2024/25 赛季开始前将曼城称为卫冕冠军，并围绕其新赛季首轮对手发布赛程信息。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E002"
+          ]
+        }
+      ],
+      "full_evidence_gaps": [
+        {
+          "missing": "E001 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E002 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "2024/25 英超赛季实际比赛进程与最终积分榜名次（曼城是否位列前四）的官方数据。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        },
+        {
+          "missing": "2024/25 赛季曼城最终排名前四或未进前四的官方结论性报道。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        }
+      ],
+      "full_rejected_findings": 0,
+      "single_agent_p": 0.88,
+      "single_agent_seconds": 0.9,
+      "single_agent_calls": 1,
+      "single_agent_tokens": 1217,
+      "no_evidence_p": 0.93,
+      "no_evidence_seconds": 1.1,
+      "no_evidence_calls": 1,
+      "no_evidence_tokens": 494
+    },
+    {
+      "id": "C10-real-madrid-ucl",
+      "category": "sport",
+      "outcome": 0,
+      "yes_outcome": "是",
+      "full_p": null,
+      "full_status": "insufficient_evidence",
+      "full_seconds": 22.76,
+      "full_calls": 11,
+      "full_tokens": 40920,
+      "run_id": "eval_C10-real-madrid-ucl_e8647f",
+      "errors": "",
+      "full_failed_stage": null,
+      "full_review_status": "blocked",
+      "full_probability_basis": "none",
+      "full_review_issues": [
+        {
+          "severity": "medium",
+          "claim": "E001/E002 均为事后整理的历史练习，非严格盲测快照",
+          "explanation": "两条证据的 availability 标为 historical_exercise，且发布日期由导入者提供未独立核实，作为截点前信息基础存在可信度折扣。",
+          "affected_ids": [
+            "E001",
+            "E002",
+            "F001",
+            "F002"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "证据仅含标题/导语片段，未含皇马分组或赛程细节",
+          "explanation": "E001 段落未给出抽签结果或皇马对手，E002 仅为页面标题，无法支撑皇马参赛路径已确定的具体判断。",
+          "affected_ids": [
+            "E001",
+            "E002",
+            "AS002"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "AS002 称皇马参赛路径确定，超出证据支持范围",
+          "explanation": "E001 仅确认抽签已举行，未列出参赛球队名单或皇马分组，'路径确定'属推断而非证据直接支持。",
+          "affected_ids": [
+            "AS002",
+            "F001"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "S1 与 S2 内容高度重复，未体现轮次推进",
+          "explanation": "两轮模拟摘要与状态变化几乎一致，第二轮未引入新信息或分支，模拟跳步价值有限。",
+          "affected_ids": [
+            "S1",
+            "S2"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "缺少截点前可得的球队实力/赔率等先验资料",
+          "explanation": "截至 2024-09-01，皇马阵容、伤病、博彩赔率等公开资料可辅助概率判断，但未纳入证据集。",
+          "affected_ids": [
+            "A001"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "预测期结果未知应由概率表达",
+          "explanation": "审查排除了要求未来行情的判断；概率仅使用截至日证据。",
+          "affected_ids": []
+        }
+      ],
+      "full_unsupported_claims": [
+        "皇马参赛路径确定（AS002）",
+        "2024/25 赛季欧冠决赛安排已由 UEFA 官方公布（E002 仅标题，未含具体日期或决赛信息）"
+      ],
+      "full_missing_evidence": [
+        "截至 2024-09-01 皇马 2024/25 赛季阵容、伤病与转会情况",
+        "截至 2024-09-01 各队夺冠赔率或实力评级等先验资料",
+        "2024/25 赛季欧冠联赛阶段皇马具体分组与赛程"
+      ],
+      "full_findings_validated": true,
+      "full_evidence_findings": [
+        {
+          "id": "F001",
+          "claim": "2024/25 赛季欧冠联赛阶段抽签已举行，这是新赛制下的首次抽签。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E001"
+          ]
+        },
+        {
+          "id": "F002",
+          "claim": "UEFA 官方页面列出了 2024/25 赛季欧冠的参赛球队、赛制、日期、抽签与决赛等安排信息。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E002"
+          ]
+        }
+      ],
+      "full_evidence_gaps": [
+        {
+          "missing": "E001 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E002 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "2024/25 赛季欧冠决赛的实际比赛结果及冠军归属（UEFA 官方决赛结果）。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        },
+        {
+          "missing": "皇家马德里在 2024/25 赛季欧冠中的参赛与晋级情况（如联赛阶段排名、淘汰赛对阵与结果）。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        }
+      ],
+      "full_rejected_findings": 0,
+      "single_agent_p": 0.15,
+      "single_agent_seconds": 0.97,
+      "single_agent_calls": 1,
+      "single_agent_tokens": 1178,
+      "no_evidence_p": 0.14,
+      "no_evidence_seconds": 1.03,
+      "no_evidence_calls": 1,
+      "no_evidence_tokens": 455
+    },
+    {
+      "id": "C11-usa-paris-gold",
+      "category": "sport",
+      "outcome": 1,
+      "yes_outcome": "是",
+      "full_p": 0.65,
+      "full_status": "completed",
+      "full_seconds": 16.21,
+      "full_calls": 6,
+      "full_tokens": 19583,
+      "run_id": "eval_C11-usa-paris-gold_0820d8",
+      "errors": "",
+      "full_failed_stage": null,
+      "full_review_status": "blocked",
+      "full_probability_basis": "evidence_only",
+      "full_review_issues": [
+        {
+          "severity": "medium",
+          "claim": "两条证据同源于Gracenote预测模型，方向一致不构成独立佐证",
+          "explanation": "E001与E002均出自Gracenote虚拟奖牌榜体系，属同一预测源的不同口径（37金vs39金），不能作为相互独立的先验信号叠加，A001的'一致'表述有夸大独立性之嫌。",
+          "affected_ids": [
+            "E001",
+            "E002",
+            "A001"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "预测材料不能支持'美国排名第一'的判定",
+          "explanation": "E001、E002均为赛前预测，非官方奖牌榜结果；问题要求以官方名次为准，现有证据只能说明截点前美国为热门，无法直接判定是/否。",
+          "affected_ids": [
+            "E001",
+            "E002",
+            "A002"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "A003关于中美金牌差距小的推断缺乏证据支撑",
+          "explanation": "E002仅给出美国39金，未提供中国或其他竞争者的金牌数，无法据此推断差距较小或存在并列可能。",
+          "affected_ids": [
+            "E002",
+            "A003"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "证据发布日期由导入者提供且未独立核实",
+          "explanation": "E001、E002的published_at均标注'导入者提供，未独立核实'，且为事后整理的历史练习，非严格盲测快照，时效性存疑。",
+          "affected_ids": [
+            "E001",
+            "E002"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "预测期结果未知应由概率表达",
+          "explanation": "审查排除了要求未来行情的判断；概率仅使用截至日证据。",
+          "affected_ids": []
+        }
+      ],
+      "full_unsupported_claims": [
+        "截点前公开的第三方预测一致把美国列为奖牌榜第一热门，可作为美国夺榜概率偏高的先验信号（A001，两条证据同源，独立性不足）",
+        "美国在金牌数上与中国等主要竞争者的差距可能较小（A003，无证据给出中国金牌数）"
+      ],
+      "full_missing_evidence": [
+        "2024巴黎奥运会官方奖牌榜最终名次数据（截点后产生，属预测对象，非截点缺失）",
+        "官方奖牌榜金牌并列时按银牌数排序规则的原文依据",
+        "E002中中国等主要竞争者的预测金牌数，用于评估领先幅度"
+      ],
+      "full_findings_validated": true,
+      "full_evidence_findings": [
+        {
+          "id": "F001",
+          "claim": "截点前，Gracenote 预测美国将在 2024 巴黎奥运会获得 129 枚奖牌，其中 37 枚金牌。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E001"
+          ]
+        },
+        {
+          "id": "F002",
+          "claim": "截点前，Nielsen 发布的 Gracenote 虚拟奖牌榜预测美国获得 39 枚金牌。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E002"
+          ]
+        }
+      ],
+      "full_evidence_gaps": [
+        {
+          "missing": "E001 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E002 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "2024 巴黎奥运会官方奖牌榜（olympics.com/en/paris-2024/medals）在赛事结束后的最终名次数据，用以判定美国是否排名第一。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        },
+        {
+          "missing": "官方奖牌榜的排序规则说明（金牌并列时按银牌数决定）在给定来源中的原文依据。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        }
+      ],
+      "full_rejected_findings": 0,
+      "single_agent_p": 0.62,
+      "single_agent_seconds": 1.47,
+      "single_agent_calls": 1,
+      "single_agent_tokens": 1244,
+      "no_evidence_p": 0.85,
+      "no_evidence_seconds": 0.67,
+      "no_evidence_calls": 1,
+      "no_evidence_tokens": 465
+    },
+    {
+      "id": "C12-wimbledon-topseed",
+      "category": "sport",
+      "outcome": 1,
+      "yes_outcome": "是",
+      "full_p": null,
+      "full_status": "insufficient_evidence",
+      "full_seconds": 22.53,
+      "full_calls": 9,
+      "full_tokens": 34446,
+      "run_id": "eval_C12-wimbledon-topseed_f76705",
+      "errors": "",
+      "full_failed_stage": null,
+      "full_review_status": "blocked",
+      "full_probability_basis": "none",
+      "full_review_issues": [
+        {
+          "severity": "medium",
+          "claim": "A001 将 ATP 世界第一直接映射为温网 1 号种子，但温网种子排序规则未在证据中确认。",
+          "explanation": "E002 仅证明 Sinner 截至 2025-06-18 保持 ATP 世界第一，未展示温网官方签表标注或种子排序规则；该映射是假设而非证据支持的事实。",
+          "affected_ids": [
+            "A001",
+            "F002",
+            "E002"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "缺少 2025 年温网官方签表 1 号种子标注的直接证据。",
+          "explanation": "E001、E002 均来自 ATP Tour，未引用 wimbledon.com 签表；截至 as_of 当时该标注可能尚未公布，属可指出的资料缺口。",
+          "affected_ids": [
+            "E001",
+            "E002"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "冠军结果未知属预测对象，不应作为证据缺陷要求。",
+          "explanation": "resolve_by 晚于 as_of，冠军在截点尚未发生；世界状态已正确将其列为 unresolved，未据此否定预测。",
+          "affected_ids": [
+            "A002",
+            "S1"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "E001、E002 为事后整理的历史练习，非严格盲测快照。",
+          "explanation": "证据评估已标注 historical_unverified；这限制其作为截点当时可得信息的证明力，但不影响其背景事实用途。",
+          "affected_ids": [
+            "E001",
+            "E002"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "S1 与 S2 内容几乎重复，未推进模拟分支。",
+          "explanation": "两轮模拟摘要与 unresolved 基本一致，未产生新的状态变化或条件分支，模拟深度有限。",
+          "affected_ids": [
+            "S1",
+            "S2"
+          ]
+        }
+      ],
+      "full_unsupported_claims": [
+        "若 2025 年温网种子排序按 ATP 排名确定，则 Sinner 很可能被官方签表标注为 1 号种子。"
+      ],
+      "full_missing_evidence": [
+        "2025 年温网官方男单签表中 1 号种子的具体标注信息（wimbledon.com）",
+        "2025 年温网种子排序规则是否完全依据 ATP 排名"
+      ],
+      "full_findings_validated": true,
+      "full_evidence_findings": [
+        {
+          "id": "F001",
+          "claim": "Jannik Sinner 于 2024 年 6 月 10 日成为首位升至 PIF ATP 排名世界第一的意大利球员。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E001"
+          ]
+        },
+        {
+          "id": "F002",
+          "claim": "截至 2025 年 6 月 18 日的 ATP 官方报道称，Sinner 是 PIF ATP 排名史上第 29 位世界第一，并在此后一直稳居该位置。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E002"
+          ]
+        }
+      ],
+      "full_evidence_gaps": [
+        {
+          "missing": "E001 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E002 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "2025 年温网官方男单签表中 1 号种子的具体标注信息。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        },
+        {
+          "missing": "2025 年温网男单冠军的最终结果。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        }
+      ],
+      "full_rejected_findings": 0,
+      "single_agent_p": 0.22,
+      "single_agent_seconds": 1.25,
+      "single_agent_calls": 1,
+      "single_agent_tokens": 1281,
+      "no_evidence_p": 0.22,
+      "no_evidence_seconds": 0.73,
+      "no_evidence_calls": 1,
+      "no_evidence_tokens": 449
+    },
+    {
+      "id": "C13-worldcup-southamerica",
+      "category": "sport",
+      "outcome": 0,
+      "yes_outcome": "是",
+      "full_p": 0.35,
+      "full_status": "completed",
+      "full_seconds": 12.37,
+      "full_calls": 5,
+      "full_tokens": 16042,
+      "run_id": "eval_C13-worldcup-southamerica_11a929",
+      "errors": "",
+      "full_failed_stage": null,
+      "full_review_status": "blocked",
+      "full_probability_basis": "evidence_only",
+      "full_review_issues": [
+        {
+          "severity": "medium",
+          "claim": "A002 将赛前热门信号外推为“南美事前概率低于欧洲”，超出 E001/E002 支持范围。",
+          "explanation": "E002 仅称西班牙为边际热门，E001 仅给排名；两者未提供任何洲际夺冠概率或赔率，无法据此量化南美与欧洲概率高低。",
+          "affected_ids": [
+            "A002",
+            "E001",
+            "E002",
+            "F001",
+            "F002"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "A003 引入“阿根廷为 2022 卫冕冠军”作为外部常识，未在证据中给出。",
+          "explanation": "该背景未见于 E001/E002，虽属常识但作为影响判断的假设应标注来源或降权，否则构成未支撑前提。",
+          "affected_ids": [
+            "A003"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "E001/E002 均为事后整理的历史练习，非严格盲测快照。",
+          "explanation": "gap_details 已自认 historical_unverified，发布日期由导入者提供未独立核实，削弱其作为截至日当时信息的可信度。",
+          "affected_ids": [
+            "E001",
+            "E002"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "缺少截至日当时对南美球队（巴西、乌拉圭等）竞争力的直接材料。",
+          "explanation": "仅阿根廷被提及，其他 CONMEBOL 强队状态、伤停、分组信息缺失，影响对“南美夺冠”概率的完整评估。",
+          "affected_ids": [
+            "E001",
+            "E002"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "决赛结果未知属预测对象，不应要求未来证据。",
+          "explanation": "world 已正确将决赛结果列为预测目标而非缺失证据，此点无实质问题，仅提示勿据此降级。",
+          "affected_ids": [
+            "A001"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "预测期结果未知应由概率表达",
+          "explanation": "审查排除了要求未来行情的判断；概率仅使用截至日证据。",
+          "affected_ids": []
+        }
+      ],
+      "full_unsupported_claims": [
+        "A002 关于南美事前概率低于欧洲的量化倾向缺乏证据支持",
+        "A003 中“阿根廷为 2022 卫冕冠军”未在给定证据中出现"
+      ],
+      "full_missing_evidence": [
+        "截至 2026-06-01 各 CONMEBOL 参赛队（巴西、乌拉圭、哥伦比亚等）的排名、状态或分组信息",
+        "截至日当时博彩/媒体对各洲夺冠概率的量化数据"
+      ],
+      "full_findings_validated": true,
+      "full_evidence_findings": [
+        {
+          "id": "F001",
+          "claim": "截至 2026 年 4 月的 FIFA 男足世界排名中，法国居首，西班牙与阿根廷分列第二、第三，南美最高的阿根廷并非排名第一。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E001"
+          ]
+        },
+        {
+          "id": "F002",
+          "claim": "FIFA 在 2026 年 5 月的赛前文章中把西班牙列为 2026 年世界杯的边际夺冠热门。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E002"
+          ]
+        }
+      ],
+      "full_evidence_gaps": [
+        {
+          "missing": "E001 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E002 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "2026 年世界杯决赛的官方结果及冠军所属足联（CONMEBOL 或其他）的权威记录。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        }
+      ],
+      "full_rejected_findings": 0,
+      "single_agent_p": 0.22,
+      "single_agent_seconds": 0.68,
+      "single_agent_calls": 1,
+      "single_agent_tokens": 1161,
+      "no_evidence_p": 0.22,
+      "no_evidence_seconds": 1.32,
+      "no_evidence_calls": 1,
+      "no_evidence_tokens": 536
+    },
+    {
+      "id": "C14-nba-east-champ",
+      "category": "sport",
+      "outcome": 0,
+      "yes_outcome": "是",
+      "full_p": 0.45,
+      "full_status": "completed",
+      "full_seconds": 23.29,
+      "full_calls": 11,
+      "full_tokens": 34770,
+      "run_id": "eval_C14-nba-east-champ_292926",
+      "errors": "",
+      "full_failed_stage": null,
+      "full_review_status": "blocked",
+      "full_probability_basis": "evidence_only",
+      "full_review_issues": [
+        {
+          "severity": "medium",
+          "claim": "仅凭两条常规赛战绩证据无法支撑冠军分区概率判断",
+          "explanation": "E001/E002 只显示 OKC 与 Cavs 常规赛强势，未含季后赛对阵、伤病、交易等关键信息，据此给出概率缺乏依据。",
+          "affected_ids": [
+            "E001",
+            "E002",
+            "AS001",
+            "AS002"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "AS001 将常规赛统治力直接外推为西部夺冠概率较高，存在跳步",
+          "explanation": "E001 仅证明 OKC 常规赛负场少，未提供季后赛或总决赛表现，无法直接推出西部夺冠概率更高。",
+          "affected_ids": [
+            "AS001",
+            "E001",
+            "F001"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "AS002 由 Cavs 60 胜推出东部夺冠可能性不可忽视，方向合理但强度未量化",
+          "explanation": "E002 支持东部有强队，但未比较东西部整体深度，'不可忽视'缺乏量化基准。",
+          "affected_ids": [
+            "AS002",
+            "E002",
+            "F002"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "模拟行动 M1-A002/M2-A002 假设 Cavs 锁定东部头号种子，证据未支持",
+          "explanation": "E002 仅称 Cavs 达 60 胜，未说明其锁定东部第一；该条件属未验证假设。",
+          "affected_ids": [
+            "M1-A002",
+            "M2-A002",
+            "E002"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "证据为事后整理的历史练习，非严格盲测快照",
+          "explanation": "E001/E002 的 date_status 为 unknown 且导入者声明未核实，作为事前信号的可信度受限。",
+          "affected_ids": [
+            "E001",
+            "E002"
+          ]
+        }
+      ],
+      "full_unsupported_claims": [
+        "AS001 中'冠军来自西部的概率较高'缺乏季后赛相关证据支撑",
+        "M1-A002/M2-A002 中 Cavs 锁定东部头号种子的条件未获证据支持"
+      ],
+      "full_missing_evidence": [
+        "截至 2025-04-01 的东西部季后赛席位与对阵形势",
+        "截至 2025-04-01 主要争冠球队的伤病与阵容状态",
+        "2025 年 NBA 总决赛结果及冠军分区（属预测对象，非要求未来证据）"
+      ],
+      "full_findings_validated": true,
+      "full_evidence_findings": [
+        {
+          "id": "F001",
+          "claim": "截至 2025-03-31，西部 Oklahoma City 仅 12 负，负场数比西部其他球队少 14 场，显示西部存在强势球队。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E001"
+          ]
+        },
+        {
+          "id": "F002",
+          "claim": "截至 2025-03-31，东部 Cleveland 与 OKC 一同达到 60 胜，显示东部也存在高水平球队。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E002"
+          ]
+        }
+      ],
+      "full_evidence_gaps": [
+        {
+          "missing": "E001 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E002 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "2025 年 NBA 总决赛结果及冠军球队所属分区（东部或西部）的官方信息。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        }
+      ],
+      "full_rejected_findings": 0,
+      "single_agent_p": 0.42,
+      "single_agent_seconds": 1.12,
+      "single_agent_calls": 1,
+      "single_agent_tokens": 1252,
+      "no_evidence_p": 0.42,
+      "no_evidence_seconds": 1.11,
+      "no_evidence_calls": 1,
+      "no_evidence_tokens": 501
+    },
+    {
+      "id": "C15-artemis2-complete",
+      "category": "public",
+      "outcome": 1,
+      "yes_outcome": "是",
+      "full_p": 0.62,
+      "full_status": "completed",
+      "full_seconds": 25.36,
+      "full_calls": 9,
+      "full_tokens": 30750,
+      "run_id": "eval_C15-artemis2-complete_6946c1",
+      "errors": "",
+      "full_failed_stage": null,
+      "full_review_status": "blocked",
+      "full_probability_basis": "evidence_only",
+      "full_review_issues": [
+        {
+          "severity": "medium",
+          "claim": "模拟S2将条件式推演写入state_changes，存在把假设当已发生事实的风险",
+          "explanation": "S2的state_changes把actual_launch_occurred/actual_splashdown_occurred写成条件式已发生，虽标注非历史事实，但字段语义易被下游误读为结果，应仅保留未知。",
+          "affected_ids": [
+            "S2",
+            "AS001"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "任务周期约10天量级缺乏证据支持",
+          "explanation": "E001/E002仅涉及倒计时与目标窗口，未提供任务时长；AS001与world.variables中的约10天估计无E引用支撑，属外部知识。",
+          "affected_ids": [
+            "AS001",
+            "E001",
+            "E002"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "E001/E002为事后整理的历史练习，非严格盲测快照",
+          "explanation": "gap_details已标注historical_unverified，但evidence_assessment仍将其作为as_of时点依据，需说明其时间戳未经独立核实。",
+          "affected_ids": [
+            "E001",
+            "E002"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "未评估发射推迟至截止日后的风险概率",
+          "explanation": "S1/S2仅列unresolved，未对天气、技术状态、安全评审导致的推迟可能性做任何量化或定性权衡，概率依据偏薄。",
+          "affected_ids": [
+            "S1",
+            "S2",
+            "A001"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "M1-A001与M2-A001内容高度重复",
+          "explanation": "两条行动几乎同义，仅措辞差异，未体现轮次间新增信息或决策变化，模拟推进意义有限。",
+          "affected_ids": [
+            "M1-A001",
+            "M2-A001"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "预测期结果未知应由概率表达",
+          "explanation": "审查排除了要求未来行情的判断；概率仅使用截至日证据。",
+          "affected_ids": []
+        }
+      ],
+      "full_unsupported_claims": [
+        "Artemis II任务周期约10天量级",
+        "若4月1日发射则6月30日前完成发射并返回在时间上可行"
+      ],
+      "full_missing_evidence": [
+        "截至as_of的NASA官方实际发射记录",
+        "截至as_of的NASA官方溅落返回记录",
+        "Artemis II任务时长与回收计划的官方说明",
+        "发射窗口推迟风险或技术状态的官方评估"
+      ],
+      "full_findings_validated": true,
+      "full_evidence_findings": [
+        {
+          "id": "F001",
+          "claim": "NASA 的 Artemis II 试飞倒计时已开始，目标发射时间为 4 月 1 日（星期三）。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E001"
+          ]
+        },
+        {
+          "id": "F002",
+          "claim": "NASA 目标不早于 4 月 1 日（星期三）进行该试飞。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E002"
+          ]
+        }
+      ],
+      "full_evidence_gaps": [
+        {
+          "missing": "E001 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E002 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "Artemis II 载人发射与安全返回的实际完成情况（发射时间、溅落时间与结果）的官方记录。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        }
+      ],
+      "full_rejected_findings": 0,
+      "single_agent_p": 0.55,
+      "single_agent_seconds": 1.44,
+      "single_agent_calls": 1,
+      "single_agent_tokens": 1291,
+      "no_evidence_p": 0.02,
+      "no_evidence_seconds": 0.73,
+      "no_evidence_calls": 1,
+      "no_evidence_tokens": 471
+    },
+    {
+      "id": "C16-cop30-roadmap-adopted",
+      "category": "public",
+      "outcome": 0,
+      "yes_outcome": "是",
+      "full_p": 0.25,
+      "full_status": "completed",
+      "full_seconds": 26.14,
+      "full_calls": 11,
+      "full_tokens": 39593,
+      "run_id": "eval_C16-cop30-roadmap-adopted_1f7f21",
+      "errors": "",
+      "full_failed_stage": null,
+      "full_review_status": "blocked",
+      "full_probability_basis": "evidence_only",
+      "full_review_issues": [
+        {
+          "severity": "medium",
+          "claim": "证据仅为主席国信函，无法支撑对官方cover decision结果的判定",
+          "explanation": "E001、E002均为主席国倡议/磋商表述，按resolution_rule不计入判定；缺少UNFCCC官方文本或正式谈判草案，结论只能停留在未知。",
+          "affected_ids": [
+            "E001",
+            "E002",
+            "F001",
+            "F002",
+            "AS001"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "模拟行动M2-A002将‘最终不含路线图条款’表述为既定结果",
+          "explanation": "该行动文本称缔约方未能达成一致、最终cover decision不含条款，属截点后未知事件，不应作为已确认事实陈述。",
+          "affected_ids": [
+            "M2-A002",
+            "S2"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "‘化石燃料退出路线图条款’判定边界未界定",
+          "explanation": "截点无官方文本可区分‘路线图条款’与GST/Action Agenda框架下的‘转型路径’措辞，可能影响最终判定口径。",
+          "affected_ids": [
+            "AS001",
+            "S2"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "E001、E002为事后整理的历史练习，非严格盲测快照",
+          "explanation": "两证据date_status为unknown、availability为historical_exercise，作为截点前信息使用时代表性有限。",
+          "affected_ids": [
+            "E001",
+            "E002"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "预测期结果未知应由概率表达",
+          "explanation": "审查排除了要求未来行情的判断；概率仅使用截至日证据。",
+          "affected_ids": []
+        }
+      ],
+      "full_unsupported_claims": [
+        "M2-A002中‘最终通过的cover decision不含化石燃料退出路线图条款’被表述为结果而非假设情景",
+        "S2中‘M2-A002若成立则判定为否’隐含对闭幕阶段结果的预判"
+      ],
+      "full_missing_evidence": [
+        "UNFCCC官方通过的COP30 cover decision文本",
+        "截至2025-10-01关于化石燃料退出路线图条款的正式谈判文本或官方草案状态",
+        "化石燃料退出路线图相关议题是否被列为贝伦会议单独议程项目的官方记录"
+      ],
+      "full_findings_validated": true,
+      "full_evidence_findings": [
+        {
+          "id": "F001",
+          "claim": "主席国将 Action Agenda 定位为推动 GST 全面落实的机制，未提及化石燃料退出路线图条款或 cover decision 的通过状态。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E001"
+          ]
+        },
+        {
+          "id": "F002",
+          "claim": "主席国 8 月信函指出相关议题并未全部作为贝伦会议的单独议程项目出现，显示正式文本安排在此阶段仍不确定。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E002"
+          ]
+        }
+      ],
+      "full_evidence_gaps": [
+        {
+          "missing": "E001 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E002 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "UNFCCC 官方通过的 COP30 cover decision 文本，用以确认其中是否含化石燃料退出路线图条款。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        },
+        {
+          "missing": "截至 2025-10-01 信息截点，关于 cover decision 中化石燃料退出路线图条款的正式谈判文本或官方草案状态。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        }
+      ],
+      "full_rejected_findings": 0,
+      "single_agent_p": 0.08,
+      "single_agent_seconds": 0.92,
+      "single_agent_calls": 1,
+      "single_agent_tokens": 1190,
+      "no_evidence_p": 0.08,
+      "no_evidence_seconds": 0.6,
+      "no_evidence_calls": 1,
+      "no_evidence_tokens": 454
+    },
+    {
+      "id": "C17-iss-crewed-2024",
+      "category": "public",
+      "outcome": 1,
+      "yes_outcome": "是",
+      "full_p": 0.9,
+      "full_status": "completed",
+      "full_seconds": 12.34,
+      "full_calls": 5,
+      "full_tokens": 16720,
+      "run_id": "eval_C17-iss-crewed-2024_9bf6fd",
+      "errors": "",
+      "full_failed_stage": null,
+      "full_review_status": "qualified",
+      "full_probability_basis": "evidence_only",
+      "full_review_issues": [
+        {
+          "severity": "medium",
+          "claim": "证据仅覆盖至2023-08-26，无法直接判定2024全年逐日驻留",
+          "explanation": "E001（2020）与E002（2023-08）均为2024年前基线，未含2024年逐日乘员记录，属截至日当时缺少的资料，非要求未来证据。",
+          "affected_ids": [
+            "E001",
+            "E002",
+            "F001",
+            "F002"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "E001/E002为事后整理的历史练习，非严格盲测快照",
+          "explanation": "gap_details已标注historical_unverified，可能引入事后信息偏差，但作为基线背景影响有限。",
+          "affected_ids": [
+            "E001",
+            "E002"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "F001/F002仅为背景性发现，不构成对2024年结果的直接支持",
+          "explanation": "两者底层E引用均止于2023年，审查确认其关系为background而非直接证据，未发现模拟跳步。",
+          "affected_ids": [
+            "F001",
+            "F002"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "预测期结果未知应由概率表达",
+          "explanation": "审查排除了要求未来行情的判断；概率仅使用截至日证据。",
+          "affected_ids": []
+        }
+      ],
+      "full_unsupported_claims": [],
+      "full_missing_evidence": [
+        "2024年Crew-8、Crew-9、Soyuz等轮换任务的实际发射/对接/返回日期"
+      ],
+      "full_findings_validated": true,
+      "full_evidence_findings": [
+        {
+          "id": "F001",
+          "claim": "NASA 官方材料称自 2000 年 11 月 2 日起 ISS 被持续占用，构成 2024 年前连续载人驻留的基线。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E001"
+          ]
+        },
+        {
+          "id": "F002",
+          "claim": "NASA 在 2023 年 8 月 Crew-7 发射报道中称延续近 23 年的连续人类驻留，说明 2024 年前连续驻留仍在延续。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E002"
+          ]
+        }
+      ],
+      "full_evidence_gaps": [
+        {
+          "missing": "E001 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E002 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "2024 年 1 月 1 日至 2024 年 12 月 31 日期间 ISS 每日乘员在站记录（如 NASA/ISS 乘员时间线或轮换记录），用于核实全年是否存在无人在站时段。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        }
+      ],
+      "full_rejected_findings": 0,
+      "single_agent_p": 0.97,
+      "single_agent_seconds": 1.01,
+      "single_agent_calls": 1,
+      "single_agent_tokens": 1290,
+      "no_evidence_p": 0.99,
+      "no_evidence_seconds": 0.67,
+      "no_evidence_calls": 1,
+      "no_evidence_tokens": 452
+    },
+    {
+      "id": "C18-xflare-2025",
+      "category": "public",
+      "outcome": 1,
+      "yes_outcome": "是",
+      "full_p": null,
+      "full_status": "insufficient_evidence",
+      "full_seconds": 14.37,
+      "full_calls": 5,
+      "full_tokens": 20501,
+      "run_id": "eval_C18-xflare-2025_60c0a8",
+      "errors": "",
+      "full_failed_stage": null,
+      "full_review_status": "blocked",
+      "full_probability_basis": "none",
+      "full_review_issues": [
+        {
+          "severity": "medium",
+          "claim": "A001 将“活动极大期+峰值上调”直接转为“2025 年出现 X 级耀斑事前概率较高”，但证据未给出 X 级耀斑的条件频率或基线率。",
+          "explanation": "E001/E002 仅说明周期相位与峰值预期，未提供 X 级耀斑在极大期年份的发生率数据；从“活动强”跳到“概率较高”缺少量化桥梁，属模拟跳步。",
+          "affected_ids": [
+            "A001",
+            "F001",
+            "F002",
+            "E001",
+            "E002"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "E001 的“could continue for the next year”为可能性表述，被 A001 当作较确定的相位前提使用。",
+          "explanation": "原文用 could，未断言极大期必然覆盖 2025 全年；A001 表述为“太阳处于活动极大期”并据此推概率，弱化了原文不确定性。",
+          "affected_ids": [
+            "A001",
+            "F001",
+            "E001"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "E001 与 E002 被列为相互一致的独立事前信号，但两者同属太阳活动周期预测体系，独立性有限。",
+          "explanation": "E002 为 NOAA SWPC 周期预测，E001 为 NASA/NOAA 联合极大期判断，二者共享同一周期观测基础，不能简单视为两条独立证据。",
+          "affected_ids": [
+            "E001",
+            "E002",
+            "F001",
+            "F002"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "证据评估已正确指出缺少 2025 年内 GOES X 射线通量记录，但未说明 as_of 时点该记录本就尚未发生。",
+          "explanation": "as_of 为 2025-01-01，2025 全年记录属未来预测对象；应表述为“截至日当时不可得”，而非单纯“未找到”，以免被误读为检索失败。",
+          "affected_ids": [
+            "E001",
+            "E002"
+          ]
+        }
+      ],
+      "full_unsupported_claims": [
+        "2025 年内出现至少一次 X 级（≥X1.0）耀斑的事前概率较高（A001）——证据仅支持活动偏强，未支持概率量级。"
+      ],
+      "full_missing_evidence": [
+        "截至 2025-01-01 可得的、用于估计 X 级耀斑发生率的太阳活动历史统计或周期内 X 级事件频率资料。",
+        "NOAA SWPC 在 as_of 时点已发布的 2025 年太阳活动展望或 X 级耀斑概率预测（若有）。"
+      ],
+      "full_findings_validated": true,
+      "full_evidence_findings": [
+        {
+          "id": "F001",
+          "claim": "NASA 与 NOAA 在 2024 年 10 月判断太阳已进入活动极大期，且该阶段可能再持续一年，这为 2025 年期间出现强耀斑提供了事前背景，但不构成 2025 年内实际记录到 X 级耀斑的证据。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E001"
+          ]
+        },
+        {
+          "id": "F002",
+          "claim": "NOAA SWPC 在 2023 年 10 月的周期预测中上调了 Solar Cycle 25 的活动预期，称太阳活动将比 2019 年 12 月专家小组的预测上升更快、峰值更高，属于事前周期信号，而非 2025 年 X 级耀斑的实际记录。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E002"
+          ]
+        }
+      ],
+      "full_evidence_gaps": [
+        {
+          "missing": "E001 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E002 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "NOAA SWPC 在 2025-01-01 至 2025-12-31 期间对 X 级（≥X1.0）太阳耀斑的实际 GOES X 射线通量记录或事件列表。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        },
+        {
+          "missing": "能够确认 2025 年内是否至少发生一次 X1.0 及以上耀斑的 NOAA SWPC 官方事件报告或汇总数据。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        }
+      ],
+      "full_rejected_findings": 0,
+      "single_agent_p": 0.97,
+      "single_agent_seconds": 0.75,
+      "single_agent_calls": 1,
+      "single_agent_tokens": 1239,
+      "no_evidence_p": 0.97,
+      "no_evidence_seconds": 0.89,
+      "no_evidence_calls": 1,
+      "no_evidence_tokens": 446
+    },
+    {
+      "id": "C19-copernicus-h1",
+      "category": "public",
+      "outcome": 0,
+      "yes_outcome": "是",
+      "full_p": 0.02,
+      "full_status": "completed",
+      "full_seconds": 16.11,
+      "full_calls": 6,
+      "full_tokens": 25584,
+      "run_id": "eval_C19-copernicus-h1_cce78e",
+      "errors": "",
+      "full_failed_stage": null,
+      "full_review_status": "blocked",
+      "full_probability_basis": "evidence_only",
+      "full_review_issues": [
+        {
+          "severity": "medium",
+          "claim": "以三个月度排名推断半年整体排名，存在聚合跳步",
+          "explanation": "1月第5、2月第5、5月第2均非同期最暖，但半年均值排名不由单月排名单调决定；A002已承认此点，但结论倾向仍可能被过度解读。",
+          "affected_ids": [
+            "F001",
+            "F002",
+            "F003",
+            "A001",
+            "A002"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "3月、4月、6月排名缺失，无法判定整体是否创新高",
+          "explanation": "截至2026-06-30，仅覆盖1、2、5月；缺失月份可能显著改变半年均值，故不能直接给出确定结论。",
+          "affected_ids": [
+            "E001",
+            "E002",
+            "E003"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "证据为事后整理的历史练习，非严格盲测快照",
+          "explanation": "E001–E003的availability为historical_exercise，发布日期由导入者提供且未独立核实，削弱其作为事前证据的强度。",
+          "affected_ids": [
+            "E001",
+            "E002",
+            "E003"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "缺少C3S对1–6月整体的直接排名结论",
+          "explanation": "resolution_rule要求以C3S公报实际排名为准，但现有证据无半年汇总结论，A003仅为假设。",
+          "affected_ids": [
+            "A003"
+          ]
+        }
+      ],
+      "full_unsupported_claims": [
+        "2026年1–6月整体成为历史同期最暖的概率较低（A002倾向性判断缺乏半年汇总证据支撑）"
+      ],
+      "full_missing_evidence": [
+        "2026年3月ERA5全球气温月度排名",
+        "2026年4月ERA5全球气温月度排名",
+        "2026年6月ERA5全球气温月度排名",
+        "Copernicus C3S对2026年1–6月整体同期排名的直接结论"
+      ],
+      "full_findings_validated": true,
+      "full_evidence_findings": [
+        {
+          "id": "F001",
+          "claim": "2026 年 1 月全球气温为历史第 5 暖，未创 1 月同期新高。",
+          "relation": "challenges",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E001"
+          ]
+        },
+        {
+          "id": "F002",
+          "claim": "2026 年 2 月全球气温为历史第 5 暖，比工业化前水平高 1.49°C，未创 2 月同期新高。",
+          "relation": "challenges",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E002"
+          ]
+        },
+        {
+          "id": "F003",
+          "claim": "2026 年 5 月全球气温在 ERA5 数据集中为历史第 2 暖，未创 5 月同期新高。",
+          "relation": "challenges",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E003"
+          ]
+        }
+      ],
+      "full_evidence_gaps": [
+        {
+          "missing": "E001 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E002 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E003 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "2026 年 3 月全球气温的 ERA5 月度排名。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        },
+        {
+          "missing": "2026 年 4 月全球气温的 ERA5 月度排名。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        },
+        {
+          "missing": "2026 年 6 月全球气温的 ERA5 月度排名。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        },
+        {
+          "missing": "Copernicus C3S 对 2026 年 1–6 月整体是否高于此前任何一年同期的直接排名结论。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        }
+      ],
+      "full_rejected_findings": 0,
+      "single_agent_p": 0.03,
+      "single_agent_seconds": 1.44,
+      "single_agent_calls": 1,
+      "single_agent_tokens": 1743,
+      "no_evidence_p": 0.55,
+      "no_evidence_seconds": 1.19,
+      "no_evidence_calls": 1,
+      "no_evidence_tokens": 524
+    },
+    {
+      "id": "C20-g20-summit-held",
+      "category": "public",
+      "outcome": 1,
+      "yes_outcome": "是",
+      "full_p": 0.9,
+      "full_status": "completed",
+      "full_seconds": 19.89,
+      "full_calls": 9,
+      "full_tokens": 28253,
+      "run_id": "eval_C20-g20-summit-held_d14cc8",
+      "errors": "",
+      "full_failed_stage": null,
+      "full_review_status": "blocked",
+      "full_probability_basis": "evidence_only",
+      "full_review_issues": [
+        {
+          "severity": "medium",
+          "claim": "证据仅证明计划与筹备，不能证明峰会实际按计划日期举行",
+          "explanation": "E001、E002 均为会前媒体注册/筹备公告，属计划性表述；F001、F002 也自述为背景性发现。截至 2025-10-31 峰会尚未举行，实际举行与否属未来事件，缺少会议记录与宣言，无法据此判定结果。",
+          "affected_ids": [
+            "E001",
+            "E002",
+            "F001",
+            "F002",
+            "AS001"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "AS001 将计划性证据外推为“可能性较高”，存在跳步",
+          "explanation": "AS001 由 F001、F002 推出“按计划举行可能性较高”，但两条证据仅确认日期与媒体注册启动，未覆盖筹备进度、后勤、安全等风险，也未提供历史按期举行率，外推缺乏支撑。",
+          "affected_ids": [
+            "AS001",
+            "F001",
+            "F002"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "E001、E002 的发布日期未独立核实，且为事后整理的历史练习",
+          "explanation": "两条证据 date_status 为 unknown，date_basis 注明发布日期由导入者提供、未独立核实，且 availability 为 historical_exercise，非严格盲测快照，削弱其作为截至日当时信息的可靠性。",
+          "affected_ids": [
+            "E001",
+            "E002"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "模拟 S1、S2 内容高度重复，未推进状态",
+          "explanation": "S2 与 S1 的 summary、state_changes、unresolved 基本一致，仅补充变量字段，未产生新的推理或证据，属冗余轮次，未增加对结果判定的信息量。",
+          "affected_ids": [
+            "S1",
+            "S2",
+            "M1-A001",
+            "M2-A001"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "缺少截至日当时对峰会是否可能延期或取消的官方信息",
+          "explanation": "截至 2025-10-31，未见主办方关于筹备进度、安全或后勤风险的官方说明；虽不要求未来证据，但当时缺少可评估按期举行可能性的资料。",
+          "affected_ids": [
+            "E001",
+            "E002",
+            "A001"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "预测期结果未知应由概率表达",
+          "explanation": "审查排除了要求未来行情的判断；概率仅使用截至日证据。",
+          "affected_ids": []
+        }
+      ],
+      "full_unsupported_claims": [
+        "AS001 关于“按计划举行可能性较高”的量化倾向缺乏证据支撑",
+        "S1、S2 中“若筹备顺利则结果可能为是”的推断未基于任何风险或进度证据"
+      ],
+      "full_missing_evidence": [
+        "主办方官方会议记录与宣言（用于确认峰会是否实际按计划日期举行）",
+        "截至 2025-10-31 主办方关于筹备进度、后勤与安全风险的官方说明",
+        "E001、E002 发布日期的独立核实依据"
+      ],
+      "full_findings_validated": true,
+      "full_evidence_findings": [
+        {
+          "id": "F001",
+          "claim": "南非 DIRCO 公告称南非将于 2025 年 11 月 22 日和 23 日在豪登省约翰内斯堡主办 G20 领导人峰会。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E001"
+          ]
+        },
+        {
+          "id": "F002",
+          "claim": "G20 South Africa 官方公告称，将于 2025 年 11 月 22 日和 23 日在南非约翰内斯堡主办的 G20 峰会，其媒体注册自 2025 年 9 月 1 日（星期一）开始。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E002"
+          ]
+        }
+      ],
+      "full_evidence_gaps": [
+        {
+          "missing": "E001 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E002 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "主办方官方会议记录与宣言，用以确认 2025 G20 领导人峰会是否实际于 2025 年 11 月 22–23 日按计划举行。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        }
+      ],
+      "full_rejected_findings": 0,
+      "single_agent_p": 0.95,
+      "single_agent_seconds": 1.32,
+      "single_agent_calls": 1,
+      "single_agent_tokens": 1301,
+      "no_evidence_p": 0.97,
+      "no_evidence_seconds": 1.14,
+      "no_evidence_calls": 1,
+      "no_evidence_tokens": 501
+    },
+    {
+      "id": "C21-fed-sep-cut",
+      "category": "finance",
+      "outcome": 1,
+      "yes_outcome": "是",
+      "full_p": 0.5,
+      "full_status": "completed",
+      "full_seconds": 13.02,
+      "full_calls": 5,
+      "full_tokens": 17362,
+      "run_id": "eval_C21-fed-sep-cut_4f83a9",
+      "errors": "",
+      "full_failed_stage": null,
+      "full_review_status": "blocked",
+      "full_probability_basis": "evidence_only",
+      "full_review_issues": [
+        {
+          "severity": "low",
+          "claim": "E001/E002为事后整理的历史练习，非严格盲测快照",
+          "explanation": "gap_details已自认historical_unverified，可能引入事后信息偏差，影响as_of时点信息纯净度。",
+          "affected_ids": [
+            "E001",
+            "E002"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "E002为媒体报道，非官方决议原文",
+          "explanation": "9-2票及异议者姓名来自CNBC而非FOMC官方声明，作为背景可接受，但不宜作为核心事实依据。",
+          "affected_ids": [
+            "E002",
+            "F002"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "预测期结果未知应由概率表达",
+          "explanation": "审查排除了要求未来行情的判断；概率仅使用截至日证据。",
+          "affected_ids": []
+        }
+      ],
+      "full_unsupported_claims": [
+        "A002中“委员会内部存在宽松倾向”的表述超出E002所载两票异议的直接证据范围"
+      ],
+      "full_missing_evidence": [
+        "2025年7月30日后至8月1日间发布的关键通胀与就业数据"
+      ],
+      "full_findings_validated": true,
+      "full_evidence_findings": [
+        {
+          "id": "F001",
+          "claim": "2025-07-30 的 FOMC 决议将联邦基金利率目标区间维持在 4-1/4 至 4-1/2 百分比，即该次会议未下调利率。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E001"
+          ]
+        },
+        {
+          "id": "F002",
+          "claim": "2025-07-30 的维持利率决议以 9-2 票通过，Bowman 与 Waller 两位理事主张美联储开始宽松，显示降息是当时被讨论但尚未实现的路径。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E002"
+          ]
+        }
+      ],
+      "full_evidence_gaps": [
+        {
+          "missing": "E001 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E002 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "2025-07-30 之后至 2025-09-30（含）之间 FOMC 会议的实际决议内容（是否下调目标区间及下调幅度），现有证据仅覆盖 2025-07-30 一次会议。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        }
+      ],
+      "full_rejected_findings": 0,
+      "single_agent_p": 0.55,
+      "single_agent_seconds": 1.21,
+      "single_agent_calls": 1,
+      "single_agent_tokens": 1289,
+      "no_evidence_p": 0.85,
+      "no_evidence_seconds": 1.09,
+      "no_evidence_calls": 1,
+      "no_evidence_tokens": 518
+    },
+    {
+      "id": "C22-ndx-h2-2025",
+      "category": "finance",
+      "outcome": 1,
+      "yes_outcome": "是",
+      "full_p": 0.55,
+      "full_status": "completed",
+      "full_seconds": 12.83,
+      "full_calls": 5,
+      "full_tokens": 16411,
+      "run_id": "eval_C22-ndx-h2-2025_33028a",
+      "errors": "",
+      "full_failed_stage": null,
+      "full_review_status": "blocked",
+      "full_probability_basis": "evidence_only",
+      "full_review_issues": [
+        {
+          "severity": "medium",
+          "claim": "A003 给出方向性概率判断，但证据仅含截点当日基准值与情绪描述，无历史胜率或估值/盈利数据支撑。",
+          "explanation": "E001 仅提供 22679.010 基准值，E002 仅描述当日纪录高位与降息预期，均不足以量化下半年上涨概率；A003 的‘略高于’缺乏可核验依据，属模拟跳步。",
+          "affected_ids": [
+            "A003",
+            "E001",
+            "E002",
+            "F001",
+            "F002"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "E002 引用的是标普500与纳斯达克综合指数，而非问题标的纳斯达克100，存在指数错配。",
+          "explanation": "F002 已注明该限制，但 A002 仍将其作为纳斯达克100下半年走势背景，跨指数外推未加说明。",
+          "affected_ids": [
+            "E002",
+            "F002",
+            "A002"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "E001 与 E002 均标注为事后整理的历史练习，非严格盲测快照，存在事后信息渗入风险。",
+          "explanation": "evidence_assessment 的 gap_details 已记录该点，但未评估其对基准值或情绪描述可靠性的影响。",
+          "affected_ids": [
+            "E001",
+            "E002"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "预测期结果未知应由概率表达",
+          "explanation": "审查排除了要求未来行情的判断；概率仅使用截至日证据。",
+          "affected_ids": []
+        }
+      ],
+      "full_unsupported_claims": [
+        "A003 中‘2025-12-31 收盘高于 22679.010 的概率略高于不高于’缺乏证据支撑，仅为方向性猜测。"
+      ],
+      "full_missing_evidence": [
+        "截至 2025-06-30 当时可得的纳斯达克100估值或盈利预期数据",
+        "截至 2025-06-30 当时可得的纳斯达克100历史波动率或季节性统计"
+      ],
+      "full_findings_validated": true,
+      "full_evidence_findings": [
+        {
+          "id": "F001",
+          "claim": "信息截点当日（2025-06-30）纳斯达克 100 收盘为 22679.010，可作为比较下半年涨跌的基准值。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E001"
+          ]
+        },
+        {
+          "id": "F002",
+          "claim": "截点当日美股处于纪录高位，市场情绪受美联储可能在未来数月降息的乐观预期支撑，但下半年方向仍不确定。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E002"
+          ]
+        }
+      ],
+      "full_evidence_gaps": [
+        {
+          "missing": "E001 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E002 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        }
+      ],
+      "full_rejected_findings": 0,
+      "single_agent_p": 0.62,
+      "single_agent_seconds": 1.19,
+      "single_agent_calls": 1,
+      "single_agent_tokens": 1322,
+      "no_evidence_p": 0.62,
+      "no_evidence_seconds": 1.16,
+      "no_evidence_calls": 1,
+      "no_evidence_tokens": 514
+    },
+    {
+      "id": "C23-china-cpi-dec2025",
+      "category": "finance",
+      "outcome": 1,
+      "yes_outcome": "是",
+      "full_p": 0.62,
+      "full_status": "completed",
+      "full_seconds": 13.12,
+      "full_calls": 5,
+      "full_tokens": 16500,
+      "run_id": "eval_C23-china-cpi-dec2025_99fc6b",
+      "errors": "",
+      "full_failed_stage": null,
+      "full_review_status": "blocked",
+      "full_probability_basis": "evidence_only",
+      "full_review_issues": [
+        {
+          "severity": "medium",
+          "claim": "单月同比与累计同比口径混用风险",
+          "explanation": "E002中10月单月+0.2%与1—10月累计-0.1%口径不同，A002以累计偏弱推断12月单月未必转正，属跨口径外推，需谨慎。",
+          "affected_ids": [
+            "E002",
+            "A002"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "证据为事后整理的历史练习，非严格盲测快照",
+          "explanation": "E001、E002的date_status为unknown且导入者声明未核实，作为as_of时点可得信息的代表性有限。",
+          "affected_ids": [
+            "E001",
+            "E002"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "预测期结果未知应由概率表达",
+          "explanation": "审查排除了要求未来行情的判断；概率仅使用截至日证据。",
+          "affected_ids": []
+        }
+      ],
+      "full_unsupported_claims": [
+        "12月CPI同比为正或为负的具体方向判断缺乏截至日证据支持"
+      ],
+      "full_missing_evidence": [
+        "2025年11月CPI同比数据（as_of时点尚未发布）",
+        "食品、能源等分项及基数效应的近期走势资料"
+      ],
+      "full_findings_validated": true,
+      "full_evidence_findings": [
+        {
+          "id": "F001",
+          "claim": "2025年9月全国居民消费价格同比下降0.3%，为负值。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E001"
+          ]
+        },
+        {
+          "id": "F002",
+          "claim": "2025年10月全国居民消费价格同比上涨0.2%，单月同比转正；但1—10月平均比上年同期下降0.1%。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E002"
+          ]
+        }
+      ],
+      "full_evidence_gaps": [
+        {
+          "missing": "E001 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E002 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "2025年11月及12月CPI同比数据（国家统计局发布），用于判断12月同比是否为正。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "after_cutoff",
+          "topic": "available_information"
+        }
+      ],
+      "full_rejected_findings": 0,
+      "single_agent_p": 0.6,
+      "single_agent_seconds": 1.28,
+      "single_agent_calls": 1,
+      "single_agent_tokens": 1327,
+      "no_evidence_p": 0.85,
+      "no_evidence_seconds": 0.99,
+      "no_evidence_calls": 1,
+      "no_evidence_tokens": 531
+    },
+    {
+      "id": "C24-gold-q3-2026",
+      "category": "finance",
+      "outcome": 1,
+      "yes_outcome": "是",
+      "full_p": null,
+      "full_status": "insufficient_evidence",
+      "full_seconds": 18.65,
+      "full_calls": 5,
+      "full_tokens": 23091,
+      "run_id": "eval_C24-gold-q3-2026_3d3fdc",
+      "errors": "",
+      "full_failed_stage": null,
+      "full_review_status": "blocked",
+      "full_probability_basis": "none",
+      "full_review_issues": [
+        {
+          "severity": "medium",
+          "claim": "基准价 4007.52 美元/盎司仅来自次级来源 mygoldcalc.com，未按 resolution_rule 与期货来源交叉校验。",
+          "explanation": "E001 为导入摘要片段，非 LBMA 官方日价，date_status 为 unknown；A001 已将其降级为假设，但基准值本身仍缺乏独立校验，若该数值有误将直接改变“是否高于”的比较结果。",
+          "affected_ids": [
+            "E001",
+            "F001",
+            "A001"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "E001、E002 均为事后整理的历史练习片段，published_at 未独立核实，不构成严格盲测快照。",
+          "explanation": "两条证据的 date_basis 均标注“导入者提供，未独立核实”，且无检索日志；这削弱了截点当时信息可得性的可信度，但不影响目标日价格属预测对象这一判断。",
+          "affected_ids": [
+            "E001",
+            "E002"
+          ]
+        },
+        {
+          "severity": "low",
+          "claim": "A004 假设结算来源在目标日可提供同口径数据并完成期货交叉校验，但该可行性未获证据支持。",
+          "explanation": "resolution_source 与 E001 同属次级来源，目标日数据在截点尚不存在；此为结算可行性假设，非对结果的证据要求，标注为假设即可。",
+          "affected_ids": [
+            "A004",
+            "E001"
+          ]
+        },
+        {
+          "severity": "medium",
+          "claim": "预测期结果未知应由概率表达",
+          "explanation": "审查排除了要求未来行情的判断；概率仅使用截至日证据。",
+          "affected_ids": []
+        }
+      ],
+      "full_unsupported_claims": [
+        "2026-09-30 现货黄金收盘价高于 2026-06-30 收盘价（方向性结论无任何证据支持，属预测对象）"
+      ],
+      "full_missing_evidence": [
+        "LBMA 官方日价或经授权的公开行情源，以替代 mygoldcalc.com 次级来源"
+      ],
+      "full_findings_validated": true,
+      "full_evidence_findings": [
+        {
+          "id": "F001",
+          "claim": "2026-06-30 现货黄金（24K）收盘价为 4007.52 美元/金衡盎司，即约 128.8 美元/克，构成该问题的比较基准。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E001"
+          ]
+        },
+        {
+          "id": "F002",
+          "claim": "截点前最近一次 FOMC 会议（2026-06-17）决定将联邦基金利率目标区间维持在 3-1/2 至 3-3/4%，即截点时的政策利率环境为按兵不动。",
+          "relation": "background",
+          "target_premise_ids": [],
+          "evidence_ids": [
+            "E002"
+          ]
+        }
+      ],
+      "full_evidence_gaps": [
+        {
+          "missing": "E001 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E002 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "2026-09-30 现货 24K 黄金每金衡盎司的实际收盘价（问题所问的目标日数值），以及可交叉校验的期货来源报价。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        },
+        {
+          "missing": "2026-06-30 至 2026-09-30 期间黄金价格走势的中间数据或行情记录，用于判断两日收盘价的相对高低。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        },
+        {
+          "missing": "LBMA 官方日价或经授权的公开行情源数据，以替代 mygoldcalc.com 的次级来源并满足 resolution_rule 的交叉校验要求。",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "not_found",
+          "topic": "available_information"
+        }
+      ],
+      "full_rejected_findings": 0,
+      "single_agent_p": 0.5,
+      "single_agent_seconds": 1.57,
+      "single_agent_calls": 1,
+      "single_agent_tokens": 1388,
+      "no_evidence_p": 0.52,
+      "no_evidence_seconds": 1.25,
+      "no_evidence_calls": 1,
+      "no_evidence_tokens": 538
+    }
+  ],
+  "baseline_started_at": "2026-10-06T18:51:42.417487+00:00",
+  "baseline_finished_at": "2026-10-06T18:52:37.302609+00:00"
+}

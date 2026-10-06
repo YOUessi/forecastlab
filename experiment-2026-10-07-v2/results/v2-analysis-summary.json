@@ -1,0 +1,49 @@
+{
+  "status_counts": {
+    "completed": 18,
+    "insufficient_evidence": 6
+  },
+  "hard_failures": 0,
+  "findings_validated": 24,
+  "review_status": {
+    "blocked": 23,
+    "qualified": 1
+  },
+  "probability_basis": {
+    "evidence_only": 18,
+    "none": 6
+  },
+  "answered_n": 18,
+  "abstained_n": 6,
+  "matched_answered_brier": {
+    "full": 0.133667,
+    "single_agent": 0.106056,
+    "no_evidence": 0.165761
+  },
+  "single_agent_brier_on_full_abstentions": 0.25905,
+  "cost": {
+    "full": {
+      "calls": 185,
+      "tokens": 670815,
+      "seconds": 468.59
+    },
+    "single_agent": {
+      "calls": 24,
+      "tokens": 31384,
+      "seconds": 28.22
+    },
+    "no_evidence": {
+      "calls": 24,
+      "tokens": 11988,
+      "seconds": 25.4
+    }
+  },
+  "abstentions": [
+    "C02-star50",
+    "C08-typescript6-release",
+    "C10-real-madrid-ucl",
+    "C12-wimbledon-topseed",
+    "C18-xflare-2025",
+    "C24-gold-q3-2026"
+  ]
+}
