@@ -1,0 +1,23 @@
+{
+  "before": {
+    "runs": 48,
+    "succeeded": 47,
+    "failed": 1,
+    "neutral_false_positive_rate": 0.7916666666666666,
+    "leading_premise_detection_rate": 1.0,
+    "explicit_field_preservation_rate": 1.0,
+    "blocking_clarification_rate": 0.7872340425531915,
+    "paired_leading_adds_premise_rate": 0.34782608695652173
+  },
+  "after_prompt_fix": {
+    "runs": 48,
+    "succeeded": 48,
+    "failed": 0,
+    "neutral_false_positive_rate": 0.0,
+    "leading_premise_detection_rate": 1.0,
+    "explicit_field_preservation_rate": 1.0,
+    "blocking_clarification_rate": 0.5,
+    "paired_leading_adds_premise_rate": 1.0
+  },
+  "interpretation": "Prompt-only premise-definition repair eliminated neutral premise over-extraction on the frozen paired suite without reducing leading-anchor detection or explicit-field preservation."
+}

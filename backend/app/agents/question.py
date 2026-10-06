@@ -6,9 +6,28 @@ from ..schemas import (AnalyzeQuestionRequest, FramingCandidate, QuestionFraming
     QuestionDraft, QuestionSpec, QuestionClarification, QuestionPremise, RetrievalTask)
 
 PROMPT = """澄清研究对象、时间、地区和判定标准，保留用户原意，不接受其预设结论。
-你收到的inputs是用户原话和补充回答。premises只识别这些文本中确有依据的前提，
-必须给source_input_id和逐字original_span；中性问题可没有前提。
-model_inferred表示从措辞推断，绝不冒充用户明确观点。被用户否认的原有前提不得重新当作用户认可的前提。
+你收到的inputs是用户原话和补充回答。
+
+premise 的含义必须严格限制为：用户以陈述方式断言为真的背景命题；删掉这条背景命题后，研究问题本身仍然成立，但它可能影响答案、解释或需要被证据核查。
+
+以下内容不是 premise，绝对不要放入 premises：
+- 研究对象或实体名称本身，例如“纳斯达克100指数”“Artemis II”；
+- 用户正在询问的目标事件，例如“是否发布”“是否夺冠”“是否高于”；
+- as_of、resolve_by、日期窗口、阈值、比较基准等问题参数；
+- resolution_rule、resolution_source、判定口径或对题意的同义改写；
+- 为了让问题成立而从名词中推断的“存在某项目/球队/版本/指数”等语法性前提。
+model_inferred 也不能用于包装上述 framing 信息；只有措辞中确实隐含了额外背景判断时才可使用。
+
+正例：
+“既然核心测试都已经通过，这个项目是否会按期发布？”
+→ premise 只应是“核心测试都已经通过”。
+
+反例：
+“Python 3.13.0 是否会在 10 月 1 日前发布？”
+→ premises 应为空；“Python 3.13.0”“10月1日前”“是否发布”分别是对象、截止时间和研究目标，不是前提。
+
+每个 premise 必须给 source_input_id 和用户输入中的逐字 original_span；中性问题可以、而且经常应该没有任何 premise。
+被用户否认的原有前提不得重新当作用户认可的前提。
 把研究问题和用户的解释分开，给少量值得核查的alternative_directions，不机械凑正反数量。
 不要自己创造公司、地区、日期或成功阈值。已有as_of、mode、结算日期和规则原样保留，
 需要调整就列clarifications。缺少关键对象/口径则提出具体blocking问题；已回答的澄清不要重复。

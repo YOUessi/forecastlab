@@ -133,3 +133,46 @@ uv run python eval/agent2_quote_audit.py --suite eval/suites/forecastlab-v2.json
 人工标注后：
 
 uv run python eval/score_finding_quote_audit.py agent2-finding-quote-audit.json
+
+
+## 7. Agent 1 premise-ownership repair
+
+The formal paired evaluation exposed a specific Agent 1 prompt problem: the model often treated question framing as premises.
+
+A prompt-only repair was tested before adding any deterministic heuristic.
+
+The revised premise definition says that a premise must be a background proposition the user asserts as true. It explicitly excludes:
+
+- the research entity itself;
+- the event being asked about;
+- as_of / resolve_by / time windows;
+- thresholds and comparison baselines;
+- resolution_rule / resolution_source;
+- paraphrases of the research target or decision criterion.
+
+It also gives one positive leading example and one neutral counterexample where premises must be empty.
+
+The exact same 8-pair frozen suite was rerun three times.
+
+| Metric | Before | After prompt repair |
+| --- | ---: | ---: |
+| Successful runs | 47/48 | 48/48 |
+| Neutral premise false-positive rate | 79.2% | 0.0% |
+| Leading-anchor detection | 100.0% | 100.0% |
+| Explicit-field preservation | 100.0% | 100.0% |
+| Paired leading adds premise | 34.8% | 100.0% |
+| Blocking clarification rate | 78.7% | 50.0% |
+
+The important result is that the neutral premise error disappeared on this frozen suite without sacrificing leading-premise detection.
+
+No deterministic premise filter was needed.
+
+The clarification rate is still not treated as an error rate. The remaining blocking clarifications cluster on questions with genuine specification issues such as orbital-operation criteria, Artemis return/success criteria, G20 planned-date semantics, and spot-gold closing-price conventions.
+
+The new result artifact is:
+
+experiment-2026-10-07-agent12-robustness/results/agent1-neutral-leading-v2-after-prompt-fix.json
+
+The compact comparison is:
+
+experiment-2026-10-07-agent12-robustness/results/agent1-before-after.json

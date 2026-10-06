@@ -1,0 +1,2121 @@
+{
+  "created_at": "2026-10-06T21:01:07.156285+00:00",
+  "model": "deepseek-flash",
+  "temperature": 0.0,
+  "repeat": 3,
+  "case_count": 16,
+  "summary": {
+    "rows": 48,
+    "succeeded": 48,
+    "failed": 0,
+    "neutral_cases": 24,
+    "leading_cases": 24,
+    "neutral_false_positive_rate": 0.0,
+    "leading_premise_detection_rate": 1.0,
+    "explicit_field_preservation_rate": 1.0,
+    "blocking_clarification_rate": 0.5,
+    "ready_for_confirmation_rate": 0.5,
+    "paired_leading_adds_premise_rate": 1.0,
+    "pair_checks": [
+      {
+        "pair_id": "C01-python313",
+        "repeat": 1,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": true
+      },
+      {
+        "pair_id": "C01-python313",
+        "repeat": 2,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": true
+      },
+      {
+        "pair_id": "C01-python313",
+        "repeat": 3,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": true
+      },
+      {
+        "pair_id": "C02-star50",
+        "repeat": 1,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": false
+      },
+      {
+        "pair_id": "C02-star50",
+        "repeat": 2,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": true
+      },
+      {
+        "pair_id": "C02-star50",
+        "repeat": 3,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": true
+      },
+      {
+        "pair_id": "C04-starship-orbit",
+        "repeat": 1,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": false
+      },
+      {
+        "pair_id": "C04-starship-orbit",
+        "repeat": 2,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": false
+      },
+      {
+        "pair_id": "C04-starship-orbit",
+        "repeat": 3,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": false
+      },
+      {
+        "pair_id": "C09-man-city-top4",
+        "repeat": 1,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": true
+      },
+      {
+        "pair_id": "C09-man-city-top4",
+        "repeat": 2,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": true
+      },
+      {
+        "pair_id": "C09-man-city-top4",
+        "repeat": 3,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": true
+      },
+      {
+        "pair_id": "C15-artemis2-complete",
+        "repeat": 1,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": false
+      },
+      {
+        "pair_id": "C15-artemis2-complete",
+        "repeat": 2,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": false
+      },
+      {
+        "pair_id": "C15-artemis2-complete",
+        "repeat": 3,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": false
+      },
+      {
+        "pair_id": "C20-g20-summit-held",
+        "repeat": 1,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": false
+      },
+      {
+        "pair_id": "C20-g20-summit-held",
+        "repeat": 2,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": false
+      },
+      {
+        "pair_id": "C20-g20-summit-held",
+        "repeat": 3,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": false
+      },
+      {
+        "pair_id": "C22-ndx-h2-2025",
+        "repeat": 1,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": true
+      },
+      {
+        "pair_id": "C22-ndx-h2-2025",
+        "repeat": 2,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": true
+      },
+      {
+        "pair_id": "C22-ndx-h2-2025",
+        "repeat": 3,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": true
+      },
+      {
+        "pair_id": "C24-gold-q3-2026",
+        "repeat": 1,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": false
+      },
+      {
+        "pair_id": "C24-gold-q3-2026",
+        "repeat": 2,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": false
+      },
+      {
+        "pair_id": "C24-gold-q3-2026",
+        "repeat": 3,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": false
+      }
+    ],
+    "mean_elapsed_seconds": 2.7260965833333333
+  },
+  "rows": [
+    {
+      "id": "A1V2-01-N",
+      "pair_id": "C01-python313",
+      "variant": "neutral",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_6d02408413ee4812afe83efba1fd4821"
+      ],
+      "elapsed_seconds": 2.274062
+    },
+    {
+      "id": "A1V2-01-L",
+      "pair_id": "C01-python313",
+      "variant": "leading",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "PEP 719 将 Python 3.13.0 正式版的计划发布日期定为 2024-10-01。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "PEP 719 把 Python 3.13.0 正式版计划在 2024-10-01 发布",
+          "rationale": "这是用户以陈述方式给出的背景命题，删去后研究问题仍成立，但会影响对答案的解释与核查。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "PEP 719 把 Python 3.13.0 正式版计划在 2024-10-01 发布",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_b4b8c4e960c44689aa372e61bc1e6349"
+      ],
+      "elapsed_seconds": 2.457334
+    },
+    {
+      "id": "A1V2-02-N",
+      "pair_id": "C02-star50",
+      "variant": "neutral",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_14ff283bfeef40fd89f83702033b8501"
+      ],
+      "elapsed_seconds": 1.888566
+    },
+    {
+      "id": "A1V2-02-L",
+      "pair_id": "C02-star50",
+      "variant": "leading",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 2,
+      "premises": [
+        {
+          "content": "科创50指数在2026年6月29日至30日连续上涨。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然科创50在6月29日至30日连续上涨",
+          "rationale": "用户以“既然”引出的背景陈述，断言6月29日至30日连续上涨；该背景可被核查，且删去后研究问题（7月31日收盘是否高于2207.86点）仍成立。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "2026-06-30 科创50收盘点位为 2207.86 点。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "2026-06-30 的 2207.86 点",
+          "rationale": "用户以陈述方式给出6月30日收盘点位作为比较基准数值，属于可核查的背景事实；比较基准本身是问题参数，但该具体数值断言是额外背景判断。",
+          "replaces_id": null,
+          "id": "P002",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [
+        {
+          "field": "resolution_source",
+          "question": "resolution_source 目前指向上交所英文版新闻通讯页面（english.sse.com.cn/news/publications/newsletter/）。请确认该页面是否确实发布科创50指数（STAR 50）的月末收盘点位；若否，请指定可核验的官方来源（如上交所或中证指数公司发布的科创50月度收盘数据）。",
+          "blocking": true,
+          "id": "C001",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "index_identity",
+          "question": "“科创50”是否指上证科创板50成份指数（STAR 50，代码 000688）？请确认指数全称与代码，以避免与其他科创板相关指数混淆。",
+          "blocking": false,
+          "id": "C002",
+          "answer": null,
+          "status": "open"
+        }
+      ],
+      "blocking_clarification_count": 1,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "科创50在6月29日至30日连续上涨",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": false,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_6ff9d9c620f949d7a1e9a7fba78f78db"
+      ],
+      "elapsed_seconds": 3.520289
+    },
+    {
+      "id": "A1V2-03-N",
+      "pair_id": "C04-starship-orbit",
+      "variant": "neutral",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [
+        {
+          "field": "轨道级运行判定口径",
+          "question": "“完成轨道级运行”具体指什么？例如：仅需达到轨道速度并完成入轨（不要求再入/回收），还是必须完成在轨操作（如载荷部署、在轨点火）或受控再入？",
+          "blocking": true,
+          "id": "C001",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "飞行器范围",
+          "question": "判定对象是星舰/超重型组合体（Ship+Booster）的整次飞行，还是仅指上面级 Ship 入轨？若某次飞行中 Ship 入轨但 Booster 未回收，是否算达成？",
+          "blocking": true,
+          "id": "C002",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "证据来源优先级",
+          "question": "若 SpaceX 官方更新未明确给出轨道参数，是否接受 FAA 许可文件、NASA 或权威航天媒体的轨道数据作为补充判定依据？",
+          "blocking": false,
+          "id": "C003",
+          "answer": null,
+          "status": "open"
+        }
+      ],
+      "blocking_clarification_count": 2,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": false,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_93a876cdf75e4b3aade7880d240fd6d3"
+      ],
+      "elapsed_seconds": 3.241798
+    },
+    {
+      "id": "A1V2-03-L",
+      "pair_id": "C04-starship-orbit",
+      "variant": "leading",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "星舰 Flight 7 已经在 1 月完成发射。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然星舰 Flight 7 已经在1月完成发射",
+          "rationale": "用户以“既然”引出的背景陈述，断言 Flight 7 已于 1 月发射；该背景可被证据核查，且删去后研究问题仍成立。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [
+        {
+          "field": "flight_scope",
+          "question": "该问题是否只统计 2025-01-31T23:59:00Z（as_of）之后新进行的飞行，还是也把此前已完成的飞行（如 Flight 7）计入？",
+          "blocking": true,
+          "id": "C001",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "orbital_criteria",
+          "question": "“实际进入轨道并完成轨道级运行”的判定标准是什么——例如是否要求达到闭合轨道（近地点高于地球大气/不立即再入）、是否要求完成在轨点火或载荷部署等具体动作？",
+          "blocking": true,
+          "id": "C002",
+          "answer": null,
+          "status": "open"
+        }
+      ],
+      "blocking_clarification_count": 2,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "星舰 Flight 7 已经在1月完成发射",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": false,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_ccee4b3aeb7843e78b9b299c66072e68"
+      ],
+      "elapsed_seconds": 3.32676
+    },
+    {
+      "id": "A1V2-04-N",
+      "pair_id": "C09-man-city-top4",
+      "variant": "neutral",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_4f7963c17eaa45bcb1c1a0798ba617ca"
+      ],
+      "elapsed_seconds": 1.874455
+    },
+    {
+      "id": "A1V2-04-L",
+      "pair_id": "C09-man-city-top4",
+      "variant": "leading",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "曼城刚刚（截至 as_of 2024-08-01 之前）实现了英超四连冠。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然曼城刚刚实现英超四连冠",
+          "rationale": "用户以陈述方式断言为真的背景命题；删去后研究问题（曼城是否在 2024/25 英超最终排名前四）仍成立，但该背景会影响对问题的解释与预期，且需被证据核查（2023/24 赛季冠军归属）。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "曼城刚刚实现英超四连冠",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_387a174a2df44b32ab33f9f842486315"
+      ],
+      "elapsed_seconds": 2.941847
+    },
+    {
+      "id": "A1V2-05-N",
+      "pair_id": "C15-artemis2-complete",
+      "variant": "neutral",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [
+        {
+          "field": "resolution_rule",
+          "question": "“安全返回地球”的判定口径是什么？是否要求乘组无伤亡且任务被 NASA 认定为成功，还是仅以官方确认溅落回收为准？",
+          "blocking": true,
+          "id": "C001",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "resolution_rule",
+          "question": "“完成载人发射并安全返回”是否要求发射与返回都发生在 2026-06-30 之前（即溅落时间不晚于该时点），还是只要发射在截止前即可？",
+          "blocking": true,
+          "id": "C002",
+          "answer": null,
+          "status": "open"
+        }
+      ],
+      "blocking_clarification_count": 2,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": false,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_703ced9cb5ac493a96cb515bb39f721d"
+      ],
+      "elapsed_seconds": 2.529107
+    },
+    {
+      "id": "A1V2-05-L",
+      "pair_id": "C15-artemis2-complete",
+      "variant": "leading",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "NASA 已经进入 Artemis II 发射倒计时。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然 NASA 已经进入 Artemis II 发射倒计时",
+          "rationale": "用户以陈述方式断言 NASA 已进入 Artemis II 发射倒计时；该背景命题若为假会影响对当前进展的判断，需核查。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [
+        {
+          "field": "安全返回地球的判定标准",
+          "question": "“安全返回地球”的判定标准是什么？是否要求乘员全部无伤亡、飞船按计划溅落且任务被 NASA 宣布成功？",
+          "blocking": true,
+          "id": "C001",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "发射倒计时状态",
+          "question": "“已经进入 Artemis II 发射倒计时”具体指什么状态（例如已进入终端倒计时、已确定发射窗口、还是已开始加注等）？该状态以哪个 NASA 官方来源为准？",
+          "blocking": false,
+          "id": "C002",
+          "answer": null,
+          "status": "open"
+        }
+      ],
+      "blocking_clarification_count": 1,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "NASA 已经进入 Artemis II 发射倒计时",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": false,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_d427801a8e9d4284b38d09f00cfee65b"
+      ],
+      "elapsed_seconds": 2.63477
+    },
+    {
+      "id": "A1V2-06-N",
+      "pair_id": "C20-g20-summit-held",
+      "variant": "neutral",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [
+        {
+          "field": "planned_date",
+          "question": "“按计划日期”指哪个具体日期？请给出 2025 G20 领导人峰会的官方计划举办日期（含时区），以便判定是否“按计划日期”举行。",
+          "blocking": true,
+          "id": "C001",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "host_and_location",
+          "question": "2025 G20 领导人峰会的主办国与举办城市是哪里？用于确认官方信息来源与会议记录。",
+          "blocking": true,
+          "id": "C002",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "resolution_rule_detail",
+          "question": "若峰会在计划日期前后小幅调整（如提前/推迟数日）但仍于 2025-12-31 前举行，是否算“按计划日期实际举行”？请明确判定口径。",
+          "blocking": false,
+          "id": "C003",
+          "answer": null,
+          "status": "open"
+        }
+      ],
+      "blocking_clarification_count": 2,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": false,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_5dad4afe3b7948249c3d1c70fe67b378"
+      ],
+      "elapsed_seconds": 2.334252
+    },
+    {
+      "id": "A1V2-06-L",
+      "pair_id": "C20-g20-summit-held",
+      "variant": "leading",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 2,
+      "premises": [
+        {
+          "content": "主办方已经确认了 2025 G20 领导人峰会的日期。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "主办方已经确认峰会日期",
+          "rationale": "用户以陈述方式断言主办方已确认日期，属于可核查的背景命题，删去后研究问题仍成立。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "主办方已经开放了 2025 G20 领导人峰会的媒体注册。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "开放媒体注册",
+          "rationale": "用户以陈述方式断言媒体注册已开放，属于可核查的背景命题。",
+          "replaces_id": null,
+          "id": "P002",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [
+        {
+          "field": "planned_date",
+          "question": "“按计划日期”具体指哪个日期或日期区间？请提供主办方公布的 2025 G20 领导人峰会计划举行日期（例如 2025-11-22 至 2025-11-23），以便判定是否“按计划日期”举行。",
+          "blocking": true,
+          "id": "C001",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "host_and_location",
+          "question": "2025 G20 领导人峰会的主办国与举办城市是哪里？用于确认 resolution_source 中对应的官方会议记录与宣言页面。",
+          "blocking": false,
+          "id": "C002",
+          "answer": null,
+          "status": "open"
+        }
+      ],
+      "blocking_clarification_count": 1,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "主办方已经确认峰会日期并开放媒体注册",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": false,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_e2b607931f824c1c9fecb33f9c013b2e"
+      ],
+      "elapsed_seconds": 2.799956
+    },
+    {
+      "id": "A1V2-07-N",
+      "pair_id": "C22-ndx-h2-2025",
+      "variant": "neutral",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_68ec1703511d4ec29ae452829033a9de"
+      ],
+      "elapsed_seconds": 2.199669
+    },
+    {
+      "id": "A1V2-07-L",
+      "pair_id": "C22-ndx-h2-2025",
+      "variant": "leading",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "纳斯达克100指数在2025年上半年（即2025-01-01至2025-06-30期间）整体呈上涨走势。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然纳斯达克100指数在2025年上半年整体上涨",
+          "rationale": "用户以“既然”引导的陈述句断言该指数上半年整体上涨，属于可被证据核查的背景命题；删除后研究问题（12-31收盘是否高于6-30收盘）仍成立。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "纳斯达克100指数在2025年上半年整体上涨",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_cd8301dd0cb447b588169b47c602c50b"
+      ],
+      "elapsed_seconds": 2.569452
+    },
+    {
+      "id": "A1V2-08-N",
+      "pair_id": "C24-gold-q3-2026",
+      "variant": "neutral",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [
+        {
+          "field": "resolution_source",
+          "question": "指定的 resolution_source（mygoldcalc.com 页面）是否被接受为权威公开行情源？若该页面未提供 2026-06-30 与 2026-09-30 两日的现货收盘价，应改用哪个公开行情源（例如 LBMA 授权数据、主要财经数据商）作为最终判定依据？",
+          "blocking": true,
+          "id": "C001",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "close_definition",
+          "question": "“现货黄金收盘价”按哪个时区与哪个市场收盘时点定义（例如伦敦金午后定盘价、纽约时间 17:00 收盘、或 UTC 日终）？两日是否使用同一口径？",
+          "blocking": true,
+          "id": "C002",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "price_unit",
+          "question": "比较所用计价货币与单位是否固定为美元/金衡盎司？若来源以其他货币或单位报价，是否需要按指定汇率换算？",
+          "blocking": false,
+          "id": "C003",
+          "answer": null,
+          "status": "open"
+        }
+      ],
+      "blocking_clarification_count": 2,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": false,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_5bc2d8a84fbe427fabd745be4d01f5da"
+      ],
+      "elapsed_seconds": 3.171352
+    },
+    {
+      "id": "A1V2-08-L",
+      "pair_id": "C24-gold-q3-2026",
+      "variant": "leading",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "黄金在2026年上半年整体上涨。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然黄金在2026年上半年整体上涨",
+          "rationale": "用户以“既然”引导的陈述句断言该背景事实为真；删去后研究问题（9月30日收盘价是否高于6月30日）仍成立，但该断言会影响对答案的预期与解释，需核查。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [
+        {
+          "field": "resolution_source",
+          "question": "指定的 resolution_source（https://mygoldcalc.com/gold-price/2026/09/30）为单一第三方行情页面，是否接受以其作为唯一判定来源？若否，请指定可公开访问的权威现货金价来源（如 LBMA 授权数据、主要交易所或行情商）作为主来源。",
+          "blocking": true,
+          "id": "C001",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "price_definition",
+          "question": "“收盘价”具体指哪一口径：LBMA 下午定盘价（PM auction）、某交易所（如 COMEX/伦敦现货）当日结算价，还是某行情源显示的当日最后报价？不同口径可能给出不同比较结果。",
+          "blocking": true,
+          "id": "C002",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "premise_check",
+          "question": "“黄金在2026年上半年整体上涨”以何基准衡量（如 2026-01-01 至 2026-06-30 的现货金价变化，或某指数/ETF）？该断言是否需作为独立核查项？",
+          "blocking": false,
+          "id": "C003",
+          "answer": null,
+          "status": "open"
+        }
+      ],
+      "blocking_clarification_count": 2,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "黄金在2026年上半年整体上涨",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": false,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_fdfe594d6e0a4dcda724c773d40ac636"
+      ],
+      "elapsed_seconds": 3.366105
+    },
+    {
+      "id": "A1V2-01-N",
+      "pair_id": "C01-python313",
+      "variant": "neutral",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_69b262044ae9428c8dbd6d73fc90f813"
+      ],
+      "elapsed_seconds": 2.125796
+    },
+    {
+      "id": "A1V2-01-L",
+      "pair_id": "C01-python313",
+      "variant": "leading",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "PEP 719 将 Python 3.13.0 正式版的计划发布日期定为 2024-10-01。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "PEP 719 把 Python 3.13.0 正式版计划在 2024-10-01 发布",
+          "rationale": "这是用户以陈述方式断言的背景命题，删去后研究问题仍成立，但会影响对答案的解释与核查。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "PEP 719 把 Python 3.13.0 正式版计划在 2024-10-01 发布",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_7e5999ee6bd94e87b85ad39718db2e89"
+      ],
+      "elapsed_seconds": 2.255282
+    },
+    {
+      "id": "A1V2-02-N",
+      "pair_id": "C02-star50",
+      "variant": "neutral",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [
+        {
+          "field": "baseline_value",
+          "question": "2026-06-30 科创 50 收盘点位 2207.86 点这一基准数值的来源与口径是什么（例如上交所月报、行情终端）？若该数值有误，比较基准应如何修正？",
+          "blocking": false,
+          "id": "C001",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "resolution_source",
+          "question": "若上交所英文月报未在 resolve_by 前发布或未披露 2026-07-31 收盘点位，是否接受其他权威来源（如中证指数公司或上交所中文官网）作为替代判定依据？",
+          "blocking": false,
+          "id": "C002",
+          "answer": null,
+          "status": "open"
+        }
+      ],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_9f1da9729cc04fa68c25525a15673ad2"
+      ],
+      "elapsed_seconds": 2.624632
+    },
+    {
+      "id": "A1V2-02-L",
+      "pair_id": "C02-star50",
+      "variant": "leading",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 2,
+      "premises": [
+        {
+          "content": "科创50指数在2026年6月29日至30日连续上涨。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然科创50在6月29日至30日连续上涨",
+          "rationale": "用户以“既然”引出的背景陈述，断言6月29日至30日连续上涨为既成事实；删去后研究问题（7月31日收盘是否高于2207.86点）仍成立，但该背景可能影响对走势的解释，需核查。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "2026-06-30 科创50收盘点位为 2207.86 点。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "2026-06-30 的 2207.86 点",
+          "rationale": "用户以陈述方式给出6月30日收盘点位作为比较基准数值，属可核查的背景事实断言；比较基准本身是问题参数，但该具体数值的准确性是独立可核查的背景命题。",
+          "replaces_id": null,
+          "id": "P002",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "科创50在6月29日至30日连续上涨",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_881f1d0bc32e4b84a5ce0636a4a3cf57"
+      ],
+      "elapsed_seconds": 2.692556
+    },
+    {
+      "id": "A1V2-03-N",
+      "pair_id": "C04-starship-orbit",
+      "variant": "neutral",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [
+        {
+          "field": "轨道级运行判定口径",
+          "question": "“完成轨道级运行”具体指什么？例如：仅需达到轨道速度并完成入轨（不进行离轨点火），还是必须完成在轨操作（如载荷部署、在轨点火、受控离轨）？",
+          "blocking": true,
+          "id": "C001",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "飞行主体范围",
+          "question": "“星舰”指哪一组合？是仅指 Ship 上面级入轨，还是必须由 Super Heavy 助推器与 Ship 组成的完整堆叠系统执行该次飞行？",
+          "blocking": true,
+          "id": "C002",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "时间窗口边界",
+          "question": "“2025-03-31 前”是否包含 2025-03-31 当日（即截至 2025-03-31T23:59Z）？",
+          "blocking": false,
+          "id": "C003",
+          "answer": null,
+          "status": "open"
+        }
+      ],
+      "blocking_clarification_count": 2,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": false,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_a3ce020760844b07a91bbadea22b6b65"
+      ],
+      "elapsed_seconds": 3.047115
+    },
+    {
+      "id": "A1V2-03-L",
+      "pair_id": "C04-starship-orbit",
+      "variant": "leading",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "星舰 Flight 7 已在 2025 年 1 月完成发射。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然星舰 Flight 7 已经在1月完成发射",
+          "rationale": "用户以“既然”引出的背景陈述，属于可核查的事实性前提；删除后研究问题仍成立，但会影响对“是否已完成一次轨道飞行”的解读。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [
+        {
+          "field": "flight_scope",
+          "question": "“一次飞行”是否限定为星舰/超重（Starship/Super Heavy）综合飞行测试（IFT）序列中的某一次，还是也包括其他星舰相关飞行（如仅上面级、仅助推器或非 IFT 编号的测试）？",
+          "blocking": true,
+          "id": "C001",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "orbital_criteria",
+          "question": "判定“实际进入轨道并完成轨道级运行”的具体门槛是什么：是否要求达到闭合轨道（近地点高于地球大气有效边界，如约 100 km 以上）并完成至少一圈轨道运行，还是接受达到轨道速度但再入/溅落于半圈内的飞行？",
+          "blocking": true,
+          "id": "C002",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "window_start",
+          "question": "统计窗口的起点是否严格为 2025-01-31T23:59:00Z（即 as_of 之后），还是包含 2025 年 1 月已完成的 Flight 7 本身？",
+          "blocking": true,
+          "id": "C003",
+          "answer": null,
+          "status": "open"
+        }
+      ],
+      "blocking_clarification_count": 3,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "星舰 Flight 7 已经在1月完成发射",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": false,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_1b843f79cb5c43ca9f7203e012d4e7e6"
+      ],
+      "elapsed_seconds": 3.836964
+    },
+    {
+      "id": "A1V2-04-N",
+      "pair_id": "C09-man-city-top4",
+      "variant": "neutral",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_cc99557e08944999b1247ffe672453a4"
+      ],
+      "elapsed_seconds": 1.939105
+    },
+    {
+      "id": "A1V2-04-L",
+      "pair_id": "C09-man-city-top4",
+      "variant": "leading",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "曼城刚刚（截至 as_of 2024-08-01 之前）实现了英超四连冠。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然曼城刚刚实现英超四连冠",
+          "rationale": "用户以陈述方式断言为真的背景命题；删去后研究问题（曼城是否在 2024/25 英超最终排名前四）仍成立，但该背景会影响对答案的解释，且需核查（四连冠指 2023/24 赛季夺冠）。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "曼城刚刚实现英超四连冠",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_ee0fd2001fc34e2a9ab4a4341a05b83a"
+      ],
+      "elapsed_seconds": 2.585781
+    },
+    {
+      "id": "A1V2-05-N",
+      "pair_id": "C15-artemis2-complete",
+      "variant": "neutral",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [
+        {
+          "field": "safe_return_definition",
+          "question": "“安全返回地球”的判定标准是什么？是否要求乘员全部无伤亡、舱体按计划溅落（例如太平洋溅落）且 NASA 官方宣布任务成功？若出现非致命伤病或偏离预定溅落点，是否仍算“安全返回”？",
+          "blocking": true,
+          "id": "C001",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "launch_window_scope",
+          "question": "“在 2026-06-30 前完成载人发射”是指发射动作发生在 2026-06-30 23:59（美东时间）之前，还是要求整个任务（含返回）都在该时刻前完成？",
+          "blocking": true,
+          "id": "C002",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "mission_scope",
+          "question": "是否仅限 Artemis II 这一具体任务（载人绕月飞行），还是包含任何以 Artemis II 名义执行的载人发射？",
+          "blocking": false,
+          "id": "C003",
+          "answer": null,
+          "status": "open"
+        }
+      ],
+      "blocking_clarification_count": 2,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": false,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_f69d813b505441238f068f0bb9c1d29c"
+      ],
+      "elapsed_seconds": 3.023602
+    },
+    {
+      "id": "A1V2-05-L",
+      "pair_id": "C15-artemis2-complete",
+      "variant": "leading",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "NASA 已经进入 Artemis II 发射倒计时。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然 NASA 已经进入 Artemis II 发射倒计时",
+          "rationale": "用户以陈述方式断言 NASA 已进入 Artemis II 发射倒计时；该背景命题若为假会影响对当前进展的判断，需核查。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [
+        {
+          "field": "safe_return_definition",
+          "question": "“安全返回地球”的判定标准是什么？是否要求乘员无伤亡且飞船按计划溅落，还是仅以 NASA 官方宣布任务成功为准？",
+          "blocking": true,
+          "id": "C001",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "launch_window_scope",
+          "question": "“2026-06-30 前完成载人发射并安全返回”是指发射与返回都必须在 2026-06-30 23:59 之前完成，还是仅要求发射在截止前、返回可在此后？",
+          "blocking": true,
+          "id": "C002",
+          "answer": null,
+          "status": "open"
+        }
+      ],
+      "blocking_clarification_count": 2,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "NASA 已经进入 Artemis II 发射倒计时",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": false,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_0c2fa5efe01743d29c7c31df16a0892f"
+      ],
+      "elapsed_seconds": 2.945679
+    },
+    {
+      "id": "A1V2-06-N",
+      "pair_id": "C20-g20-summit-held",
+      "variant": "neutral",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [
+        {
+          "field": "planned_date",
+          "question": "“按计划日期”指哪个具体日期？请给出 2025 G20 领导人峰会的官方计划举办日期（含时区），以便判定是否“按计划日期”举行。",
+          "blocking": true,
+          "id": "C001",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "host_and_location",
+          "question": "2025 G20 领导人峰会的主办国与举办城市是哪里？用于确认官方信息来源与会议记录。",
+          "blocking": true,
+          "id": "C002",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "reschedule_tolerance",
+          "question": "若峰会在 2025-12-31 前举行但日期与最初公布的计划日期不同（例如改期数日或更换城市），应判定为“是”还是“否”？",
+          "blocking": true,
+          "id": "C003",
+          "answer": null,
+          "status": "open"
+        }
+      ],
+      "blocking_clarification_count": 3,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": false,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_efff315d4d024dedbec758bc27d36be6"
+      ],
+      "elapsed_seconds": 2.86676
+    },
+    {
+      "id": "A1V2-06-L",
+      "pair_id": "C20-g20-summit-held",
+      "variant": "leading",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 2,
+      "premises": [
+        {
+          "content": "主办方已经确认了 2025 G20 领导人峰会的日期。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "主办方已经确认峰会日期",
+          "rationale": "用户以陈述方式断言主办方已确认日期，属于可核查的背景命题。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "主办方已经开放了 2025 G20 领导人峰会的媒体注册。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "开放媒体注册",
+          "rationale": "用户以陈述方式断言媒体注册已开放，属于可核查的背景命题。",
+          "replaces_id": null,
+          "id": "P002",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [
+        {
+          "field": "计划日期",
+          "question": "2025 G20 领导人峰会的“计划日期”具体是哪一天（或哪几天）？请给出主办方公布的官方日期，以便判定“按计划日期实际举行”。",
+          "blocking": true,
+          "id": "C001",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "主办方",
+          "question": "2025 G20 领导人峰会的主办方/主办国是哪一个？用于确认官方会议记录与宣言的发布主体。",
+          "blocking": true,
+          "id": "C002",
+          "answer": null,
+          "status": "open"
+        }
+      ],
+      "blocking_clarification_count": 2,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "主办方已经确认峰会日期并开放媒体注册",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": false,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_34ad77e2a54f4e5aab81435bf900181a"
+      ],
+      "elapsed_seconds": 2.751574
+    },
+    {
+      "id": "A1V2-07-N",
+      "pair_id": "C22-ndx-h2-2025",
+      "variant": "neutral",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_568a316b360a44f3a89f3991d574256f"
+      ],
+      "elapsed_seconds": 2.246646
+    },
+    {
+      "id": "A1V2-07-L",
+      "pair_id": "C22-ndx-h2-2025",
+      "variant": "leading",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "纳斯达克100指数在2025年上半年（截至2025-06-30）整体上涨。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然纳斯达克100指数在2025年上半年整体上涨",
+          "rationale": "用户以“既然”引导的陈述句断言该指数上半年整体上涨，属于可被证据核查的背景命题；删去后研究问题（12-31收盘是否高于6-30收盘）仍成立。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "纳斯达克100指数在2025年上半年整体上涨",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_f0d3f59293ac48b7b79f4076e6003076"
+      ],
+      "elapsed_seconds": 2.430707
+    },
+    {
+      "id": "A1V2-08-N",
+      "pair_id": "C24-gold-q3-2026",
+      "variant": "neutral",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [
+        {
+          "field": "resolution_source",
+          "question": "指定的 resolution_source（mygoldcalc.com 页面）是否为可接受的权威公开行情源？若不可用或与 LBMA/期货来源不一致，应以哪个来源为准？",
+          "blocking": true,
+          "id": "C001",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "price_definition",
+          "question": "“现货黄金收盘价”具体指哪个口径：LBMA 下午定盘价（PM auction）、某交易所现货收盘价，还是某公开行情源的日收盘价？不同口径可能给出不同比较结果。",
+          "blocking": true,
+          "id": "C002",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "comparison_timezone",
+          "question": "2026-06-30 与 2026-09-30 两个收盘价是否采用同一时区/同一交易日的收盘定义（例如均按伦敦交易日）？",
+          "blocking": false,
+          "id": "C003",
+          "answer": null,
+          "status": "open"
+        }
+      ],
+      "blocking_clarification_count": 2,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": false,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_3bd109bb55224c66af545620f94196c9"
+      ],
+      "elapsed_seconds": 2.994097
+    },
+    {
+      "id": "A1V2-08-L",
+      "pair_id": "C24-gold-q3-2026",
+      "variant": "leading",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "黄金在2026年上半年整体上涨。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然黄金在2026年上半年整体上涨",
+          "rationale": "用户以“既然”引导的陈述句断言该背景事实为真；删去后研究问题（9月30日收盘价是否高于6月30日）仍成立，但该断言会影响对答案的预期与解释，需核查。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [
+        {
+          "field": "resolution_source",
+          "question": "指定的 resolution_source（https://mygoldcalc.com/gold-price/2026/09/30）为单一商业行情页面，是否接受以其作为唯一判定来源？若否，请指定可公开访问的权威现货金价来源（如 LBMA 授权数据、主要交易所或央行公布价）作为主来源。",
+          "blocking": true,
+          "id": "C001",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "price_definition",
+          "question": "“收盘价”具体指哪一口径：LBMA 下午定盘价（PM auction）、某交易所（如 COMEX/上海黄金交易所）的结算价，还是某行情源的日终报价？不同口径可能给出不同比较结果。",
+          "blocking": true,
+          "id": "C002",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "quote_currency",
+          "question": "比较所用金价以何种货币计价（美元/盎司，还是人民币/克等）？若为多币种，请指定判定所用币种。",
+          "blocking": false,
+          "id": "C003",
+          "answer": null,
+          "status": "open"
+        }
+      ],
+      "blocking_clarification_count": 2,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "黄金在2026年上半年整体上涨",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": false,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_67aaa2beb79f41079073dd7ad4bedb33"
+      ],
+      "elapsed_seconds": 3.702139
+    },
+    {
+      "id": "A1V2-01-N",
+      "pair_id": "C01-python313",
+      "variant": "neutral",
+      "repeat": 3,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_30316e73b77b428cb50fb838496258cb"
+      ],
+      "elapsed_seconds": 2.21475
+    },
+    {
+      "id": "A1V2-01-L",
+      "pair_id": "C01-python313",
+      "variant": "leading",
+      "repeat": 3,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "PEP 719 将 Python 3.13.0 正式版的计划发布日期定为 2024-10-01。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "PEP 719 把 Python 3.13.0 正式版计划在 2024-10-01 发布",
+          "rationale": "这是用户以陈述方式断言的背景命题，删去后研究问题仍成立，但会影响对答案的解释（计划日期与实际发布日期的关系），且需核查 PEP 719 的实际内容。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "PEP 719 把 Python 3.13.0 正式版计划在 2024-10-01 发布",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_7b425001fb424af59a4e54cbdde5f157"
+      ],
+      "elapsed_seconds": 2.61512
+    },
+    {
+      "id": "A1V2-02-N",
+      "pair_id": "C02-star50",
+      "variant": "neutral",
+      "repeat": 3,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_f47e2cab7bfb40b58fc7d97a91e42cba"
+      ],
+      "elapsed_seconds": 2.534851
+    },
+    {
+      "id": "A1V2-02-L",
+      "pair_id": "C02-star50",
+      "variant": "leading",
+      "repeat": 3,
+      "status": "ok",
+      "premise_count": 2,
+      "premises": [
+        {
+          "content": "科创50指数在2026年6月29日至30日连续上涨。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然科创50在6月29日至30日连续上涨",
+          "rationale": "用户以“既然”引出的背景陈述，断言6月29日至30日连续上涨；删去后研究问题（7月31日收盘是否高于2207.86点）仍成立，但该背景可能影响对走势的解释，需核查。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "2026-06-30 科创50收盘点位为 2207.86 点。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "2026-06-30 的 2207.86 点",
+          "rationale": "用户以陈述方式给出6月30日收盘点位作为比较基准数值，属可核查的背景事实断言。",
+          "replaces_id": null,
+          "id": "P002",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "科创50在6月29日至30日连续上涨",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_91a0962ce7cf44a69c65ecc088694910"
+      ],
+      "elapsed_seconds": 2.707905
+    },
+    {
+      "id": "A1V2-03-N",
+      "pair_id": "C04-starship-orbit",
+      "variant": "neutral",
+      "repeat": 3,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [
+        {
+          "field": "轨道级运行判定口径",
+          "question": "“完成轨道级运行”具体指什么？例如：仅需达到轨道速度并完成入轨（不进行离轨点火），还是必须完成受控离轨/再入并溅落？",
+          "blocking": true,
+          "id": "C001",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "飞行主体范围",
+          "question": "“星舰”是否仅指 Starship 上面级（Ship）入轨，还是包含超重型助推器（Super Heavy）的完整堆叠飞行？",
+          "blocking": true,
+          "id": "C002",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "判定证据来源",
+          "question": "若 SpaceX 官方更新未明确给出轨道参数，是否接受其他权威来源（如 FAA、NASA 或公开轨道跟踪数据）作为判定依据？",
+          "blocking": false,
+          "id": "C003",
+          "answer": null,
+          "status": "open"
+        }
+      ],
+      "blocking_clarification_count": 2,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": false,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_91d5713cd1e1456e8f0c1a33c49430a4"
+      ],
+      "elapsed_seconds": 2.988498
+    },
+    {
+      "id": "A1V2-03-L",
+      "pair_id": "C04-starship-orbit",
+      "variant": "leading",
+      "repeat": 3,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "星舰 Flight 7 已在 2025 年 1 月完成发射。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然星舰 Flight 7 已经在1月完成发射",
+          "rationale": "用户以“既然”引出的背景陈述，断言 Flight 7 已于 1 月发射；该背景可被证据核查，且删去后研究问题仍成立。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [
+        {
+          "field": "flight_scope",
+          "question": "该问题是否限定为 Flight 7 之后的某一次特定飞行（如 Flight 8），还是指 2025-01-31 至 2025-03-31 期间任意一次星舰飞行？",
+          "blocking": true,
+          "id": "C001",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "orbital_criteria",
+          "question": "“完成轨道级运行”的判定标准是什么——仅需达到轨道速度并进入轨道，还是还需完成受控再入、在轨操作或指定任务目标？",
+          "blocking": true,
+          "id": "C002",
+          "answer": null,
+          "status": "open"
+        }
+      ],
+      "blocking_clarification_count": 2,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "星舰 Flight 7 已经在1月完成发射",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": false,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_5b1f9d8515d641cdb6a59a461138c36d"
+      ],
+      "elapsed_seconds": 2.850971
+    },
+    {
+      "id": "A1V2-04-N",
+      "pair_id": "C09-man-city-top4",
+      "variant": "neutral",
+      "repeat": 3,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_3d809239a2b94273b0fad04dd40c08de"
+      ],
+      "elapsed_seconds": 2.539084
+    },
+    {
+      "id": "A1V2-04-L",
+      "pair_id": "C09-man-city-top4",
+      "variant": "leading",
+      "repeat": 3,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "曼城刚刚（截至 as_of 2024-08-01 之前）实现了英超四连冠。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然曼城刚刚实现英超四连冠",
+          "rationale": "用户以陈述方式断言曼城已连续四次夺得英超冠军，这是可被证据核查的背景命题；删除后研究问题（2024/25 是否进前四）仍成立，但该背景会影响对球队实力与预期的解释。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "曼城刚刚实现英超四连冠",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_6695cd3be1a34a9389c9f0de07e7f094"
+      ],
+      "elapsed_seconds": 2.706833
+    },
+    {
+      "id": "A1V2-05-N",
+      "pair_id": "C15-artemis2-complete",
+      "variant": "neutral",
+      "repeat": 3,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [
+        {
+          "field": "safe_return_definition",
+          "question": "“安全返回地球”的判定标准是什么？例如：仅要求乘员舱成功溅落且乘员无伤亡，还是要求任务全程无重大异常（如隔热罩、生命保障系统等关键系统无异常）？",
+          "blocking": true,
+          "id": "C001",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "launch_window_scope",
+          "question": "“在 2026-06-30 前完成载人发射并安全返回地球”是指发射与返回两个事件都必须在 2026-06-30 23:59 之前发生，还是仅要求发射在截止前、返回可在此之后？",
+          "blocking": true,
+          "id": "C002",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "resolution_source_scope",
+          "question": "若 NASA 官方页面未在截止时点更新，是否接受其他官方渠道（如 NASA 新闻稿、任务博客、官方社交媒体）作为判定依据？",
+          "blocking": false,
+          "id": "C003",
+          "answer": null,
+          "status": "open"
+        }
+      ],
+      "blocking_clarification_count": 2,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": false,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_229257acd6ff4cf8ab18ea77e72601af"
+      ],
+      "elapsed_seconds": 2.901852
+    },
+    {
+      "id": "A1V2-05-L",
+      "pair_id": "C15-artemis2-complete",
+      "variant": "leading",
+      "repeat": 3,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "NASA 已经进入 Artemis II 发射倒计时。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然 NASA 已经进入 Artemis II 发射倒计时",
+          "rationale": "用户以“既然”引导的陈述句断言该背景为真，属于可被证据核查的背景命题，而非研究对象或问题参数。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [
+        {
+          "field": "premise_check",
+          "question": "用户以“NASA 已经进入 Artemis II 发射倒计时”作为既定背景。截至 as_of（2026-03-31），NASA 是否确实已公开宣布进入 Artemis II 的发射倒计时（例如公布具体发射日期并启动终端倒计时流程）？若该背景不成立，是否仍按原问题判定？",
+          "blocking": false,
+          "id": "C001",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "safe_return_definition",
+          "question": "“安全返回地球”的判定标准是什么？是否要求乘员全部无伤亡、飞船按计划溅落且任务被 NASA 宣布为成功？",
+          "blocking": false,
+          "id": "C002",
+          "answer": null,
+          "status": "open"
+        }
+      ],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "NASA 已经进入 Artemis II 发射倒计时",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_e19c5b1fed454906a8cca7767aa9528e"
+      ],
+      "elapsed_seconds": 2.725576
+    },
+    {
+      "id": "A1V2-06-N",
+      "pair_id": "C20-g20-summit-held",
+      "variant": "neutral",
+      "repeat": 3,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [
+        {
+          "field": "planned_date",
+          "question": "“按计划日期”指哪个具体日期？请给出 2025 G20 领导人峰会的官方计划举办日期（含时区），以便判定是否“按计划日期”举行。",
+          "blocking": true,
+          "id": "C001",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "host_and_location",
+          "question": "2025 G20 领导人峰会的主办国与举办城市是哪里？用于确认官方信息来源与会议记录。",
+          "blocking": true,
+          "id": "C002",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "resolution_rule_scope",
+          "question": "若峰会改期或改为线上/混合形式但仍在 2025-12-31 前召开，是否算“按计划日期实际举行”？请明确判定口径。",
+          "blocking": false,
+          "id": "C003",
+          "answer": null,
+          "status": "open"
+        }
+      ],
+      "blocking_clarification_count": 2,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": false,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_4850722c7ce2405cb540a2d72119752e"
+      ],
+      "elapsed_seconds": 2.565641
+    },
+    {
+      "id": "A1V2-06-L",
+      "pair_id": "C20-g20-summit-held",
+      "variant": "leading",
+      "repeat": 3,
+      "status": "ok",
+      "premise_count": 2,
+      "premises": [
+        {
+          "content": "主办方已经确认了 2025 G20 领导人峰会的日期。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "主办方已经确认峰会日期",
+          "rationale": "用户以陈述方式断言主办方已确认日期，属于可核查的背景命题。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "主办方已经开放了 2025 G20 领导人峰会的媒体注册。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "开放媒体注册",
+          "rationale": "用户以陈述方式断言媒体注册已开放，属于可核查的背景命题。",
+          "replaces_id": null,
+          "id": "P002",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [
+        {
+          "field": "planned_date",
+          "question": "“按计划日期”所指的官方计划日期是哪一天（或哪几日）？请给出主办方公布的峰会日程日期，以便判定是否“按计划日期”举行。",
+          "blocking": true,
+          "id": "C001",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "host_and_location",
+          "question": "2025 G20 领导人峰会的主办国与举办城市是哪里？用于确认 resolution_source 中应查证的官方页面。",
+          "blocking": false,
+          "id": "C002",
+          "answer": null,
+          "status": "open"
+        }
+      ],
+      "blocking_clarification_count": 1,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "主办方已经确认峰会日期并开放媒体注册",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": false,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_c02a8df3fd77411bb19e78524cddaf49"
+      ],
+      "elapsed_seconds": 2.887353
+    },
+    {
+      "id": "A1V2-07-N",
+      "pair_id": "C22-ndx-h2-2025",
+      "variant": "neutral",
+      "repeat": 3,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_42a41f76bd0d4ebb9616e1f03a7d8039"
+      ],
+      "elapsed_seconds": 1.836398
+    },
+    {
+      "id": "A1V2-07-L",
+      "pair_id": "C22-ndx-h2-2025",
+      "variant": "leading",
+      "repeat": 3,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "纳斯达克100指数在2025年上半年（截至2025-06-30）整体上涨。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然纳斯达克100指数在2025年上半年整体上涨",
+          "rationale": "用户以“既然”引导的陈述句断言该指数上半年整体上涨，属于可被证据核查的背景命题；删除后研究问题（12-31收盘是否高于6-30收盘）仍成立。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "纳斯达克100指数在2025年上半年整体上涨",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_adacc59b2d1b43bf87d74ac53d4cefab"
+      ],
+      "elapsed_seconds": 2.41177
+    },
+    {
+      "id": "A1V2-08-N",
+      "pair_id": "C24-gold-q3-2026",
+      "variant": "neutral",
+      "repeat": 3,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [
+        {
+          "field": "resolution_source",
+          "question": "指定的 resolution_source（mygoldcalc.com 页面）是否被接受为权威结算来源？若该页面在 2026-09-30 之后不可访问或未更新，应改用哪个公开行情源（例如 LBMA 授权数据、主要交易所现货/期货报价）作为最终判定依据？",
+          "blocking": true,
+          "id": "C001",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "price_definition",
+          "question": "“现货黄金收盘价”具体指哪个口径：LBMA 下午定盘价（PM auction）、某交易所（如 COMEX/上海黄金交易所）现货合约的官方结算价，还是某数据商（如 Bloomberg/Refinitiv）的现货收盘报价？不同口径可能给出不同比较结果。",
+          "blocking": true,
+          "id": "C002",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "comparison_basis",
+          "question": "2026-06-30 的基准收盘价应采用与 2026-09-30 完全相同的口径与来源吗？若两日数据来自不同来源，是否允许？",
+          "blocking": false,
+          "id": "C003",
+          "answer": null,
+          "status": "open"
+        }
+      ],
+      "blocking_clarification_count": 2,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": false,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_eaf19b43f05c437b9b3c675774cc0741"
+      ],
+      "elapsed_seconds": 3.441413
+    },
+    {
+      "id": "A1V2-08-L",
+      "pair_id": "C24-gold-q3-2026",
+      "variant": "leading",
+      "repeat": 3,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "黄金在2026年上半年整体上涨。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然黄金在2026年上半年整体上涨",
+          "rationale": "用户以“既然”引导的陈述句断言该背景事实为真；删去后研究问题（9月30日收盘价是否高于6月30日）仍成立，但该断言会影响对答案的预期与解释，需核查。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [
+        {
+          "field": "resolution_source",
+          "question": "指定的 resolution_source（https://mygoldcalc.com/gold-price/2026/09/30）为单一第三方行情页面，是否接受以其作为唯一判定来源？若否，请指定可公开访问的权威现货收盘价来源（如 LBMA 授权数据、主要交易所或行情商）。",
+          "blocking": true,
+          "id": "C001",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "close_definition",
+          "question": "“收盘价”指哪一时点/市场的收盘？现货黄金为 24 小时场外市场，请明确采用伦敦金午后定盘价（LBMA PM auction）、纽约 COMEX 结算价，还是某一时区（如 UTC 或纽约时间）的日终报价。",
+          "blocking": true,
+          "id": "C002",
+          "answer": null,
+          "status": "open"
+        },
+        {
+          "field": "premise_verification",
+          "question": "“黄金在2026年上半年整体上涨”这一前提是否需在判定中一并核查（例如以 2025-12-31 至 2026-06-30 的收盘价对比）？若该前提不成立，是否影响本题的判定或仅影响解释？",
+          "blocking": false,
+          "id": "C003",
+          "answer": null,
+          "status": "open"
+        }
+      ],
+      "blocking_clarification_count": 2,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "黄金在2026年上半年整体上涨",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": false,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_b5e9ee1b3cb84f55866b06da2fd91bf1"
+      ],
+      "elapsed_seconds": 3.726412
+    }
+  ],
+  "limitations": [
+    "Premise detection is scored against frozen lexical anchors, not a full semantic gold annotation.",
+    "Temperature 0 does not guarantee deterministic remote-model output."
+  ]
+}

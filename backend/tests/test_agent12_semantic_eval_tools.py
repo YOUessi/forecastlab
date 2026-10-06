@@ -67,3 +67,13 @@ def test_agent2_audit_score_requires_all_labels(tmp_path, capsys):
     ]
     assert sum(r['human_label']=='supported' for r in rows)/len(rows)==0.25
     assert sum(r['human_label'] in {'supported','partially_supported'} for r in rows)/len(rows)==0.5
+
+
+def test_agent1_prompt_keeps_question_framing_out_of_premises():
+    from app.agents.question import PROMPT
+    assert "以下内容不是 premise" in PROMPT
+    assert "研究对象或实体名称本身" in PROMPT
+    assert "用户正在询问的目标事件" in PROMPT
+    assert "resolution_rule、resolution_source" in PROMPT
+    assert "premises 应为空" in PROMPT
+    assert "既然核心测试都已经通过" in PROMPT
