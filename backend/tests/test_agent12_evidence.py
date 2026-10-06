@@ -110,3 +110,10 @@ def test_future_information_gap_detects_post_cutoff_market_result(clear_framing)
     assert _future_information_gap(
         GapDetail(missing="缺少截至2026年6月30日的指数成分权重", cause="not_found"), q
     ) is False
+
+
+def test_evidence_prompt_requires_claim_to_be_directly_entailed():
+    prompt = module().PROMPT
+    assert "直接蕴含" in prompt
+    assert "不能从“没提到”推断“未发生”" in prompt
+    assert "不得塞进 claim" in prompt

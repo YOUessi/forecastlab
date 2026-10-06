@@ -115,3 +115,76 @@ def test_api_confirm_does_not_accept_question_override(tmp_path, clear_framing, 
         frame = client.post("/api/questions/analyze", json=request(clear_framing).model_dump(mode="json")).json()
         payload = {"expected_revision": frame["revision"], "decisions": [], "question": "偷偷替换"}
         assert client.post(f"/api/questions/{frame['draft_id']}/confirm", json=payload).status_code == 422
+
+
+def test_scope_restatements_are_not_promoted_to_premises(tmp_path, clear_framing, mock_model):
+    req = AnalyzeQuestionRequest(question={
+        "question": "青岚社区是否会在2026年11月15日前发布正式版？",
+        "as_of": "2026-09-30T08:00:00Z",
+        "resolve_by": "2026-11-15T23:59:00Z",
+        "resolution_rule": "官方版本页可下载正式版为是，否则为否。",
+        "mode": "binary",
+    })
+    output = {
+        "proposed_spec": req.question.model_dump(mode="json"),
+        "premises": [
+            {"content": "研究对象是青岚社区正式版发布。", "origin": "user_explicit",
+             "source_input_id": "I001", "original_span": "青岚社区是否会在2026年11月15日前发布正式版", "rationale": "研究对象"},
+            {"content": "判定标准为官方版本页可下载正式版。", "origin": "user_explicit",
+             "source_input_id": "I001", "original_span": "是否会在2026年11月15日前发布正式版", "rationale": "判定口径"},
+        ],
+        "retrieval_plan": [
+            {"query": "青岚正式版", "purpose": "initial", "premise_indexes": [0]},
+            {"query": "青岚版本页", "purpose": "background", "premise_indexes": [1]},
+        ],
+    }
+    frame = service(tmp_path, mock_model([output])).analyze(req)
+    assert frame.premises == []
+    assert frame.retrieval_plan == []
+
+
+def test_filtered_candidate_indices_still_map_leading_premise_correctly(tmp_path, mock_model):
+    req = AnalyzeQuestionRequest(question={
+        "question": "既然核心测试已通过，青岚社区是否会在2026年11月15日前发布正式版？",
+        "as_of": "2026-09-30T08:00:00Z",
+        "resolve_by": "2026-11-15T23:59:00Z",
+        "resolution_rule": "官方版本页可下载正式版为是，否则为否。",
+        "mode": "binary",
+    })
+    output = {
+        "proposed_spec": req.question.model_dump(mode="json"),
+        "premises": [
+            {"content": "研究对象是青岚社区正式版发布。", "origin": "user_explicit",
+             "source_input_id": "I001", "original_span": "青岚社区是否会在2026年11月15日前发布正式版", "rationale": "研究对象"},
+            {"content": "核心测试已通过。", "origin": "user_explicit",
+             "source_input_id": "I001", "original_span": "核心测试已通过", "rationale": "用户明确的背景事实"},
+        ],
+        "retrieval_plan": [
+            {"query": "青岚对象", "purpose": "initial", "premise_indexes": [0]},
+            {"query": "青岚核心测试", "purpose": "challenge", "premise_indexes": [1]},
+        ],
+    }
+    frame = service(tmp_path, mock_model([output])).analyze(req)
+    assert [p.content for p in frame.premises] == ["核心测试已通过。"]
+    assert frame.premises[0].id == "P001"
+    assert len(frame.retrieval_plan) == 1
+    assert frame.retrieval_plan[0].query == "青岚核心测试"
+    assert frame.retrieval_plan[0].target_premise_ids == ["P001"]
+
+
+def test_model_inferred_binary_mode_restatement_is_removed(tmp_path, mock_model):
+    req = AnalyzeQuestionRequest(question={
+        "question": "青岚社区是否会在2026年11月15日前发布正式版？",
+        "as_of": "2026-09-30T08:00:00Z",
+        "resolve_by": "2026-11-15T23:59:00Z",
+        "resolution_rule": "官方版本页可下载正式版为是，否则为否。",
+        "mode": "binary",
+    })
+    output = {
+        "proposed_spec": req.question.model_dump(mode="json"),
+        "premises": [{"content": "该问题为二元判定（是/否）。", "origin": "model_inferred",
+                      "source_input_id": "I001", "original_span": "是否会", "rationale": "从是否推断"}],
+        "retrieval_plan": [],
+    }
+    frame = service(tmp_path, mock_model([output])).analyze(req)
+    assert frame.premises == []
