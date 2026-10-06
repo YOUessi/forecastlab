@@ -75,11 +75,18 @@ def nonblocking_audit_reason(reason: str, question: QuestionSpec, evidence: list
     if mistakes_future_outcome_for_missing_evidence(reason, question, assume_missing=True):
         return True
     cutoff_verified = bool(evidence) and all(e.availability == "verified_before_cutoff" for e in evidence)
+    if cutoff_verified and re.search(r"(?:证据|资料).*(?:仅|只).*?(?:覆盖|包含).*?(?:截点|截至日|信息截点).*?(?:及以前|及之前|之前|当日)", reason):
+        if not re.search(r"缺少|不足|无法|不能|没有|未提供|不支持|无关", reason):
+            return True
     if cutoff_verified and re.search(
         r"历史练习|事后整理|非(?:当时)?冻结|盲回测|回看偏差|source_type\s*=\s*exercise|date_status\s*(?:为|=)\s*unknown",
         reason, re.I,
     ):
-        return True
+        substantive_quality = re.search(
+            r"次级来源|非\s*(?:LBMA|官方|权威)|来源可靠性|来源质量|口径|交叉校验|无法核查|内容不支持|与目标.*(?:无关|弱相关)",
+            reason, re.I,
+        )
+        return substantive_quality is None
     return False
 
 

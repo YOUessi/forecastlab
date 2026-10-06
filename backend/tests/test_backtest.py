@@ -366,3 +366,53 @@ def test_actual_final_result_reason_is_still_discarded():
     assert can_estimate is True
     assert effective == []
     assert discarded == audit.blocking_reasons
+
+
+def test_cutoff_only_coverage_reason_is_nonblocking():
+    from app.schemas import EvidenceOnlyAudit
+    from app.graph import sanitize_evidence_audit
+
+    question = historical_question()
+    evidence = [item.model_copy(update={"availability": "verified_before_cutoff"})
+                for item in historical_evidence(question)]
+    audit = EvidenceOnlyAudit(
+        can_estimate=False,
+        blocking_reasons=["证据仅覆盖信息截点当日及之前的公开信息。"],
+    )
+    can_estimate, effective, discarded = sanitize_evidence_audit(audit, question, evidence)
+    assert can_estimate is True
+    assert effective == []
+    assert discarded == audit.blocking_reasons
+
+
+def test_historical_metadata_reason_is_nonblocking_after_cutoff_validation():
+    from app.schemas import EvidenceOnlyAudit
+    from app.graph import sanitize_evidence_audit
+
+    question = historical_question()
+    evidence = [item.model_copy(update={"availability": "verified_before_cutoff"})
+                for item in historical_evidence(question)]
+    audit = EvidenceOnlyAudit(
+        can_estimate=False,
+        blocking_reasons=["两条证据均为 source_type=exercise 的事后整理历史练习资料，非当时冻结盲回测，存在回看偏差。"],
+    )
+    can_estimate, effective, discarded = sanitize_evidence_audit(audit, question, evidence)
+    assert can_estimate is True
+    assert effective == []
+    assert discarded == audit.blocking_reasons
+
+
+def test_source_quality_problem_is_not_erased_by_historical_metadata():
+    from app.schemas import EvidenceOnlyAudit
+    from app.graph import sanitize_evidence_audit
+
+    question = historical_question()
+    evidence = [item.model_copy(update={"availability": "verified_before_cutoff"})
+                for item in historical_evidence(question)]
+    reason = ("E001 为次级来源，非 LBMA 官方日价，且 date_status=unknown；"
+              "基准价口径无法交叉校验，来源可靠性存疑。")
+    audit = EvidenceOnlyAudit(can_estimate=False, blocking_reasons=[reason])
+    can_estimate, effective, discarded = sanitize_evidence_audit(audit, question, evidence)
+    assert can_estimate is False
+    assert effective == [reason]
+    assert discarded == []
