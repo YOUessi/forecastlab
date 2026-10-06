@@ -421,3 +421,99 @@ The pipeline must still reject it with:
 This strict pass does not change the Brier formula, Review blocking policy, evidence-only audit policy, or probability validation.
 
 The 24-case suite still requires a real model-key rerun before any new coverage percentage can be reported.
+
+
+## 15. Evaluation suite v2
+
+The original v1 experiment is preserved unchanged for auditability. A new suite is introduced at:
+
+```text
+eval/suites/forecastlab-v2.json
+eval/cases-v2/
+```
+
+The goal is not to improve scores by changing outcomes. It repairs the evaluation inputs so the full pipeline is tested on evidence with defensible cutoff provenance.
+
+### Changes from v1
+
+1. C05 moves its `as_of` from 2024-10-31 to 2024-10-20 because Node.js 22 actually entered LTS on 2024-10-29. The v1 cutoff therefore leaked the outcome.
+2. C05 evidence is replaced with pre-outcome Node.js/OpenJS material available by 2024-10-20.
+3. Cases whose v1 packs lacked dated sources are replaced with dated pre-cutoff primary/authoritative sources where available.
+4. C01 uses two immutable pre-cutoff artifacts instead of trusting an arbitrary retrieved timestamp:
+   - a Wayback capture whose timestamp is encoded in the URL;
+   - a fixed python/peps Git commit whose SHA is encoded in the blob URL.
+5. C01 excerpts are verbatim source text so Agent 2 exact-quote validation is meaningful.
+
+### Cutoff validation rule
+
+The v2 validator does **not** accept an arbitrary `retrieved_at` field as proof that historical evidence existed before the cutoff.
+
+An evidence item is cutoff-ready only if at least one of these is true:
+
+- `published_at <= as_of`; or
+- an explicitly declared immutable `cutoff_proof` validates against the source URL identity.
+
+Currently supported immutable proof types:
+
+- Wayback capture timestamp;
+- fixed Git commit SHA.
+
+A mismatched or unverifiable proof is a hard validation problem.
+
+### v2 offline result
+
+```text
+READY:          24
+NEEDS REVIEW:    0
+BROKEN:          0
+cutoff-ready: 24/24
+```
+
+The validator test suite also checks that arbitrary `retrieved_at` is rejected as cutoff proof.
+
+## 16. Fixed model temperature
+
+The previous 24-case report explicitly listed the provider-default temperature as a reproducibility limitation.
+
+This branch now uses:
+
+```text
+FORECASTLAB_MODEL_TEMPERATURE=0
+```
+
+The value defaults to 0 and must be in [0, 2].
+
+The temperature is:
+
+- explicitly sent with each model request;
+- included in the request fingerprint;
+- printed by `run_suite.py --dry-run`;
+- saved in the evaluation `frozen` metadata.
+
+This does not make LLM execution perfectly deterministic, but it removes one known uncontrolled sampling variable.
+
+## 17. Real API smoke evidence before the full rerun
+
+A targeted DeepSeek API smoke run was executed after the F-contract repair.
+
+Representative v1 cases that previously failed on F references now behave as follows:
+
+```text
+C02  old: Review -> F001 hard failure
+     new: completed, P(yes)=0.50, findings_validated=true
+
+C07  old: Review -> F001/F002 hard failure
+     new: completed, P(yes)=0.20, findings_validated=true
+
+C20  old: Assumption.parent_ids -> F001 hard failure
+     new: reaches Review/Forecast and abstains as insufficient_evidence
+
+C22  old: Assumption.parent_ids -> F001 hard failure
+     new: completed, P(yes)=0.58, findings_validated=true
+```
+
+The important conclusion is limited: these targeted runs show the F-contract hard failure is no longer reproduced on real API calls.
+
+They do **not** yet establish a new 24-case coverage or Brier score.
+
+The next result to report must come from a full `forecastlab-v2` run on a committed revision.
