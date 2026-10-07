@@ -39,24 +39,24 @@ def demo_output(role: str, actor_id: str | None = None, round_number: int = 1) -
             "variables": {"release_readiness": "集成中", "compatibility": "两个高优先级问题未解决", "partner_slot": "待确认"},
             "relations": ["测试进度影响发布决定", "合作方资源可能缩短验证时间"],
             "actors": [
-                {"id": "A1", "name": "项目组", "goal": "按期发布稳定版本", "resources": ["开发人员"], "constraints": ["兼容问题"], "visible_evidence_ids": ["E001", "E002"]},
-                {"id": "A2", "name": "测试组", "goal": "避免高优先级缺陷进入正式版", "resources": ["回归测试"], "constraints": ["测试时间"], "visible_evidence_ids": ["E002"]},
-                {"id": "A3", "name": "合作方", "goal": "提供可用的测试资源", "resources": ["托管环境"], "constraints": ["排期"], "visible_evidence_ids": ["E003"]},
+                {"id": "A001", "name": "项目组", "goal": "按期发布稳定版本", "resources": ["开发人员"], "constraints": ["兼容问题"], "visible_evidence_ids": ["E001", "E002"]},
+                {"id": "A002", "name": "测试组", "goal": "避免高优先级缺陷进入正式版", "resources": ["回归测试"], "constraints": ["测试时间"], "visible_evidence_ids": ["E002"]},
+                {"id": "A003", "name": "合作方", "goal": "提供可用的测试资源", "resources": ["托管环境"], "constraints": ["排期"], "visible_evidence_ids": ["E003"]},
             ],
             "evidence_refs": ["E001", "E002", "E003"],
             "assumptions": [{"id": "H001", "created_by": "model", "parent_ids": ["E002"], "content": "兼容问题可以在发布前修复", "rationale": "材料未提供修复时长"}],
         }
     if role == "actor":
         choices = {
-            1: {"A1": ("优先修复兼容问题", "把有限开发时间投入阻塞项", "提高稳定发布机会", ["E002"]), "A2": ("扩大回归测试", "尽早暴露残留问题", "可能延长验证周期", ["E002"]), "A3": ("预留测试环境", "在排期截止前锁定资源", "缓解测试瓶颈", ["E003"])},
-            2: {"A1": ("按测试反馈决定发布范围", "保留缩减功能的选项", "增加按时发布弹性", ["E001", "E002"]), "A2": ("复测两个兼容问题", "确认修复是否有效", "决定是否建议发布", ["E002"]), "A3": ("继续提供测试环境", "支持二轮验证", "减少环境等待", ["E003"])},
+            1: {"A001": ("优先修复兼容问题", "把有限开发时间投入阻塞项", "提高稳定发布机会", ["E002"]), "A002": ("扩大回归测试", "尽早暴露残留问题", "可能延长验证周期", ["E002"]), "A003": ("预留测试环境", "在排期截止前锁定资源", "缓解测试瓶颈", ["E003"])},
+            2: {"A001": ("按测试反馈决定发布范围", "保留缩减功能的选项", "增加按时发布弹性", ["E001", "E002"]), "A002": ("复测两个兼容问题", "确认修复是否有效", "决定是否建议发布", ["E002"]), "A003": ("继续提供测试环境", "支持二轮验证", "减少环境等待", ["E003"])},
         }
         action, rationale, impact, refs = choices[round_number][actor_id]
         return {"id": f"M{round_number}-{actor_id}", "created_by": actor_id, "parent_ids": [], "actor_id": actor_id, "round": round_number,
                 "parent_state": round_number - 1, "action": action, "rationale_summary": rationale, "expected_impact": impact,
-                "evidence_ids": refs, "assumption_ids": ["H001"] if actor_id == "A1" else [], "kind": "simulation"}
+                "evidence_ids": refs, "assumption_ids": ["H001"] if actor_id == "A001" else [], "kind": "simulation"}
     if role == "environment":
-        return {"id": f"S{round_number}", "created_by": "environment", "parent_ids": [f"M{round_number}-A{i}" for i in (1, 2, 3)],
+        return {"id": f"S{round_number}", "created_by": "environment", "parent_ids": [f"M{round_number}-A{i:03}" for i in (1, 2, 3)],
                 "round": round_number, "parent_state": round_number - 1, "next_state": round_number,
                 "summary": "模拟：主体行动改善验证条件，但兼容问题是否解决仍未知。" if round_number == 1 else "模拟：项目组准备依据复测结果选择正式发布或延期。",
                 "state_changes": {"release_readiness": "待二轮复测" if round_number == 1 else "等待最终决策"},
