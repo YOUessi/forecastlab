@@ -1,5 +1,8 @@
 import importlib.util
+import json
 from pathlib import Path
+
+from fastapi.testclient import TestClient
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -45,3 +48,21 @@ def test_tavily_summary_handles_empty_and_authoritative_metrics():
     assert result["task_success_rate"] == 0.5
     assert result["body_rate"] == 0.5
     assert result["authoritative_hit_rate"] == 0.5
+
+
+def test_reviewer_ui_saves_blind_label(tmp_path):
+    mod = load("reviewer_ui", "eval/reviewer_ui.py")
+    packet = tmp_path / "packet.json"
+    output = tmp_path / "reviewed.json"
+    packet.write_text(json.dumps({"rows": [{
+        "case_id": "C1", "finding_id": "F1", "relation": "background", "claim": "claim",
+        "limitation": "limit", "citations": [{"evidence_id": "E1", "source_title": "source", "paragraph_id": "B1", "quote": "quote"}],
+        "human_label": None, "human_notes": ""
+    }]}), encoding="utf-8")
+    with TestClient(mod.create_app(packet, output)) as client:
+        assert client.get("/api/status").json()["done"] == 0
+        saved = client.post("/api/rows/0", json={"human_label": "supported", "human_notes": "direct"})
+        assert saved.status_code == 200 and saved.json()["done"] == 1
+    data = json.loads(output.read_text(encoding="utf-8"))
+    assert data["rows"][0]["human_label"] == "supported"
+    assert data["rows"][0]["human_notes"] == "direct"
