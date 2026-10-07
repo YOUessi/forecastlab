@@ -28,9 +28,10 @@ from app import config  # noqa: E402
 from app.graph import execute  # noqa: E402
 from app.llm import ModelClient  # noqa: E402
 from app.schemas import ImportedEvidence, QuestionSpec, RunRecord  # noqa: E402
-from app.sources import normalize_import  # noqa: E402
+from app.sources import import_evidence, normalize_import  # noqa: E402
 from app.storage import RunStore  # noqa: E402
 from single_agent import predict  # noqa: E402
+from validate_cases import validate_case  # noqa: E402
 
 ARMS = ("full", "single_agent", "no_evidence")
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -77,13 +78,49 @@ def yes_outcome(question: QuestionSpec) -> str:
     return question.outcomes[0]
 
 
+def full_diagnostics(record: RunRecord) -> dict:
+    """Persist why the full arm answered, abstained, or failed without changing scoring."""
+    review = record.review
+    assessment = record.evidence_assessment
+    findings = []
+    if assessment:
+        for finding in assessment.findings:
+            findings.append({
+                "id": finding.id,
+                "claim": finding.claim,
+                "relation": finding.relation,
+                "target_premise_ids": finding.target_premise_ids,
+                "evidence_ids": list(dict.fromkeys(c.evidence_id for c in finding.citations)),
+            })
+    return {
+        "full_failed_stage": record.failed_stage,
+        "full_review_status": review.status if review else None,
+        "full_probability_basis": review.probability_basis if review else None,
+        "full_review_issues": [issue.model_dump(mode="json") for issue in review.issues] if review else [],
+        "full_unsupported_claims": list(review.unsupported_claims) if review else [],
+        "full_missing_evidence": list(review.missing_evidence) if review else [],
+        "full_evidence_audit_model_can_estimate": review.evidence_audit_model_can_estimate if review else None,
+        "full_evidence_audit_can_estimate": review.evidence_audit_can_estimate if review else None,
+        "full_evidence_audit_blocking_reasons": list(review.evidence_audit_blocking_reasons) if review else [],
+        "full_evidence_audit_discarded_reasons": list(review.evidence_audit_discarded_reasons) if review else [],
+        "full_findings_validated": bool(assessment and assessment.findings_validated),
+        "full_evidence_findings": findings,
+        "full_evidence_gaps": [gap.model_dump(mode="json") for gap in assessment.gap_details] if assessment else [],
+        "full_rejected_findings": len(assessment.rejected_findings) if assessment else 0,
+    }
+
+
 def run_full_arm(case: dict, data_dir: Path) -> dict:
     question = QuestionSpec.model_validate(case["question"])
     imported = [ImportedEvidence.model_validate(item) for item in case_evidence(case)]
-    evidence = normalize_import(imported, question) if imported else []
     store = RunStore(data_dir)
+    validation = validate_case(case)
+    if not validation["strict_cutoff_ready"]:
+        raise ValueError(f"评测案例未通过 cutoff validator：{case['id']}")
+    retrieval = import_evidence(imported, question, data_dir, cutoff_verified=True) if imported else None
+    evidence = retrieval.evidence if retrieval else []
     record = RunRecord(run_id=f"eval_{case['id']}_{uuid4().hex[:6]}", question=question,
-                       evidence_mode="import", model=config.MODEL_NAME)
+                       evidence_mode="import", model=config.MODEL_NAME, retrieval_result=retrieval)
     store.save(record)
     started = time.monotonic()
     execute(record, evidence, store)
@@ -97,6 +134,7 @@ def run_full_arm(case: dict, data_dir: Path) -> dict:
         "full_tokens": (finished.usage.get("prompt_tokens") or 0) + (finished.usage.get("completion_tokens") or 0),
         "run_id": finished.run_id,
         "errors": " | ".join(finished.errors),
+        **full_diagnostics(finished),
     }
 
 
@@ -145,6 +183,7 @@ def main():
             "arms": arms,
             "categories": sorted({str(case.get("category", "unknown")) for case in cases}),
             "model": config.MODEL_NAME,
+            "temperature": config.MODEL_TEMPERATURE,
             "model_key_configured": bool(config.MODEL_API_KEY),
             "max_calls_per_run": config.MAX_CALLS,
             "estimated_model_calls_upper_bound": len(cases) * (
@@ -189,8 +228,8 @@ def main():
 
     output = {
         "suite": meta.get("name", args.suite.stem),
-        "frozen": {**frozen, "model": config.MODEL_NAME, "prompt_version": "v2",
-                   "max_calls": config.MAX_CALLS, "max_seconds": config.MAX_SECONDS},
+        "frozen": {**frozen, "model": config.MODEL_NAME, "temperature": config.MODEL_TEMPERATURE,
+                   "prompt_version": "v2", "max_calls": config.MAX_CALLS, "max_seconds": config.MAX_SECONDS},
         "arms": arms,
         "started_at": started_at.isoformat(),
         "finished_at": datetime.now(timezone.utc).isoformat(),

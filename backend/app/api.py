@@ -11,7 +11,7 @@ from . import config
 from .demo import DEMO_QUESTION, demo_evidence
 from .graph import execute
 from .schemas import QuestionDraft, QuestionSpec, RunRecord, RunRequest, Settlement, SettlementRequest, utcnow
-from .sources import normalize_import, import_evidence
+from .sources import import_evidence
 from .provenance import load_snapshot, split_passages
 from .storage import RunStore, VersionConflict
 from .question_service import QuestionService, ModelNotConfigured
@@ -188,20 +188,16 @@ def create_app(data_dir: Path | None = None, *, question_model_factory=None) -> 
                 if not config.MODEL_API_KEY:
                     raise HTTPException(503, "未配置 QWEN_API_KEY 或 DEEPSEEK_API_KEY；请先体验教学演示或配置后端密钥。")
                 if request.evidence_mode == "import":
-                    if framing:
-                        retrieval = import_evidence(request.evidence, question, store.directory)
-                        evidence = retrieval.evidence
-                    else:
-                        evidence = normalize_import(request.evidence, question)
+                    retrieval = import_evidence(request.evidence, question, store.directory)
+                    evidence = retrieval.evidence
                 elif request.evidence_mode == "reuse":
                     if not parent:
                         raise HTTPException(422, "沿用证据需要 parent_run_id")
                     if question.as_of < parent.question.as_of:
                         raise HTTPException(422, "沿用证据时，信息截至时间不能早于父运行")
                     evidence = [e.model_copy(deep=True) for e in parent.evidence]
-                    if framing:
-                        from .schemas import RetrievalResult
-                        retrieval = RetrievalResult(evidence=evidence)
+                    from .schemas import RetrievalResult
+                    retrieval = RetrievalResult(evidence=evidence)
                 else:
                     if not config.TAVILY_API_KEY:
                         raise HTTPException(503, "未配置 TAVILY_API_KEY；请导入证据包。")

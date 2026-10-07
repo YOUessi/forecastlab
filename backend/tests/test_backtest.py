@@ -94,6 +94,8 @@ def test_historical_forecast_estimates_without_future_result_evidence():
     state = build_graph(record, evidence, model, Path("/tmp")).invoke({"question": question.model_dump(mode="json")})
 
     assert state["review"]["probability_basis"] == "evidence_only"
+    assert state["review"]["evidence_audit_can_estimate"] is True
+    assert state["review"]["evidence_audit_blocking_reasons"] == []
     assert state["forecast"]["status"] == "completed"
     assert state["forecast"]["probabilities"] == {"是": 0.65, "否": 0.35}
     assert state["forecast"]["calibrated"] is False
@@ -269,3 +271,148 @@ def test_market_evidence_only_forecast_ignores_future_result_gap_and_returns_pro
     assert payload["market_price_context"]["price_source_groups"] == 1
     assert "没有查到利空消息不是上涨证据" in instructions
     assert any("价格资料只有 2 个交易日" in item for item in state["forecast"]["limitations"])
+
+def test_evidence_audit_blocking_reasons_are_persisted():
+    question = historical_question()
+    evidence = historical_evidence(question)
+    model = BacktestModel(can_estimate=False)
+    record = RunRecord(run_id="run_audit_reasons", question=question, evidence_mode="import", model="fake")
+
+    state = build_graph(record, evidence, model, Path("/tmp")).invoke({"question": question.model_dump(mode="json")})
+
+    assert state["review"]["probability_basis"] == "none"
+    assert state["review"]["evidence_audit_can_estimate"] is False
+    assert state["review"]["evidence_audit_blocking_reasons"] == ["没有可用的截止日前证据"]
+    assert state["forecast"]["status"] == "insufficient_evidence"
+    assert state["forecast"]["probabilities"] is None
+
+
+def test_future_outcome_audit_reason_is_discarded_for_verified_cutoff_evidence():
+    from app.schemas import EvidenceOnlyAudit
+    from app.graph import sanitize_evidence_audit
+
+    question = historical_question()
+    evidence = [item.model_copy(update={"availability": "verified_before_cutoff"})
+                for item in historical_evidence(question)]
+    audit = EvidenceOnlyAudit(
+        can_estimate=False,
+        blocking_reasons=["缺少 2024-10-01 的实际发布结果，无法判断是否按期发布。"],
+    )
+    can_estimate, effective, discarded = sanitize_evidence_audit(audit, question, evidence)
+    assert can_estimate is True
+    assert effective == []
+    assert discarded == audit.blocking_reasons
+    assert all(available_at_cutoff(item, question.as_of) for item in evidence)
+
+
+def test_substantive_pre_cutoff_audit_reason_remains_blocking():
+    from app.schemas import EvidenceOnlyAudit
+    from app.graph import sanitize_evidence_audit
+
+    question = historical_question()
+    evidence = [item.model_copy(update={"availability": "verified_before_cutoff"})
+                for item in historical_evidence(question)]
+    audit = EvidenceOnlyAudit(
+        can_estimate=False,
+        blocking_reasons=["截至信息日没有任何与目标事件直接相关的可核查证据。"],
+    )
+    can_estimate, effective, discarded = sanitize_evidence_audit(audit, question, evidence)
+    assert can_estimate is False
+    assert effective == audit.blocking_reasons
+    assert discarded == []
+
+
+def test_verified_cutoff_exercise_is_available_even_if_imported_after_cutoff():
+    question = historical_question()
+    evidence = historical_evidence(question)[0].model_copy(update={
+        "availability": "verified_before_cutoff",
+        "published_at": None,
+        "retrieved_at": question.as_of.replace(year=2026),
+    })
+    assert available_at_cutoff(evidence, question.as_of) is True
+
+
+def test_champion_inference_gap_is_not_mistaken_for_future_result():
+    from app.schemas import EvidenceOnlyAudit
+    from app.graph import sanitize_evidence_audit
+
+    question = historical_question()
+    evidence = [item.model_copy(update={"availability": "verified_before_cutoff"})
+                for item in historical_evidence(question)]
+    audit = EvidenceOnlyAudit(
+        can_estimate=False,
+        blocking_reasons=[
+            "缺少皇家马德里在该赛季欧冠的参赛与晋级情况，缺少可用于推断冠军归属的任何战绩信息。"
+        ],
+    )
+    can_estimate, effective, discarded = sanitize_evidence_audit(audit, question, evidence)
+    assert can_estimate is False
+    assert effective == audit.blocking_reasons
+    assert discarded == []
+
+
+def test_actual_final_result_reason_is_still_discarded():
+    from app.schemas import EvidenceOnlyAudit
+    from app.graph import sanitize_evidence_audit
+
+    question = historical_question()
+    evidence = [item.model_copy(update={"availability": "verified_before_cutoff"})
+                for item in historical_evidence(question)]
+    audit = EvidenceOnlyAudit(
+        can_estimate=False,
+        blocking_reasons=["证据未包含决赛实际比赛结果，无法直接确认最终冠军。"],
+    )
+    can_estimate, effective, discarded = sanitize_evidence_audit(audit, question, evidence)
+    assert can_estimate is True
+    assert effective == []
+    assert discarded == audit.blocking_reasons
+
+
+def test_cutoff_only_coverage_reason_is_nonblocking():
+    from app.schemas import EvidenceOnlyAudit
+    from app.graph import sanitize_evidence_audit
+
+    question = historical_question()
+    evidence = [item.model_copy(update={"availability": "verified_before_cutoff"})
+                for item in historical_evidence(question)]
+    audit = EvidenceOnlyAudit(
+        can_estimate=False,
+        blocking_reasons=["证据仅覆盖信息截点当日及之前的公开信息。"],
+    )
+    can_estimate, effective, discarded = sanitize_evidence_audit(audit, question, evidence)
+    assert can_estimate is True
+    assert effective == []
+    assert discarded == audit.blocking_reasons
+
+
+def test_historical_metadata_reason_is_nonblocking_after_cutoff_validation():
+    from app.schemas import EvidenceOnlyAudit
+    from app.graph import sanitize_evidence_audit
+
+    question = historical_question()
+    evidence = [item.model_copy(update={"availability": "verified_before_cutoff"})
+                for item in historical_evidence(question)]
+    audit = EvidenceOnlyAudit(
+        can_estimate=False,
+        blocking_reasons=["两条证据均为 source_type=exercise 的事后整理历史练习资料，非当时冻结盲回测，存在回看偏差。"],
+    )
+    can_estimate, effective, discarded = sanitize_evidence_audit(audit, question, evidence)
+    assert can_estimate is True
+    assert effective == []
+    assert discarded == audit.blocking_reasons
+
+
+def test_source_quality_problem_is_not_erased_by_historical_metadata():
+    from app.schemas import EvidenceOnlyAudit
+    from app.graph import sanitize_evidence_audit
+
+    question = historical_question()
+    evidence = [item.model_copy(update={"availability": "verified_before_cutoff"})
+                for item in historical_evidence(question)]
+    reason = ("E001 为次级来源，非 LBMA 官方日价，且 date_status=unknown；"
+              "基准价口径无法交叉校验，来源可靠性存疑。")
+    audit = EvidenceOnlyAudit(can_estimate=False, blocking_reasons=[reason])
+    can_estimate, effective, discarded = sanitize_evidence_audit(audit, question, evidence)
+    assert can_estimate is False
+    assert effective == [reason]
+    assert discarded == []

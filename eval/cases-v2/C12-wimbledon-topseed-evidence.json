@@ -1,0 +1,25 @@
+{
+  "_about": "2025 温网男单冠军是否为 1 号种子的冻结证据包。信息截至 2025-06-20；使用截点前 ATP 官方排名信息。",
+  "evidence": [
+    {
+      "source_url": "https://www.atptour.com/en/news/sinner-on-this-day-no-1-club",
+      "title": "On This Day: Jannik Sinner becomes first Italian to rise to No. 1 in 2024",
+      "publisher": "ATP Tour",
+      "published_at": "2025-06-10T00:00:00Z",
+      "excerpt": "Jannik Sinner made history on 10 June 2024 when he became the first Italian to rise to No. 1 in the PIF ATP Rankings.",
+      "claim": "截至截点前，Sinner 仍处于 ATP 世界第一的长期位置，为温网头号种子提供直接排名依据。",
+      "source_type": "exercise",
+      "source_group": "atptour.com"
+    },
+    {
+      "source_url": "https://www.atptour.com/en/news/sinner-halle-2025-life-as-no-1",
+      "title": "Sinner on reality of No. 1: 'Everyone wants to beat you'",
+      "publisher": "ATP Tour",
+      "published_at": "2025-06-18T00:00:00Z",
+      "excerpt": "Sinner became the 29th No. 1 in the PIF ATP Rankings ... Having comfortably retained his position ever since.",
+      "claim": "6 月 18 日 ATP 官方仍确认 Sinner 保持世界第一，紧邻温网种子确定窗口。",
+      "source_type": "exercise",
+      "source_group": "atptour.com"
+    }
+  ]
+}

@@ -39,7 +39,9 @@ def evidence_for_model(items: list[Evidence], limit: int = 2400) -> list[dict]:
 
 
 def available_at_cutoff(evidence: Evidence, as_of) -> bool:
-    """Allow dated exercise material without pretending it was fetched at the cutoff."""
+    """Allow server-validated frozen evidence or dated exercise material at the cutoff."""
+    if evidence.availability in {"verified_before_cutoff", "live_near_cutoff"}:
+        return True
     if evidence.retrieved_at <= as_of:
         return True
     return (evidence.source_type == "exercise" and evidence.published_at is not None
@@ -53,7 +55,7 @@ def mistakes_future_outcome_for_missing_evidence(text: str, question: QuestionSp
     """Catch the common error of demanding observations from the forecast period."""
     if not assume_missing and not re.search(r"缺少|缺失|不足|尚未|未知|无法|不能|没有|未有|未发生|未提供|不具备", text):
         return False
-    if re.search(r"未来(?:的)?(?:结果|行情|数据|信息)|预测期|结算(?:日|时|结果)|截至日之后|截止日之后|后续(?:的)?(?:行情|数据|结果)|最终(?:结果|行情)", text):
+    if re.search(r"未来(?:的)?(?:结果|行情|数据|信息)|预测期|结算(?:日|时|结果)|截至日之后|截止日之后|后续(?:的)?(?:行情|数据|结果)|最终(?:结果|行情|冠军|积分榜|排名|名次)|冠军结果|赛季最终(?:积分榜|排名|名次)|决赛(?:的)?(?:实际)?(?:比赛)?结果|实际收盘(?:价|点位)|结果日(?:数据|行情)", text):
         return True
     for match in re.finditer(r"(?:(\d{4})\s*[年/-]\s*)?(\d{1,2})\s*[月/-]\s*(?:(\d{1,2})\s*日?)?", text):
         year = int(match.group(1)) if match.group(1) else question.as_of.year
@@ -66,6 +68,38 @@ def mistakes_future_outcome_for_missing_evidence(text: str, question: QuestionSp
         if day is not None and (year, month, day) > (question.as_of.year, question.as_of.month, question.as_of.day):
             return True
     return False
+
+
+def nonblocking_audit_reason(reason: str, question: QuestionSpec, evidence: list[Evidence]) -> bool:
+    """Drop only reasons that violate forecast-time semantics, never substantive pre-cutoff gaps."""
+    if mistakes_future_outcome_for_missing_evidence(reason, question, assume_missing=True):
+        return True
+    cutoff_verified = bool(evidence) and all(e.availability == "verified_before_cutoff" for e in evidence)
+    if cutoff_verified and re.search(r"(?:证据|资料).*(?:仅|只).*?(?:覆盖|包含).*?(?:截点|截至日|信息截点).*?(?:及以前|及之前|之前|当日)", reason):
+        if not re.search(r"缺少|不足|无法|不能|没有|未提供|不支持|无关", reason):
+            return True
+    if cutoff_verified and re.search(
+        r"历史练习|事后整理|非(?:当时)?冻结|盲回测|回看偏差|source_type\s*=\s*exercise|date_status\s*(?:为|=)\s*unknown",
+        reason, re.I,
+    ):
+        substantive_quality = re.search(
+            r"次级来源|非\s*(?:LBMA|官方|权威)|来源可靠性|来源质量|口径|交叉校验|无法核查|内容不支持|与目标.*(?:无关|弱相关)",
+            reason, re.I,
+        )
+        return substantive_quality is None
+    return False
+
+
+def sanitize_evidence_audit(audit: EvidenceOnlyAudit, question: QuestionSpec,
+                            evidence: list[Evidence]) -> tuple[bool, list[str], list[str]]:
+    """Return effective can_estimate, blocking reasons, and discarded non-blocking reasons."""
+    raw = list(audit.blocking_reasons)
+    discarded = [reason for reason in raw if nonblocking_audit_reason(reason, question, evidence)]
+    effective = [reason for reason in raw if reason not in discarded]
+    can_estimate = audit.can_estimate
+    if not can_estimate and raw and not effective:
+        can_estimate = True
+    return can_estimate, effective, discarded
 
 
 def market_price_context(question: QuestionSpec, evidence: list[Evidence]) -> dict | None:
@@ -111,6 +145,53 @@ def canonical_ids(values: list[str], valid: set[str]) -> list[str]:
             key=value.find))
         normalized.extend(matches or [value])
     return list(dict.fromkeys(normalized))
+
+
+def sanitize_review_issue_ids(issue: ReviewIssue, valid: set[str]) -> list[str]:
+    """Keep review prose but drop locator IDs that are not valid trace nodes.
+
+    Review affected_ids are navigation hints, not evidence themselves. An invalid
+    locator must never become a trusted reference, but it also should not abort an
+    otherwise auditable run. Dropped IDs are recorded in the explanation.
+    """
+    normalized = canonical_ids(issue.affected_ids, valid)
+    invalid = [item for item in normalized if item not in valid]
+    issue.affected_ids = [item for item in normalized if item in valid]
+    if invalid:
+        suffix = f"系统已忽略无效定位编号：{'、'.join(invalid)}。"
+        issue.explanation = (issue.explanation.rstrip("。") + "；" + suffix) if issue.explanation else suffix
+    return invalid
+
+
+def canonicalize_world_ids(world: WorldState) -> tuple[dict[str, str], dict[str, str]]:
+    """Assign server-owned namespaces to model-generated actors and assumptions."""
+    old_actor_ids = [actor.id for actor in world.actors]
+    old_assumption_ids = [assumption.id for assumption in world.assumptions]
+    if len(set(old_actor_ids)) != len(old_actor_ids):
+        raise ValueError("主体 ID 重复")
+    if len(set(old_assumption_ids)) != len(old_assumption_ids):
+        raise ValueError("假设 ID 重复")
+    actor_map = {old: f"A{i:03}" for i, old in enumerate(old_actor_ids, 1)}
+    assumption_map = {old: f"H{i:03}" for i, old in enumerate(old_assumption_ids, 1)}
+    for actor in world.actors:
+        actor.id = actor_map[actor.id]
+    for assumption in world.assumptions:
+        old = assumption.id
+        assumption.id = assumption_map[old]
+        assumption.parent_ids = [assumption_map.get(parent, parent) for parent in assumption.parent_ids]
+    return actor_map, assumption_map
+
+
+def validated_finding_ids(assessment: EvidenceAssessment, evidence_ids: set[str]) -> set[str]:
+    """Return only server-validated F IDs whose citations trace to current E evidence."""
+    if assessment.findings and not assessment.findings_validated:
+        raise ValueError("证据发现未经过原文校验")
+    finding_ids = [finding.id for finding in assessment.findings]
+    if len(set(finding_ids)) != len(finding_ids):
+        raise ValueError("证据发现 ID 重复")
+    for finding in assessment.findings:
+        check_ids([citation.evidence_id for citation in finding.citations], evidence_ids, "证据发现")
+    return set(finding_ids)
 
 
 def canonicalize_forecast_ids(forecast: Forecast, evidence: list[Evidence], world: WorldState,
@@ -214,7 +295,16 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
                 payload[key] = context["evidence"]
                 payload["evidence_assessment"] = context["assessment"].model_dump(mode="json")
                 payload["evidence_context_limitations"] = context["limitations"]
-            instructions += " 待核查前提不是事实；F编号只是组织发现，最终引用必须回到E/H/M/S编号，不能引用F或P作为外部证据。"
+            instructions += " 待核查前提不是事实；P不能作为外部证据。"
+        if record.evidence_assessment and record.evidence_assessment.findings_validated:
+            if role == "review":
+                instructions += (" F编号是经过原文校验的Agent 2结构化发现，可在affected_ids中定位审查对象，"
+                                 "但F本身不是外部证据；解释支持关系时仍应回到其底层E引用。")
+            elif role == "world":
+                instructions += (" assumption.parent_ids可引用经过原文校验的F作为中间溯源节点；"
+                                 "外部事实、world.evidence_refs和actor.visible_evidence_ids仍只能引用E。")
+            elif role == "forecast":
+                instructions += " 最终报告不能引用F，必须回到E/H/M/S。"
         return model.complete(role, payload, schema, instructions)
 
     def question_node(state: FlowState):
@@ -237,7 +327,7 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
 
     def evidence_node(state: FlowState):
         question = QuestionSpec.model_validate(state["question"])
-        if record.question_framing:
+        if record.question_framing or record.retrieval_result is not None:
             retrieval = record.retrieval_result
             if retrieval is None and record.evidence_mode == "online":
                 if record.retrieval_started:
@@ -269,6 +359,8 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
         assessment = ask("evidence", {"question": state["question"], "evidence": evidence_for_model(items)}, EvidenceAssessment,
                          "归纳资料冲突和缺口，只引用实际存在的证据编号。搜索摘要不是全文证据；不可编造新来源。"
                          "缺口只列信息截至时间当时可能取得却未提供的资料；未来结算结果尚未发生是预测对象，不是证据缺口。")
+        # Never trust a model-supplied validation flag on the legacy path.
+        assessment.findings_validated = False
         check_ids(assessment.evidence_ids, {e.id for e in items}, "证据评估")
         assessment.gaps = [gap for gap in assessment.gaps
                            if not mistakes_future_outcome_for_missing_evidence(gap, question, assume_missing=True)]
@@ -281,14 +373,12 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
         question = QuestionSpec.model_validate(state["question"])
         evidence = [Evidence.model_validate(x) for x in state["evidence"]]
         world = ask("world", {"question": question.model_dump(mode="json"), "evidence": evidence_for_model(evidence, 1600), "evidence_assessment": state["evidence_assessment"]}, WorldState,
-                    "只用证据编号引用事实；不确定的动机必须写为 assumption。若无战略主体，可留空 actors 并说明原因。主体最多 3 个。"
+                    "只用 E 编号引用外部事实；不确定的动机必须写为 assumption。assumption.parent_ids 可引用合法 F finding 作为中间溯源节点，"
+                    "但 world.evidence_refs 和 actor.visible_evidence_ids 仍只能引用 E。若无战略主体，可留空 actors 并说明原因。主体最多 3 个。"
                     "信息截至时间之后的事件均未发生，计划发布日期不能写成实际发布日期。"
                     "市场价格问题可以没有战略主体；预测期行情未知是需要预测的目标，不能据此认定无法预测。")
         world.actors = world.actors[:3]
-        if len({a.id for a in world.actors}) != len(world.actors):
-            raise ValueError("主体 ID 重复")
-        if len({a.id for a in world.assumptions}) != len(world.assumptions):
-            raise ValueError("假设 ID 重复")
+        canonicalize_world_ids(world)
         allowed_conditions = set(question.user_assumptions)
         if record.question_framing:
             allowed_conditions |= {p.content for p in record.question_framing.premises
@@ -319,7 +409,10 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
         check_ids(world.evidence_refs, {e.id for e in evidence}, "世界状态")
         for actor in world.actors:
             check_ids(actor.visible_evidence_ids, {e.id for e in evidence}, "主体画像")
-        valid_parents = {e.id for e in evidence} | {a.id for a in world.assumptions}
+        evidence_ids = {e.id for e in evidence}
+        assessment = EvidenceAssessment.model_validate(state["evidence_assessment"])
+        finding_ids = validated_finding_ids(assessment, evidence_ids)
+        valid_parents = evidence_ids | finding_ids | {a.id for a in world.assumptions}
         for assumption in world.assumptions:
             check_ids(assumption.parent_ids, valid_parents, "假设")
         return {"world": world.model_dump(mode="json"), "premise_assumption_map": mapping}
@@ -409,11 +502,13 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
             review.status = "blocked"
         elif future_gap_found and review.status == "blocked":
             review.status = "qualified"
-        valid = ({e.id for e in evidence} | {a.id for a in world.assumptions} | {a.id for a in world.actors}
+        evidence_ids = {e.id for e in evidence}
+        assessment = EvidenceAssessment.model_validate(state["evidence_assessment"])
+        finding_ids = validated_finding_ids(assessment, evidence_ids)
+        valid = (evidence_ids | finding_ids | {a.id for a in world.assumptions} | {a.id for a in world.actors}
                  | {a["id"] for a in state["actions"]} | {s["id"] for s in state["simulation"]})
         for issue in review.issues:
-            issue.affected_ids = canonical_ids(issue.affected_ids, valid)
-            check_ids(issue.affected_ids, valid, "审查意见")
+            sanitize_review_issue_ids(issue, valid)
         review.probability_basis = "full" if review.status != "blocked" else "none"
         if (review.status == "blocked" or future_gap_found) and question.mode == "binary" and evidence:
             audit = ask("evidence_audit", {"question": state["question"], "evidence": evidence_for_model(evidence, 1200),
@@ -423,7 +518,13 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
                         "但不是当时冻结的盲回测，应提示回看偏差。"
                         "判断是否足以给一个有保留、未经校准的主观概率。未来结果尚未发生、资料仅有一两个来源或存在延期风险，"
                         "都不是自动阻断理由，应通过不确定的概率表达；若证据本身为空、晚于截至日、无法核查或不支持问题，才设 can_estimate=false。")
-            if audit.can_estimate and all(available_at_cutoff(e, question.as_of) for e in evidence):
+            effective_can_estimate, effective_reasons, discarded_reasons = sanitize_evidence_audit(
+                audit, question, evidence)
+            review.evidence_audit_model_can_estimate = audit.can_estimate
+            review.evidence_audit_can_estimate = effective_can_estimate
+            review.evidence_audit_blocking_reasons = effective_reasons
+            review.evidence_audit_discarded_reasons = discarded_reasons
+            if effective_can_estimate and all(available_at_cutoff(e, question.as_of) for e in evidence):
                 review.probability_basis = "evidence_only"
             elif future_gap_found:
                 review.status = "blocked"

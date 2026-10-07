@@ -1,0 +1,25 @@
+{
+  "_about": "Starship 是否在 2025-03-31 前实际入轨的冻结证据包。信息截至 2025-01-31；两条资料均在截点前发布。",
+  "evidence": [
+    {
+      "source_url": "https://www.faa.gov/newsroom/statements/general-statements",
+      "title": "FAA Statement on SpaceX Starship Flight 7 Mishap",
+      "publisher": "Federal Aviation Administration",
+      "published_at": "2025-01-17T00:00:00Z",
+      "excerpt": "The FAA is requiring SpaceX to perform a mishap investigation into the loss of the Starship vehicle during launch operations on Jan. 16.",
+      "claim": "Flight 7 在 2025-01-16 发生飞行器损失并进入事故调查，说明截至截点 Starship 尚未完成稳定的轨道级飞行。",
+      "source_type": "exercise",
+      "source_group": "faa.gov"
+    },
+    {
+      "source_url": "https://www.spacex.com/launches/starship-flight-7",
+      "title": "Starship's Seventh Flight Test",
+      "publisher": "SpaceX",
+      "published_at": "2025-01-16T22:37:00Z",
+      "excerpt": "On January 16, 2025, Starship successfully lifted off at 4:37 p.m. CT from Starbase in Texas.",
+      "claim": "SpaceX 官方记录 Flight 7 实际执行，但该次飞行器随后失联并未形成一次完整轨道运行。",
+      "source_type": "exercise",
+      "source_group": "spacex.com"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "_about": "2025 NBA 总冠军是否来自东部的冻结证据包。信息截至 2025-04-01；使用截点前 NBA 官方赛季态势资料，不使用事后季后赛结果页。",
+  "evidence": [
+    {
+      "source_url": "https://www.nba.com/news/power-rankings-2024-25-week-24",
+      "title": "Power Rankings, Week 24: Rockets on the rise with 2 weeks left",
+      "publisher": "NBA.com",
+      "published_at": "2025-03-31T15:31:00-04:00",
+      "excerpt": "The Oklahoma City Thunder have just 12 losses, 14 fewer than every other team in the Western Conference.",
+      "claim": "截至截点，西部的 Oklahoma City 是联盟最强争冠信号之一，说明冠军来自西部具有明显事前可能性。",
+      "source_type": "exercise",
+      "source_group": "nba.com"
+    },
+    {
+      "source_url": "https://www.nba.com/news/starting-5-march-31-2025-edition",
+      "title": "Starting 5, March 31: What’s trending entering final 2 weeks of regular season",
+      "publisher": "NBA.com",
+      "published_at": "2025-03-31T16:16:00-04:00",
+      "excerpt": "The Cavs’ teamwork was on full display Sunday as they joined OKC in the 60-win club.",
+      "claim": "截至截点，东部 Cleveland 已达 60 胜且 Boston 仍是强势竞争者，东部同样存在高水平争冠球队。",
+      "source_type": "exercise",
+      "source_group": "nba.com"
+    }
+  ]
+}

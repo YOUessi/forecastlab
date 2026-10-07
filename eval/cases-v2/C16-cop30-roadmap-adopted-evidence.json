@@ -1,0 +1,25 @@
+{
+  "_about": "COP30 cover decision 是否实际通过化石燃料退出路线图条款的冻结证据包。信息截至 2025-10-01；使用主席国截点前正式信函。",
+  "evidence": [
+    {
+      "source_url": "https://cop30.br/en/brazilian-presidency/letters-from-the-president/fourth-letter-from-the-presidency",
+      "title": "Fourth Letter from the President",
+      "publisher": "COP30 Brasil Presidency",
+      "published_at": "2025-06-20T00:00:00Z",
+      "excerpt": "The Action Agenda must drive momentum towards the full implementation of the GST.",
+      "claim": "主席国在截点前把化石燃料转型主要放在落实 GST 与 Action Agenda 的框架中，并未证明未来 cover decision 已形成路线图条款。",
+      "source_type": "exercise",
+      "source_group": "cop30.br"
+    },
+    {
+      "source_url": "https://cop30.br/en/brazilian-presidency/letters-from-the-president/sixth-letter-from-the-presidency",
+      "title": "Sixth Letter from the President",
+      "publisher": "COP30 Brasil Presidency",
+      "published_at": "2025-08-19T00:00:00Z",
+      "excerpt": "They do not all appear as individual agenda items for discussion in Belem.",
+      "claim": "主席国 8 月信函仍把若干 GST 相关议题置于磋商中，表明具体正式文本安排在截点时仍存在不确定性。",
+      "source_type": "exercise",
+      "source_group": "cop30.br"
+    }
+  ]
+}

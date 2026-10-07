@@ -91,3 +91,29 @@ def test_downstream_context_never_keeps_orphaned_finding(tmp_path, clear_framing
     small = m.make_evidence_context(retrieval.evidence, a, max_chars_per_source=4)
     assert small["findings"] == [] and small["limitations"]
     assert a.model_dump() == original
+
+
+def test_future_information_gap_detects_post_cutoff_market_result(clear_framing):
+    from app.agents.evidence import _future_information_gap
+    from app.schemas import GapDetail, QuestionSpec
+
+    q = QuestionSpec.model_validate({
+        "question": "科创50在2026-07-31是否高于基准？",
+        "as_of": "2026-06-30T23:59:00+08:00",
+        "resolve_by": "2026-07-31T23:59:00+08:00",
+        "resolution_rule": "以官方收盘点位为准",
+        "mode": "binary",
+    })
+    assert _future_information_gap(
+        GapDetail(missing="缺少2026年7月31日的实际收盘点位", cause="not_found"), q
+    ) is True
+    assert _future_information_gap(
+        GapDetail(missing="缺少截至2026年6月30日的指数成分权重", cause="not_found"), q
+    ) is False
+
+
+def test_evidence_prompt_requires_claim_to_be_directly_entailed():
+    prompt = module().PROMPT
+    assert "直接蕴含" in prompt
+    assert "不能从“没提到”推断“未发生”" in prompt
+    assert "不得塞进 claim" in prompt
