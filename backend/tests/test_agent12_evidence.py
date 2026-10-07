@@ -117,6 +117,8 @@ def test_evidence_prompt_requires_claim_to_be_directly_entailed():
     assert "直接蕴含" in prompt
     assert "不能从“没提到”推断“未发生”" in prompt
     assert "不得塞进 claim" in prompt
+    assert "裸表格行" in prompt
+    assert "固定提交" in prompt
 
 
 @pytest.mark.parametrize(
@@ -239,3 +241,119 @@ def test_exact_quote_boundary_feedback_triggers_repair(tmp_path, clear_framing, 
     assert assessment.rejected_findings == []
     assert "validation_feedback" in model.calls[1][1]
     assert any("exact-quote claim boundary" in x for x in model.calls[1][1]["validation_feedback"])
+
+
+@pytest.mark.parametrize(
+    "claim,quote,publisher,title",
+    [
+        (
+            "2025-06-30 的收盘数值为 22679.010。",
+            "2025-06-30\t22679.010",
+            "FRED / Nasdaq, Inc.",
+            "Table Data - NASDAQ-100",
+        ),
+        (
+            "Cleveland Cavaliers 在周日与 OKC 一同进入60胜行列。",
+            "The Cavs’ teamwork was on full display Sunday as they joined OKC in the 60-win club.",
+            "NBA.com",
+            "Starting 5, March 31",
+        ),
+        (
+            "在固定提交中，3.13.0 final 被列为 Expected 2024-10-01（星期二）。",
+            "- 3.13.0 final: Tuesday, 2024-10-01",
+            "Python PEP Repository",
+            "PEP 719 release schedule — fixed Git commit",
+        ),
+        (
+            "官方曾公布将 TypeScript 编译器移植（port）的工作。",
+            "This past March we unveiled our efforts to port the TypeScript compiler a",
+            "Microsoft TypeScript Blog",
+            "Announcing TypeScript Native Previews",
+        ),
+    ],
+)
+def test_exact_quote_boundary_v2_rejects_residual_semantic_expansion(tmp_path, claim, quote, publisher, title):
+    m = module()
+    q = QuestionSpec(question="这些材料是否直接支持该事实？", mode="scenario", as_of=utcnow())
+    retrieval = import_evidence(
+        [ImportedEvidence(file_id="boundary-v2", title=title, publisher=publisher, excerpt=quote)],
+        q,
+        tmp_path,
+    )
+    e = retrieval.evidence[0]
+    p = e.passages[0]
+    candidate = AssessmentCandidate.model_validate({
+        "summary": "boundary v2 test",
+        "findings": [{
+            "claim": claim,
+            "relation": "background",
+            "citations": [{
+                "evidence_id": e.id,
+                "snapshot_hash": e.snapshot_hash,
+                "paragraph_id": p.paragraph_id,
+                "quote": quote,
+            }],
+        }],
+    })
+    valid, rejected = m.validate_findings(candidate, None, retrieval.evidence, {e.id: e.passages})
+    assert valid == []
+    assert len(rejected) == 1
+    assert "exact-quote claim boundary" in rejected[0].reason
+
+
+def test_exact_quote_boundary_v2_allows_english_entities_present_in_quote(tmp_path):
+    m = module()
+    q = QuestionSpec(question="这些材料是否直接支持该事实？", mode="scenario", as_of=utcnow())
+    quote = "Apple will begin updating its Mac lineup with M4 chips in late 2024."
+    retrieval = import_evidence(
+        [ImportedEvidence(file_id="boundary-v2-positive", title="M4 update", publisher="Example", excerpt=quote)],
+        q,
+        tmp_path,
+    )
+    e = retrieval.evidence[0]
+    p = e.passages[0]
+    candidate = AssessmentCandidate.model_validate({
+        "summary": "positive boundary test",
+        "findings": [{
+            "claim": "Apple 将于 2024 年末开始用 M4 芯片更新其 Mac 产品线。",
+            "relation": "background",
+            "citations": [{
+                "evidence_id": e.id,
+                "snapshot_hash": e.snapshot_hash,
+                "paragraph_id": p.paragraph_id,
+                "quote": quote,
+            }],
+        }],
+    })
+    valid, rejected = m.validate_findings(candidate, None, retrieval.evidence, {e.id: e.passages})
+    assert len(valid) == 1
+    assert rejected == []
+
+
+def test_exact_quote_boundary_v2_allows_close_when_quote_says_closed(tmp_path):
+    m = module()
+    q = QuestionSpec(question="这些材料是否直接支持该事实？", mode="scenario", as_of=utcnow())
+    quote = "The index closed at 22679.010."
+    retrieval = import_evidence(
+        [ImportedEvidence(file_id="boundary-v2-close", title="Index report", publisher="Example", excerpt=quote)],
+        q,
+        tmp_path,
+    )
+    e = retrieval.evidence[0]
+    p = e.passages[0]
+    candidate = AssessmentCandidate.model_validate({
+        "summary": "positive close test",
+        "findings": [{
+            "claim": "该指数收盘为 22679.010。",
+            "relation": "background",
+            "citations": [{
+                "evidence_id": e.id,
+                "snapshot_hash": e.snapshot_hash,
+                "paragraph_id": p.paragraph_id,
+                "quote": quote,
+            }],
+        }],
+    })
+    valid, rejected = m.validate_findings(candidate, None, retrieval.evidence, {e.id: e.passages})
+    assert len(valid) == 1
+    assert rejected == []
