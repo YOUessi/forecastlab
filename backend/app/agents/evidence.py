@@ -10,8 +10,10 @@ PROMPT = """只依据提供的原文段落整理证据，不能用模型记忆�
 每个finding必须有来源E编号、快照hash、段落编号和逐字原文quote。若存在活动前提P，可在target_premise_ids中指向相关P；
 若没有活动前提，target_premise_ids必须为空，finding直接服务于研究问题，不得虚构P编号。
 finding.claim 必须是所引 quote 可以直接蕴含的保守释义，只写 quote 本身明确表达的事实。
-quote 没写出的发布日期、机构背景、问题中的用途、因果、趋势、评价、缺失事实或“因此/说明/构成/表明”的解释，
-不得塞进 claim；需要说明时写进 limitation 或 summary。标题/截断片段只能按其字面内容生成 claim，不能从“没提到”推断“未发生”。
+quote 没写出的发布日期、年份、机构/产品/项目名称、publisher/source title、文档或提交来源、问题中的用途、因果、趋势、评价、缺失事实或“因此/说明/构成/表明”的解释，
+不得塞进 claim；需要说明时写进 limitation 或 summary。即使这些信息出现在证据 metadata/title/publisher 里，只要 exact quote 没写，就不能补进 claim。
+例如 quote 只有“The agency ... April 1”时 claim 可写“目标发射时间不早于4月1日”，不可补“NASA”；quote 只有“... on Jan. 16”时不可补年份；
+quote 只有“Virtual Medal Table: United States 39 gold.”时不可补“Gracenote”。标题/截断片段只能按其字面内容生成 claim，不能从“没提到”推断“未发生”。
 多个 citations 只有在它们共同直接支持 claim 时才能合并到同一个 finding。
 关系属于这个发现与前提，不属于整个网站；同一来源可以支持一项前提、挑战另一项。
 不要因为检索任务叫challenge就把搜到的材料标成反证。没有可靠反证时不编造对立观点。
@@ -31,6 +33,61 @@ class EvidenceStageError(RuntimeError):
         super().__init__(assessment.summary)
         self.result = result
         self.assessment = assessment
+
+
+_MONTH_NUMBERS = {
+    "january": "1", "jan": "1", "february": "2", "feb": "2", "march": "3", "mar": "3",
+    "april": "4", "apr": "4", "may": "5", "june": "6", "jun": "6", "july": "7", "jul": "7",
+    "august": "8", "aug": "8", "september": "9", "sep": "9", "sept": "9", "october": "10",
+    "oct": "10", "november": "11", "nov": "11", "december": "12", "dec": "12",
+}
+_ASCII_CLAIM_MARKER = re.compile(
+    r"(?<![A-Za-z0-9_])([A-Z][A-Za-z0-9]*(?:[./-][A-Za-z0-9]+)*)(?![A-Za-z0-9_])"
+)
+
+
+def _number_markers(text: str) -> set[str]:
+    """Numbers/dates explicitly visible in text, with English month names normalized."""
+    normalized = text.replace(",", "")
+    markers = set(re.findall(r"\d+(?:\.\d+)?", normalized))
+    lowered = text.casefold()
+    for month, number in _MONTH_NUMBERS.items():
+        if re.search(rf"\b{re.escape(month)}\.?\b", lowered):
+            markers.add(number)
+    return {m.lstrip("0") or "0" for m in markers}
+
+
+def _ascii_claim_markers(text: str) -> set[str]:
+    """Named ASCII entities/identifiers that should also be visible in the exact quote."""
+    return {m.group(1).casefold() for m in _ASCII_CLAIM_MARKER.finditer(text)}
+
+
+def _claim_boundary_violations(finding, citations, sources) -> list[str]:
+    """Catch common metadata leakage that exact-quote validation alone cannot see."""
+    quote_text = " ".join(c.quote for c in citations)
+    claim_numbers = _number_markers(finding.claim)
+    quote_numbers = _number_markers(quote_text)
+    missing_numbers = sorted(claim_numbers - quote_numbers)
+
+    claim_markers = _ascii_claim_markers(finding.claim)
+    quote_markers = _ascii_claim_markers(quote_text)
+    missing_markers = sorted(claim_markers - quote_markers)
+
+    missing_publishers = []
+    for citation in citations:
+        source = sources[citation.evidence_id]
+        publisher = (source.publisher or "").strip()
+        if publisher and publisher in finding.claim and publisher not in quote_text:
+            missing_publishers.append(publisher)
+
+    issues = []
+    if missing_numbers:
+        issues.append("claim 含 exact quote 未出现的数字/年份/日期标记：" + "、".join(missing_numbers))
+    if missing_markers:
+        issues.append("claim 含 exact quote 未出现的英文机构/专名/标识：" + "、".join(missing_markers))
+    if missing_publishers:
+        issues.append("claim 把 publisher metadata 写成 quote 事实：" + "、".join(sorted(set(missing_publishers))))
+    return issues
 
 
 def active_framing(framing):
@@ -58,6 +115,10 @@ def validate_findings(candidate, framing, evidence, passages):
                 if citation.evidence_id not in sources:
                     raise ValueError("发现引用了不存在的证据编号")
                 citations.append(resolve_citation(citation, sources[citation.evidence_id], passages.get(citation.evidence_id, [])))
+            boundary_issues = _claim_boundary_violations(finding, citations, sources)
+            if boundary_issues:
+                raise ValueError("exact-quote claim boundary 越界：" + "；".join(boundary_issues) +
+                                 "。删除 quote 外信息，或把它移到 limitation/summary。")
             valid.append(EvidenceFinding(id=f"F{index+1:03}", target_premise_ids=finding.target_premise_ids,
                 claim=finding.claim, relation=finding.relation, citations=citations, limitation=finding.limitation))
         except ValueError as exc:
