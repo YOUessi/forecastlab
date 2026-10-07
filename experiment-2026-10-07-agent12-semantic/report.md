@@ -159,3 +159,44 @@ Agent 2:
 - remaining errors are mild context expansion rather than unsupported event conclusions.
 
 These results support the intended Agent 1/2 design much more strongly than the baseline, while still leaving two limitations: the Agent 2 semantic audit has only one reviewer, and remote-model output remains nondeterministic even at temperature 0.
+
+## Final full-pipeline consistency run after semantic repair
+
+The final semantic-boundary code was also rerun through the complete 24-case ForecastLab-v2 Full pipeline before opening a PR. This is a consistency/safety check: Agent 1 premise filtering does not affect the legacy-direct full-arm benchmark, while the stricter Agent 2 claim prompt can change downstream evidence assessments.
+
+Code under test includes semantic repair commit `8b51f85b7ff22e0cdf90bfec96a654bfa3f2b19c` and evaluation-result commit `0e8b2149716d8e72e069927aa060ab4766a5ab5b`.
+
+| Metric | Final semantic Full |
+| --- | ---: |
+| Completed with probability | 19/24 |
+| Coverage | 79.17% |
+| Hard failures | **0** |
+| Brier on answered cases | 0.1448 |
+| Brier with 0.5 abstention fallback | 0.1667 |
+| Model calls | 179 |
+| Tokens | 643,719 |
+| Model seconds | 487.3 |
+
+Five cases abstained as `insufficient_evidence`; none failed structurally.
+
+### Comparison to frozen baselines
+
+Using the previously frozen temperature-0 v2 baseline probabilities:
+
+| Arm | Coverage | Brier |
+| --- | ---: | ---: |
+| Final Full | 79.17% | 0.1448 on answered / 0.1667 with fallback |
+| Single Agent + same evidence | 100% | **0.1443** |
+| Single Agent without evidence | 100% | 0.1881 |
+
+On the exact 19 cases answered by Final Full:
+
+| Arm | Matched 19-case Brier |
+| --- | ---: |
+| Final Full | 0.1448 |
+| Single Agent + same evidence | **0.1265** |
+| Single Agent without evidence | 0.1820 |
+
+Therefore the semantic repairs should be claimed for **question framing and evidence semantic faithfulness**, not as a forecasting-accuracy improvement. They improve the correctness of intermediate representations while the current World/Actor/Simulation stack still does not demonstrate an accuracy advantage over the simpler evidence-conditioned baseline.
+
+This result strengthens, rather than weakens, the final project evaluation: the system can report a real negative result about multi-stage simulation while separately demonstrating measurable improvements in Agent 1/2 reliability.
