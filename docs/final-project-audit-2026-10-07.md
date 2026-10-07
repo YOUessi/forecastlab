@@ -121,7 +121,7 @@ Aggregate:
 3. Review 偶发把 Retrieval Task ID 当作 affected_id 导致运行失败；
 4. 每个来源重复生成“发布时间未知” gap；
 5. live 网页 passage 过长导致 Agent 2 completion token exhaustion；
-6. model-generated actor / assumption ID 命名不稳定。
+6. model-generated actor / assumption ID 命名不稳定。该项是在 run 4 复盘后增加服务器端 A### / H### 规范化，并由确定性回归测试验证；没有把纯 ID 重命名伪装成重新执行过的付费 Live 模型结果。
 
 这些问题均增加了回归测试，最终核心后端总测试数为 152。
 
