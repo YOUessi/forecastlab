@@ -49,4 +49,4 @@ uv run python eval/tavily_quality.py \
 
 ## Status
 
-Tooling and suite are implemented. A real run must remain **not_run** until a real Tavily credential is available. Live-index results may change between runs, so every result records its execution timestamp and should not be described as deterministic.
+Tooling and suite are implemented, and the first successful real run is recorded in `report.md` and `results/tavily-quality-run3-summary.json`. Live-index results may change between runs, so every result records its execution timestamp and should not be described as deterministic.

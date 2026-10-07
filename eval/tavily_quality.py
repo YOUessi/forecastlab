@@ -107,7 +107,7 @@ def summarize_case(case: dict, result) -> dict:
                 "source_group_basis": item.source_group_basis,
                 "possible_same_source": item.possible_same_source,
                 "aliases": [alias.model_dump(mode="json") for alias in item.aliases],
-                "excerpt": item.excerpt,
+                "excerpt_preview": item.excerpt[:800],
             }
             for item in evidence
         ],
@@ -150,7 +150,7 @@ def make_review_sample(rows: list[dict], sample_size: int, seed: int) -> list[di
                 "case_id": row["id"], "category": row["category"], "question": row["question"],
                 "evidence_id": item["evidence_id"], "title": item["title"], "url": item["url"],
                 "host": item["host"], "source_type": item["source_type"], "content_kind": item["content_kind"],
-                "excerpt": item["excerpt"],
+                "excerpt": item["excerpt_preview"],
                 "relevance_label": None,
                 "source_quality_label": None,
                 "reviewer_notes": "",
