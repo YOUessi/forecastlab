@@ -71,14 +71,15 @@ def _claim_boundary_violations(finding, citations, sources) -> list[str]:
 
     claim_markers = _ascii_claim_markers(finding.claim)
     quote_markers = _ascii_claim_markers(quote_text)
-    missing_markers = sorted(claim_markers - quote_markers)
-
+    metadata_markers = set()
     missing_publishers = []
     for citation in citations:
         source = sources[citation.evidence_id]
+        metadata_markers |= _ascii_claim_markers(" ".join(filter(None, [source.publisher, source.title])))
         publisher = (source.publisher or "").strip()
         if publisher and publisher in finding.claim and publisher not in quote_text:
             missing_publishers.append(publisher)
+    missing_markers = sorted((claim_markers & metadata_markers) - quote_markers)
 
     issues = []
     if missing_numbers:
