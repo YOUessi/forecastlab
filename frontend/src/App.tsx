@@ -1,14 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { EvidenceFindingsPanel, SourceLimitations, sliceCodepoints } from './components/EvidenceFindingsPanel'
-import type { FindingCitation, PassageResponse, QuestionDraft } from './types'
+import type { FindingCitation, PassageResponse } from './types'
 import { api } from './api'
 import { QuestionConfirmationPanel } from './components/QuestionConfirmationPanel'
-import { fieldsFromSpec, useQuestionFraming } from './components/useQuestionFraming'
+import { useQuestionFraming } from './components/useQuestionFraming'
 import type { QuestionFields } from './components/useQuestionFraming'
 import type { Action, Claim, Evidence, Health, Question, Run, SettlementSummary } from './types'
 
 type View = 'create' | 'evidence' | 'simulation' | 'result'
-type Agent12Demo = { case_id: string; question: QuestionDraft; allowed_answers: string[] }
 type Preset = { category: string; question: string; resolve_by: string; resolution_rule: string; resolution_source: string }
 const views: { id: View; number: string; label: string; sub: string }[] = [
   { id: 'create', number: '01', label: '创建预测', sub: '问题与边界' },
@@ -80,7 +79,6 @@ export default function App() {
   const [view, setView] = useState<View>('create')
   const [health, setHealth] = useState<Health | null>(null)
   const [presets, setPresets] = useState<Preset[]>([])
-  const [agent12Demo, setAgent12Demo] = useState<Agent12Demo | null>(null)
   const [history, setHistory] = useState<Run[]>([])
   const [settlementSummary, setSettlementSummary] = useState<SettlementSummary | null>(null)
   const [run, setRun] = useState<Run | null>(null)
@@ -117,7 +115,7 @@ export default function App() {
 
 
   useEffect(() => {
-    Promise.all([api<Health>('/health'), api<Run[]>('/runs'), api<{ presets: Preset[]; agent12_demo?: Agent12Demo }>('/examples'), api<SettlementSummary>('/settlements/summary')]).then(([h, items, examples, summary]) => { setHealth(h); setHistory(items); setPresets(examples.presets); setAgent12Demo(examples.agent12_demo || null); setSettlementSummary(summary); if (items.length) setRun(items[0]) }).catch(e => setError(e.message))
+    Promise.all([api<Health>('/health'), api<Run[]>('/runs'), api<{ presets: Preset[] }>('/examples'), api<SettlementSummary>('/settlements/summary')]).then(([h, items, examples, summary]) => { setHealth(h); setHistory(items); setPresets(examples.presets); setSettlementSummary(summary); if (items.length) setRun(items[0]) }).catch(e => setError(e.message))
   }, [])
   useEffect(() => {
     if (!run || !['queued', 'running'].includes(run.status)) return
@@ -187,20 +185,6 @@ export default function App() {
   function showReview() {
     setView('simulation')
     window.requestAnimationFrame(() => document.getElementById('review-panel')?.scrollIntoView({ behavior: 'smooth', block: 'start' }))
-  }
-  function loadAgent12Demo() {
-    if (!agent12Demo) return
-    framing.newDraft(); applyQuestionFields(fieldsFromSpec(agent12Demo.question)); framing.setDemoCaseId(agent12Demo.case_id)
-    setEvidenceMode('demo'); setEvidence([]); setParentRunId(null); setView('create'); setError('')
-    // Loading fills a form below the fold: make the next action visible and focused.
-    window.requestAnimationFrame(() => {
-      const nextAction = document.getElementById('analyze-question')
-      nextAction?.focus({ preventScroll: true })
-      nextAction?.scrollIntoView({
-        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
-        block: 'center',
-      })
-    })
   }
   function chooseEvidenceMode(next: 'import' | 'online' | 'reuse') {
     if (framing.demoCaseId) framing.newDraft()
@@ -292,7 +276,7 @@ export default function App() {
       <div className="content">
         {error && <div className="alert" role="alert"><strong>需要处理</strong><span>{error}</span><button aria-label="关闭提示" onClick={() => setError('')}>×</button></div>}
         {view === 'create' && <>
-          <div className="hero"><div className="hero-copy"><div className="eyebrow light">QUESTION → EVIDENCE → SIMULATION → FORECAST</div><h1>让判断有依据，<br/><em>让推演可追溯。</em></h1><p>从一个可结算的问题开始。区分外部证据、建模假设与模拟行动，再形成带引用的主观预测。</p><div className="hero-actions"><button className="button button-light" onClick={startDemo} disabled={busy}>运行教学演示 <span>↗</span></button>{agent12Demo && <button className="button button-light" onClick={loadAgent12Demo} disabled={busy || framing.busy}>体验问题与证据新流程</button>}<span>无需 API Key · 虚构材料 · 完整流程</span></div></div><div className="hero-graphic" aria-hidden="true"><div className="orbit orbit-1"/><div className="orbit orbit-2"/><div className="orb orb-a">E</div><div className="orb orb-b">A</div><div className="orb orb-c">O</div><div className="graphic-center">S <span>→</span> A <span>→</span> O</div><div className="graphic-label">STATE · ACTION · OUTCOME</div></div></div>
+          <div className="hero"><div className="hero-copy"><div className="eyebrow light">QUESTION → EVIDENCE → SIMULATION → FORECAST</div><h1>让判断有依据，<br/><em>让推演可追溯。</em></h1><p>从一个可结算的问题开始。区分外部证据、建模假设与模拟行动，再形成带引用的主观预测。</p><div className="hero-actions"><button className="button button-light" onClick={startDemo} disabled={busy}>运行教学演示 <span>↗</span></button><span>无需 API Key · 虚构材料 · 完整流程</span></div></div><div className="hero-graphic" aria-hidden="true"><div className="orbit orbit-1"/><div className="orbit orbit-2"/><div className="orb orb-a">E</div><div className="orb orb-b">A</div><div className="orb orb-c">O</div><div className="graphic-center">S <span>→</span> A <span>→</span> O</div><div className="graphic-label">STATE · ACTION · OUTCOME</div></div></div>
           <div className="metrics"><div><strong>03</strong><span>默认模拟主体</span></div><div><strong>02</strong><span>行动与状态轮次</span></div><div><strong>01</strong><span>统一证据链</span></div><div><strong>∞</strong><span>可回放的版本记录</span></div></div>
           <div className="preset-strip"><span>跨品类示例 / QUICK START</span>{presets.map(item => <button key={item.category} onClick={() => applyPreset(item)}><strong>{item.category}</strong><small>{item.question}</small><b>↗</b></button>)}</div>
           <SectionHeading eyebrow="01 / DEFINE THE QUESTION" title="创建一次预测" description="先定义目标和结算方式。开放问题可切换为情景分析。" right={<Badge>新运行</Badge>}/>

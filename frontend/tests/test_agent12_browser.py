@@ -187,20 +187,35 @@ def test_mobile_findings_and_drawer_fit_viewport(page, app_url):
 
 
 def test_real_backend_fixed_teaching_flow(page, app_url):
-    # No page.route: this test exercises the actual backend, SQLite, graph and UI.
+    # The fixed fixture remains available for integration testing, but the formal product UI
+    # no longer exposes a dedicated Agent 1/2 demo entry. Build the fixture run through APIs,
+    # then verify the resulting evidence is rendered by the normal product views.
     page.goto(app_url)
-    page.get_by_role("button", name="体验问题与证据新流程", exact=True).click()
-    page.get_by_role("button", name="分析问题", exact=True).click()
-    expect(page.get_by_text("需要补充信息", exact=True)).to_be_visible()
-    page.get_by_label("这里的发布是可下载的正式版，还是测试版？（需补充）").fill("可下载的正式版")
-    page.get_by_role("button", name="提交补充并重新分析", exact=True).click()
-    expect(page.get_by_text("请核对系统理解", exact=True)).to_be_visible()
-    page.get_by_label("P001 前提处理").select_option("to_verify")
-    page.get_by_label("P002 前提处理").select_option("to_verify")
-    page.get_by_role("button", name="确认并继续", exact=True).click()
-    expect(page.get_by_text("问题已确认", exact=True)).to_be_visible()
-    page.get_by_role("button", name=re.compile("^开始预测")).click()
-    expect(page.get_by_text("已完成", exact=True).first).to_be_visible(timeout=10000)
+    examples = page.request.get(f"{app_url}/api/examples").json()["agent12_demo"]
+    first = page.request.post(f"{app_url}/api/questions/analyze", data={
+        "question": examples["question"], "demo_case_id": examples["case_id"]
+    }).json()
+    second = page.request.post(f"{app_url}/api/questions/analyze", data={
+        "question": first["proposed_spec"], "demo_case_id": examples["case_id"],
+        "draft_id": first["draft_id"], "expected_revision": first["revision"],
+        "answers": [{"clarification_id": first["clarifications"][0]["id"], "answer": examples["allowed_answers"][0]}],
+    }).json()
+    confirmed = page.request.post(f"{app_url}/api/questions/{second['draft_id']}/confirm", data={
+        "expected_revision": second["revision"],
+        "decisions": [{"premise_id": premise["id"], "user_review": "retained", "treatment": "to_verify"} for premise in second["premises"]],
+    }).json()
+    created = page.request.post(f"{app_url}/api/runs", data={
+        "confirmation_id": confirmed["confirmation_id"], "evidence_mode": "demo"
+    }).json()
+    run_id = created["run_id"]
+    for _ in range(50):
+        current = page.request.get(f"{app_url}/api/runs/{run_id}").json()
+        if current["status"] not in {"queued", "running"}:
+            break
+        page.wait_for_timeout(100)
+    assert current["status"] == "completed", current.get("errors")
+
+    page.reload()
     page.get_by_role("button", name=re.compile("02.*证据与模型")).click()
     expect(page.get_by_test_id("valid-findings")).to_be_visible()
     page.get_by_role("button", name="查看 E002 原文", exact=True).click()
