@@ -1,4 +1,4 @@
-# Agent 1/2 semantic robustness baseline — 2026-10-07
+# Agent 1/2 semantic robustness before/after — 2026-10-07
 
 ## Scope
 
@@ -64,3 +64,98 @@ Common partial-support patterns include: turning a draw announcement into a team
 - Agent 2 has one human reviewer; inter-rater reliability is not available.
 - The 30 findings are a seeded sample from one model run.
 - Temperature 0 does not guarantee deterministic remote-model output.
+
+## Repair
+
+Repair commit: `8b51f85b7ff22e0cdf90bfec96a654bfa3f2b19c`.
+
+Agent 1 changes:
+
+- prompt explicitly separates falsifiable background/world-state/causal assumptions from question schema fields;
+- deterministic post-processing removes obvious research-object, target, cutoff, comparison-date, resolution-rule/source and binary-mode restatements;
+- retrieval-plan premise indexes are remapped after filtering, so a removed scope-restatement cannot silently retarget another premise;
+- already supplied `resolve_by`, `resolution_rule`, and `resolution_source` are treated as user-owned question definition and no longer reopened by default.
+
+Agent 2 changes:
+
+- finding claims must be conservative paraphrases directly entailed by their exact quote(s);
+- dates, causal interpretations, question-specific use, negative inference from absence, and stronger conclusions not present in the quote must move to limitation/summary rather than claim;
+- titles/snippets may only support their literal content.
+
+No result below is inferred from the prompt text alone; all after metrics come from new DeepSeek API runs.
+
+## Agent 1 after — ForecastLab-v2 paired set
+
+The same eight neutral/leading pairs were run twice again (32 new framing runs).
+
+A refined metric distinguishes a legitimate factual benchmark embedded in a neutral question from an unexpected premise. C02 explicitly states the 2026-06-30 benchmark value `2207.86`; retaining that factual value for verification is allowed and is not counted as a false positive.
+
+| Metric | Before | After |
+| --- | ---: | ---: |
+| Runs succeeded | 32/32 | 32/32 |
+| Leading premise anchor detected | 100% | **100%** |
+| Explicit fields preserved | 100% | **100%** |
+| Neutral runs with any premise (raw diagnostic) | 81.25% | 12.5% |
+| Neutral runs with an **unexpected** premise | 81.25% | **0%** |
+| Runs with blocking clarification | 75% | **0%** |
+| Ready for confirmation | 25% | **100%** |
+| Leading member has more premises than neutral | 43.75% | **100%** |
+
+The only neutral premise left after repair is the explicit C02 factual benchmark `2026-06-30 科创50收盘点位为 2207.86 点`, which is an appropriate item to verify.
+
+## Agent 1 after — fictional sanity set
+
+The independent fictional set was also rerun twice (32 new framing runs). Its neutral members contain only research targets/rules; each leading member adds exactly one antecedent.
+
+| Metric | Before | After |
+| --- | ---: | ---: |
+| Runs succeeded | 32/32 | 32/32 |
+| Leading premise anchor detected | 100% | **100%** |
+| Explicit fields preserved | 100% | **100%** |
+| Neutral runs with an unexpected premise | 81.25% | **0%** |
+| Runs with blocking clarification | 100% | **0%** |
+| Ready for confirmation | 0% | **100%** |
+| Leading member has more premises than neutral | 56.25% | **100%** |
+
+This second set is important because it shows the improvement is not limited to the historical ForecastLab-v2 wording.
+
+## Agent 2 after — finding to exact-quote semantic audit
+
+Agent 2 was rerun directly on all 24 ForecastLab-v2 evidence packs after the conservative-claim repair.
+
+- structurally validated findings in the new population: 53;
+- new seeded sample: 30 findings, seed 7607;
+- same four-label single-reviewer protocol as before;
+- reviewer compared `finding.claim` only against its cited exact quote(s); source context was not used to rescue materially unsupported claim content.
+
+| Label | Before (seed 7606) | After (seed 7607) |
+| --- | ---: | ---: |
+| supported | 15 | **27** |
+| partially_supported | 15 | **3** |
+| unsupported | 0 | 0 |
+| unclear | 0 | 0 |
+| strict support rate | 50% | **90%** |
+| lenient support rate | 100% | **100%** |
+
+The three remaining partial-support cases are substantially narrower than the old failures. They mainly add source/date/season/ranking context that is available in metadata but not literally present inside the selected quote. The old substantive overclaims—team-specific path claims, October-window inference from `late 2024`, delivery conclusions from planned availability, or non-release inference from roadmap titles—were not observed in the new sample.
+
+Because the before and after samples use different deterministic seeds and one model run each, the 50% -> 90% change is evidence of a strong improvement trend, not a paired statistical estimate. No inter-rater reliability is available.
+
+## Consolidated conclusions after repair
+
+Agent 1:
+
+- preserves explicit user-owned fields: 100%;
+- detects all frozen leading premises: 100%;
+- unexpected neutral-premise rate: 0% on both the real-v2 adjusted metric and the fictional sanity set;
+- blocking clarification rate fell to 0% on both after sets;
+- all 64 after framing runs were ready for confirmation.
+
+Agent 2:
+
+- structural quote/hash/paragraph validation still produced zero unrelated/fabricated-quote findings in the sampled audits;
+- strict semantic support improved from 50% to 90% on an independent 30-finding after sample;
+- lenient support remained 100%;
+- remaining errors are mild context expansion rather than unsupported event conclusions.
+
+These results support the intended Agent 1/2 design much more strongly than the baseline, while still leaving two limitations: the Agent 2 semantic audit has only one reviewer, and remote-model output remains nondeterministic even at temperature 0.

@@ -67,3 +67,17 @@ def test_agent2_audit_score_requires_all_labels(tmp_path, capsys):
     ]
     assert sum(r['human_label']=='supported' for r in rows)/len(rows)==0.25
     assert sum(r['human_label'] in {'supported','partially_supported'} for r in rows)/len(rows)==0.5
+
+
+def test_agent1_adjusted_neutral_metric_allows_factual_benchmark():
+    m = load('score_agent1_robustness_eval', 'eval/score_agent1_robustness.py')
+    report={'rows':[
+        {'id':'n','variant':'neutral','repeat':1,'status':'ok','premises':[{'content':'基准为2207.86点','original_span':'2207.86点'}],
+         'expected_premise_detected':None,'explicit_fields_preserved':True,'blocking_clarification_count':0,'ready_for_confirmation':True},
+        {'id':'l','variant':'leading','repeat':1,'status':'ok','premises':[],'expected_premise_detected':True,
+         'explicit_fields_preserved':True,'blocking_clarification_count':0,'ready_for_confirmation':True},
+    ]}
+    cases=[{'id':'n','allowed_neutral_premise_anchors':['2207.86']},{'id':'l'}]
+    score=m.score(report,cases)
+    assert score['neutral_raw_any_premise_rate']==1
+    assert score['neutral_unexpected_premise_rate']==0

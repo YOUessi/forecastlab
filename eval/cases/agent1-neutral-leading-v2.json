@@ -42,7 +42,10 @@
       "mode": "binary",
       "user_assumptions": []
     },
-    "expected_premise_anchor": null
+    "expected_premise_anchor": null,
+    "allowed_neutral_premise_anchors": [
+      "2207.86"
+    ]
   },
   {
     "id": "A1V2-02-L",

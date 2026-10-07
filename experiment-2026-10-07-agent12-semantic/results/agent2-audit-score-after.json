@@ -1,0 +1,34 @@
+{
+  "n": 30,
+  "counts": {
+    "partially_supported": 3,
+    "supported": 27,
+    "unclear": 0,
+    "unsupported": 0
+  },
+  "strict_support_rate": 0.9,
+  "lenient_support_rate": 1.0,
+  "by_relation": {
+    "background": {
+      "n": 27,
+      "supported": 24,
+      "partial": 3,
+      "unsupported": 0,
+      "unclear": 0
+    },
+    "challenges": {
+      "n": 2,
+      "supported": 2,
+      "partial": 0,
+      "unsupported": 0,
+      "unclear": 0
+    },
+    "supports": {
+      "n": 1,
+      "supported": 1,
+      "partial": 0,
+      "unsupported": 0,
+      "unclear": 0
+    }
+  }
+}
