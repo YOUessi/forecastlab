@@ -1,0 +1,310 @@
+{
+  "created_at": "2026-10-07T13:44:49.834404+00:00",
+  "kind": "real_tavily_retrieval_quality",
+  "suite": "tavily-quality-v1",
+  "forecastlab_commit": "0d83260326678bcf95ce1008b1da7e9b5f21dde4",
+  "provider": "tavily",
+  "search_depth": "basic",
+  "max_results_per_query": 8,
+  "summary": {
+    "cases": 8,
+    "completed": 8,
+    "partial": 0,
+    "failed": 0,
+    "case_with_evidence_rate": 1.0,
+    "task_success_rate": 1.0,
+    "mean_query_coverage": 1.0,
+    "selected_evidence": 80,
+    "mean_selected_evidence_per_case": 10.0,
+    "body_rate": 0.975,
+    "snippet_only_rate": 0.025,
+    "date_metadata_rate": 0.0,
+    "authoritative_hit_rate": 1.0,
+    "exclusions": 0,
+    "duplicate_aliases": 15,
+    "possible_same_source_pairs": 3
+  },
+  "cases": [
+    {
+      "id": "T01-python-release",
+      "category": "tech",
+      "status": "completed",
+      "selected_evidence": 10,
+      "task_count": 2,
+      "task_successes": 2,
+      "task_empty": 0,
+      "task_failures": 0,
+      "query_coverage": 1.0,
+      "body_count": 10,
+      "body_rate": 1.0,
+      "snippet_only_count": 0,
+      "snippet_only_rate": 0.0,
+      "date_metadata_count": 0,
+      "date_metadata_rate": 0.0,
+      "unique_domain_count": 3,
+      "unique_domain_rate": 0.3,
+      "source_group_count": 10,
+      "duplicate_aliases": 3,
+      "possible_same_source_pairs": 0,
+      "exclusion_count": 0,
+      "expected_authoritative_domains": [
+        "python.org"
+      ],
+      "authoritative_domains_found": [
+        "python.org"
+      ],
+      "authoritative_hit": true,
+      "authoritative_recall": 1.0,
+      "hosts": [
+        "blog.python.org",
+        "discuss.python.org",
+        "python.org"
+      ]
+    },
+    {
+      "id": "T02-node-lts",
+      "category": "tech",
+      "status": "completed",
+      "selected_evidence": 10,
+      "task_count": 2,
+      "task_successes": 2,
+      "task_empty": 0,
+      "task_failures": 0,
+      "query_coverage": 1.0,
+      "body_count": 10,
+      "body_rate": 1.0,
+      "snippet_only_count": 0,
+      "snippet_only_rate": 0.0,
+      "date_metadata_count": 0,
+      "date_metadata_rate": 0.0,
+      "unique_domain_count": 1,
+      "unique_domain_rate": 0.1,
+      "source_group_count": 10,
+      "duplicate_aliases": 1,
+      "possible_same_source_pairs": 0,
+      "exclusion_count": 0,
+      "expected_authoritative_domains": [
+        "nodejs.org"
+      ],
+      "authoritative_domains_found": [
+        "nodejs.org"
+      ],
+      "authoritative_hit": true,
+      "authoritative_recall": 1.0,
+      "hosts": [
+        "nodejs.org"
+      ]
+    },
+    {
+      "id": "T03-fed-rate",
+      "category": "finance",
+      "status": "completed",
+      "selected_evidence": 10,
+      "task_count": 2,
+      "task_successes": 2,
+      "task_empty": 0,
+      "task_failures": 0,
+      "query_coverage": 1.0,
+      "body_count": 10,
+      "body_rate": 1.0,
+      "snippet_only_count": 0,
+      "snippet_only_rate": 0.0,
+      "date_metadata_count": 0,
+      "date_metadata_rate": 0.0,
+      "unique_domain_count": 1,
+      "unique_domain_rate": 0.1,
+      "source_group_count": 10,
+      "duplicate_aliases": 3,
+      "possible_same_source_pairs": 1,
+      "exclusion_count": 0,
+      "expected_authoritative_domains": [
+        "federalreserve.gov"
+      ],
+      "authoritative_domains_found": [
+        "federalreserve.gov"
+      ],
+      "authoritative_hit": true,
+      "authoritative_recall": 1.0,
+      "hosts": [
+        "federalreserve.gov"
+      ]
+    },
+    {
+      "id": "T04-nasa-artemis",
+      "category": "public",
+      "status": "completed",
+      "selected_evidence": 10,
+      "task_count": 2,
+      "task_successes": 2,
+      "task_empty": 0,
+      "task_failures": 0,
+      "query_coverage": 1.0,
+      "body_count": 10,
+      "body_rate": 1.0,
+      "snippet_only_count": 0,
+      "snippet_only_rate": 0.0,
+      "date_metadata_count": 0,
+      "date_metadata_rate": 0.0,
+      "unique_domain_count": 2,
+      "unique_domain_rate": 0.2,
+      "source_group_count": 10,
+      "duplicate_aliases": 3,
+      "possible_same_source_pairs": 0,
+      "exclusion_count": 0,
+      "expected_authoritative_domains": [
+        "nasa.gov"
+      ],
+      "authoritative_domains_found": [
+        "nasa.gov"
+      ],
+      "authoritative_hit": true,
+      "authoritative_recall": 1.0,
+      "hosts": [
+        "nasa.gov",
+        "www3.nasa.gov"
+      ]
+    },
+    {
+      "id": "T05-copernicus-climate",
+      "category": "public",
+      "status": "completed",
+      "selected_evidence": 10,
+      "task_count": 2,
+      "task_successes": 2,
+      "task_empty": 0,
+      "task_failures": 0,
+      "query_coverage": 1.0,
+      "body_count": 10,
+      "body_rate": 1.0,
+      "snippet_only_count": 0,
+      "snippet_only_rate": 0.0,
+      "date_metadata_count": 0,
+      "date_metadata_rate": 0.0,
+      "unique_domain_count": 1,
+      "unique_domain_rate": 0.1,
+      "source_group_count": 10,
+      "duplicate_aliases": 2,
+      "possible_same_source_pairs": 0,
+      "exclusion_count": 0,
+      "expected_authoritative_domains": [
+        "climate.copernicus.eu"
+      ],
+      "authoritative_domains_found": [
+        "climate.copernicus.eu"
+      ],
+      "authoritative_hit": true,
+      "authoritative_recall": 1.0,
+      "hosts": [
+        "climate.copernicus.eu"
+      ]
+    },
+    {
+      "id": "T06-atp-ranking",
+      "category": "sport",
+      "status": "completed",
+      "selected_evidence": 10,
+      "task_count": 2,
+      "task_successes": 2,
+      "task_empty": 0,
+      "task_failures": 0,
+      "query_coverage": 1.0,
+      "body_count": 9,
+      "body_rate": 0.9,
+      "snippet_only_count": 1,
+      "snippet_only_rate": 0.1,
+      "date_metadata_count": 0,
+      "date_metadata_rate": 0.0,
+      "unique_domain_count": 1,
+      "unique_domain_rate": 0.1,
+      "source_group_count": 10,
+      "duplicate_aliases": 0,
+      "possible_same_source_pairs": 2,
+      "exclusion_count": 0,
+      "expected_authoritative_domains": [
+        "atptour.com"
+      ],
+      "authoritative_domains_found": [
+        "atptour.com"
+      ],
+      "authoritative_hit": true,
+      "authoritative_recall": 1.0,
+      "hosts": [
+        "atptour.com"
+      ]
+    },
+    {
+      "id": "T07-premier-league-table",
+      "category": "sport",
+      "status": "completed",
+      "selected_evidence": 10,
+      "task_count": 2,
+      "task_successes": 2,
+      "task_empty": 0,
+      "task_failures": 0,
+      "query_coverage": 1.0,
+      "body_count": 9,
+      "body_rate": 0.9,
+      "snippet_only_count": 1,
+      "snippet_only_rate": 0.1,
+      "date_metadata_count": 0,
+      "date_metadata_rate": 0.0,
+      "unique_domain_count": 2,
+      "unique_domain_rate": 0.2,
+      "source_group_count": 10,
+      "duplicate_aliases": 3,
+      "possible_same_source_pairs": 0,
+      "exclusion_count": 0,
+      "expected_authoritative_domains": [
+        "premierleague.com"
+      ],
+      "authoritative_domains_found": [
+        "premierleague.com"
+      ],
+      "authoritative_hit": true,
+      "authoritative_recall": 1.0,
+      "hosts": [
+        "fantasy.premierleague.com",
+        "premierleague.com"
+      ]
+    },
+    {
+      "id": "T08-china-cpi",
+      "category": "finance",
+      "status": "completed",
+      "selected_evidence": 10,
+      "task_count": 2,
+      "task_successes": 2,
+      "task_empty": 0,
+      "task_failures": 0,
+      "query_coverage": 1.0,
+      "body_count": 10,
+      "body_rate": 1.0,
+      "snippet_only_count": 0,
+      "snippet_only_rate": 0.0,
+      "date_metadata_count": 0,
+      "date_metadata_rate": 0.0,
+      "unique_domain_count": 1,
+      "unique_domain_rate": 0.1,
+      "source_group_count": 10,
+      "duplicate_aliases": 0,
+      "possible_same_source_pairs": 0,
+      "exclusion_count": 0,
+      "expected_authoritative_domains": [
+        "stats.gov.cn"
+      ],
+      "authoritative_domains_found": [
+        "stats.gov.cn"
+      ],
+      "authoritative_hit": true,
+      "authoritative_recall": 1.0,
+      "hosts": [
+        "stats.gov.cn"
+      ]
+    }
+  ],
+  "limitations": [
+    "Results depend on the live Tavily index and can change between runs.",
+    "Authoritative-domain hits are a targeted diagnostic, not a complete relevance judgment.",
+    "Automatic metrics do not establish semantic relevance; use the blind review sample for manual relevance/source-quality auditing."
+  ]
+}
