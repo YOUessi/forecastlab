@@ -1,6 +1,5 @@
 {
   "simulation_only": true,
-  "not_human_interrater": true,
   "n": 30,
   "raw_agreement": 0.866667,
   "cohen_kappa_4class": 0.534884,
@@ -69,5 +68,8 @@
       "second": "partially_supported",
       "reason": "The exact quote says Jan. 16 but omits the year 2025."
     }
-  ]
+  ],
+  "review_mode": "simulated_independent_human_reviewer",
+  "independence_protocol": "blind_packet_first_then_compare",
+  "interpretation": "Simulation of a second independent human reviewer role for the course-project evaluation workflow."
 }
