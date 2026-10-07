@@ -6,7 +6,7 @@ import sys
 import time
 import urllib.request
 import pytest
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import Error as PlaywrightError, sync_playwright
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -55,5 +55,12 @@ def page(browser, request):
     yield page
     directory = ROOT / "docs/agent12/validation-artifacts/screenshots"
     directory.mkdir(parents=True, exist_ok=True)
-    page.screenshot(path=str(directory / (request.node.name + ".png")), full_page=True)
-    context.close()
+    try:
+        if not page.is_closed():
+            page.screenshot(path=str(directory / (request.node.name + ".png")), full_page=True)
+    except PlaywrightError as exc:
+        # Screenshots are validation artifacts, not test assertions. A transient
+        # browser capture failure must not turn an otherwise passing E2E into red CI.
+        print(f"best-effort screenshot skipped: {exc}")
+    finally:
+        context.close()
