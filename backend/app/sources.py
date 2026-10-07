@@ -255,6 +255,13 @@ def retrieve_evidence(question: QuestionSpec, tasks, data_dir: Path):
         for name in ("published_at", "updated_at", "event_at"):
             if getattr(c, name):
                 date_basis[name] = "服务商元数据；缺少时区或仅有日期时按UTC展示，不证明截点前可得"
+        cutoff_delay = (snapshot.stored_at - question.as_of).total_seconds()
+        live_near_cutoff = 0 <= cutoff_delay <= config.LIVE_CUTOFF_GRACE_SECONDS
+        if live_near_cutoff:
+            date_basis["cutoff_validation"] = (
+                f"实时在线检索在信息截至时间后 {cutoff_delay:.0f} 秒取得；按 "
+                f"{config.LIVE_CUTOFF_GRACE_SECONDS} 秒 near-cutoff 窗口接受，仅适用于当前实时预测，不证明历史可用性"
+            )
         evidence.append(Evidence(id=f"E{len(evidence)+1:03}", source_url=c.url, title=c.title,
             publisher=urlparse(c.url).hostname, published_at=c.published_at, updated_at=c.updated_at, event_at=c.event_at,
             retrieved_at=snapshot.stored_at, excerpt=excerpt, content_hash=hashlib.sha256(excerpt.encode()).hexdigest(),
@@ -263,7 +270,7 @@ def retrieve_evidence(question: QuestionSpec, tasks, data_dir: Path):
             content_kind="body" if c.has_body else "snippet", content_truncated=snapshot.content_truncated,
             source_group=c.source_group, source_group_basis=c.source_group_basis,
             aliases=c.aliases, query_ids=c.query_ids, possible_same_source=c.possible_same_source,
-            date_basis=date_basis, date_status="unknown", availability="unverified",
+            date_basis=date_basis, date_status="unknown", availability="live_near_cutoff" if live_near_cutoff else "unverified",
             event_status="planned" if c.event_at and c.event_at > question.as_of else "unknown",
             passages=select_passages(split_passages(snapshot), [question.question, *[t.query for t in tasks]])))
     failures = sum(log.status == "failed" for log in logs)

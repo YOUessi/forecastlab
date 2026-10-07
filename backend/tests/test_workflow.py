@@ -155,7 +155,7 @@ def test_review_accepts_actor_action_reference_and_receives_compact_context():
         def complete(self, role, payload, schema, instructions):
             output = demo_output(role, payload.get("actor", {}).get("id"), payload.get("round", 1))
             if role == "review":
-                output["issues"][0]["affected_ids"] = ["M1-A1"]
+                output["issues"][0]["affected_ids"] = ["M1-A001"]
                 assert all(len(item["excerpt"]) <= 1200 for item in payload["evidence"])
                 assert all("rationale_summary" not in action for action in payload["actions"])
             if role == "forecast":
@@ -164,7 +164,7 @@ def test_review_accepts_actor_action_reference_and_receives_compact_context():
 
     record = RunRecord(run_id="run_review_action", question=DEMO_QUESTION, evidence_mode="import", model="fake")
     state = build_graph(record, demo_evidence(), FakeModel(), Path("/tmp")).invoke({"question": DEMO_QUESTION.model_dump(mode="json")})
-    assert state["review"]["issues"][0]["affected_ids"] == ["M1-A1"]
+    assert state["review"]["issues"][0]["affected_ids"] == ["M1-A001"]
 
 
 def test_forecast_falls_back_without_probability_when_citations_never_validate():

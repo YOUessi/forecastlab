@@ -40,7 +40,7 @@ def evidence_for_model(items: list[Evidence], limit: int = 2400) -> list[dict]:
 
 def available_at_cutoff(evidence: Evidence, as_of) -> bool:
     """Allow server-validated frozen evidence or dated exercise material at the cutoff."""
-    if evidence.availability == "verified_before_cutoff":
+    if evidence.availability in {"verified_before_cutoff", "live_near_cutoff"}:
         return True
     if evidence.retrieved_at <= as_of:
         return True
@@ -55,7 +55,7 @@ def mistakes_future_outcome_for_missing_evidence(text: str, question: QuestionSp
     """Catch the common error of demanding observations from the forecast period."""
     if not assume_missing and not re.search(r"缺少|缺失|不足|尚未|未知|无法|不能|没有|未有|未发生|未提供|不具备", text):
         return False
-    if re.search(r"未来(?:的)?(?:结果|行情|数据|信息)|预测期|结算(?:日|时|结果)|截至日之后|截止日之后|后续(?:的)?(?:行情|数据|结果)|最终(?:结果|行情|冠军)|冠军结果|决赛(?:的)?(?:实际)?(?:比赛)?结果|实际收盘(?:价|点位)|结果日(?:数据|行情)", text):
+    if re.search(r"未来(?:的)?(?:结果|行情|数据|信息)|预测期|结算(?:日|时|结果)|截至日之后|截止日之后|后续(?:的)?(?:行情|数据|结果)|最终(?:结果|行情|冠军|积分榜|排名|名次)|冠军结果|赛季最终(?:积分榜|排名|名次)|决赛(?:的)?(?:实际)?(?:比赛)?结果|实际收盘(?:价|点位)|结果日(?:数据|行情)", text):
         return True
     for match in re.finditer(r"(?:(\d{4})\s*[年/-]\s*)?(\d{1,2})\s*[月/-]\s*(?:(\d{1,2})\s*日?)?", text):
         year = int(match.group(1)) if match.group(1) else question.as_of.year
@@ -145,6 +145,41 @@ def canonical_ids(values: list[str], valid: set[str]) -> list[str]:
             key=value.find))
         normalized.extend(matches or [value])
     return list(dict.fromkeys(normalized))
+
+
+def sanitize_review_issue_ids(issue: ReviewIssue, valid: set[str]) -> list[str]:
+    """Keep review prose but drop locator IDs that are not valid trace nodes.
+
+    Review affected_ids are navigation hints, not evidence themselves. An invalid
+    locator must never become a trusted reference, but it also should not abort an
+    otherwise auditable run. Dropped IDs are recorded in the explanation.
+    """
+    normalized = canonical_ids(issue.affected_ids, valid)
+    invalid = [item for item in normalized if item not in valid]
+    issue.affected_ids = [item for item in normalized if item in valid]
+    if invalid:
+        suffix = f"系统已忽略无效定位编号：{'、'.join(invalid)}。"
+        issue.explanation = (issue.explanation.rstrip("。") + "；" + suffix) if issue.explanation else suffix
+    return invalid
+
+
+def canonicalize_world_ids(world: WorldState) -> tuple[dict[str, str], dict[str, str]]:
+    """Assign server-owned namespaces to model-generated actors and assumptions."""
+    old_actor_ids = [actor.id for actor in world.actors]
+    old_assumption_ids = [assumption.id for assumption in world.assumptions]
+    if len(set(old_actor_ids)) != len(old_actor_ids):
+        raise ValueError("主体 ID 重复")
+    if len(set(old_assumption_ids)) != len(old_assumption_ids):
+        raise ValueError("假设 ID 重复")
+    actor_map = {old: f"A{i:03}" for i, old in enumerate(old_actor_ids, 1)}
+    assumption_map = {old: f"H{i:03}" for i, old in enumerate(old_assumption_ids, 1)}
+    for actor in world.actors:
+        actor.id = actor_map[actor.id]
+    for assumption in world.assumptions:
+        old = assumption.id
+        assumption.id = assumption_map[old]
+        assumption.parent_ids = [assumption_map.get(parent, parent) for parent in assumption.parent_ids]
+    return actor_map, assumption_map
 
 
 def validated_finding_ids(assessment: EvidenceAssessment, evidence_ids: set[str]) -> set[str]:
@@ -343,10 +378,7 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
                     "信息截至时间之后的事件均未发生，计划发布日期不能写成实际发布日期。"
                     "市场价格问题可以没有战略主体；预测期行情未知是需要预测的目标，不能据此认定无法预测。")
         world.actors = world.actors[:3]
-        if len({a.id for a in world.actors}) != len(world.actors):
-            raise ValueError("主体 ID 重复")
-        if len({a.id for a in world.assumptions}) != len(world.assumptions):
-            raise ValueError("假设 ID 重复")
+        canonicalize_world_ids(world)
         allowed_conditions = set(question.user_assumptions)
         if record.question_framing:
             allowed_conditions |= {p.content for p in record.question_framing.premises
@@ -476,8 +508,7 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
         valid = (evidence_ids | finding_ids | {a.id for a in world.assumptions} | {a.id for a in world.actors}
                  | {a["id"] for a in state["actions"]} | {s["id"] for s in state["simulation"]})
         for issue in review.issues:
-            issue.affected_ids = canonical_ids(issue.affected_ids, valid)
-            check_ids(issue.affected_ids, valid, "审查意见")
+            sanitize_review_issue_ids(issue, valid)
         review.probability_basis = "full" if review.status != "blocked" else "none"
         if (review.status == "blocked" or future_gap_found) and question.mode == "binary" and evidence:
             audit = ask("evidence_audit", {"question": state["question"], "evidence": evidence_for_model(evidence, 1200),

@@ -82,6 +82,7 @@ def model_configured() -> bool:
 TAVILY_API_KEY = os.getenv("TAVILY_API_KEY", "")
 MAX_CALLS = int(os.getenv("FORECASTLAB_MAX_CALLS", "18"))
 MAX_SECONDS = int(os.getenv("FORECASTLAB_MAX_SECONDS", "300"))
+LIVE_CUTOFF_GRACE_SECONDS = int(os.getenv("FORECASTLAB_LIVE_CUTOFF_GRACE_SECONDS", "900"))
 MODEL_TEMPERATURE = float(os.getenv("FORECASTLAB_MODEL_TEMPERATURE", "0"))
 if not 0 <= MODEL_TEMPERATURE <= 2:
     raise ValueError("FORECASTLAB_MODEL_TEMPERATURE 必须在 0–2 之间")
