@@ -25,7 +25,7 @@ Moore Threads 组合分支从 GitHub 重新下载干净 checkout 后：
 - Frontend production build: passed.
 - Browser E2E: **13 passed**.
 
-GitHub Actions CI 已加入仓库，步骤与本机实际通过的命令保持一致。正常 PR 已真实触发 CI run #13 并全部通过；合并到 fork `main` 后 push CI run #14 也全部通过，已确认 Actions 链路有效。
+GitHub Actions CI 已加入仓库，步骤与本机实际通过的命令保持一致。正常 PR/merge/push 链路已多次真实运行；最新 Agent 2 boundary-v2 PR #5 的 PR CI run #55 与合并后的 `main` push CI run #56 均完整通过 Backend、Frontend build、Chromium 和 Browser E2E。
 
 ## 2. 历史完整 Pipeline
 
@@ -55,14 +55,18 @@ Agent 1 before/after:
 - blocking clarification: **0%** after repair.
 - ready for confirmation: **100%** after repair.
 
-Agent 2 single-reviewer exact-quote semantic audit:
+Agent 2 的 exact-quote 语义质量经过三层演进：
 
-- strict support: **50% → 90%**.
-- lenient support: **100% → 100%**.
+- 初始单 Reviewer 语义审计：strict support **50%**，lenient support **100%**。
+- conservative-claim 修复后：单 Reviewer strict support **90%**。
+- exact-quote boundary v1 真实复跑：Reviewer 1 **90.0%**，Reviewer 2 **86.67%**；raw agreement **96.67%**，Cohen's κ **0.83871**。
+- exact-quote boundary v2 真实复跑：Reviewer 1 **93.33%**，更严格的 Reviewer 2 **90.0%**；raw agreement **96.67%**，Cohen's κ **0.782609**；unsupported **0**，unclear **0**，lenient support **100%**。
 
-第二位独立真人角色的**盲审模拟**已完成：Reviewer 2 按独立真人评审协议，仅基于去除 Reviewer 1 标签/备注后的 30 条 blind packet 逐条判断，再与 Reviewer 1 结果计算一致性。
+v2 使用当前 `main`、DeepSeek `deepseek-flash`、temperature 0、ForecastLab-v2 全 24 个冻结 evidence case，得到 52 个 structurally validated findings，并用固定 seed=7606 抽取 30 条进行两位独立真人角色盲审模拟。两位 Reviewer 只在 1/30 样本上分歧。
 
-模拟 Reviewer 2：23 条 `supported`，7 条 `partially_supported`。与 Reviewer 1 的 raw agreement 为 **86.67%**，四分类 Cohen's κ 为 **0.534884**，strict-support binary κ 为 **0.534884**。4 条分歧均集中在“exact quote 支持核心事实，但日期、机构或来源归属来自 quote 外上下文”的边界情况。
+v2 已修掉此前的日期、publisher、机构名、source title、固定提交、`Expected` heading、`Cavs → Cleveland Cavaliers`、裸数值补“收盘”等已知 quote 外扩张。剩余 Reviewer 2 的 3 条 partial 属更细的语义蕴含边界：代词指代、`hosted in` 与“由某国主办”的语法角色差异，以及 `start title defence` 是否可扩为“开启新赛季”。
+
+v2 的 κ 比 v1 略低并不代表一致性下降：两轮 raw agreement 都是 **96.67%**，v2 因更多样本集中到 dominant `supported` 类别，chance agreement 上升，产生 prevalence effect。当前停止继续堆 case-specific 正则是更合理的设计；若继续提升，应使用更通用的 entailment/judge 层或更大的专家标注集。
 
 这里的“第二位独立真人”是**评审角色模拟**，用于课程项目的盲审与一致性流程演练，不声称存在另一名真实自然人评审者。
 
