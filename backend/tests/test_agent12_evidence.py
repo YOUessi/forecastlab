@@ -117,3 +117,125 @@ def test_evidence_prompt_requires_claim_to_be_directly_entailed():
     assert "直接蕴含" in prompt
     assert "不能从“没提到”推断“未发生”" in prompt
     assert "不得塞进 claim" in prompt
+
+
+@pytest.mark.parametrize(
+    "claim,quote,publisher",
+    [
+        (
+            "2025-06-30 当日标普500与纳斯达克综合指数各上涨 0.5%，道琼斯工业平均指数上涨 0.6%。",
+            "The S&P 500 (SPX) and Nasdaq Composite (IXIC) each rose 0.5%, while the Dow Jones Industrial Average (DJI) added 0.6%.",
+            "Investopedia",
+        ),
+        (
+            "在 2024/25 赛季赛程公布相关报道中，曼城被称为卫冕冠军。",
+            "Who will champions Manchester City start their title defence against?",
+            "Premier League",
+        ),
+        (
+            "Python 3.13.0rc2 是最终发布预览，若无发现严重缺陷，该版本预计将成为最终的 3.13.0 正式版。",
+            "This release, 3.13.0rc2, is the final release preview. This release is expected to become the final 3.13.0 release, barring any critical bugs being discovered.",
+            "Python Software Foundation",
+        ),
+        (
+            "InfoWorld 片段称，在一篇 12 月 2 日的博客文章中，微软提供了关于 TypeScript 7.0（又称 Project Corsa）的更新。",
+            "In a December 2 blog post, Microsoft provided updates on TypeScript 7.0, also known as Project Corsa.",
+            "InfoWorld",
+        ),
+        (
+            "NASA 将此次试飞的目标发射时间定为不早于 4 月 1 日（星期三）。",
+            "The agency is targeting no earlier than Wednesday, April 1, for the test flight.",
+            "NASA",
+        ),
+        (
+            "FAA 要求 SpaceX 就 2025 年 1 月 16 日发射操作中 Starship 飞行器的损失开展事故调查。",
+            "The FAA is requiring SpaceX to perform a mishap investigation into the loss of the Starship vehicle during launch operations on Jan. 16.",
+            "Federal Aviation Administration",
+        ),
+        (
+            "在 PEP 719 的该固定提交中，3.13.0 candidate 2 被列为 2024-09-06（星期五）。",
+            "- 3.13.0 candidate 2: Friday, 2024-09-06",
+            "Python PEP Repository",
+        ),
+        (
+            "Gracenote 虚拟奖牌榜预测美国获得 39 枚金牌。",
+            "Virtual Medal Table: United States 39 gold.",
+            "Nielsen",
+        ),
+        (
+            "在 2026 年 4 月的 FIFA 男足世界排名中，法国居首，西班牙和阿根廷分列第二、第三。",
+            "France now lead the way. Spain and Argentina are second and third respectively.",
+            "FIFA",
+        ),
+    ],
+)
+def test_exact_quote_boundary_rejects_metadata_or_dates_not_in_quote(tmp_path, claim, quote, publisher):
+    m = module()
+    q = QuestionSpec(question="这些材料是否直接支持该事实？", mode="scenario", as_of=utcnow())
+    retrieval = import_evidence(
+        [ImportedEvidence(file_id="boundary-case", title=f"Boundary source: {claim}", publisher=publisher, excerpt=quote)],
+        q,
+        tmp_path,
+    )
+    e = retrieval.evidence[0]
+    p = e.passages[0]
+    candidate = AssessmentCandidate.model_validate({
+        "summary": "boundary test",
+        "findings": [{
+            "claim": claim,
+            "relation": "background",
+            "citations": [{
+                "evidence_id": e.id,
+                "snapshot_hash": e.snapshot_hash,
+                "paragraph_id": p.paragraph_id,
+                "quote": quote,
+            }],
+        }],
+    })
+    valid, rejected = m.validate_findings(candidate, None, retrieval.evidence, {e.id: e.passages})
+    assert valid == []
+    assert len(rejected) == 1
+    assert "exact-quote claim boundary" in rejected[0].reason
+
+
+def test_exact_quote_boundary_allows_translated_month_when_quote_spells_month(tmp_path):
+    m = module()
+    q = QuestionSpec(question="目标发射日期是否被原文直接支持？", mode="scenario", as_of=utcnow())
+    quote = "The agency is targeting no earlier than Wednesday, April 1, for the test flight."
+    retrieval = import_evidence(
+        [ImportedEvidence(file_id="boundary-month", title="Launch notice", publisher="NASA", excerpt=quote)],
+        q,
+        tmp_path,
+    )
+    e = retrieval.evidence[0]
+    p = e.passages[0]
+    candidate = AssessmentCandidate.model_validate({
+        "summary": "boundary test",
+        "findings": [{
+            "claim": "目标发射时间定为不早于 4 月 1 日（星期三）。",
+            "relation": "background",
+            "citations": [{
+                "evidence_id": e.id,
+                "snapshot_hash": e.snapshot_hash,
+                "paragraph_id": p.paragraph_id,
+                "quote": quote,
+            }],
+        }],
+    })
+    valid, rejected = m.validate_findings(candidate, None, retrieval.evidence, {e.id: e.passages})
+    assert len(valid) == 1
+    assert rejected == []
+
+
+def test_exact_quote_boundary_feedback_triggers_repair(tmp_path, clear_framing, mock_model):
+    m = module()
+    q, frame, retrieval, good = setup(tmp_path, clear_framing)
+    bad = deepcopy(good)
+    bad["findings"][0]["claim"] = "2026 年公告表示单元测试已完成"
+    model = mock_model([bad, good])
+    assessment = m.assess_evidence(q, frame, retrieval, model, tmp_path)
+    assert model.call_count == 2
+    assert len(assessment.findings) == 2
+    assert assessment.rejected_findings == []
+    assert "validation_feedback" in model.calls[1][1]
+    assert any("exact-quote claim boundary" in x for x in model.calls[1][1]["validation_feedback"])
