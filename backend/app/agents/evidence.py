@@ -13,7 +13,9 @@ finding.claim 必须是所引 quote 可以直接蕴含的保守释义，只写 q
 quote 没写出的发布日期、年份、机构/产品/项目名称、publisher/source title、文档或提交来源、问题中的用途、因果、趋势、评价、缺失事实或“因此/说明/构成/表明”的解释，
 不得塞进 claim；需要说明时写进 limitation 或 summary。即使这些信息出现在证据 metadata/title/publisher 里，只要 exact quote 没写，就不能补进 claim。
 例如 quote 只有“The agency ... April 1”时 claim 可写“目标发射时间不早于4月1日”，不可补“NASA”；quote 只有“... on Jan. 16”时不可补年份；
-quote 只有“Virtual Medal Table: United States 39 gold.”时不可补“Gracenote”。标题/截断片段只能按其字面内容生成 claim，不能从“没提到”推断“未发生”。
+quote 只有“Virtual Medal Table: United States 39 gold.”时不可补“Gracenote”。裸表格行只有日期和数值时，不可擅自补“收盘/指数/价格”等口径；
+quote 只有简称/缩写时，不可补全成 quote 未出现的英文实体全名；quote 外的标题、章节名（如 Expected）、“官方”身份、固定提交 provenance 都不能进入 claim。
+标题/截断片段只能按其字面内容生成 claim，不能从“没提到”推断“未发生”。
 多个 citations 只有在它们共同直接支持 claim 时才能合并到同一个 finding。
 关系属于这个发现与前提，不属于整个网站；同一来源可以支持一项前提、挑战另一项。
 不要因为检索任务叫challenge就把搜到的材料标成反证。没有可靠反证时不编造对立观点。
@@ -43,6 +45,12 @@ _MONTH_NUMBERS = {
 }
 _ASCII_CLAIM_MARKER = re.compile(
     r"(?<![A-Za-z0-9_])([A-Z][A-Za-z0-9]*(?:[./-][A-Za-z0-9]+)*)(?![A-Za-z0-9_])"
+)
+_CJK_TEXT = re.compile(r"[\u3400-\u9fff]")
+_SEMANTIC_CUE_REQUIREMENTS = (
+    ("收盘", ("收盘", " close ", " closed ", " closing ")),
+    ("官方", ("官方", " official ")),
+    ("固定提交", ("固定提交", " commit ", " committed ", " hash ")),
 )
 
 
@@ -79,13 +87,23 @@ def _claim_boundary_violations(finding, citations, sources) -> list[str]:
         publisher = (source.publisher or "").strip()
         if publisher and publisher in finding.claim and publisher not in quote_text:
             missing_publishers.append(publisher)
-    missing_markers = sorted((claim_markers & metadata_markers) - quote_markers)
+    metadata_missing_markers = (claim_markers & metadata_markers) - quote_markers
+    inline_missing_markers = (claim_markers - quote_markers) if _CJK_TEXT.search(finding.claim) else set()
+    missing_markers = sorted(metadata_missing_markers | inline_missing_markers)
+
+    padded_quote = f" {quote_text.casefold()} "
+    semantic_cues = []
+    for cue, required_terms in _SEMANTIC_CUE_REQUIREMENTS:
+        if cue in finding.claim and not any(term.casefold() in padded_quote for term in required_terms):
+            semantic_cues.append(cue)
 
     issues = []
     if missing_numbers:
         issues.append("claim 含 exact quote 未出现的数字/年份/日期标记：" + "、".join(missing_numbers))
     if missing_markers:
-        issues.append("claim 含 exact quote 未出现的英文机构/专名/标识：" + "、".join(missing_markers))
+        issues.append("claim 含 exact quote 未出现的英文实体/标签：" + "、".join(missing_markers))
+    if semantic_cues:
+        issues.append("claim 含 exact quote 未表达的语义口径/来源限定：" + "、".join(semantic_cues))
     if missing_publishers:
         issues.append("claim 把 publisher metadata 写成 quote 事实：" + "、".join(sorted(set(missing_publishers))))
     return issues
