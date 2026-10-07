@@ -25,7 +25,7 @@ uv run python eval/agent12.py --mode fixture --cases examples/agent12/neutral-le
 
 基于证据溯源与多主体推演的课程级预测工作台。这个仓库实现了所附 [工程计划](docs/agent-framework-plan-v1.html) 的核心 Demo：统一问题格式、证据包或在线检索、LangGraph 状态图、主体独立行动、两轮环境推进、审查、主观概率、SQLite 回放与报告导出。
 
-**状态说明：**教学演示使用明确标注的虚构材料与固定输出，用于无密钥联调。真实预测需要模型服务 Key；在线检索另需 Tavily Key。当前没有真实实验结果，也不声称概率已校准。
+**状态说明：**教学演示仍使用明确标注的虚构材料与固定输出，用于无密钥联调；真实运行需要模型服务 Key，在线检索另需 Tavily Key。仓库现已包含 DeepSeek `deepseek-flash`、temperature=0 的冻结历史评测结果，但这些结果是课程级回测/语义审计，不代表概率已校准，也不能直接外推到真实未来预测。完整实验见 [ForecastLab-v2 多臂评测](experiment-2026-10-07-v2/report.md) 与 [Agent 1/2 语义稳健性 before/after](experiment-2026-10-07-agent12-semantic/report.md)。
 
 ## 快速启动
 
@@ -147,6 +147,17 @@ QuestionSpec → QuestionAnalysis → Evidence[] + EvidenceAssessment
 uv run pytest -q
 cd frontend && npm run build
 ```
+
+### 已完成的真实模型评测
+
+当前最终语义修复版本使用 DeepSeek `deepseek-flash`、`temperature=0` 完成了冻结评测。主要结果：
+
+- Agent 1：真实 v2 paired set 与独立 fictional sanity set 各运行 8 对 neutral/leading 问题、重复 2 次；修复后显式 leading premise 检出率 **100%**、显式字段保持率 **100%**、unexpected neutral-premise rate **0%**、blocking clarification rate **0%**、ready-for-confirmation rate **100%**。
+- Agent 2：24 个 evidence pack 产生的新 finding population 中固定抽样 30 条做单审阅者 `finding.claim -> exact quote` 语义审计；strict support rate 从 baseline **50%** 提升到 **90%**，lenient support rate 保持 **100%**。该结果没有独立第二审阅者，因此不报告 inter-rater reliability。
+- 最终 24-case Full consistency run：**19/24** 输出概率，coverage **79.17%**，hard failure **0**；answered-case Brier **0.1448**，按 0.5 处理 abstention 的全样本 Brier **0.1667**。
+- 冻结 baseline：Single Agent + 同证据 Brier **0.1443**，Single Agent 无证据 Brier **0.1881**。在 Full 实际回答的 19 个 matched cases 上，Single Agent + 同证据 Brier **0.1265**，优于 Full 的 **0.1448**。
+
+因此目前可以支持“证据和 Agent 1/2 可靠性改进有价值”，但**不能**声称多阶段 World/Actor/Simulation 已经提高预测准确率。完整数据和局限见上述两份实验报告。
 
 测试覆盖完整演示、引用与概率约束、时间截点、服务重启标记，以及 HTML 导出转义。`examples/classroom-demo.json` 是**教学虚构情境**，不能用于真实预测质量评估。
 
