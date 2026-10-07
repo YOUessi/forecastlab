@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The existing Agent 2 after audit has one reviewer. This directory provides a genuinely blind second-review workflow so inter-rater agreement can be reported without treating an LLM or the first reviewer as an independent human.
+The existing Agent 2 after audit has one reviewer. This directory provides a blind second-review workflow for **simulating a second independent human reviewer role**: Reviewer 2 receives a packet with Reviewer 1 labels and notes removed, applies the same rubric independently, and only then is agreement scored.
 
 Blind packet:
 
@@ -43,4 +43,10 @@ The scorer reports:
 
 ## Independence requirement
 
-Reviewer 2 must be a second human who has not seen reviewer 1's labels before completing the blind packet. ChatGPT or another model must not be reported as the second human reviewer.
+For the course-project simulation, Reviewer 2 is an **independent-human reviewer role simulation**. The protocol is:
+1. use only the blind packet with Reviewer 1 labels/notes removed;
+2. apply the rubric item by item without using Reviewer 1 judgments as guidance;
+3. finish all labels before agreement scoring;
+4. only after the simulated review is complete, compare against Reviewer 1.
+
+This is a simulation of the independent-human review procedure, not a claim that a second natural person participated.

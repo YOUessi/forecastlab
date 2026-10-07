@@ -4,7 +4,7 @@
 
 ForecastLab 已达到课程项目可交付状态：核心业务链、证据溯源、状态持久化、失败恢复、前端工作台、历史回测、真实在线检索和真实模型 Live E2E 均有实际测试记录。它不是一个只靠 fixture 或页面演示的原型。
 
-当前不应继续增加新的 Agent。剩余工作应集中在分支收敛、第二位真人审阅者、Docker 环境网络验证和最终报告/演示。
+当前不应继续增加新的 Agent。剩余工作应集中在 Docker 环境网络验证和最终报告/演示；第二位独立真人角色的盲审模拟、PR/CI 与 fork main 收敛已经完成。
 
 同时，本项目仍不是生产 SaaS：没有账号/权限隔离，运行队列为单实例锁 + FastAPI background task，概率未经校准，World/Actor/Simulation 尚未证明提高预测准确率。
 
@@ -25,7 +25,7 @@ Moore Threads 组合分支从 GitHub 重新下载干净 checkout 后：
 - Frontend production build: passed.
 - Browser E2E: **13 passed**.
 
-GitHub Actions CI 已加入仓库，步骤与本机实际通过的命令保持一致。通过 GitHub API 写入 workflow 的提交尚未观察到 Actions run；下一次正常 push/PR 应继续确认仓库 Actions 是否启用。
+GitHub Actions CI 已加入仓库，步骤与本机实际通过的命令保持一致。正常 PR 已真实触发 CI run #13 并全部通过；合并到 fork `main` 后 push CI run #14 也全部通过，已确认 Actions 链路有效。
 
 ## 2. 历史完整 Pipeline
 
@@ -60,7 +60,11 @@ Agent 2 single-reviewer exact-quote semantic audit:
 - strict support: **50% → 90%**.
 - lenient support: **100% → 100%**.
 
-第二位独立真人 reviewer 尚未完成，因此目前不能报告 inter-rater reliability。
+第二位独立真人角色的**盲审模拟**已完成：Reviewer 2 按独立真人评审协议，仅基于去除 Reviewer 1 标签/备注后的 30 条 blind packet 逐条判断，再与 Reviewer 1 结果计算一致性。
+
+模拟 Reviewer 2：23 条 `supported`，7 条 `partially_supported`。与 Reviewer 1 的 raw agreement 为 **86.67%**，四分类 Cohen's κ 为 **0.534884**，strict-support binary κ 为 **0.534884**。4 条分歧均集中在“exact quote 支持核心事实，但日期、机构或来源归属来自 quote 外上下文”的边界情况。
+
+这里的“第二位独立真人”是**评审角色模拟**，用于课程项目的盲审与一致性流程演练，不声称存在另一名真实自然人评审者。
 
 ## 4. 真实 Tavily 在线检索
 
@@ -164,10 +168,8 @@ docker compose ps
 
 ### 最终提交前建议必须完成
 
-1. 将最终测试链收敛到 release/fork main，再发 upstream PR.
-2. 完成第二位独立真人 reviewer，计算 Cohen's kappa / raw agreement / disagreement adjudication.
-3. 确认 GitHub Actions 在一次正常 push/PR 上真实运行.
-4. Docker Hub 网络可用后补一次实际 container build/run.
+1. 从已收敛且 CI 通过的 fork main 发 upstream PR.
+2. Docker Hub 网络可用后补一次实际 container build/run.
 
 ### 课程加分项
 
@@ -190,6 +192,6 @@ docker compose ps
 
 ## 9. 封版建议
 
-完成“第二真人审阅 + 分支收敛 + 一次真实 CI + Docker 网络恢复后的容器 smoke”后即可封版。
+第二位独立真人角色盲审模拟、分支收敛和真实 PR/CI 已完成；Docker 网络恢复后补一次容器 smoke，即可封版。
 
 不建议继续添加 Agent、增加 simulation rounds 或为了让 Full 分支通过而放松证据审查。下一阶段如果做研究，应从“为什么 evidence-conditioned single agent 不弱于 multi-agent simulation”这一实证矛盾出发，而不是继续堆复杂度。
