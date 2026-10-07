@@ -123,6 +123,26 @@ def test_evidence_prompt_requires_claim_to_be_directly_entailed():
     "claim,quote,publisher",
     [
         (
+            "2025-06-30 当日标普500与纳斯达克综合指数各上涨 0.5%，道琼斯工业平均指数上涨 0.6%。",
+            "The S&P 500 (SPX) and Nasdaq Composite (IXIC) each rose 0.5%, while the Dow Jones Industrial Average (DJI) added 0.6%.",
+            "Investopedia",
+        ),
+        (
+            "在 2024/25 赛季赛程公布相关报道中，曼城被称为卫冕冠军。",
+            "Who will champions Manchester City start their title defence against?",
+            "Premier League",
+        ),
+        (
+            "Python 3.13.0rc2 是最终发布预览，若无发现严重缺陷，该版本预计将成为最终的 3.13.0 正式版。",
+            "This release, 3.13.0rc2, is the final release preview. This release is expected to become the final 3.13.0 release, barring any critical bugs being discovered.",
+            "Python Software Foundation",
+        ),
+        (
+            "InfoWorld 片段称，在一篇 12 月 2 日的博客文章中，微软提供了关于 TypeScript 7.0（又称 Project Corsa）的更新。",
+            "In a December 2 blog post, Microsoft provided updates on TypeScript 7.0, also known as Project Corsa.",
+            "InfoWorld",
+        ),
+        (
             "NASA 将此次试飞的目标发射时间定为不早于 4 月 1 日（星期三）。",
             "The agency is targeting no earlier than Wednesday, April 1, for the test flight.",
             "NASA",
