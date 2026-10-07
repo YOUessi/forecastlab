@@ -173,7 +173,7 @@ def test_exact_quote_boundary_rejects_metadata_or_dates_not_in_quote(tmp_path, c
     m = module()
     q = QuestionSpec(question="这些材料是否直接支持该事实？", mode="scenario", as_of=utcnow())
     retrieval = import_evidence(
-        [ImportedEvidence(file_id="boundary-case", title="Boundary source", publisher=publisher, excerpt=quote)],
+        [ImportedEvidence(file_id="boundary-case", title=f"Boundary source: {claim}", publisher=publisher, excerpt=quote)],
         q,
         tmp_path,
     )
@@ -231,7 +231,7 @@ def test_exact_quote_boundary_feedback_triggers_repair(tmp_path, clear_framing, 
     m = module()
     q, frame, retrieval, good = setup(tmp_path, clear_framing)
     bad = deepcopy(good)
-    bad["findings"][0]["claim"] = "NASA 公告表示单元测试已完成"
+    bad["findings"][0]["claim"] = "2026 年公告表示单元测试已完成"
     model = mock_model([bad, good])
     assessment = m.assess_evidence(q, frame, retrieval, model, tmp_path)
     assert model.call_count == 2
