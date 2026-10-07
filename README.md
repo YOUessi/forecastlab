@@ -1,10 +1,10 @@
 # ForecastLab
 
-## Agent 1–2 增量版本
+## 当前实现状态
 
-本分支新增“问题分析 → 澄清 → 前提处理 → 确认 → 逐项取证与原文查看”。原有模拟、结果和历史页面继续保留。快速本机启动：`bash scripts/start-local.sh`，默认地址 `http://127.0.0.1:8765`。
+ForecastLab 现在使用一条正式产品流程：“创建预测 → 问题确认 → 证据与模型 → 推演过程 → 结果与历史”。Agent 1 的问题分析/澄清/前提确认与 Agent 2 的逐项取证/原文追溯已经嵌入这条主流程，不再提供 Agent 1/2 专用产品演示入口。快速本机启动：`bash scripts/start-local.sh`，默认地址 `http://127.0.0.1:8765`。
 
-无密钥演示：点击“体验问题与证据新流程”，点击“分析问题”，澄清填写“可下载的正式版”，处理两项前提，确认后开始预测。材料、模型响应和概率均为固定教学虚构，不代表真实模型质量。
+无密钥时可点击“运行教学演示”查看固定虚构材料的完整 ForecastLab 流程；固定 Agent 1/2 fixture 仍保留在后端自动化测试中，但不是正式产品入口。教学材料、固定模型响应和概率不代表真实模型质量。
 
 交接材料：[Agent 1–2 完整实现记录](docs/agent12/implementation-report.md) · [实现与下游兼容](docs/agent12/integration.md) · [API](docs/agent12/api.md) · [验证记录](docs/agent12/validation.md) · [局限](docs/agent12/limitations.md) · [LLM 使用](docs/agent12/llm-usage.md)。原说明的旧路径仍可使用，但未经过新版确认的运行明确标为“旧版直接输入”。
 
@@ -25,7 +25,7 @@ uv run python eval/agent12.py --mode fixture --cases examples/agent12/neutral-le
 
 基于证据溯源与多主体推演的课程级预测工作台。这个仓库实现了所附 [工程计划](docs/agent-framework-plan-v1.html) 的核心 Demo：统一问题格式、证据包或在线检索、LangGraph 状态图、主体独立行动、两轮环境推进、审查、主观概率、SQLite 回放与报告导出。
 
-**状态说明：**教学演示仍使用明确标注的虚构材料与固定输出，用于无密钥联调；真实运行需要模型服务 Key，在线检索另需 Tavily Key。仓库现已包含 DeepSeek `deepseek-flash`、temperature=0 的冻结历史评测结果，但这些结果是课程级回测/语义审计，不代表概率已校准，也不能直接外推到真实未来预测。完整实验见 [ForecastLab-v2 多臂评测](experiment-2026-10-07-v2/report.md) 与 [Agent 1/2 语义稳健性 before/after](experiment-2026-10-07-agent12-semantic/report.md)。
+**状态说明：**教学演示仍使用明确标注的虚构材料与固定输出，用于无密钥联调；真实运行需要模型服务 Key，在线检索另需 Tavily Key。仓库现已包含 DeepSeek `deepseek-flash`、temperature=0 的冻结历史评测、Agent 1/2 语义审计、真实 Tavily 检索质量评测，以及真实模型 + 真实 Tavily 的 HTTP Live E2E。它们仍是课程级实验，不代表概率已校准。完整实验见 [ForecastLab-v2 多臂评测](experiment-2026-10-07-v2/report.md)、[Agent 1/2 语义稳健性](experiment-2026-10-07-agent12-semantic/report.md)、[Tavily Live Retrieval](experiment-2026-10-07-tavily/report.md) 与 [Live Full E2E](experiment-2026-10-07-live-e2e/report.md)。
 
 ## 快速启动
 
@@ -52,7 +52,7 @@ docker compose up -d --build
 docker compose ps
 ```
 
-容器使用 `uv` 从锁文件安装 Python 依赖，Node 构建前端；SQLite 数据和证据快照保存在宿主机 `data/`。服务监听服务器的 8000 端口，可在浏览器打开 `http://服务器公网 IP:8000/`。需要停止服务时运行 `docker compose down`；这不会删除 `data/`。更新代码后执行 `git pull --ff-only && docker compose up -d --build`。
+容器使用 `uv` 从锁文件安装 Python 依赖，Node 构建前端；SQLite 数据和证据快照保存在宿主机 `data/`。默认 Compose 只绑定 `127.0.0.1:8000`。本项目当前没有账号、认证和多用户隔离，**不要直接把 8000 端口暴露到公网**；如需远程访问，应在前面增加带认证的反向代理/网关或使用受控隧道。需要停止服务时运行 `docker compose down`；这不会删除 `data/`。更新代码后执行 `git pull --ff-only && docker compose up -d --build`。
 
 若服务器已有 Python 3.12，也可以用 `uv` 安装依赖并用 systemd 运行，不需要在服务器构建前端：
 
@@ -68,7 +68,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable --now forecastlab
 ```
 
-systemd 服务使用独立的 `forecastlab` 用户。若该用户已存在，跳过 `useradd`。服务同样监听服务器的 8000 端口，可直接通过公网 IP 在浏览器访问。
+systemd 服务使用独立的 `forecastlab` 用户。若该用户已存在，跳过 `useradd`。默认服务只监听 `127.0.0.1:8000`；若需要远程访问，请通过带认证的反向代理/网关或受控隧道转发，不要直接裸露 ForecastLab。
 
 ## 启用真实运行
 
@@ -115,7 +115,7 @@ QuestionSpec → QuestionAnalysis → Evidence[] + EvidenceAssessment
 - 同一轮的主体读取同一个父状态；环境在收齐行动后统一推进。模拟结果保持 `M/S` 身份，不会变成 `E` 类外部证据。
 - 代码核对引用 ID、时间截点、父状态和概率；审查 Agent 核对内容支持度。证据不足或审查阻断时不输出概率。
 - 所有角色共用同一个已配置模型，不等于独立专家；概率是主观判断，未经校准。
-- 在线检索由 Tavily 提供，模型本身不承担互联网搜索。首版没有账号、GPU、断点自动续算和全网持续监控。
+- 在线检索由 Tavily 提供，模型本身不承担互联网搜索。当前系统没有账号/多用户权限、生产级任务队列或全网持续监控；运行中断可从已保存阶段手动恢复。
 
 ## API
 
@@ -157,7 +157,11 @@ cd frontend && npm run build
 - 最终 24-case Full consistency run：**19/24** 输出概率，coverage **79.17%**，hard failure **0**；answered-case Brier **0.1448**，按 0.5 处理 abstention 的全样本 Brier **0.1667**。
 - 冻结 baseline：Single Agent + 同证据 Brier **0.1443**，Single Agent 无证据 Brier **0.1881**。在 Full 实际回答的 19 个 matched cases 上，Single Agent + 同证据 Brier **0.1265**，优于 Full 的 **0.1448**。
 
-因此目前可以支持“证据和 Agent 1/2 可靠性改进有价值”，但**不能**声称多阶段 World/Actor/Simulation 已经提高预测准确率。完整数据和局限见上述两份实验报告。
+因此目前可以支持“证据和 Agent 1/2 可靠性改进有价值”，但**不能**声称多阶段 World/Actor/Simulation 已经提高预测准确率。
+
+额外的真实在线验证：Tavily 质量套件 8/8 cases、16/16 retrieval tasks 成功，正文获取率 97.5%，预设权威域名命中率 100%；最终 Live HTTP E2E 的 3/3 prospective cases 全部完成，35 个 Agent 2 findings 均经过服务端原文校验，45 个 exact citations 校验失败 0，最终非法引用 0。三条 live case 的 full simulation 分支都被 Review 阻断，最终概率均使用 `evidence_only` fallback，这进一步说明当前 Simulation 的价值主要是结构化情景与审查，而不是已证明的准确率增益。完整数据和局限见上述实验报告。
+
+当前核心测试链在干净环境中通过后端 **152 tests**、前端 production build 与浏览器 E2E **13 tests**；Moore Threads 组合分支通过后端 **156 tests** 与同一前端/browser 回归。仓库包含 GitHub Actions CI 配置，后续正常 push/PR 应自动执行同类检查。
 
 测试覆盖完整演示、引用与概率约束、时间截点、服务重启标记，以及 HTML 导出转义。`examples/classroom-demo.json` 是**教学虚构情境**，不能用于真实预测质量评估。
 

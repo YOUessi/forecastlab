@@ -6,7 +6,7 @@ services:
     environment:
       FORECASTLAB_DATA_DIR: /app/data
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
     volumes:
       - ./data:/app/data
     restart: unless-stopped
