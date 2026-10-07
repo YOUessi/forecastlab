@@ -72,7 +72,7 @@ systemd 服务使用独立的 `forecastlab` 用户。若该用户已存在，跳
 
 ## 启用真实运行
 
-1. 将 `.env.example` 复制为 `.env`，填写 `QWEN_API_KEY`、`QWEN_BASE_URL` 和 `QWEN_MODEL`。项目使用 OpenAI 兼容接口调用模型；已有 DeepSeek 官方接口配置也可继续使用 `DEEPSEEK_API_KEY`、`DEEPSEEK_BASE_URL` 和 `DEEPSEEK_MODEL`。两组同时设置时，优先使用 `QWEN_*`。
+1. 将 `.env.example` 复制为 `.env`。`FORECASTLAB_MODEL_PROVIDER=auto` 保留现有行为：有 `QWEN_API_KEY` 时使用 Qwen，否则使用 DeepSeek；也可显式设为 `qwen` / `deepseek`。若使用课程摩尔线程 GPU，设为 `vllm_mt`，并配置 `VLLM_MT_BASE_URL`、`VLLM_MT_MODEL`；默认本地 vLLM-MT 不要求真实 API Key。完整说明见 [Moore Threads vLLM-MT integration](docs/moorethreads-vllm.md)。
 2. 若使用在线检索，另填 `TAVILY_API_KEY`。没有检索 Key 时，导入 JSON 证据包即可。
 3. 输入可结算的二元问题、信息截至时间、截止时间和结算规则。开放问题改选“情景分析”，其概率始终为 `null`。
 4. 导入证据包或选择在线检索，提交运行。单进程同一时间只接受一个运行；页面每 2 秒查询进度。失败或中断后可从已保存的阶段继续，不重复执行成功的阶段。
@@ -161,7 +161,16 @@ cd frontend && npm run build
 
 测试覆盖完整演示、引用与概率约束、时间截点、服务重启标记，以及 HTML 导出转义。`examples/classroom-demo.json` 是**教学虚构情境**，不能用于真实预测质量评估。
 
-实际实验应先冻结问题、提示词、模型、证据包和预算。`eval/baseline.py` 用**同一问题与证据包**做一次单 Agent 模型调用：
+实际实验应先冻结问题、提示词、模型、证据包和预算。模型后端可先做 smoke 与推理性能测试：
+
+```bash
+uv run python eval/model_backend_smoke.py --provider vllm_mt
+uv run python eval/model_backend_benchmark.py --provider vllm_mt --concurrency 1 4 --repeat 3 --output results/vllm-mt.json
+```
+
+这组指标只衡量 TTFT / TPOT / token throughput / latency，不代表 Agent 语义质量；Agent 1–2 的真实质量仍用 `eval/agent12.py --mode live` 和人工原文检查验证。
+
+`eval/baseline.py` 用**同一问题与证据包**做一次单 Agent 模型调用：
 
 ```bash
 uv run python eval/baseline.py path/to/frozen-pack.json --output baseline.json

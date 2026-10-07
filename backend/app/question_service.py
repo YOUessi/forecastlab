@@ -33,7 +33,7 @@ class QuestionService:
         if request.demo_case_id:
             from .agent12_demo import validate_demo_request
             validate_demo_request(request)
-        if self.requires_key and not request.demo_case_id and not config.MODEL_API_KEY:
+        if self.requires_key and not request.demo_case_id and not config.model_configured():
             raise ModelNotConfigured("未配置模型密钥；真实问题不能使用固定答案代替分析。可使用教学演示。")
         raw = request.model_dump(mode="json", exclude={"operation_id"})
         digest = hashlib.sha256(json.dumps(raw, sort_keys=True, ensure_ascii=False).encode()).hexdigest()

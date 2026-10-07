@@ -1,0 +1,16 @@
+[
+  {
+    "id": "agent1-framing",
+    "description": "ForecastLab Agent 1 representative short structured-output workload.",
+    "system": "你是 ForecastLab 的问题定义 Agent。识别问题中的含糊点和用户前提，只输出 JSON。",
+    "user": "用户问题：某开源社区说所有测试已经完成，所以 V2 一定能在 2026 年 11 月 15 日前正式发布吧？信息截至 2026-09-30。请输出 normalized_question、clarifications、premises、alternative_directions。",
+    "max_tokens": 512
+  },
+  {
+    "id": "agent2-evidence",
+    "description": "ForecastLab Agent 2 representative longer evidence-analysis workload.",
+    "system": "你是 ForecastLab 的证据 Agent。只根据给出的资料分析，不补充外部事实。逐项判断证据与前提之间的关系，只输出 JSON。",
+    "user": "问题：某开源社区是否会在 2026 年 11 月 15 日前发布 V2 正式版？\\n前提 P001：全部测试已经完成。\\n前提 P002：完成测试足以保证按期发布。\\n资料 E001：项目路线图写明 11 月计划发布 V2，但仍需完成兼容性验证和发布签名。\\n资料 E002：最近一次测试记录显示两个高优先级兼容问题仍处于 open 状态。\\n资料 E003：维护者公告称如果兼容问题未在冻结日期前解决，将顺延正式版。\\n资料 E004：社区论坛有人表示自己本地测试通过，但该帖子不是官方发布记录。\\n请输出 findings，每项包含 target_premise_ids、claim、relation、citations 和 limitation；同时列出 conflicts 和 gaps。",
+    "max_tokens": 768
+  }
+]
