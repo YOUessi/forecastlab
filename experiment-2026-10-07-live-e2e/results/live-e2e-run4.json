@@ -1,0 +1,335 @@
+{
+  "created_at": "2026-10-07T15:27:04.594956+00:00",
+  "kind": "real_live_http_e2e",
+  "base": "http://127.0.0.1:8770",
+  "as_of": "2026-10-07T15:24:36Z",
+  "cases": 3,
+  "terminal_runs": 3,
+  "completed": 3,
+  "hard_failures": 0,
+  "all_citations_valid": true,
+  "all_final_refs_valid": true,
+  "rows": [
+    {
+      "id": "L01-python315",
+      "category": "tech",
+      "question": "Python 3.15 是否会在 2026 年 11 月 15 日 23:59 UTC 前在 python.org 正式下载页发布稳定正式版？",
+      "run_id": "run_35c70fb6826a",
+      "status": "completed",
+      "stage": "done",
+      "framing_revisions": 1,
+      "clarifications": [],
+      "premises": [],
+      "retrieval_tasks": [
+        {
+          "id": "R001",
+          "purpose": "initial",
+          "query": "Python 3.15 release schedule PEP 745 final release date",
+          "target_premise_ids": []
+        },
+        {
+          "id": "R002",
+          "purpose": "challenge",
+          "query": "CPython 3.15 release candidate to final release timeline history",
+          "target_premise_ids": []
+        },
+        {
+          "id": "R003",
+          "purpose": "background",
+          "query": "python.org downloads page stable release vs pre-release listing",
+          "target_premise_ids": []
+        }
+      ],
+      "retrieval_status": "completed",
+      "retrieval_log": [
+        {
+          "task_id": "R001",
+          "query": "Python 3.15 release schedule PEP 745 final release date",
+          "purpose": "initial",
+          "status": "success",
+          "result_count": 8,
+          "elapsed_seconds": 3.786710292013595,
+          "error": null
+        },
+        {
+          "task_id": "R002",
+          "query": "CPython 3.15 release candidate to final release timeline history",
+          "purpose": "challenge",
+          "status": "success",
+          "result_count": 8,
+          "elapsed_seconds": 3.783483042003354,
+          "error": null
+        },
+        {
+          "task_id": "R003",
+          "query": "python.org downloads page stable release vs pre-release listing",
+          "purpose": "background",
+          "status": "success",
+          "result_count": 8,
+          "elapsed_seconds": 3.6741553750180174,
+          "error": null
+        }
+      ],
+      "retrieval_exclusions": [],
+      "evidence_count": 10,
+      "body_count": 10,
+      "snippet_only_count": 0,
+      "finding_count": 10,
+      "rejected_finding_count": 0,
+      "findings_validated": true,
+      "conflict_count": 2,
+      "gap_count": 3,
+      "actor_count": 1,
+      "assumption_count": 4,
+      "action_count": 2,
+      "simulation_step_count": 2,
+      "review_status": "blocked",
+      "probability_basis": "evidence_only",
+      "forecast_status": "completed",
+      "probabilities": {
+        "是": 0.9,
+        "否": 0.1
+      },
+      "citation_validation": {
+        "citations_checked": 15,
+        "citation_failures": [],
+        "all_valid": true
+      },
+      "final_reference_validation": {
+        "invalid_final_references": [],
+        "finding_ids_leaked_to_final_claims": [],
+        "all_valid": true
+      },
+      "usage": {
+        "calls": 9,
+        "prompt_tokens": 205551,
+        "completion_tokens": 10449
+      },
+      "stage_durations": {
+        "question": 0.002,
+        "evidence": 16.634,
+        "world": 6.741,
+        "simulation": 13.4,
+        "review": 4.481,
+        "forecast": 4.759
+      },
+      "resume_count": 0,
+      "errors": [],
+      "elapsed_seconds": 49.063
+    },
+    {
+      "id": "L02-arsenal-top4",
+      "category": "sport",
+      "question": "阿森纳是否会在 2026/27 英超赛季最终积分榜中排名前四？",
+      "run_id": "run_a6841477b047",
+      "status": "completed",
+      "stage": "done",
+      "framing_revisions": 1,
+      "clarifications": [],
+      "premises": [],
+      "retrieval_tasks": [
+        {
+          "id": "R001",
+          "purpose": "initial",
+          "query": "Premier League 2026/27 season final table Arsenal position",
+          "target_premise_ids": []
+        },
+        {
+          "id": "R002",
+          "purpose": "background",
+          "query": "Arsenal 2026/27 Premier League season squad transfers form",
+          "target_premise_ids": []
+        },
+        {
+          "id": "R003",
+          "purpose": "challenge",
+          "query": "Premier League 2026/27 Champions League qualification rules top four",
+          "target_premise_ids": []
+        }
+      ],
+      "retrieval_status": "completed",
+      "retrieval_log": [
+        {
+          "task_id": "R001",
+          "query": "Premier League 2026/27 season final table Arsenal position",
+          "purpose": "initial",
+          "status": "success",
+          "result_count": 8,
+          "elapsed_seconds": 2.773305207985686,
+          "error": null
+        },
+        {
+          "task_id": "R002",
+          "query": "Arsenal 2026/27 Premier League season squad transfers form",
+          "purpose": "background",
+          "status": "success",
+          "result_count": 8,
+          "elapsed_seconds": 3.133018082997296,
+          "error": null
+        },
+        {
+          "task_id": "R003",
+          "query": "Premier League 2026/27 Champions League qualification rules top four",
+          "purpose": "challenge",
+          "status": "success",
+          "result_count": 8,
+          "elapsed_seconds": 3.8664519999874756,
+          "error": null
+        }
+      ],
+      "retrieval_exclusions": [],
+      "evidence_count": 10,
+      "body_count": 10,
+      "snippet_only_count": 0,
+      "finding_count": 12,
+      "rejected_finding_count": 0,
+      "findings_validated": true,
+      "conflict_count": 0,
+      "gap_count": 4,
+      "actor_count": 0,
+      "assumption_count": 4,
+      "action_count": 0,
+      "simulation_step_count": 0,
+      "review_status": "blocked",
+      "probability_basis": "evidence_only",
+      "forecast_status": "completed",
+      "probabilities": {
+        "是": 0.72,
+        "否": 0.28
+      },
+      "citation_validation": {
+        "citations_checked": 17,
+        "citation_failures": [],
+        "all_valid": true
+      },
+      "final_reference_validation": {
+        "invalid_final_references": [],
+        "finding_ids_leaked_to_final_claims": [],
+        "all_valid": true
+      },
+      "usage": {
+        "calls": 5,
+        "prompt_tokens": 162118,
+        "completion_tokens": 7205
+      },
+      "stage_durations": {
+        "question": 0.001,
+        "evidence": 18.385,
+        "world": 6.747,
+        "simulation": 0.002,
+        "review": 5.165,
+        "forecast": 5.731
+      },
+      "resume_count": 0,
+      "errors": [],
+      "elapsed_seconds": 39.295
+    },
+    {
+      "id": "L03-artemis3",
+      "category": "public",
+      "question": "NASA Artemis III 是否会在 2027 年 12 月 31 日前完成载人月球着陆任务，并由 NASA 官方确认任务完成？",
+      "run_id": "run_affffedd5719",
+      "status": "completed",
+      "stage": "done",
+      "framing_revisions": 1,
+      "clarifications": [],
+      "premises": [],
+      "retrieval_tasks": [
+        {
+          "id": "R001",
+          "purpose": "initial",
+          "query": "NASA Artemis III 最新任务时间表 2026 2027 载人登月 官方公告",
+          "target_premise_ids": []
+        },
+        {
+          "id": "R002",
+          "purpose": "challenge",
+          "query": "Artemis III 推迟 时间表调整 NASA 官方声明 2026",
+          "target_premise_ids": []
+        },
+        {
+          "id": "R003",
+          "purpose": "background",
+          "query": "Artemis III 任务完成 官方确认 载人月球着陆 判定标准",
+          "target_premise_ids": []
+        }
+      ],
+      "retrieval_status": "completed",
+      "retrieval_log": [
+        {
+          "task_id": "R001",
+          "query": "NASA Artemis III 最新任务时间表 2026 2027 载人登月 官方公告",
+          "purpose": "initial",
+          "status": "success",
+          "result_count": 8,
+          "elapsed_seconds": 3.1781952909950633,
+          "error": null
+        },
+        {
+          "task_id": "R002",
+          "query": "Artemis III 推迟 时间表调整 NASA 官方声明 2026",
+          "purpose": "challenge",
+          "status": "success",
+          "result_count": 8,
+          "elapsed_seconds": 4.036726624995936,
+          "error": null
+        },
+        {
+          "task_id": "R003",
+          "query": "Artemis III 任务完成 官方确认 载人月球着陆 判定标准",
+          "purpose": "background",
+          "status": "success",
+          "result_count": 8,
+          "elapsed_seconds": 3.664937208988704,
+          "error": null
+        }
+      ],
+      "retrieval_exclusions": [],
+      "evidence_count": 10,
+      "body_count": 9,
+      "snippet_only_count": 1,
+      "finding_count": 13,
+      "rejected_finding_count": 0,
+      "findings_validated": true,
+      "conflict_count": 2,
+      "gap_count": 6,
+      "actor_count": 3,
+      "assumption_count": 5,
+      "action_count": 6,
+      "simulation_step_count": 2,
+      "review_status": "blocked",
+      "probability_basis": "evidence_only",
+      "forecast_status": "completed",
+      "probabilities": {
+        "是": 0.05,
+        "否": 0.95
+      },
+      "citation_validation": {
+        "citations_checked": 13,
+        "citation_failures": [],
+        "all_valid": true
+      },
+      "final_reference_validation": {
+        "invalid_final_references": [],
+        "finding_ids_leaked_to_final_claims": [],
+        "all_valid": true
+      },
+      "usage": {
+        "calls": 14,
+        "prompt_tokens": 259217,
+        "completion_tokens": 14139
+      },
+      "stage_durations": {
+        "question": 0.001,
+        "evidence": 18.115,
+        "world": 7.849,
+        "simulation": 14.825,
+        "review": 10.203,
+        "forecast": 6.473
+      },
+      "resume_count": 0,
+      "errors": [],
+      "elapsed_seconds": 60.143
+    }
+  ]
+}

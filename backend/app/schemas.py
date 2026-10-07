@@ -253,7 +253,7 @@ class FindingCandidate(StrictModel):
     target_premise_ids: list[str] = Field(default_factory=list, max_length=12)
     claim: str = Field(min_length=1, max_length=1500)
     relation: Literal["supports", "challenges", "alternative", "background", "unclear"]
-    citations: list[CitationCandidate] = Field(min_length=1, max_length=6)
+    citations: list[CitationCandidate] = Field(min_length=1, max_length=4)
     limitation: str = Field(default="", max_length=1500)
 
 
@@ -297,9 +297,9 @@ class GapDetail(StrictModel):
 
 class AssessmentCandidate(StrictModel):
     summary: str = Field(max_length=3000)
-    findings: list[FindingCandidate] = Field(default_factory=list, max_length=30)
-    conflicts: list[ConflictCandidate] = Field(default_factory=list, max_length=10)
-    gaps: list[GapDetail] = Field(default_factory=list, max_length=20)
+    findings: list[FindingCandidate] = Field(default_factory=list, max_length=16)
+    conflicts: list[ConflictCandidate] = Field(default_factory=list, max_length=6)
+    gaps: list[GapDetail] = Field(default_factory=list, max_length=8)
 
 
 class RetrievalLog(StrictModel):
@@ -340,7 +340,7 @@ class Evidence(BaseModel):
     source_group_basis: str = ""
     possible_same_source: list[str] = Field(default_factory=list)
     date_basis: dict[str, str] = Field(default_factory=dict)
-    availability: Literal["verified_before_cutoff", "unverified", "after_cutoff", "historical_exercise", "synthetic"] = "unverified"
+    availability: Literal["verified_before_cutoff", "live_near_cutoff", "unverified", "after_cutoff", "historical_exercise", "synthetic"] = "unverified"
     event_status: Literal["observed", "planned", "unknown"] = "unknown"
     passages: list[EvidencePassage] = Field(default_factory=list)
 

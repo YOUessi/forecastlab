@@ -7,7 +7,8 @@ from ..provenance import load_snapshot, save_snapshot, split_passages, select_pa
 from ..llm import BudgetExceeded
 
 PROMPT = """只依据提供的原文段落整理证据，不能用模型记忆补来源或结论。
-每个finding必须有来源E编号、快照hash、段落编号和逐字原文quote，并指向活动前提P编号。
+每个finding必须有来源E编号、快照hash、段落编号和逐字原文quote。若存在活动前提P，可在target_premise_ids中指向相关P；
+若没有活动前提，target_premise_ids必须为空，finding直接服务于研究问题，不得虚构P编号。
 finding.claim 必须是所引 quote 可以直接蕴含的保守释义，只写 quote 本身明确表达的事实。
 quote 没写出的发布日期、机构背景、问题中的用途、因果、趋势、评价、缺失事实或“因此/说明/构成/表明”的解释，
 不得塞进 claim；需要说明时写进 limitation 或 summary。标题/截断片段只能按其字面内容生成 claim，不能从“没提到”推断“未发生”。
@@ -19,6 +20,9 @@ quote 没写出的发布日期、机构背景、问题中的用途、因果、�
 冲突用零起始finding_indexes关联双方，比较时间、指标和地区；口径不同不一定真矛盾。
 缺口仅列信息截点前可能取得却未提供的资料；未来实际结果尚未发生不是证据缺口。
 summary概括资料覆盖情况，不额外提出缺少引文的事实。不要输出概率。
+输出要克制：优先保留最多8条对问题或活动前提最有信息量的finding；不要按来源机械生成一条finding，
+多个来源重复表达同一事实时合并或只保留最直接、最权威的一项。conflicts最多3条，gaps最多4条；
+每个finding优先1条直接引文，只有共同支持同一claim时才增加第2条citation。
 不能引用未给出的段落，也不能把不相邻文字拼为一句引文；不输出字符偏移。"""
 
 
@@ -67,7 +71,7 @@ def _future_information_gap(gap, question) -> bool:
     if gap.topic == "future_outcome":
         return True
     text = gap.missing
-    if re.search(r"最终(?:结果|冠军)|冠军结果|决赛(?:的)?(?:实际)?(?:比赛)?结果|实际收盘(?:价|点位)|结果日(?:数据|行情)|结算(?:日|时|结果)", text):
+    if re.search(r"最终(?:结果|冠军|积分榜|排名|名次)|冠军结果|赛季最终(?:积分榜|排名|名次)|决赛(?:的)?(?:实际)?(?:比赛)?结果|实际收盘(?:价|点位)|结果日(?:数据|行情)|结算(?:日|时|结果)", text):
         return True
     for match in re.finditer(r"(?:(\d{4})\s*[年/-]\s*)?(\d{1,2})\s*[月/-]\s*(?:(\d{1,2})\s*日?)?", text):
         year = int(match.group(1)) if match.group(1) else question.as_of.year
@@ -109,13 +113,17 @@ def _source_gaps(retrieval):
             gaps.append(GapDetail(missing=f"检索任务 {log.task_id} 失败：{log.error}", attempted_query_ids=[log.task_id], cause="retrieval_failed"))
         elif log.status == "empty":
             gaps.append(GapDetail(missing=f"检索任务 {log.task_id} 未返回资料", attempted_query_ids=[log.task_id], cause="not_found"))
+    unknown_dates = []
     for e in retrieval.evidence:
         if e.content_kind == "snippet":
             gaps.append(GapDetail(missing=f"{e.id} 只有搜索摘要，未取得正文", cause="snippet_only"))
         if e.published_at is None:
-            gaps.append(GapDetail(missing=f"{e.id} 发布时间未知", cause="date_unknown"))
+            unknown_dates.append(e.id)
         if e.availability == "historical_exercise":
             gaps.append(GapDetail(missing=f"{e.id} 为事后整理的历史练习，不是严格盲测快照", cause="historical_unverified"))
+    if unknown_dates:
+        preview = "、".join(unknown_dates[:5]) + (" 等" if len(unknown_dates) > 5 else "")
+        gaps.append(GapDetail(missing=f"{len(unknown_dates)} 条来源缺少发布时间元数据（{preview}）；实时检索可记录取得时间，但不能据此证明历史截点可用性", cause="date_unknown"))
     for x in retrieval.exclusions:
         gaps.append(GapDetail(missing=f"来源排除：{x.get('source', '')}；{x.get('reason', '')}",
                               cause="after_cutoff" if "晚于" in x.get("reason", "") else "validation_failed"))
@@ -148,7 +156,9 @@ def assess_evidence(question, framing, retrieval, model, data_dir) -> EvidenceAs
                 e.snapshot_path, e.snapshot_hash = snapshot.snapshot_path, snapshot.snapshot_hash
                 e.retrieved_at = snapshot.stored_at
                 e.availability = "synthetic" if e.date_status == "synthetic" else "unverified"
-            e.passages = select_passages(split_passages(snapshot), terms)
+            # Full snapshots remain server-side; Agent 2 sees only the most relevant bounded passages.
+            # This keeps live-web pages from exhausting the structured-output budget.
+            e.passages = select_passages(split_passages(snapshot), terms, limit=1400)
             good_sources.append(e)
         except (ValueError, OSError) as exc:
             retrieval.exclusions.append({"source": e.id, "reason": f"原文快照不可验证（{type(exc).__name__}）"})
