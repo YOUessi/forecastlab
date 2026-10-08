@@ -64,8 +64,14 @@ def _judge_config(allow_primary: bool) -> tuple[str, str, str, bool]:
     return config.MODEL_API_KEY, config.MODEL_BASE_URL, config.MODEL_NAME, True
 
 
+def row_quotes(row: dict) -> list[str]:
+    if isinstance(row.get("quotes"), list):
+        return [str(q) for q in row["quotes"]]
+    return [c["quote"] for c in row.get("citations", [])]
+
+
 def judge_row(client: OpenAI, model: str, row: dict) -> tuple[EntailmentDecision, dict]:
-    quotes = [c["quote"] for c in row.get("citations", [])]
+    quotes = row_quotes(row)
     payload = {
         "claim": row["claim"],
         "exact_quotes": quotes,
