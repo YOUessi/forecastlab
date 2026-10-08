@@ -68,3 +68,10 @@ def test_calibration_scores_strict_gate_and_thresholds():
     assert at_09["accepted"] == 1
     assert at_09["strict_support_among_accepted"] == 1.0
     assert at_09["non_strict_leaks"] == []
+
+
+def test_nli_label_normalization_without_optional_runtime():
+    m = load("agent2_nli_judge.py")
+    assert m._label_kind("ENTAILMENT") == "entailment"
+    assert m._label_kind("contradiction") == "contradiction"
+    assert m._label_kind("LABEL_NEUTRAL") == "neutral"
