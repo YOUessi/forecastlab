@@ -307,19 +307,22 @@ def test_reuse_keeps_frozen_evidence_and_history(monkeypatch):
     monkeypatch.setattr(config, "MODEL_API_KEY", "test-only")
     monkeypatch.setattr("app.graph.ModelClient", FakeModel)
     with TemporaryDirectory() as directory, TestClient(create_app(Path(directory))) as client:
-        # Seed a non-demo run with the fake model. Reusing a demo as real evidence is now rejected.
-        first_id = client.post("/api/runs", json={"question": DEMO_QUESTION.model_dump(mode="json"), "evidence_mode": "import",
+        # Exercise a genuinely accepted import rather than a historical cutoff
+        # fixture that can legitimately be excluded by current provenance rules.
+        from datetime import timedelta
+        from app.schemas import utcnow
+        as_of = utcnow()
+        question = DEMO_QUESTION.model_copy(update={
+            "as_of": as_of, "resolve_by": as_of + timedelta(days=30),
+        })
+        first_id = client.post("/api/runs", json={"question": question.model_dump(mode="json"), "evidence_mode": "import",
             "evidence": [e.model_dump(mode="json") for e in demo_evidence()]}).json()["run_id"]
-        second_id = client.post("/api/runs", json={"question": DEMO_QUESTION.model_dump(mode="json"), "evidence_mode": "reuse", "parent_run_id": first_id}).json()["run_id"]
+        second_id = client.post("/api/runs", json={"question": question.model_dump(mode="json"), "evidence_mode": "reuse", "parent_run_id": first_id}).json()["run_id"]
         first = client.get(f"/api/runs/{first_id}").json()
         second = client.get(f"/api/runs/{second_id}").json()
-        # Imported historical/demo fixtures may be excluded by the stricter
-        # cutoff validator. Reuse must preserve the accepted frozen sources,
-        # not invent E identifiers merely to force a completed prediction.
-        if first["evidence"]:
-            assert second["status"] in {"completed", "insufficient_evidence"}, second["errors"]
-        else:
-            assert second["status"] == "insufficient_evidence", second["errors"]
+        assert len(first["evidence"]) == 3
+        assert second["status"] == "completed", second["errors"]
+        # No new E ID or source content appears merely because the user reused a run.
         assert second["parent_run_id"] == first_id
         assert second["question_version"] == 2
         assert second["evidence"] == first["evidence"]
