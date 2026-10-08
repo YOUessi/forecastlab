@@ -15,7 +15,7 @@ from pathlib import Path
 
 DEFAULT_MODEL = os.getenv(
     "ENTAILMENT_NLI_MODEL",
-    "MoritzLaurer/ernie-m-large-mnli-xnli",
+    "MoritzLaurer/mDeBERTa-v3-base-mnli-xnli",
 )
 
 
@@ -41,11 +41,19 @@ def load_runtime(model_name: str):
         ) from exc
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForSequenceClassification.from_pretrained(model_name)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model.to(device)
     model.eval()
-    return torch, tokenizer, model
+    return torch, tokenizer, model, device
 
 
-def judge_pair(torch, tokenizer, model, premise: str, hypothesis: str) -> dict:
+def row_quotes(row: dict) -> list[str]:
+    if isinstance(row.get("quotes"), list):
+        return [str(q) for q in row["quotes"]]
+    return [c["quote"] for c in row.get("citations", [])]
+
+
+def judge_pair(torch, tokenizer, model, device, premise: str, hypothesis: str) -> dict:
     encoded = tokenizer(
         premise,
         hypothesis,
@@ -53,6 +61,7 @@ def judge_pair(torch, tokenizer, model, premise: str, hypothesis: str) -> dict:
         truncation=True,
         max_length=512,
     )
+    encoded = {key: value.to(device) for key, value in encoded.items()}
     with torch.no_grad():
         logits = model(**encoded).logits[0]
         probs = torch.softmax(logits, dim=-1).tolist()
@@ -92,11 +101,11 @@ def main() -> None:
     if args.limit:
         rows = rows[: args.limit]
 
-    torch, tokenizer, model = load_runtime(args.model)
+    torch, tokenizer, model, device = load_runtime(args.model)
     judged = []
     for i, row in enumerate(rows, 1):
-        quote_text = "\n".join(c["quote"] for c in row.get("citations", []))
-        decision = judge_pair(torch, tokenizer, model, quote_text, row["claim"])
+        quote_text = "\n".join(row_quotes(row))
+        decision = judge_pair(torch, tokenizer, model, device, quote_text, row["claim"])
         item = json.loads(json.dumps(row, ensure_ascii=False))
         item["judge"] = decision
         judged.append(item)
@@ -112,6 +121,7 @@ def main() -> None:
         "same_as_generator_model": False,
         "independent_model": True,
         "judge_type": "multilingual_nli",
+        "device": str(device),
         "rows": judged,
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,1924 @@
+{
+  "benchmark_rows": 317,
+  "judged_rows": 317,
+  "coverage": 1.0,
+  "four_class_exact_accuracy": 0.305993690851735,
+  "confusion_matrix": {
+    "entailed": {
+      "entailed": 74,
+      "partially_entailed": 0,
+      "not_entailed": 3,
+      "unclear": 27
+    },
+    "partially_entailed": {
+      "entailed": 40,
+      "partially_entailed": 0,
+      "not_entailed": 6,
+      "unclear": 61
+    },
+    "not_entailed": {
+      "entailed": 58,
+      "partially_entailed": 0,
+      "not_entailed": 22,
+      "unclear": 25
+    },
+    "unclear": {
+      "entailed": 0,
+      "partially_entailed": 0,
+      "not_entailed": 0,
+      "unclear": 1
+    }
+  },
+  "missing_prediction_ids": [],
+  "thresholds": [
+    {
+      "threshold": 0.5,
+      "accepted": 172,
+      "acceptance_rate": 0.5425867507886435,
+      "strict_support_among_accepted": 0.43023255813953487,
+      "strict_support_wilson95": [
+        0.35856033488396455,
+        0.5049531909256277
+      ],
+      "supported_recall": 0.7115384615384616,
+      "false_accept_count": 98,
+      "false_accepts": [
+        {
+          "id": "natural-0008",
+          "case_id": "C16-cop30-roadmap-adopted",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0014",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0015",
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0033",
+          "case_id": "C22-ndx-h2-2025",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0046",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0048",
+          "case_id": "C01-python313",
+          "finding_id": "F003",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0053",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0092",
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0099",
+          "case_id": "C03-apple-m4-mac",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "hardneg-0003",
+          "case_id": "C22-ndx-h2-2025",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0004",
+          "case_id": "C23-china-cpi-dec2025",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0008",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0009",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0010",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0011",
+          "case_id": "C19-copernicus-h1",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0012",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0013",
+          "case_id": "C10-real-madrid-ucl",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0014",
+          "case_id": "C11-usa-paris-gold",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0015",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0016",
+          "case_id": "C13-worldcup-southamerica",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0017",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0018",
+          "case_id": "C01-python313",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0019",
+          "case_id": "C03-apple-m4-mac",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0021",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0022",
+          "case_id": "C05-node22-lts",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0023",
+          "case_id": "C06-gb300-delivery",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0024",
+          "case_id": "C07-gpt5-availability",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0025",
+          "case_id": "C07-gpt5-availability",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0027",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0033",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0034",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0035",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0036",
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0037",
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "entity_status_flip"
+        },
+        {
+          "id": "hardneg-0038",
+          "case_id": "C10-real-madrid-ucl",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0039",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0040",
+          "case_id": "C13-worldcup-southamerica",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "ranking_flip"
+        },
+        {
+          "id": "hardneg-0041",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0043",
+          "case_id": "C03-apple-m4-mac",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0044",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0048",
+          "case_id": "C23-china-cpi-dec2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0049",
+          "case_id": "C24-gold-q3-2026",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0052",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0053",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "event_negation"
+        },
+        {
+          "id": "hardneg-0054",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0055",
+          "case_id": "C19-copernicus-h1",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0056",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0057",
+          "case_id": "C10-real-madrid-ucl",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0059",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0060",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        }
+      ]
+    },
+    {
+      "threshold": 0.7,
+      "accepted": 159,
+      "acceptance_rate": 0.501577287066246,
+      "strict_support_among_accepted": 0.4528301886792453,
+      "strict_support_wilson95": [
+        0.3774805354409745,
+        0.5304054101650624
+      ],
+      "supported_recall": 0.6923076923076923,
+      "false_accept_count": 87,
+      "false_accepts": [
+        {
+          "id": "natural-0008",
+          "case_id": "C16-cop30-roadmap-adopted",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0014",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0015",
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0033",
+          "case_id": "C22-ndx-h2-2025",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0046",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0048",
+          "case_id": "C01-python313",
+          "finding_id": "F003",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0053",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0092",
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0099",
+          "case_id": "C03-apple-m4-mac",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "hardneg-0003",
+          "case_id": "C22-ndx-h2-2025",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0004",
+          "case_id": "C23-china-cpi-dec2025",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0008",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0009",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0010",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0011",
+          "case_id": "C19-copernicus-h1",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0012",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0013",
+          "case_id": "C10-real-madrid-ucl",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0014",
+          "case_id": "C11-usa-paris-gold",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0015",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0016",
+          "case_id": "C13-worldcup-southamerica",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0017",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0018",
+          "case_id": "C01-python313",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0019",
+          "case_id": "C03-apple-m4-mac",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0021",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0023",
+          "case_id": "C06-gb300-delivery",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0027",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0033",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0034",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0035",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0036",
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0037",
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "entity_status_flip"
+        },
+        {
+          "id": "hardneg-0038",
+          "case_id": "C10-real-madrid-ucl",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0039",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0040",
+          "case_id": "C13-worldcup-southamerica",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "ranking_flip"
+        },
+        {
+          "id": "hardneg-0041",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0043",
+          "case_id": "C03-apple-m4-mac",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0044",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0048",
+          "case_id": "C23-china-cpi-dec2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0049",
+          "case_id": "C24-gold-q3-2026",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0052",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0054",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0055",
+          "case_id": "C19-copernicus-h1",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0056",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0057",
+          "case_id": "C10-real-madrid-ucl",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0059",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0060",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0061",
+          "case_id": "C01-python313",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0062",
+          "case_id": "C01-python313",
+          "finding_id": "F003",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0063",
+          "case_id": "C03-apple-m4-mac",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0066",
+          "case_id": "C07-gpt5-availability",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        }
+      ]
+    },
+    {
+      "threshold": 0.8,
+      "accepted": 154,
+      "acceptance_rate": 0.48580441640378547,
+      "strict_support_among_accepted": 0.4675324675324675,
+      "strict_support_wilson95": [
+        0.3904795652294576,
+        0.5461657804842198
+      ],
+      "supported_recall": 0.6923076923076923,
+      "false_accept_count": 82,
+      "false_accepts": [
+        {
+          "id": "natural-0008",
+          "case_id": "C16-cop30-roadmap-adopted",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0014",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0015",
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0033",
+          "case_id": "C22-ndx-h2-2025",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0046",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0048",
+          "case_id": "C01-python313",
+          "finding_id": "F003",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0053",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0092",
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0099",
+          "case_id": "C03-apple-m4-mac",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "hardneg-0008",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0009",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0010",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0011",
+          "case_id": "C19-copernicus-h1",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0012",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0013",
+          "case_id": "C10-real-madrid-ucl",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0014",
+          "case_id": "C11-usa-paris-gold",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0015",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0016",
+          "case_id": "C13-worldcup-southamerica",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0017",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0018",
+          "case_id": "C01-python313",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0019",
+          "case_id": "C03-apple-m4-mac",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0021",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0023",
+          "case_id": "C06-gb300-delivery",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0027",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0033",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0034",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0035",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0036",
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0037",
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "entity_status_flip"
+        },
+        {
+          "id": "hardneg-0038",
+          "case_id": "C10-real-madrid-ucl",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0039",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0040",
+          "case_id": "C13-worldcup-southamerica",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "ranking_flip"
+        },
+        {
+          "id": "hardneg-0041",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0043",
+          "case_id": "C03-apple-m4-mac",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0044",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0048",
+          "case_id": "C23-china-cpi-dec2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0049",
+          "case_id": "C24-gold-q3-2026",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0052",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0054",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0055",
+          "case_id": "C19-copernicus-h1",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0056",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0057",
+          "case_id": "C10-real-madrid-ucl",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0059",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0060",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0061",
+          "case_id": "C01-python313",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0062",
+          "case_id": "C01-python313",
+          "finding_id": "F003",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0063",
+          "case_id": "C03-apple-m4-mac",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0066",
+          "case_id": "C07-gpt5-availability",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0067",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0071",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        }
+      ]
+    },
+    {
+      "threshold": 0.9,
+      "accepted": 146,
+      "acceptance_rate": 0.4605678233438486,
+      "strict_support_among_accepted": 0.4863013698630137,
+      "strict_support_wilson95": [
+        0.4066229061099909,
+        0.5666822374549472
+      ],
+      "supported_recall": 0.6826923076923077,
+      "false_accept_count": 75,
+      "false_accepts": [
+        {
+          "id": "natural-0008",
+          "case_id": "C16-cop30-roadmap-adopted",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0014",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0015",
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0033",
+          "case_id": "C22-ndx-h2-2025",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0046",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0048",
+          "case_id": "C01-python313",
+          "finding_id": "F003",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0053",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0092",
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "hardneg-0008",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0009",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0010",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0011",
+          "case_id": "C19-copernicus-h1",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0012",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0013",
+          "case_id": "C10-real-madrid-ucl",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0014",
+          "case_id": "C11-usa-paris-gold",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0015",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0016",
+          "case_id": "C13-worldcup-southamerica",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0017",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0018",
+          "case_id": "C01-python313",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0019",
+          "case_id": "C03-apple-m4-mac",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0021",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0023",
+          "case_id": "C06-gb300-delivery",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0027",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0033",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0034",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0035",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0036",
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0037",
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "entity_status_flip"
+        },
+        {
+          "id": "hardneg-0038",
+          "case_id": "C10-real-madrid-ucl",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0039",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0040",
+          "case_id": "C13-worldcup-southamerica",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "ranking_flip"
+        },
+        {
+          "id": "hardneg-0041",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0043",
+          "case_id": "C03-apple-m4-mac",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0044",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0048",
+          "case_id": "C23-china-cpi-dec2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0049",
+          "case_id": "C24-gold-q3-2026",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0052",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0054",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0055",
+          "case_id": "C19-copernicus-h1",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0056",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0057",
+          "case_id": "C10-real-madrid-ucl",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0059",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0060",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0066",
+          "case_id": "C07-gpt5-availability",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0067",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0071",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0074",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0076",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0078",
+          "case_id": "C01-python313",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0089",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        }
+      ]
+    },
+    {
+      "threshold": 0.95,
+      "accepted": 139,
+      "acceptance_rate": 0.4384858044164038,
+      "strict_support_among_accepted": 0.5107913669064749,
+      "strict_support_wilson95": [
+        0.4285225853728892,
+        0.5924796996757241
+      ],
+      "supported_recall": 0.6826923076923077,
+      "false_accept_count": 68,
+      "false_accepts": [
+        {
+          "id": "natural-0008",
+          "case_id": "C16-cop30-roadmap-adopted",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0014",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0015",
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0033",
+          "case_id": "C22-ndx-h2-2025",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0046",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0053",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "hardneg-0008",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0009",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0011",
+          "case_id": "C19-copernicus-h1",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0012",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0013",
+          "case_id": "C10-real-madrid-ucl",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0014",
+          "case_id": "C11-usa-paris-gold",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0015",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0016",
+          "case_id": "C13-worldcup-southamerica",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0017",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0018",
+          "case_id": "C01-python313",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0019",
+          "case_id": "C03-apple-m4-mac",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0021",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0023",
+          "case_id": "C06-gb300-delivery",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0027",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0033",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0034",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0035",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0036",
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0037",
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "entity_status_flip"
+        },
+        {
+          "id": "hardneg-0038",
+          "case_id": "C10-real-madrid-ucl",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0039",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0040",
+          "case_id": "C13-worldcup-southamerica",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "ranking_flip"
+        },
+        {
+          "id": "hardneg-0041",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0043",
+          "case_id": "C03-apple-m4-mac",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0044",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0048",
+          "case_id": "C23-china-cpi-dec2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0049",
+          "case_id": "C24-gold-q3-2026",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0052",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0054",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0055",
+          "case_id": "C19-copernicus-h1",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0056",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0057",
+          "case_id": "C10-real-madrid-ucl",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0059",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0060",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0066",
+          "case_id": "C07-gpt5-availability",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0067",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0071",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0074",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0076",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0090",
+          "case_id": "C19-copernicus-h1",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0092",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "hardneg-0096",
+          "case_id": "C01-python313",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "numeric_shift"
+        },
+        {
+          "id": "partial-attribution-0003",
+          "case_id": "C22-ndx-h2-2025",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "quote_external_source_attribution"
+        },
+        {
+          "id": "partial-attribution-0008",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "quote_external_source_attribution"
+        }
+      ]
+    }
+  ],
+  "by_phenomenon": {
+    "entity_status_flip": {
+      "n": 1,
+      "exact_accuracy": 0.0,
+      "entailed_gold": 0,
+      "judge_accepted": 1,
+      "accept_precision": 0.0
+    },
+    "event_negation": {
+      "n": 3,
+      "exact_accuracy": 0.6666666666666666,
+      "entailed_gold": 0,
+      "judge_accepted": 1,
+      "accept_precision": 0.0
+    },
+    "modality_flip": {
+      "n": 1,
+      "exact_accuracy": 1.0,
+      "entailed_gold": 0,
+      "judge_accepted": 0,
+      "accept_precision": null
+    },
+    "natural": {
+      "n": 135,
+      "exact_accuracy": 0.5555555555555556,
+      "entailed_gold": 104,
+      "judge_accepted": 83,
+      "accept_precision": 0.891566265060241
+    },
+    "numeric_shift": {
+      "n": 96,
+      "exact_accuracy": 0.17708333333333334,
+      "entailed_gold": 0,
+      "judge_accepted": 55,
+      "accept_precision": 0.0
+    },
+    "quantifier_flip": {
+      "n": 1,
+      "exact_accuracy": 1.0,
+      "entailed_gold": 0,
+      "judge_accepted": 0,
+      "accept_precision": null
+    },
+    "quote_external_source_attribution": {
+      "n": 78,
+      "exact_accuracy": 0.0,
+      "entailed_gold": 0,
+      "judge_accepted": 31,
+      "accept_precision": 0.0
+    },
+    "ranking_flip": {
+      "n": 1,
+      "exact_accuracy": 0.0,
+      "entailed_gold": 0,
+      "judge_accepted": 1,
+      "accept_precision": 0.0
+    },
+    "stance_flip": {
+      "n": 1,
+      "exact_accuracy": 1.0,
+      "entailed_gold": 0,
+      "judge_accepted": 0,
+      "accept_precision": null
+    }
+  },
+  "judge_model": "MoritzLaurer/mDeBERTa-v3-base-mnli-xnli",
+  "judge_type": "multilingual_nli",
+  "independent_model": true,
+  "same_as_generator_model": false
+}

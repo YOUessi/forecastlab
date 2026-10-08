@@ -179,6 +179,68 @@ uv run python eval/score.py path/to/settled-results.json
 
 请保留失败/拒答、引用人工抽查、耗时与 token 记录；历史问题要说明模型可能记住答案。仓库不附带虚构的实验得分。
 
+## Agent 2 语义蕴含研究 benchmark
+
+当前 `exact-quote boundary v2` 的严格 Reviewer 2 支持率为 90%。为避免继续堆 case-specific regex，仓库新增了独立语义蕴含研究链：
+
+```text
+Exact quote structural validator
+→ Boundary validator
+→ Independent semantic entailment judge
+→ calibrated gate / cascade
+```
+
+研究数据集分成两层：\n\n- `eval/benchmarks/agent2-entailment-hard-v1.json`：**317 条 broad benchmark**，覆盖整个语义验证栈；135 条自然样本 + 182 条可复现受控 hard negatives，标签分布为 104 entailed / 107 partially_entailed / 105 not_entailed / 1 unclear。\n- `eval/benchmarks/agent2-entailment-post-boundary-v1.json`：**239 条 post-boundary benchmark**，用于衡量第三层 Judge 的增量价值；刻意不使用 numeric shift / publisher 注入等会被第二层 Boundary validator 提前拦截的简单错误，而聚焦 plan→actual、target→actual、uncertainty→certainty、stance/quantifier flip、causal strengthening、scope expansion 和 exclusivity strengthening。
+
+复现 benchmark：
+
+```bash
+uv run python eval/build_entailment_benchmark.py
+```
+
+独立 LLM Judge（推荐不同提供商/模型家族；默认禁止静默复用 Agent 2 生成模型）：
+
+```bash
+ENTAILMENT_JUDGE_API_KEY=... \\
+ENTAILMENT_JUDGE_BASE_URL=... \\
+ENTAILMENT_JUDGE_MODEL=... \\
+uv run python eval/agent2_entailment_judge.py \\
+  eval/benchmarks/agent2-entailment-post-boundary-v1.json \\
+  --output judge.json
+
+uv run python eval/score_entailment_benchmark.py \\
+  eval/benchmarks/agent2-entailment-post-boundary-v1.json judge.json
+```
+
+本地独立 LLM Judge（不需要第二套商业 API Key，可在 GPU 测试机运行不同模型家族）：
+
+```bash
+python eval/agent2_local_llm_judge.py \\
+  eval/benchmarks/agent2-entailment-post-boundary-v1.json \\
+  --model Qwen/Qwen2.5-1.5B-Instruct \\
+  --output qwen-judge.json
+
+python eval/score_entailment_benchmark.py \\
+  eval/benchmarks/agent2-entailment-post-boundary-v1.json qwen-judge.json
+```
+
+多语种 NLI baseline 为可选研究依赖，不进入生产后端依赖；在独立评测环境安装 `torch + transformers` 后运行：
+
+```bash
+python eval/agent2_nli_judge.py \\
+  eval/benchmarks/agent2-entailment-post-boundary-v1.json \\
+  --output nli.json
+```
+
+随后可用 `eval/cascade_entailment_judges.py` 比较 `agreement` 与 `nli_then_llm` 两种 cascade。阈值选择必须只用 `dev`，最终报告只看一次 `test`：
+
+```bash
+python eval/score_entailment_benchmark.py BENCHMARK JUDGE.json --split dev
+python eval/score_entailment_benchmark.py BENCHMARK JUDGE.json --split test
+```
+
+生产 hard gate 只有在 held-out benchmark 上的 accepted strict precision 达到 ≥95%（理想 ≥98%）且 supported recall ≥90% 后才应启用。
+
 ## 目录
 
 ```text
