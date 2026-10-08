@@ -64,15 +64,13 @@ def extract_json(text: str) -> dict:
         raise ValueError("no JSON object in model output")
     candidate = cleaned[start:end+1]
     try:
-        return json.loads(candidate)
+        obj = json.loads(candidate)
     except json.JSONDecodeError:
         # Small local models sometimes emit: "rationale": "text".}
         # Repair syntax punctuation only; never change semantic content.
         repaired = re.sub(r'"\s*\.\s*([,}])', r'"\1', candidate)
         repaired = re.sub(r",\s*}", "}", repaired)
         obj = json.loads(repaired)
-    else:
-        obj = json.loads(candidate)
     confidence = obj.get("confidence")
     if isinstance(confidence, str):
         mapped = QUALITATIVE_CONFIDENCE.get(confidence.strip().casefold())
