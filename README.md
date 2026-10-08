@@ -212,6 +212,18 @@ uv run python eval/score_entailment_benchmark.py \\
   eval/benchmarks/agent2-entailment-post-boundary-v1.json judge.json
 ```
 
+本地独立 LLM Judge（不需要第二套商业 API Key，可在 GPU 测试机运行不同模型家族）：
+
+```bash
+python eval/agent2_local_llm_judge.py \\
+  eval/benchmarks/agent2-entailment-post-boundary-v1.json \\
+  --model Qwen/Qwen2.5-1.5B-Instruct \\
+  --output qwen-judge.json
+
+python eval/score_entailment_benchmark.py \\
+  eval/benchmarks/agent2-entailment-post-boundary-v1.json qwen-judge.json
+```
+
 多语种 NLI baseline 为可选研究依赖，不进入生产后端依赖；在独立评测环境安装 `torch + transformers` 后运行：
 
 ```bash
