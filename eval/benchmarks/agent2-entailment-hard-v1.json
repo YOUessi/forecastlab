@@ -50,7 +50,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0002",
@@ -74,7 +74,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0003",
@@ -98,7 +98,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "natural-0004",
@@ -122,7 +122,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "calibration"
+      "split": "dev"
     },
     {
       "id": "natural-0005",
@@ -170,7 +170,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0007",
@@ -194,7 +194,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0008",
@@ -218,7 +218,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "The quote uses an unresolved pronoun ('They'); the claim supplies the noun category 'issues', so the core relation is supported but the antecedent type is quote-external.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "natural-0009",
@@ -242,7 +242,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0010",
@@ -266,7 +266,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0011",
@@ -290,7 +290,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0012",
@@ -314,7 +314,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "calibration"
+      "split": "test"
     },
     {
       "id": "natural-0013",
@@ -338,7 +338,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "natural-0014",
@@ -362,7 +362,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "The quote says the summit will be hosted in Johannesburg, South Africa; the claim assigns South Africa as the hosting agent, which is a small extra interpretation.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "natural-0015",
@@ -386,7 +386,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "The quote says Manchester City will start their title defence; the claim adds the explicit 'new season' context, which is not stated in the exact quote.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0016",
@@ -410,7 +410,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "natural-0017",
@@ -434,7 +434,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0018",
@@ -458,7 +458,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0019",
@@ -482,7 +482,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "calibration"
+      "split": "test"
     },
     {
       "id": "natural-0020",
@@ -506,7 +506,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "natural-0021",
@@ -530,7 +530,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0022",
@@ -554,7 +554,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "natural-0023",
@@ -578,7 +578,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "natural-0024",
@@ -602,7 +602,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0025",
@@ -626,7 +626,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0026",
@@ -650,7 +650,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "calibration"
+      "split": "dev"
     },
     {
       "id": "natural-0027",
@@ -722,7 +722,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "natural-0030",
@@ -746,7 +746,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "natural-0031",
@@ -770,7 +770,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0032",
@@ -794,7 +794,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0033",
@@ -818,7 +818,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "Quote gives only a date and value; calling it a closing value adds a measurement interpretation not present in the exact quote.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "natural-0034",
@@ -866,7 +866,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0036",
@@ -890,7 +890,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "natural-0037",
@@ -914,7 +914,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0038",
@@ -938,7 +938,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0039",
@@ -962,7 +962,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "natural-0040",
@@ -986,7 +986,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0041",
@@ -1010,7 +1010,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0042",
@@ -1034,7 +1034,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "natural-0043",
@@ -1058,7 +1058,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0044",
@@ -1082,7 +1082,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "calibration"
+      "split": "test"
     },
     {
       "id": "natural-0045",
@@ -1106,7 +1106,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "natural-0046",
@@ -1130,7 +1130,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "The quote says 'Cavs'; expanding this to the full entity name 'Cleveland Cavaliers' requires context outside the exact quote.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "natural-0047",
@@ -1154,7 +1154,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0048",
@@ -1178,7 +1178,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "The line supports the version/date, but 'fixed commit' and the 'Expected' header context are not inside the exact quote.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0049",
@@ -1202,7 +1202,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "natural-0050",
@@ -1226,7 +1226,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0051",
@@ -1250,7 +1250,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "All material claim content is directly entailed by the cited exact quote.",
-      "split": "calibration"
+      "split": "dev"
     },
     {
       "id": "natural-0052",
@@ -1298,7 +1298,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "The quote says 'we unveiled' porting work, but the claim adds 'official' status that is not stated in the exact quote.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "natural-0054",
@@ -1322,7 +1322,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "两名理事反对该决议且主张开始宽松，均由引文直接支持。",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0055",
@@ -1346,7 +1346,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "三大指数涨幅由引文直接支持；“2025-06-30当日”日期来自来源语境而非该引文本身。",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "natural-0056",
@@ -1370,7 +1370,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "10月CPI同比与1—10月平均同比均由引文直接支持。",
-      "split": "calibration"
+      "split": "dev"
     },
     {
       "id": "natural-0057",
@@ -1418,7 +1418,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "the agency 的目标发射时间不早于4月1日由引文直接支持；NASA归属由来源语境明确，不改变事实内容。",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0059",
@@ -1442,7 +1442,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "Action Agenda 推动 GST 全面落实为引文直接释义。",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "natural-0060",
@@ -1466,7 +1466,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "自2000-11-02起持续驻留及NASA/国际机构宇航员均由引文直接支持。",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0061",
@@ -1490,7 +1490,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "太阳进入极大期且可能持续下一年由引文直接支持。",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0062",
@@ -1514,7 +1514,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "比2019年12月专家组预测更快增强且峰值更高由引文直接支持。",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0063",
@@ -1538,7 +1538,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "2026年1月为全球第五暖1月由引文直接支持。",
-      "split": "calibration"
+      "split": "test"
     },
     {
       "id": "natural-0064",
@@ -1562,7 +1562,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "举办城市、日期和媒体注册开始日均由引文直接支持。",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "natural-0065",
@@ -1586,7 +1586,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "曼城为卫冕冠军由引文支持；“2024/25赛季赛程公布相关报道中”的完整语境不在该引文内。",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0066",
@@ -1610,7 +1610,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "2024/25欧冠联赛阶段抽签、新赛制下首次举行且已发生，均由引文直接支持。",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "natural-0067",
@@ -1634,7 +1634,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "按before同一尺度，Virtual Medal Table中美国39金直接支持“虚拟奖牌榜预测美国39金”。",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0068",
@@ -1658,7 +1658,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "Sinner于2024-06-10成为首位ATP世界第一的意大利人由引文直接支持。",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0069",
@@ -1682,7 +1682,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "法国第一、西班牙第二、阿根廷第三由引文支持；“2026年4月FIFA男足世界排名”日期与榜单语境不在该引文内。",
-      "split": "calibration"
+      "split": "test"
     },
     {
       "id": "natural-0070",
@@ -1706,7 +1706,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "OKC 12负且比西部其他球队少14负由引文直接支持。",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "natural-0071",
@@ -1730,7 +1730,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "rc2为最终发布预览且若无严重缺陷预计成为最终3.13.0，由引文直接支持。",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0072",
@@ -1754,7 +1754,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "candidate 2日期为Friday 2024-09-06由引文直接支持；PEP固定提交是来源定位而非额外事件断言。",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0073",
@@ -1778,7 +1778,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "Gurman报道J604为搭载M4的新低端14英寸MacBook Pro由引文直接支持。",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "natural-0074",
@@ -1802,7 +1802,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "Apple将在2024年末开始以M4更新Mac产品线及Gurman归属均由引文直接支持。",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "natural-0075",
@@ -1826,7 +1826,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "FAA要求SpaceX调查1月16日发射操作中Starship损失，由引文直接支持。",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0076",
@@ -1874,7 +1874,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "12月2日博文、TS7/Project Corsa、3月公布与基于Go均由引文直接支持。",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "natural-0078",
@@ -1898,7 +1898,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "数值、涨幅、最高点、振幅与成交额均由引文直接支持。",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0079",
@@ -1922,7 +1922,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "维持目标区间直接蕴含该次会议未降息。",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0080",
@@ -1946,7 +1946,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "日期和22679.010由引文直接支持；“构成下半年判断基准”是结合问题语境的用途判断。",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "natural-0081",
@@ -1970,7 +1970,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "9月CPI同比-0.3%由引文直接支持；“信息截点前较早月度读数”依赖外部截点语境。",
-      "split": "calibration"
+      "split": "dev"
     },
     {
       "id": "natural-0082",
@@ -2018,7 +2018,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "不早于4月1日的目标时间由引文支持；发布日期及“首次载人绕月”语境来自来源元数据而非该引文。",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0084",
@@ -2042,7 +2042,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "倒计时已开始及目标4月1日由引文支持；2026-03-30日期来自来源元数据。",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0085",
@@ -2066,7 +2066,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "“并非全部作为单独议程项目”由引文支持；“正式文本安排仍不确定”是进一步推断。",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "natural-0086",
@@ -2090,7 +2090,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "自2000-11-02持续有人驻留由引文直接支持。",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0087",
@@ -2114,7 +2114,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "近23年连续载人驻留由引文支持；Crew-7发射及2023年8月语境不在引文中。",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0088",
@@ -2138,7 +2138,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "活动更快增强且峰值更高由引文支持；发布时间/机构语境及“未说明2025 X级耀斑”是上下文判断。",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0089",
@@ -2162,7 +2162,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "第五暖和高于工业化前1.49°C直接支持；第五暖逻辑上蕴含未创该月最高纪录。",
-      "split": "calibration"
+      "split": "test"
     },
     {
       "id": "natural-0090",
@@ -2186,7 +2186,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "第二暖直接支持，逻辑上蕴含未创该月最高纪录。",
-      "split": "calibration"
+      "split": "test"
     },
     {
       "id": "natural-0091",
@@ -2210,7 +2210,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "峰会日期、地点和媒体注册开始日均由引文直接支持。",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "natural-0092",
@@ -2234,7 +2234,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "曼城为冠军并开始卫冕由引文支持；“赛程公布时/首轮对手预告”的完整语境部分来自标题和上下文。",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0093",
@@ -2258,7 +2258,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "欧冠联赛阶段抽签已举行由引文支持；“皇马参赛路径由此确定”没有被引文支持。",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "natural-0094",
@@ -2282,7 +2282,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "虚拟奖牌榜美国39金由引文直接支持。",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0095",
@@ -2306,7 +2306,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "Sinner于2024-06-10成为首位ATP世界第一的意大利球员由引文直接支持。",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0096",
@@ -2330,7 +2330,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "西班牙被称为2026世界杯边际夺冠热门由引文直接支持。",
-      "split": "calibration"
+      "split": "test"
     },
     {
       "id": "natural-0097",
@@ -2354,7 +2354,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "Cavs与OKC同属60胜俱乐部由引文支持；“显示东部存在高水平球队”是评价性推断。",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "natural-0098",
@@ -2378,7 +2378,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "计划2024-10-01正式发布且以无严重缺陷为条件，由引文直接支持。",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0099",
@@ -2402,7 +2402,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "J604低端14英寸M4 MacBook Pro由引文支持；“2024年10月更新产品线”的时间断言不在引文中。",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "natural-0100",
@@ -2426,7 +2426,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "late 2024更新由引文直接支持；“为10月窗口提供依据”是进一步推断。",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "natural-0101",
@@ -2450,7 +2450,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "2025-01-16从Starbase成功起飞由引文直接支持。",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0102",
@@ -2474,7 +2474,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "Node.js 22将在10月29日当周提升为LTS由引文直接支持。",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0103",
@@ -2498,7 +2498,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "合作伙伴产品预计2025下半年可用由引文支持；“并非已完成交付/部署”是基于未来时态的进一步解释。",
-      "split": "calibration"
+      "split": "dev"
     },
     {
       "id": "natural-0104",
@@ -2570,7 +2570,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "3月公布TypeScript compiler移植工作由引文支持；归入“6.0/7.0路线图”超出截断引文。",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "natural-0107",
@@ -2594,7 +2594,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "12月2日更新TS7/Project Corsa、3月公布、基于Go均由引文直接支持。",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "natural-0108",
@@ -2618,7 +2618,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "Quote directly states the target range was maintained; the finding limits itself to that meeting.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0109",
@@ -2642,7 +2642,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "Quote directly gives the 2025-06-30 NASDAQ-100 value used as the baseline.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "natural-0110",
@@ -2666,7 +2666,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "Quote directly states September 2025 CPI was down 0.3% year over year.",
-      "split": "calibration"
+      "split": "dev"
     },
     {
       "id": "natural-0111",
@@ -2714,7 +2714,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "Countdown and targeted April 1 launch are direct; \"therefore pre-launch/not completed\" is a reasonable but additional inference.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0113",
@@ -2738,7 +2738,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "Quote directly states NASA was targeting no earlier than April 1.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0114",
@@ -2762,7 +2762,7 @@
       "mutation": null,
       "human_label": "unclear",
       "human_notes": "The isolated quote uses \"They\" without the antecedent; it cannot establish which issues or text arrangements were still uncertain.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "natural-0115",
@@ -2786,7 +2786,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "Quote directly states continuous occupation since Nov. 2, 2000; finding correctly limits this to a historical baseline.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0116",
@@ -2810,7 +2810,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "Quote directly states nearly 23 years of continuous human presence as of the Crew-7 release.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0117",
@@ -2834,7 +2834,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "Quote supports a faster/stronger solar-cycle peak; connecting that to higher 2025 strong-flare probability is an analytical inference.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0118",
@@ -2858,7 +2858,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "Quote directly states February 2026 was fifth warmest and 1.49C above pre-industrial.",
-      "split": "calibration"
+      "split": "test"
     },
     {
       "id": "natural-0119",
@@ -2882,7 +2882,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "Quote directly states May 2026 was second-warmest May in ERA5.",
-      "split": "calibration"
+      "split": "test"
     },
     {
       "id": "natural-0120",
@@ -2906,7 +2906,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "Quote directly states summit dates/location and that media accreditation would commence September 1.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "natural-0121",
@@ -2930,7 +2930,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "Quote directly calls Manchester City champions and refers to their title defence.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0122",
@@ -2954,7 +2954,7 @@
       "mutation": null,
       "human_label": "unsupported",
       "human_notes": "Quote says only that the league-phase draw occurred; it does not mention Real Madrid or establish Real Madrid's path.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "natural-0123",
@@ -2978,7 +2978,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "Quote directly reports the virtual medal table prediction of 39 US gold medals.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0124",
@@ -3002,7 +3002,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "Quote directly says Spain were marginal favourites; treating that as a counter-signal to a South American champion is an inference.",
-      "split": "calibration"
+      "split": "test"
     },
     {
       "id": "natural-0125",
@@ -3026,7 +3026,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "Quote directly states Cleveland joined OKC in the 60-win club.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "natural-0126",
@@ -3050,7 +3050,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "Quote directly contains the final-preview status, critical-bug condition and scheduled 2024-10-01 release date.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0127",
@@ -3074,7 +3074,7 @@
       "mutation": null,
       "human_label": "partially_supported",
       "human_notes": "Quote supports Gurman reporting an M4 J604 MacBook Pro, but the exact quote shown does not contain the October timing claimed by the finding.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "natural-0128",
@@ -3098,7 +3098,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "Quote directly states Apple would begin updating Macs with M4 chips in late 2024, according to Gurman.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "natural-0129",
@@ -3122,7 +3122,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "Quote directly states Starship lifted off on Jan. 16, 2025 from Starbase.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0130",
@@ -3146,7 +3146,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "Quote directly states Node.js 22 would be promoted to LTS in the week of Oct. 29.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "natural-0131",
@@ -3170,7 +3170,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "Quote directly states Blackwell Ultra products were expected from partners starting in H2 2025; finding correctly treats this as forward-looking.",
-      "split": "calibration"
+      "split": "dev"
     },
     {
       "id": "natural-0132",
@@ -3242,7 +3242,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "The truncated quote still directly states prior efforts to port the TypeScript compiler; finding explicitly notes the truncation and does not claim a 6.0 release.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "natural-0135",
@@ -3266,7 +3266,7 @@
       "mutation": null,
       "human_label": "supported",
       "human_notes": "Quote directly states the Dec. 2 update on TypeScript 7.0/Project Corsa and its March/Go background.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "hardneg-0001",
@@ -3294,7 +3294,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0002",
@@ -3322,7 +3322,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0003",
@@ -3350,7 +3350,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "hardneg-0004",
@@ -3378,7 +3378,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "calibration"
+      "split": "dev"
     },
     {
       "id": "hardneg-0005",
@@ -3434,7 +3434,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0007",
@@ -3462,7 +3462,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0008",
@@ -3490,7 +3490,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0009",
@@ -3518,7 +3518,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0010",
@@ -3546,7 +3546,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0011",
@@ -3574,7 +3574,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "calibration"
+      "split": "test"
     },
     {
       "id": "hardneg-0012",
@@ -3602,7 +3602,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "hardneg-0013",
@@ -3630,7 +3630,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "hardneg-0014",
@@ -3658,7 +3658,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0015",
@@ -3686,7 +3686,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0016",
@@ -3714,7 +3714,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "calibration"
+      "split": "test"
     },
     {
       "id": "hardneg-0017",
@@ -3742,7 +3742,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "hardneg-0018",
@@ -3770,7 +3770,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0019",
@@ -3798,7 +3798,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "hardneg-0020",
@@ -3826,7 +3826,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "hardneg-0021",
@@ -3854,7 +3854,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0022",
@@ -3882,7 +3882,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0023",
@@ -3910,7 +3910,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "calibration"
+      "split": "dev"
     },
     {
       "id": "hardneg-0024",
@@ -3994,7 +3994,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "hardneg-0027",
@@ -4022,7 +4022,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "hardneg-0028",
@@ -4050,7 +4050,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0029",
@@ -4078,7 +4078,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0030",
@@ -4134,7 +4134,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0032",
@@ -4162,7 +4162,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "hardneg-0033",
@@ -4190,7 +4190,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0034",
@@ -4218,7 +4218,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0035",
@@ -4246,7 +4246,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "hardneg-0036",
@@ -4274,7 +4274,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0037",
@@ -4302,7 +4302,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0038",
@@ -4330,7 +4330,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "hardneg-0039",
@@ -4358,7 +4358,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0040",
@@ -4386,7 +4386,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "calibration"
+      "split": "test"
     },
     {
       "id": "hardneg-0041",
@@ -4414,7 +4414,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "hardneg-0042",
@@ -4442,7 +4442,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0043",
@@ -4470,7 +4470,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "hardneg-0044",
@@ -4498,7 +4498,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0045",
@@ -4526,7 +4526,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "calibration"
+      "split": "dev"
     },
     {
       "id": "hardneg-0046",
@@ -4582,7 +4582,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0048",
@@ -4610,7 +4610,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "calibration"
+      "split": "dev"
     },
     {
       "id": "hardneg-0049",
@@ -4666,7 +4666,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0051",
@@ -4694,7 +4694,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "hardneg-0052",
@@ -4722,7 +4722,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0053",
@@ -4750,7 +4750,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0054",
@@ -4778,7 +4778,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0055",
@@ -4806,7 +4806,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "calibration"
+      "split": "test"
     },
     {
       "id": "hardneg-0056",
@@ -4834,7 +4834,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "hardneg-0057",
@@ -4862,7 +4862,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "hardneg-0058",
@@ -4890,7 +4890,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0059",
@@ -4918,7 +4918,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0060",
@@ -4946,7 +4946,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "hardneg-0061",
@@ -4974,7 +4974,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0062",
@@ -5002,7 +5002,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0063",
@@ -5030,7 +5030,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "hardneg-0064",
@@ -5058,7 +5058,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "hardneg-0065",
@@ -5086,7 +5086,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0066",
@@ -5142,7 +5142,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "hardneg-0068",
@@ -5170,7 +5170,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0069",
@@ -5198,7 +5198,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0070",
@@ -5254,7 +5254,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0072",
@@ -5282,7 +5282,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "calibration"
+      "split": "test"
     },
     {
       "id": "hardneg-0073",
@@ -5310,7 +5310,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "calibration"
+      "split": "test"
     },
     {
       "id": "hardneg-0074",
@@ -5338,7 +5338,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "hardneg-0075",
@@ -5366,7 +5366,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0076",
@@ -5394,7 +5394,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0077",
@@ -5422,7 +5422,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "calibration"
+      "split": "test"
     },
     {
       "id": "hardneg-0078",
@@ -5450,7 +5450,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0079",
@@ -5478,7 +5478,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0080",
@@ -5506,7 +5506,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0081",
@@ -5562,7 +5562,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "hardneg-0083",
@@ -5590,7 +5590,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0084",
@@ -5618,7 +5618,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "hardneg-0085",
@@ -5646,7 +5646,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "calibration"
+      "split": "dev"
     },
     {
       "id": "hardneg-0086",
@@ -5702,7 +5702,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0088",
@@ -5730,7 +5730,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0089",
@@ -5758,7 +5758,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0090",
@@ -5786,7 +5786,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "calibration"
+      "split": "test"
     },
     {
       "id": "hardneg-0091",
@@ -5814,7 +5814,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "calibration"
+      "split": "test"
     },
     {
       "id": "hardneg-0092",
@@ -5842,7 +5842,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "hardneg-0093",
@@ -5870,7 +5870,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0094",
@@ -5898,7 +5898,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0095",
@@ -5926,7 +5926,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "hardneg-0096",
@@ -5954,7 +5954,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0097",
@@ -5982,7 +5982,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "hardneg-0098",
@@ -6010,7 +6010,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0099",
@@ -6038,7 +6038,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "hardneg-0100",
@@ -6066,7 +6066,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "calibration"
+      "split": "dev"
     },
     {
       "id": "hardneg-0101",
@@ -6150,7 +6150,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "hardneg-0104",
@@ -6178,7 +6178,7 @@
       },
       "human_label": null,
       "human_notes": "Controlled contradiction generated from a human-supported base; quote is unchanged.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0001",
@@ -6207,7 +6207,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0002",
@@ -6236,7 +6236,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0003",
@@ -6265,7 +6265,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "partial-attribution-0004",
@@ -6294,7 +6294,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "calibration"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0005",
@@ -6352,7 +6352,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0007",
@@ -6381,7 +6381,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0008",
@@ -6410,7 +6410,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0009",
@@ -6439,7 +6439,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "calibration"
+      "split": "test"
     },
     {
       "id": "partial-attribution-0010",
@@ -6468,7 +6468,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0011",
@@ -6497,7 +6497,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0012",
@@ -6526,7 +6526,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0013",
@@ -6555,7 +6555,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0014",
@@ -6584,7 +6584,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0015",
@@ -6613,7 +6613,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "partial-attribution-0016",
@@ -6642,7 +6642,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "partial-attribution-0017",
@@ -6671,7 +6671,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0018",
@@ -6700,7 +6700,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0019",
@@ -6729,7 +6729,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "calibration"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0020",
@@ -6816,7 +6816,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0023",
@@ -6845,7 +6845,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0024",
@@ -6874,7 +6874,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0025",
@@ -6903,7 +6903,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0026",
@@ -6961,7 +6961,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0028",
@@ -6990,7 +6990,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "partial-attribution-0029",
@@ -7019,7 +7019,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0030",
@@ -7048,7 +7048,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0031",
@@ -7077,7 +7077,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0032",
@@ -7106,7 +7106,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0033",
@@ -7135,7 +7135,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "calibration"
+      "split": "test"
     },
     {
       "id": "partial-attribution-0034",
@@ -7164,7 +7164,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0035",
@@ -7193,7 +7193,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0036",
@@ -7222,7 +7222,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "partial-attribution-0037",
@@ -7251,7 +7251,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0038",
@@ -7309,7 +7309,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0040",
@@ -7338,7 +7338,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "calibration"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0041",
@@ -7396,7 +7396,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "partial-attribution-0043",
@@ -7425,7 +7425,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0044",
@@ -7454,7 +7454,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0045",
@@ -7483,7 +7483,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "calibration"
+      "split": "test"
     },
     {
       "id": "partial-attribution-0046",
@@ -7512,7 +7512,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0047",
@@ -7541,7 +7541,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0048",
@@ -7570,7 +7570,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0049",
@@ -7599,7 +7599,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0050",
@@ -7628,7 +7628,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0051",
@@ -7657,7 +7657,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0052",
@@ -7686,7 +7686,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "partial-attribution-0053",
@@ -7715,7 +7715,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "partial-attribution-0054",
@@ -7744,7 +7744,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0055",
@@ -7802,7 +7802,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0057",
@@ -7831,7 +7831,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0058",
@@ -7889,7 +7889,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "calibration"
+      "split": "test"
     },
     {
       "id": "partial-attribution-0060",
@@ -7918,7 +7918,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "calibration"
+      "split": "test"
     },
     {
       "id": "partial-attribution-0061",
@@ -7947,7 +7947,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0062",
@@ -7976,7 +7976,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0063",
@@ -8005,7 +8005,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0064",
@@ -8034,7 +8034,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0065",
@@ -8092,7 +8092,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0067",
@@ -8121,7 +8121,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "partial-attribution-0068",
@@ -8150,7 +8150,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "calibration"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0069",
@@ -8208,7 +8208,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0071",
@@ -8237,7 +8237,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0072",
@@ -8266,7 +8266,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "test"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0073",
@@ -8295,7 +8295,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0074",
@@ -8324,7 +8324,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "train"
+      "split": "test"
     },
     {
       "id": "partial-attribution-0075",
@@ -8353,7 +8353,7 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "calibration"
+      "split": "dev"
     },
     {
       "id": "partial-attribution-0076",
@@ -8440,26 +8440,12 @@
       },
       "human_label": null,
       "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
-      "split": "test"
+      "split": "dev"
     }
   ],
-  "split_policy": "case-grouped within category; approximately 60% train / 20% calibration / 20% test",
+  "split_policy": "case-grouped dev/test holdout; all variants from a case stay in the same split",
   "split_counts": {
-    "train": {
-      "entailed": 62,
-      "partially_entailed": 63,
-      "unclear": 1,
-      "not_entailed": 63
-    },
-    "calibration": {
-      "entailed": 15,
-      "partially_entailed": 14,
-      "not_entailed": 15
-    },
-    "test": {
-      "entailed": 27,
-      "partially_entailed": 30,
-      "not_entailed": 27
-    }
+    "dev": 208,
+    "test": 109
   }
 }
