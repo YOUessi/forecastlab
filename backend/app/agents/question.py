@@ -6,9 +6,7 @@ from pydantic import ValidationError
 from ..schemas import (AnalyzeQuestionRequest, FramingCandidate, QuestionFraming, QuestionInput,
     QuestionDraft, QuestionSpec, QuestionClarification, QuestionPremise, RetrievalTask)
 
-PROMPT = """请先区分预测目标与用户明确主张的背景事实。预测“是否发生”本身不是需要核查的前提；中性问题可以没有 premise。
-当问题、as_of、resolve_by 与 resolution_rule 已明确时，不要重复追问地区、唯一性或结算条件，除非确实改变结算结果。
-澄清研究对象、时间、地区和判定标准，保留用户原意，不接受其预设结论。
+PROMPT = """澄清研究对象、时间、地区和判定标准，保留用户原意，不接受其预设结论。
 premises 只识别用户文本中可被核查或证伪的背景事实、世界状态、因果解释或情景条件；
 必须给 source_input_id 和逐字 original_span。中性问题可以完全没有 premise。
 绝对不要把这些内容写成 premise：研究对象/实体名称、预测目标本身、信息截点、结算日期、比较日期、
