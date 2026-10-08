@@ -39,8 +39,8 @@ def evaluate(benchmark: dict, nli: dict, llm: dict, *, policy: str,
         )
     else:
         configs = (
-            {"nli_accept": na, "nli_reject": nr, "llm_accept": 0.5}
-            for na, nr in itertools.product(GRID, GRID)
+            {"nli_accept": na, "nli_reject": nr, "llm_accept": la}
+            for na, nr, la in itertools.product(GRID, GRID, GRID)
         )
 
     for cfg in configs:
