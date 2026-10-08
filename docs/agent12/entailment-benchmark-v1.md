@@ -110,6 +110,33 @@ Held-out test labels:
 
 Thresholds/cascade parameters may be selected on dev only. The test split is evaluated once after configuration selection.
 
+## Measured multilingual NLI baseline
+
+Model: `MoritzLaurer/mDeBERTa-v3-base-mnli-xnli`, run on Tang GPU with a temporary research-only environment. It is independent from the DeepSeek Agent 2 generator.
+
+### Broad 317-row set
+
+The NLI baseline is not suitable as a standalone hard gate. At the strictest listed entailment threshold (0.95), it accepted 139/317 rows, but only **51.1%** of accepted rows were gold `entailed`; supported recall was **68.3%**.
+
+The largest failure modes were numeric shifts and quote-external publisher attribution, which is expected to remain the responsibility of Boundary-v2 rather than NLI.
+
+### Primary post-boundary 239-row set
+
+Full-set 0.95 threshold:
+
+- accepted strict precision: **70.3%**;
+- supported recall: **68.3%**;
+- false accepts: **30**.
+
+Leakage-safe dev/test rescoring:
+
+| Split | Threshold | Accepted precision | Supported recall | Accepted | False accepts |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| dev | 0.95 | **68.1%** | 67.1% | 69 | 22 |
+| held-out test | 0.95 | **75.0%** | 70.6% | 32 | 8 |
+
+Therefore multilingual NLI alone fails the 95% precision / 90% recall production target. It remains useful as an **independent cascade signal**, especially for high-confidence contradiction or uncertainty routing.
+
 ## Primary gate metrics
 
 For a production semantic gate, four-class accuracy is secondary.
