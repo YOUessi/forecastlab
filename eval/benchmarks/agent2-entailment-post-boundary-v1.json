@@ -6181,19 +6181,9 @@
       "split": "dev"
     }
   ],
-  "split_policy": {
-    "unit": "case_id",
-    "dev_cases": "all cases except test_cases",
-    "test_cases": [
-      "C03-apple-m4-mac",
-      "C07-gpt5-availability",
-      "C10-real-madrid-ucl",
-      "C13-worldcup-southamerica",
-      "C16-cop30-roadmap-adopted",
-      "C19-copernicus-h1",
-      "C22-ndx-h2-2025",
-      "C24-gold-q3-2026"
-    ],
-    "rationale": "Keep natural rows and all mutations from the same forecasting case in one split to prevent leakage."
+  "split_policy": "case-grouped dev/test holdout; all variants from a case stay in the same split",
+  "split_counts": {
+    "dev": 157,
+    "test": 82
   }
 }
