@@ -107,7 +107,7 @@ class ModelClient:
                     }
                     if os.getenv("FORECASTLAB_LOCAL_JSON_MODE") == "prompt":
                         kwargs.pop("response_format")
-                elif config.MODEL_PROVIDER == "qwen" and config.MODEL_NAME == "qwen3.8-flash":
+                elif config.MODEL_NAME == "qwen3.8-flash":
                     kwargs["extra_body"] = {"enable_thinking": thinking}
                 elif config.MODEL_PROVIDER == "deepseek":
                     # DeepSeek V4.1 Flash enables high-effort thinking by default.
