@@ -105,11 +105,43 @@ An OpenAI-compatible ARC Bench endpoint is configured on the Mac and exposes mul
 
 Automatic reuse of the API key from an unrelated local project was blocked by the credential-safety layer, so **no API Judge quality result is claimed**. The harness is ready and supports checkpoint/resume. A future run should use an explicitly authorized judge credential.
 
-## Qwen2.5-7B-Instruct
+## Qwen2.5-7B-Instruct-AWQ
 
-The next local model is Qwen2.5-7B-Instruct. Download is resumable and is being performed independently of the 3B inference. The first Hugging Face/XET route stalled; download was restarted with standard HTTP while preserving the cache.
+The full-precision 7B download was replaced by the official Qwen2.5-7B-Instruct-AWQ checkpoint so the larger Judge could be evaluated on the same Tang 4090 without changing the prompt or benchmark. The model ran with AWQ 4-bit weights; AutoAWQ fused kernels were unavailable because the installed Torch ABI did not match the optional extension, so inference used the functional non-fused path. Batch inference changed throughput only, not the frozen prompts or labels.
 
-No 7B quality result is reported until all 239 rows and dev/test scoring complete.
+### Held-out test
+
+- accepted: 21/82
+- accepted strict precision: **76.19%**
+- supported recall: **47.06%**
+- false accepts: 5
+- Wilson 95% precision interval: **54.91%–89.37%**
+
+### NLI + Qwen7B agreement
+
+Dev-selected configuration:
+- NLI accept >= 0.80
+- Qwen7B entailed
+
+Held-out test:
+- accepted: 20/82
+- precision: **80.0%**
+- recall: **47.06%**
+- false accepts: 4
+
+### NLI then Qwen7B
+
+Held-out test:
+- accepted: 33/82
+- precision: **72.73%**
+- recall: **70.59%**
+- false accepts: 9
+
+Qwen2.5-7B-AWQ therefore does **not** improve on Qwen2.5-3B for this frozen entailment task. Larger parameter count alone is not sufficient, and the 4-bit quantized checkpoint may also affect calibration. No 7B configuration meets the 95/90 target.
+
+## Next stronger local Judge: Qwen3-8B-AWQ
+
+The next experiment moves to a newer model generation rather than continuing to scale Qwen2.5. Official `Qwen/Qwen3-8B-AWQ` is 5.69 GiB and is compatible with the current Qwen3 + AutoAWQ research runtime. Thinking mode is explicitly disabled so the judge continues to use the same compact quote-only JSON protocol. The benchmark, dev/test split, and prompt remain frozen.
 
 ## Current decision
 
@@ -121,6 +153,8 @@ Completed evidence so far:
 | Qwen2.5-1.5B @ 0.90 | 44.8% | 76.5% | No |
 | Qwen2.5-3B | 81.8% | 52.9% | No |
 | NLI + Qwen3B agreement | 94.44% | 50.0% | No |
+| Qwen2.5-7B-AWQ | 76.19% | 47.06% | No |
+| NLI + Qwen7B agreement | 80.0% | 47.06% | No |
 | NLI + Qwen1.5B + Qwen3B unanimity | 100% | 47.1% | No |
 
-The trend is clear: larger/stricter judges improve precision, but current approaches trade away too much recall. The next valid step is Qwen7B and, when explicitly authorized, a stronger independent API judge on the same frozen benchmark.
+The Qwen2.5 scaling curve is not monotonic: 7B-AWQ is worse than 3B on this held-out test. Agreement ensembles can drive precision very high, but current versions sacrifice too much supported recall. The next valid local step is the newer Qwen3-8B-AWQ; the stronger independent API route remains available once a judge credential is explicitly authorized.
