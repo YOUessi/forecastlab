@@ -54,6 +54,16 @@ def report_html(run: RunRecord) -> str:
         framing_html += f"<p>用户原话：{esc(run.question_framing.raw_question)}</p>"
         framing_html += "<ul>" + "".join(f"<li>{esc(p.id)} · {esc(p.content)} · {esc(p.user_review)} / {esc(p.treatment)}</li>" for p in run.question_framing.premises) + "</ul>"
     if run.evidence_assessment:
+        quality = run.evidence_assessment.quality_profile
+        if quality:
+            framing_html += (
+                "<h2>证据质量概览</h2>"
+                f"<p>有效来源 {quality.source_count} · 来源组 {quality.source_group_count}"
+                f"（未经独立性认证） · 正文 {quality.body_source_count} · 仅摘要 {quality.snippet_only_count}"
+                f" · 有效发现 {quality.validated_finding_count} · 被拒绝候选 {quality.rejected_finding_count}</p>"
+                "<p>来源标签、分组与快照哈希不证明来源真实、独立或语义蕴含。</p>"
+                "<ul>" + "".join(f"<li>{esc(warning)}</li>" for warning in quality.warnings) + "</ul>"
+            )
         framing_html += "<h2>逐项证据发现</h2>" + "".join(
             f"<article><h3>{esc(f.id)} · {esc(f.claim)}</h3><p>{esc(f.relation)} · 前提 {esc(', '.join(f.target_premise_ids))}</p>"
             + "".join(f"<blockquote>{esc(c.quote)}</blockquote><small>{esc(c.evidence_id)} / {esc(c.paragraph_id)} / {c.start}–{c.end}</small>" for c in f.citations)
