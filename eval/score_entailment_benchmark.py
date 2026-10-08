@@ -38,8 +38,10 @@ def confusion(gold_rows: list[dict], pred_rows: list[dict]) -> dict:
     return {"matrix": matrix, "missing": missing}
 
 
-def score(benchmark: dict, judged: dict, thresholds=(0.5, 0.7, 0.8, 0.9, 0.95)) -> dict:
+def score(benchmark: dict, judged: dict, thresholds=(0.5, 0.7, 0.8, 0.9, 0.95), split: str = "all") -> dict:
     gold = benchmark["rows"]
+    if split != "all":
+        gold = [row for row in gold if row.get("split") == split]
     pmap = {key(r): r for r in judged.get("rows", [])}
     common = [r for r in gold if key(r) in pmap]
     if not common:
@@ -92,6 +94,7 @@ def score(benchmark: dict, judged: dict, thresholds=(0.5, 0.7, 0.8, 0.9, 0.95)) 
     conf = confusion(common, judged.get("rows", []))
     return {
         "benchmark_rows": len(gold),
+        "split": split,
         "judged_rows": len(common),
         "coverage": len(common)/len(gold),
         "four_class_exact_accuracy": exact/len(common),
@@ -111,10 +114,12 @@ def main() -> None:
     p.add_argument("benchmark", type=Path)
     p.add_argument("judged", type=Path)
     p.add_argument("--output", type=Path)
+    p.add_argument("--split", choices=["all", "dev", "test"], default="all")
     args = p.parse_args()
     result = score(
         json.loads(args.benchmark.read_text(encoding="utf-8")),
         json.loads(args.judged.read_text(encoding="utf-8")),
+        split=args.split,
     )
     text = json.dumps(result, ensure_ascii=False, indent=2)
     if args.output:
