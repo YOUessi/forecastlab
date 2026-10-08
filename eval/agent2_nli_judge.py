@@ -45,6 +45,12 @@ def load_runtime(model_name: str):
     return torch, tokenizer, model
 
 
+def row_quotes(row: dict) -> list[str]:
+    if isinstance(row.get("quotes"), list):
+        return [str(q) for q in row["quotes"]]
+    return [c["quote"] for c in row.get("citations", [])]
+
+
 def judge_pair(torch, tokenizer, model, premise: str, hypothesis: str) -> dict:
     encoded = tokenizer(
         premise,
@@ -95,7 +101,7 @@ def main() -> None:
     torch, tokenizer, model = load_runtime(args.model)
     judged = []
     for i, row in enumerate(rows, 1):
-        quote_text = "\n".join(c["quote"] for c in row.get("citations", []))
+        quote_text = "\n".join(row_quotes(row))
         decision = judge_pair(torch, tokenizer, model, quote_text, row["claim"])
         item = json.loads(json.dumps(row, ensure_ascii=False))
         item["judge"] = decision
