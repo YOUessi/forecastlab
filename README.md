@@ -1,40 +1,87 @@
 # ForecastLab
 
-基于问题确认、证据溯源与多主体情景推演的研究工作台。真实数据、模型假设和模拟结果分别留存；开放问题使用情景分析，概率保持 `null`。二元预测的概率是未经校准的主观判断。
+## 当前实现状态
 
-当前界面保留树状推演画布，新建研究从空白问题开始。不会自动载入示例或离线演练记录。真实分析需要后端模型服务，联网取证另需 Brave（优先）或 Tavily。
+ForecastLab 采用**完整预测研究工作台（Research Workspace）**：新建研究 → Agent 1 问题确认 → Agent 2 证据与溯源 → World → Simulation → Review → Forecast。已保留小组最新的可缩放推演画布、阅读面板和来源原文抽屉，而不是 Agent 1/2 的单独演示首页。快速本机启动：`bash scripts/start-local.sh`，默认地址 `http://127.0.0.1:8765`。
 
-## 启动
+无密钥时可使用后端固定教学回放或历史记录查看固定虚构材料的完整 ForecastLab 流程；固定 Agent 1/2 fixture 仍保留在后端自动化测试中，但不是正式产品入口。教学材料、固定模型响应和概率不代表真实模型质量。
 
-环境：Python 3.12、uv、Node.js 20.19+/22.12+、npm。
+现在证据阶段还会在同一次预测运行中展示**证据质量概览**（来源组、正文/摘要、检索失败、拒绝候选、未解决冲突），冲突条目可点击关联 E 编号检查原文；相关限制随 EvidenceAssessment 传入 Review，并写入 HTML/JSON 报告。来源组不等于已验证独立性，指标不会自动决定预测概率。详见 [2026-10-08 质量与冲突整合记录](docs/agent12/evidence-quality-integration-2026-10-08.md)。
+
+交接材料：[Agent 1–2 完整实现记录](docs/agent12/implementation-report.md) · [实现与下游兼容](docs/agent12/integration.md) · [API](docs/agent12/api.md) · [验证记录](docs/agent12/validation.md) · [局限](docs/agent12/limitations.md) · [LLM 使用](docs/agent12/llm-usage.md)。原说明的旧路径仍可使用，但未经过新版确认的运行明确标为“旧版直接输入”。
 
 ```bash
 uv sync --locked --group browser
-npm --prefix frontend ci
-npm --prefix frontend run build
-cp .env.example .env
-# 在后端 .env 配置模型和搜索服务，勿写入前端或提交凭据。
+uv run pytest -q
+(cd frontend && npm ci && npm run build)
+uv run --group browser python -m playwright install chromium
+uv run --group browser pytest frontend/tests -q
+uv run python eval/agent12.py --mode fixture --cases examples/agent12/neutral-leading-pairs.json --output fixture-eval.json
+```
+
+真实生成仍需在后端 `.env` 配置模型服务，在线检索可使用 Brave 或 Tavily。没有配置时返回明确错误，不把固定答案作为真实分析。浏览器测试只访问临时本机服务；最终 Python 自动化测试禁止真实 httpx 出网。
+
+源码包和补丁由 `scripts/package_agent12.py` 从**已提交**版本生成，排除运行数据和凭证。不要把 `.env`、数据库、模型密钥或用户材料加入小组仓库。
+
+---
+
+基于证据溯源与多主体推演的课程级预测工作台。这个仓库实现了所附 [工程计划](docs/agent-framework-plan-v1.html) 的核心 Demo：统一问题格式、证据包或在线检索、LangGraph 状态图、主体独立行动、两轮环境推进、审查、主观概率、SQLite 回放与报告导出。
+
+**状态说明：**教学演示仍使用明确标注的虚构材料与固定输出，用于无密钥联调；真实运行需要模型服务 Key，在线检索另需 Brave 或 Tavily Key。仓库现已包含 DeepSeek `deepseek-flash`、temperature=0 的冻结历史评测、Agent 1/2 语义审计、真实 Tavily 检索质量评测，以及真实模型 + 真实 Tavily 的 HTTP Live E2E。它们仍是课程级实验，不代表概率已校准。完整实验见 [ForecastLab-v2 多臂评测](experiment-2026-10-07-v2/report.md)、[Agent 1/2 语义稳健性](experiment-2026-10-07-agent12-semantic/report.md)、[Tavily Live Retrieval](experiment-2026-10-07-tavily/report.md) 与 [Live Full E2E](experiment-2026-10-07-live-e2e/report.md)。
+
+## 与小组主仓库研究线整合（2026-10-08）
+
+本版本在恢复 **完整 ForecastLab 产品入口**（创建问题 → Agent 1 确认 → Agent 2 取证 → World → Simulation → Review → Forecast）的同时，保留上游组员在 `experiment/` 目录中的 v1/v2/v3v4 研究和可选影子 full-basis 评测（`FORECASTLAB_SHADOW=0` 默认关闭）。对应差异、引用编号融合和回归记录见 [同步说明](docs/upstream-main-merge-2026-10-08.md)。不得把影子试验输出当作正式预测，不以研究报告替代真实运行结果。
+
+## 快速启动
+
+环境：macOS/Linux、Python 3.12、`uv`、Node.js 20.19+/22.12+、npm。
+
+```bash
+uv sync --locked
+cd frontend && npm ci && npm run build && cd ..
 uv run uvicorn app.api:app --app-dir backend --host 127.0.0.1 --port 8000
 ```
 
-浏览器打开 `http://127.0.0.1:8000`。开发前端可执行 `npm --prefix frontend run dev`，Vite 将 `/api` 转发到8000。缺少模型或搜索配置时返回明确错误，不以固定答案替代真实调用。
+打开 <http://127.0.0.1:8000>，使用后端固定教学回放或历史记录。它会经过同一个 LangGraph 流程，显示 3 个主体、2 轮行动、审查、引用和回放。首次运行会在 `data/` 创建 SQLite 与各阶段 JSON 快照。
 
-配置采用 OpenAI 兼容接口：`QWEN_API_KEY`、`QWEN_BASE_URL`、`QWEN_MODEL`，兼容原 `DEEPSEEK_*` 设置；两者同时存在时优先 Qwen。搜索配置为 `BRAVE_SEARCH_API_KEY` 或 `TAVILY_API_KEY`。同一应用进程一次接受一个运行，失败后可通过页面或 resume API 从首个未完成阶段继续。
+首页另有科技、体育、公共事件三个**问题预设**。它们只填写问题和结算规则；需要真实证据与模型密钥才能生成新预测。
 
-通用容器部署可以使用 `docker compose up -d --build`，数据保存在宿主机 `data/`。Group8 服务器使用独立用户进程和本地 GPU 模型，必须遵守物理4–7限制；详见 [服务器部署](docs/server-deployment.md)。
+前端开发模式可另开终端运行 `cd frontend && npm run dev`，Vite 将 `/api` 代理到 8000 端口。后端修改后需重启服务。
 
-## 验证
+## Docker 部署
+
+服务器安装 Docker 和 Docker Compose 后，在项目根目录放置仅服务器可读的 `.env`，运行：
 
 ```bash
-uv run pytest -q
-npm --prefix frontend run build
-uv run --group browser python -m playwright install chromium
-uv run --group browser pytest frontend/tests -q
+docker compose up -d --build
+docker compose ps
 ```
 
-浏览器回归仅访问临时本机服务，覆盖真实后端固定测试与模拟响应；教学样例不代表预测质量。Windows 可通过 `FORECASTLAB_BROWSER_EXECUTABLE` 指定已安装的 Chromium。源码打包脚本只从已提交版本导出，排除 `.env`、数据库和运行资料。
+容器使用 `uv` 从锁文件安装 Python 依赖，Node 构建前端；SQLite 数据和证据快照保存在宿主机 `data/`。默认 Compose 只绑定 `127.0.0.1:8000`。本项目当前没有账号、认证和多用户隔离，**不要直接把 8000 端口暴露到公网**；如需远程访问，应在前面增加带认证的反向代理/网关或使用受控隧道。需要停止服务时运行 `docker compose down`；这不会删除 `data/`。更新代码后执行 `git pull --ff-only && docker compose up -d --build`。
 
-Agent 1–2 的接口与契约说明仍见 [实现记录](docs/agent12/implementation-report.md)、[API](docs/agent12/api.md) 和 [局限](docs/agent12/limitations.md)；其中早期教学入口截图不代表当前工作台布局。
+若服务器已有 Python 3.12，也可以用 `uv` 安装依赖并用 systemd 运行，不需要在服务器构建前端：
+
+```bash
+uv sync --locked --no-dev
+# 将本地 frontend/dist/ 上传到服务器的 frontend/dist/
+sudo useradd --system --home-dir /opt/forecastlab --shell /usr/sbin/nologin forecastlab
+sudo chown forecastlab:forecastlab .env data
+sudo chmod 600 .env
+sudo chmod 700 data
+sudo cp deploy/forecastlab.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now forecastlab
+```
+
+systemd 服务使用独立的 `forecastlab` 用户。若该用户已存在，跳过 `useradd`。默认服务只监听 `127.0.0.1:8000`；若需要远程访问，请通过带认证的反向代理/网关或受控隧道转发，不要直接裸露 ForecastLab。
+
+## 启用真实运行
+
+1. 将 `.env.example` 复制为 `.env`，填写 `QWEN_API_KEY`、`QWEN_BASE_URL` 和 `QWEN_MODEL`。项目使用 OpenAI 兼容接口调用模型；已有 DeepSeek 官方接口配置也可继续使用 `DEEPSEEK_API_KEY`、`DEEPSEEK_BASE_URL` 和 `DEEPSEEK_MODEL`。两组同时设置时，优先使用 `QWEN_*`。
+2. 若使用在线检索，另填 `TAVILY_API_KEY`。没有检索 Key 时，导入 JSON 证据包即可。
+3. 输入可结算的二元问题、信息截至时间、截止时间和结算规则。开放问题改选“情景分析”，其概率始终为 `null`。
+4. 导入证据包或选择在线检索，提交运行。单进程同一时间只接受一个运行；页面每 2 秒查询进度。失败或中断后可从已保存的阶段继续，不重复执行成功的阶段。
 
 ## 结果结算与评分
 
@@ -58,7 +105,7 @@ Agent 1–2 的接口与契约说明仍见 [实现记录](docs/agent12/implement
 
 把示例网址和内容替换为真实来源。后端会分配 `E001...` 编号、抓取/导入时间和 SHA-256 内容哈希。严格盲回测需要在预测截点前冻结的证据快照；事后找到、可证明发表于截点前的资料只能标为 `source_type: "exercise"`，属于有回看偏差风险的历史练习。若来源只有搜索摘要，请在导入材料中明确注明；在线 Tavily 返回没有正文时会自动标为 `snippet_only`。
 
-思考模式默认关闭，可用 `FORECASTLAB_ENABLE_THINKING=true` 启用 Qwen 的思考参数。思考会占用输出预算，需要同时配置足够的 `FORECASTLAB_MAX_OUTPUT_TOKENS`、请求时限与上下文容量；结构和来源校验继续执行。实际可用模型以对应服务提供方的模型列表为准。`QWEN_MODEL` 可切换模型。首次接入应使用少量问题确认账户权限、模型参数和账单。运行上限由 `.env` 中的 `FORECASTLAB_MAX_CALLS`（默认 18）与 `FORECASTLAB_MAX_SECONDS`（默认 300）控制。运行详情会记录各阶段耗时；失败时显示中断阶段和原因，可从该阶段继续。
+当前兼容接口配置使用 `qwen3.8-flash`，结构化 JSON 调用会关闭该模型的思考模式以缩短等待时间；实际可用模型以对应服务提供方的模型列表为准。`QWEN_MODEL` 可切换模型。首次接入应使用少量问题确认账户权限、模型参数和账单。运行上限由 `.env` 中的 `FORECASTLAB_MAX_CALLS`（默认 18）与 `FORECASTLAB_MAX_SECONDS`（默认 300）控制。运行详情会记录各阶段耗时；失败时显示中断阶段和原因，可从该阶段继续。
 
 ## 工作流与边界
 
@@ -74,7 +121,7 @@ QuestionSpec → QuestionAnalysis → Evidence[] + EvidenceAssessment
 - 同一轮的主体读取同一个父状态；环境在收齐行动后统一推进。模拟结果保持 `M/S` 身份，不会变成 `E` 类外部证据。
 - 代码核对引用 ID、时间截点、父状态和概率；审查 Agent 核对内容支持度。证据不足或审查阻断时不输出概率。
 - 所有角色共用同一个已配置模型，不等于独立专家；概率是主观判断，未经校准。
-- 在线检索优先由 Brave 提供，兼容 Tavily，模型本身不承担互联网搜索。没有账号系统、断点自动续算和全网持续监控；自托管 GPU 部署见部署说明。
+- 在线检索由 Tavily 提供，模型本身不承担互联网搜索。当前系统没有账号/多用户权限、生产级任务队列或全网持续监控；运行中断可从已保存阶段手动恢复。
 
 ## API
 
@@ -107,6 +154,21 @@ uv run pytest -q
 cd frontend && npm run build
 ```
 
+### 已完成的真实模型评测
+
+当前最终语义修复版本使用 DeepSeek `deepseek-flash`、`temperature=0` 完成了冻结评测。主要结果：
+
+- Agent 1：真实 v2 paired set 与独立 fictional sanity set 各运行 8 对 neutral/leading 问题、重复 2 次；修复后显式 leading premise 检出率 **100%**、显式字段保持率 **100%**、unexpected neutral-premise rate **0%**、blocking clarification rate **0%**、ready-for-confirmation rate **100%**。
+- Agent 2：24 个 evidence pack 产生的新 finding population 中固定抽样 30 条做单审阅者 `finding.claim -> exact quote` 语义审计；strict support rate 从 baseline **50%** 提升到 **90%**，lenient support rate 保持 **100%**。该结果没有独立第二审阅者，因此不报告 inter-rater reliability。
+- 最终 24-case Full consistency run：**19/24** 输出概率，coverage **79.17%**，hard failure **0**；answered-case Brier **0.1448**，按 0.5 处理 abstention 的全样本 Brier **0.1667**。
+- 冻结 baseline：Single Agent + 同证据 Brier **0.1443**，Single Agent 无证据 Brier **0.1881**。在 Full 实际回答的 19 个 matched cases 上，Single Agent + 同证据 Brier **0.1265**，优于 Full 的 **0.1448**。
+
+因此目前可以支持“证据和 Agent 1/2 可靠性改进有价值”，但**不能**声称多阶段 World/Actor/Simulation 已经提高预测准确率。
+
+额外的真实在线验证：Tavily 质量套件 8/8 cases、16/16 retrieval tasks 成功，正文获取率 97.5%，预设权威域名命中率 100%；最终 Live HTTP E2E 的 3/3 prospective cases 全部完成，35 个 Agent 2 findings 均经过服务端原文校验，45 个 exact citations 校验失败 0，最终非法引用 0。三条 live case 的 full simulation 分支都被 Review 阻断，最终概率均使用 `evidence_only` fallback，这进一步说明当前 Simulation 的价值主要是结构化情景与审查，而不是已证明的准确率增益。完整数据和局限见上述实验报告。
+
+当前核心测试链在干净环境中通过后端 **152 tests**、前端 production build 与浏览器 E2E **13 tests**；Moore Threads 组合分支通过后端 **156 tests** 与同一前端/browser 回归。仓库包含 GitHub Actions CI 配置，后续正常 push/PR 应自动执行同类检查。
+
 测试覆盖完整演示、引用与概率约束、时间截点、服务重启标记，以及 HTML 导出转义。`examples/classroom-demo.json` 是**教学虚构情境**，不能用于真实预测质量评估。
 
 实际实验应先冻结问题、提示词、模型、证据包和预算。`eval/baseline.py` 用**同一问题与证据包**做一次单 Agent 模型调用：
@@ -123,12 +185,74 @@ uv run python eval/score.py path/to/settled-results.json
 
 请保留失败/拒答、引用人工抽查、耗时与 token 记录；历史问题要说明模型可能记住答案。仓库不附带虚构的实验得分。
 
+## Agent 2 语义蕴含研究 benchmark
+
+当前 `exact-quote boundary v2` 的严格 Reviewer 2 支持率为 90%。为避免继续堆 case-specific regex，仓库新增了独立语义蕴含研究链：
+
+```text
+Exact quote structural validator
+→ Boundary validator
+→ Independent semantic entailment judge
+→ calibrated gate / cascade
+```
+
+研究数据集分成两层：\n\n- `eval/benchmarks/agent2-entailment-hard-v1.json`：**317 条 broad benchmark**，覆盖整个语义验证栈；135 条自然样本 + 182 条可复现受控 hard negatives，标签分布为 104 entailed / 107 partially_entailed / 105 not_entailed / 1 unclear。\n- `eval/benchmarks/agent2-entailment-post-boundary-v1.json`：**239 条 post-boundary benchmark**，用于衡量第三层 Judge 的增量价值；刻意不使用 numeric shift / publisher 注入等会被第二层 Boundary validator 提前拦截的简单错误，而聚焦 plan→actual、target→actual、uncertainty→certainty、stance/quantifier flip、causal strengthening、scope expansion 和 exclusivity strengthening。
+
+复现 benchmark：
+
+```bash
+uv run python eval/build_entailment_benchmark.py
+```
+
+独立 LLM Judge（推荐不同提供商/模型家族；默认禁止静默复用 Agent 2 生成模型）：
+
+```bash
+ENTAILMENT_JUDGE_API_KEY=... \\
+ENTAILMENT_JUDGE_BASE_URL=... \\
+ENTAILMENT_JUDGE_MODEL=... \\
+uv run python eval/agent2_entailment_judge.py \\
+  eval/benchmarks/agent2-entailment-post-boundary-v1.json \\
+  --output judge.json
+
+uv run python eval/score_entailment_benchmark.py \\
+  eval/benchmarks/agent2-entailment-post-boundary-v1.json judge.json
+```
+
+本地独立 LLM Judge（不需要第二套商业 API Key，可在 GPU 测试机运行不同模型家族）：
+
+```bash
+python eval/agent2_local_llm_judge.py \\
+  eval/benchmarks/agent2-entailment-post-boundary-v1.json \\
+  --model Qwen/Qwen2.5-1.5B-Instruct \\
+  --output qwen-judge.json
+
+python eval/score_entailment_benchmark.py \\
+  eval/benchmarks/agent2-entailment-post-boundary-v1.json qwen-judge.json
+```
+
+多语种 NLI baseline 为可选研究依赖，不进入生产后端依赖；在独立评测环境安装 `torch + transformers` 后运行：
+
+```bash
+python eval/agent2_nli_judge.py \\
+  eval/benchmarks/agent2-entailment-post-boundary-v1.json \\
+  --output nli.json
+```
+
+随后可用 `eval/cascade_entailment_judges.py` 比较 `agreement` 与 `nli_then_llm` 两种 cascade。阈值选择必须只用 `dev`，最终报告只看一次 `test`：
+
+```bash
+python eval/score_entailment_benchmark.py BENCHMARK JUDGE.json --split dev
+python eval/score_entailment_benchmark.py BENCHMARK JUDGE.json --split test
+```
+
+生产 hard gate 只有在 held-out benchmark 上的 accepted strict precision 达到 ≥95%（理想 ≥98%）且 supported recall ≥90% 后才应启用。
+
 ## 目录
 
 ```text
 backend/app/       数据契约、证据入口、兼容接口适配、状态图、API、SQLite
 backend/tests/     契约与端到端测试
-frontend/src/      React 树状推演画布与研究阅读区
+frontend/src/      React 四视图工作台
 examples/          教学演示数据
 eval/              单 Agent 基线与 Brier/覆盖率脚本
 docs/              原始工程计划与课程交付模板
@@ -137,16 +261,3 @@ docs/              原始工程计划与课程交付模板
 ## 项目材料与披露
 
 本工程根据用户提供的 v0.1 计划搭建。课程要求、Decitron 相关描述和参考资料仍需小组在最终提交前逐项核对。Codex 参与了代码、测试、页面及文档起草；正式报告中的 LLM Usage Statement 应补充后续真实使用情况和人工核查记录。
-
-
-## 2026-10-08 工作台与本地模型更新
-
-默认工作台从空白研究开始；新建问题 → 分析与澄清 → 逐项处理前提 → 确认问题 → 联网取证与推演。页面不注入教学示例，也不从浏览器离线草稿恢复输入。教学固定响应仍用于隔离测试和兼容 API，不能作为真实结果。
-
-保留树状阶段、来源、角色和行动分支；外围界面为原创研究目录、顶部问题与状态、按需展开的阅读区。支持节点阅读、分支折叠、缩放、轮次选择和全图定位。证据阅读保留前提/关系/来源筛选、失败候选隔离、快照哈希与 Unicode 码点引文校验。桌面和窄屏均支持键盘和触屏。
-
-Brave 返回的描述与额外摘要按摘要身份保存，不伪装成全文或推断发布日期。请求以至少1.1秒的间隔启动；搜索专用代理由 `FORECASTLAB_SEARCH_PROXY` 配置，独立于模型服务。
-
-专题研究由 `eval/research_supplement.py` 根据已冻结来源生成候选，原始调用留存在运行数据目录。核验通过后设置 `quality_status=reviewed` 和 `quality_review`；正文校订须逐段记录原始文本、修订文本与理由，导出器检查其与调用响应一致，再运行 `eval/publish_research.py --run-id RUN_ID` 发布。前端只显示已审核专题；重新构建前端后须重新执行发布脚本。候选质量状态和正式推演状态分别保存，专题不会伪造主链完成状态。
-
-当前四卡部署说明见 [服务器部署](docs/server-deployment.md)，验收见 [2026-10-08验证记录](docs/validation-2026-10-08.md)。真实AI科研专题的 [审查后正文](docs/research/ai-science-2027.md) 与 [原始响应及事实校订审计](docs/research/research-run_eb86e9084513.json) 已分别保存；日期未知和截点后取证的限制不构成预测准确率验证。

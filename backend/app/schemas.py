@@ -253,7 +253,7 @@ class FindingCandidate(StrictModel):
     target_premise_ids: list[str] = Field(default_factory=list, max_length=12)
     claim: str = Field(min_length=1, max_length=1500)
     relation: Literal["supports", "challenges", "alternative", "background", "unclear"]
-    citations: list[CitationCandidate] = Field(min_length=1, max_length=6)
+    citations: list[CitationCandidate] = Field(min_length=1, max_length=4)
     limitation: str = Field(default="", max_length=1500)
 
 
@@ -297,9 +297,9 @@ class GapDetail(StrictModel):
 
 class AssessmentCandidate(StrictModel):
     summary: str = Field(max_length=3000)
-    findings: list[FindingCandidate] = Field(default_factory=list, max_length=30)
-    conflicts: list[ConflictCandidate] = Field(default_factory=list, max_length=10)
-    gaps: list[GapDetail] = Field(default_factory=list, max_length=20)
+    findings: list[FindingCandidate] = Field(default_factory=list, max_length=16)
+    conflicts: list[ConflictCandidate] = Field(default_factory=list, max_length=6)
+    gaps: list[GapDetail] = Field(default_factory=list, max_length=8)
 
 
 class RetrievalLog(StrictModel):
@@ -340,7 +340,7 @@ class Evidence(BaseModel):
     source_group_basis: str = ""
     possible_same_source: list[str] = Field(default_factory=list)
     date_basis: dict[str, str] = Field(default_factory=dict)
-    availability: Literal["verified_before_cutoff", "unverified", "after_cutoff", "historical_exercise", "synthetic"] = "unverified"
+    availability: Literal["verified_before_cutoff", "live_near_cutoff", "unverified", "after_cutoff", "historical_exercise", "synthetic"] = "unverified"
     event_status: Literal["observed", "planned", "unknown"] = "unknown"
     passages: list[EvidencePassage] = Field(default_factory=list)
 
@@ -398,8 +398,33 @@ class QuestionAnalysis(BaseModel):
     caveats: list[str] = Field(default_factory=list)
 
 
+class EvidenceQualityProfile(StrictModel):
+    """Descriptive, server-derived evidence coverage; not a trust/independence certificate."""
+    source_count: int = Field(default=0, ge=0)
+    source_group_count: int = Field(default=0, ge=0)
+    body_source_count: int = Field(default=0, ge=0)
+    snippet_only_count: int = Field(default=0, ge=0)
+    primary_label_count: int = Field(default=0, ge=0)
+    unknown_publication_count: int = Field(default=0, ge=0)
+    truncated_count: int = Field(default=0, ge=0)
+    suspected_same_source_count: int = Field(default=0, ge=0)
+    merged_alias_count: int = Field(default=0, ge=0)
+    search_success_count: int = Field(default=0, ge=0)
+    search_empty_count: int = Field(default=0, ge=0)
+    search_failure_count: int = Field(default=0, ge=0)
+    excluded_count: int = Field(default=0, ge=0)
+    validated_finding_count: int = Field(default=0, ge=0)
+    rejected_finding_count: int = Field(default=0, ge=0)
+    unresolved_conflict_count: int = Field(default=0, ge=0)
+    warnings: list[str] = Field(default_factory=list)
+
+
 class EvidenceAssessment(BaseModel):
     summary: str
+    quality_profile: EvidenceQualityProfile | None = None
+    # Server-controlled trust bit. Legacy/model output is forced to False; only
+    # assess_evidence() may set it True after exact snapshot/passage validation.
+    findings_validated: bool = False
     findings: list[EvidenceFinding] = Field(default_factory=list)
     conflict_details: list[ConflictDetail] = Field(default_factory=list)
     gap_details: list[GapDetail] = Field(default_factory=list)
@@ -484,6 +509,10 @@ class Review(BaseModel):
     issues: list[ReviewIssue] = Field(default_factory=list)
     unsupported_claims: list[str] = Field(default_factory=list)
     missing_evidence: list[str] = Field(default_factory=list)
+    evidence_audit_model_can_estimate: bool | None = None
+    evidence_audit_can_estimate: bool | None = None
+    evidence_audit_blocking_reasons: list[str] = Field(default_factory=list)
+    evidence_audit_discarded_reasons: list[str] = Field(default_factory=list)
 
 
 class EvidenceOnlyAudit(BaseModel):
@@ -580,6 +609,7 @@ class RunRecord(BaseModel):
     simulation: list[SimulationStep] = Field(default_factory=list)
     review: Review | None = None
     forecast: Forecast | None = None
+    # Opt-in experiment record; never substitutes for the scored forecast.
     shadow_forecast: Forecast | None = None
     settlement: Settlement | None = None
     model: str

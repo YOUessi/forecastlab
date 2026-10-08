@@ -1,0 +1,25 @@
+{
+  "_about": "2026 世界杯冠军是否来自南美洲的冻结证据包。信息截至 2026-06-01；使用 FIFA 截点前排名与赛前热门分析。",
+  "evidence": [
+    {
+      "source_url": "https://legal.fifa.com/fifa-rankings/world-ranking/men/news/france-1st-fifa-coca-cola-world-ranking-april-2026",
+      "title": "France reclaim top spot in the FIFA/Coca-Cola Men's World Ranking",
+      "publisher": "FIFA",
+      "published_at": "2026-04-01T15:30:00Z",
+      "excerpt": "France now lead the way. Spain and Argentina are second and third respectively.",
+      "claim": "截至 4 月 FIFA 排名，前两位均为欧洲球队，南美最高的阿根廷位列第三，冠军地区归属并非明显偏向南美。",
+      "source_type": "exercise",
+      "source_group": "fifa.com"
+    },
+    {
+      "source_url": "https://www.fifa.com/en/tournaments/mens/worldcup/articles/what-happened-favourites",
+      "title": "What happened to the FIFA World Cup favourites?",
+      "publisher": "FIFA",
+      "published_at": "2026-05-04T00:00:00Z",
+      "excerpt": "Spain are the marginal favourites to win the FIFA World Cup 2026.",
+      "claim": "FIFA 在 5 月赛前文章中把欧洲球队西班牙列为边际夺冠热门，给“冠军来自南美”提供反向事前信号。",
+      "source_type": "exercise",
+      "source_group": "fifa.com"
+    }
+  ]
+}

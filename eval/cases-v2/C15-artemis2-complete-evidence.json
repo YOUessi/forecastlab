@@ -1,0 +1,25 @@
+{
+  "_about": "Artemis II 是否在 2026-06-30 前完成载人发射并安全返回的冻结证据包。信息截至 2026-03-31；两条 NASA 资料均在截点前发布。",
+  "evidence": [
+    {
+      "source_url": "https://www.nasa.gov/blogs/missions/2026/03/30/nasas-artemis-ii-launch-mission-countdown-begins/",
+      "title": "NASA's Artemis II Launch Mission Countdown Begins",
+      "publisher": "NASA",
+      "published_at": "2026-03-30T18:13:00-04:00",
+      "excerpt": "The countdown for NASA's Artemis II test flight is underway ... to a targeted launch time on Wednesday, April 1.",
+      "claim": "截至日前 NASA 已进入正式倒计时，说明任务接近实际发射，但尚未完成发射与返回。",
+      "source_type": "exercise",
+      "source_group": "nasa.gov"
+    },
+    {
+      "source_url": "https://www.nasa.gov/news-release/nasa-sets-coverage-for-first-artemis-crewed-mission-around-moon/",
+      "title": "NASA Sets Coverage for First Artemis Crewed Mission Around Moon",
+      "publisher": "NASA",
+      "published_at": "2026-03-25T00:00:00-04:00",
+      "excerpt": "The agency is targeting no earlier than Wednesday, April 1, for the test flight.",
+      "claim": "NASA 3 月 25 日官方确认最早 4 月 1 日发射窗口，为 6 月底前完成任务提供直接进度依据。",
+      "source_type": "exercise",
+      "source_group": "nasa.gov"
+    }
+  ]
+}

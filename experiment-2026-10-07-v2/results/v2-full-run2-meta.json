@@ -1,0 +1,9 @@
+{
+  "code_commit": "9aaa5701f3afaca08b9cbb094dfb8e225318fc5c",
+  "branch": "fix/full-pipeline-coverage",
+  "suite": "forecastlab-v2",
+  "model": "deepseek-flash",
+  "temperature": 0.0,
+  "result_file": "results/v2-full-run2.json",
+  "note": "Run 2 after deterministic future-outcome audit sanitation and source-quality blocker preservation. API credential is not stored."
+}

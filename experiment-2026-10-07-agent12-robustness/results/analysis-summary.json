@@ -1,0 +1,113 @@
+{
+  "agent1": {
+    "runs": 48,
+    "succeeded": 47,
+    "failed": 1,
+    "neutral_runs": 24,
+    "neutral_with_any_premise": 19,
+    "neutral_false_positive_rate": 0.7916666666666666,
+    "leading_runs": 23,
+    "leading_anchor_detected": 23,
+    "leading_anchor_detection_rate": 1.0,
+    "explicit_field_preservation_rate": 1.0,
+    "blocking_clarification_rate": 0.7872340425531915,
+    "ready_for_confirmation_rate": 0.2127659574468085,
+    "top_blocking_fields": [
+      [
+        "resolution_source",
+        9
+      ],
+      [
+        "轨道级运行判定标准",
+        3
+      ],
+      [
+        "安全返回地球的判定标准",
+        3
+      ],
+      [
+        "planned_date",
+        3
+      ],
+      [
+        "host_and_location",
+        3
+      ],
+      [
+        "quote_currency",
+        3
+      ],
+      [
+        "baseline_value",
+        2
+      ],
+      [
+        "index_identifier",
+        2
+      ],
+      [
+        "index_definition",
+        2
+      ],
+      [
+        "flight_scope",
+        2
+      ],
+      [
+        "载人发射的判定标准",
+        2
+      ],
+      [
+        "计划日期",
+        2
+      ]
+    ],
+    "failure_examples": [
+      {
+        "id": "A1V2-03-L",
+        "pair_id": "C04-starship-orbit",
+        "repeat": 3,
+        "error": "ValueError: 候选前提的原话未出现在指定用户输入中"
+      }
+    ]
+  },
+  "agent2": {
+    "n": 30,
+    "counts": {
+      "partially_supported": 4,
+      "supported": 24,
+      "unclear": 1,
+      "unsupported": 1
+    },
+    "strict_support_rate": 0.8,
+    "lenient_support_rate": 0.9333333333333333,
+    "by_relation": {
+      "background": {
+        "n": 24,
+        "supported": 19,
+        "partial": 3,
+        "unsupported": 1,
+        "unclear": 1
+      },
+      "challenges": {
+        "n": 3,
+        "supported": 2,
+        "partial": 1,
+        "unsupported": 0,
+        "unclear": 0
+      },
+      "supports": {
+        "n": 3,
+        "supported": 3,
+        "partial": 0,
+        "unsupported": 0,
+        "unclear": 0
+      }
+    }
+  },
+  "interpretation": [
+    "Agent 1 reliably detects the explicit leading-premise lexical anchor in successful leading runs, but often promotes neutral question framing (object/date/criterion) into premises.",
+    "Blocking-clarification rate is reported descriptively only; some clarifications are justified by real rule/source ambiguity and are not automatically counted as errors.",
+    "Agent 2 exact-quote structural validation does not guarantee semantic support: manual strict support is 80%, with partial overreach and one unsupported finding in the sample."
+  ]
+}

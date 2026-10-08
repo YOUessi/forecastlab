@@ -1,0 +1,35 @@
+{
+  "_about": "2026 年 1–6 月全球均温是否高于任何往年同期的冻结证据包。信息截至 2026-06-30；三条 Copernicus 月报均可核实在截点前发布。",
+  "evidence": [
+    {
+      "source_url": "https://climate.copernicus.eu/copernicus-fifth-warmest-january-sees-2026-start-weather-extremes-across-both-hemispheres",
+      "title": "Copernicus: Fifth-warmest January sees 2026 start with weather extremes",
+      "publisher": "Copernicus C3S",
+      "published_at": "2026-02-06T00:00:00Z",
+      "excerpt": "January 2026 was the fifth-warmest January globally.",
+      "claim": "官方月报显示 2026 年 1 月仅为历史第 5 暖，对上半年创同期新高形成反向证据。",
+      "source_type": "exercise",
+      "source_group": "climate.copernicus.eu"
+    },
+    {
+      "source_url": "https://climate.copernicus.eu/copernicus-exceptionally-wet-conditions-western-europe-during-fifth-warmest-february-globally-0",
+      "title": "Copernicus: Exceptionally wet conditions in western Europe, during fifth-warmest February globally",
+      "publisher": "Copernicus C3S",
+      "published_at": "2026-03-10T00:00:00Z",
+      "excerpt": "February 2026 was the fifth warmest on record, at 1.49°C above pre-industrial levels.",
+      "claim": "官方月报显示 2026 年 2 月为历史第 5 暖，进一步削弱 1–6 月整体创历史同期新高的依据。",
+      "source_type": "exercise",
+      "source_group": "climate.copernicus.eu"
+    },
+    {
+      "source_url": "https://climate.copernicus.eu/copernicus-second-highest-surface-air-and-sea-surface-temperatures-may-globally-exceptional",
+      "title": "Copernicus: Second-highest surface air and sea surface temperatures for May globally",
+      "publisher": "Copernicus C3S",
+      "published_at": "2026-06-10T00:00:00Z",
+      "excerpt": "May 2026 was the second-warmest May globally in the ERA5 dataset.",
+      "claim": "官方月报显示 2026 年 5 月为历史第 2 暖而非第 1，继续提供未创月度纪录的事前证据。",
+      "source_type": "exercise",
+      "source_group": "climate.copernicus.eu"
+    }
+  ]
+}

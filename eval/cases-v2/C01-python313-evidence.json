@@ -1,0 +1,41 @@
+{
+  "_about": "Python 3.13.0 v2 historical exercise. Both artifacts are immutable versions known before the 2024-09-10 cutoff; excerpts are verbatim source text used for exact-quote validation.",
+  "evidence": [
+    {
+      "title": "Python 3.13.0rc2 official release page — 2024-09-07 Wayback snapshot",
+      "source_url": "https://web.archive.org/web/20240907232733/https://www.python.org/downloads/release/python-3130rc2/",
+      "publisher": "Python Software Foundation",
+      "retrieved_at": "2024-09-07T23:27:33Z",
+      "excerpt": "This release, 3.13.0rc2, is the final release preview. This release is expected to become the final 3.13.0 release, barring any critical bugs being discovered. The official release of 3.13.0 is scheduled for Tuesday, 2024-10-01.",
+      "claim": "The final release was scheduled for 2024-10-01, conditional on no critical bugs being discovered.",
+      "source_type": "exercise",
+      "source_group": "python-core-release",
+      "source_kind": "primary",
+      "source_kind_basis": "Archived Python.org release page.",
+      "cutoff_proof": {
+        "kind": "web_archive",
+        "timestamp": "2024-09-07T23:27:33Z",
+        "reference": "https://web.archive.org/web/20240907232733/https://www.python.org/downloads/release/python-3130rc2/"
+      },
+      "published_at": "2024-09-06T00:00:00Z"
+    },
+    {
+      "title": "PEP 719 release schedule — fixed Git commit from 2024-09-07",
+      "source_url": "https://github.com/python/peps/blob/a9fec384f2be8c13e01b20a16a1e1704f16a9365/peps/pep-0719.rst",
+      "publisher": "Python PEP Repository",
+      "retrieved_at": "2024-09-07T09:38:37Z",
+      "excerpt": "Actual:\n\n- 3.13.0 candidate 2: Friday, 2024-09-06\n\nExpected:\n\n- 3.13.0 final: Tuesday, 2024-10-01",
+      "claim": "At this fixed pre-cutoff commit, PEP 719 still listed the 3.13.0 final release as expected on 2024-10-01.",
+      "source_type": "exercise",
+      "source_group": "python-core-release",
+      "source_kind": "primary",
+      "source_kind_basis": "Immutable python/peps Git commit.",
+      "cutoff_proof": {
+        "kind": "git_commit",
+        "timestamp": "2024-09-07T09:38:37Z",
+        "reference": "https://github.com/python/peps/commit/a9fec384f2be8c13e01b20a16a1e1704f16a9365"
+      },
+      "published_at": "2024-09-07T09:38:37Z"
+    }
+  ]
+}

@@ -1,0 +1,1918 @@
+{
+  "benchmark_rows": 157,
+  "split": "dev",
+  "judged_rows": 157,
+  "coverage": 1.0,
+  "four_class_exact_accuracy": 0.4394904458598726,
+  "confusion_matrix": {
+    "entailed": {
+      "entailed": 60,
+      "partially_entailed": 0,
+      "not_entailed": 8,
+      "unclear": 2
+    },
+    "partially_entailed": {
+      "entailed": 42,
+      "partially_entailed": 0,
+      "not_entailed": 14,
+      "unclear": 1
+    },
+    "not_entailed": {
+      "entailed": 21,
+      "partially_entailed": 0,
+      "not_entailed": 9,
+      "unclear": 0
+    },
+    "unclear": {
+      "entailed": 0,
+      "partially_entailed": 0,
+      "not_entailed": 0,
+      "unclear": 0
+    }
+  },
+  "missing_prediction_ids": [],
+  "thresholds": [
+    {
+      "threshold": 0.5,
+      "accepted": 123,
+      "acceptance_rate": 0.7834394904458599,
+      "strict_support_among_accepted": 0.4878048780487805,
+      "strict_support_wilson95": [
+        0.4011841090135402,
+        0.5751643444906729
+      ],
+      "supported_recall": 0.8571428571428571,
+      "false_accept_count": 63,
+      "false_accepts": [
+        {
+          "id": "natural-0014",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0046",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0048",
+          "case_id": "C01-python313",
+          "finding_id": "F003",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0053",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0081",
+          "case_id": "C23-china-cpi-dec2025",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0083",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0084",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0087",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0097",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0106",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0112",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0117",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "semantic-hardneg-0001",
+          "case_id": "C02-star50",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "scope_expansion"
+        },
+        {
+          "id": "semantic-hardneg-0002",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0004",
+          "case_id": "C23-china-cpi-dec2025",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "scope_expansion"
+        },
+        {
+          "id": "semantic-hardneg-0006",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "target_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0008",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0010",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0012",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0014",
+          "case_id": "C11-usa-paris-gold",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0015",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0017",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0021",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0022",
+          "case_id": "C05-node22-lts",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0026",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0029",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0033",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0034",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0035",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0036",
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0039",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0041",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0042",
+          "case_id": "C01-python313",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0044",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0045",
+          "case_id": "C06-gb300-delivery",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0047",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F003",
+          "gold_label": "not_entailed",
+          "phenomenon": "stance_flip"
+        },
+        {
+          "id": "semantic-hardneg-0050",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0052",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "scope_expansion"
+        },
+        {
+          "id": "semantic-hardneg-0053",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "uncertainty_to_certainty"
+        },
+        {
+          "id": "semantic-hardneg-0054",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0056",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0058",
+          "case_id": "C11-usa-paris-gold",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "scope_expansion"
+        },
+        {
+          "id": "semantic-hardneg-0059",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0060",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0062",
+          "case_id": "C01-python313",
+          "finding_id": "F003",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0065",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0068",
+          "case_id": "C02-star50",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0069",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0071",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0074",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        }
+      ]
+    },
+    {
+      "threshold": 0.7,
+      "accepted": 123,
+      "acceptance_rate": 0.7834394904458599,
+      "strict_support_among_accepted": 0.4878048780487805,
+      "strict_support_wilson95": [
+        0.4011841090135402,
+        0.5751643444906729
+      ],
+      "supported_recall": 0.8571428571428571,
+      "false_accept_count": 63,
+      "false_accepts": [
+        {
+          "id": "natural-0014",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0046",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0048",
+          "case_id": "C01-python313",
+          "finding_id": "F003",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0053",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0081",
+          "case_id": "C23-china-cpi-dec2025",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0083",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0084",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0087",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0097",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0106",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0112",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0117",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "semantic-hardneg-0001",
+          "case_id": "C02-star50",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "scope_expansion"
+        },
+        {
+          "id": "semantic-hardneg-0002",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0004",
+          "case_id": "C23-china-cpi-dec2025",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "scope_expansion"
+        },
+        {
+          "id": "semantic-hardneg-0006",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "target_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0008",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0010",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0012",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0014",
+          "case_id": "C11-usa-paris-gold",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0015",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0017",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0021",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0022",
+          "case_id": "C05-node22-lts",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0026",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0029",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0033",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0034",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0035",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0036",
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0039",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0041",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0042",
+          "case_id": "C01-python313",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0044",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0045",
+          "case_id": "C06-gb300-delivery",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0047",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F003",
+          "gold_label": "not_entailed",
+          "phenomenon": "stance_flip"
+        },
+        {
+          "id": "semantic-hardneg-0050",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0052",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "scope_expansion"
+        },
+        {
+          "id": "semantic-hardneg-0053",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "uncertainty_to_certainty"
+        },
+        {
+          "id": "semantic-hardneg-0054",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0056",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0058",
+          "case_id": "C11-usa-paris-gold",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "scope_expansion"
+        },
+        {
+          "id": "semantic-hardneg-0059",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0060",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0062",
+          "case_id": "C01-python313",
+          "finding_id": "F003",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0065",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0068",
+          "case_id": "C02-star50",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0069",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0071",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0074",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        }
+      ]
+    },
+    {
+      "threshold": 0.8,
+      "accepted": 123,
+      "acceptance_rate": 0.7834394904458599,
+      "strict_support_among_accepted": 0.4878048780487805,
+      "strict_support_wilson95": [
+        0.4011841090135402,
+        0.5751643444906729
+      ],
+      "supported_recall": 0.8571428571428571,
+      "false_accept_count": 63,
+      "false_accepts": [
+        {
+          "id": "natural-0014",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0046",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0048",
+          "case_id": "C01-python313",
+          "finding_id": "F003",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0053",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0081",
+          "case_id": "C23-china-cpi-dec2025",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0083",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0084",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0087",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0097",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0106",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0112",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0117",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "semantic-hardneg-0001",
+          "case_id": "C02-star50",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "scope_expansion"
+        },
+        {
+          "id": "semantic-hardneg-0002",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0004",
+          "case_id": "C23-china-cpi-dec2025",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "scope_expansion"
+        },
+        {
+          "id": "semantic-hardneg-0006",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "target_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0008",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0010",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0012",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0014",
+          "case_id": "C11-usa-paris-gold",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0015",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0017",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0021",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0022",
+          "case_id": "C05-node22-lts",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0026",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0029",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0033",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0034",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0035",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0036",
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0039",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0041",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0042",
+          "case_id": "C01-python313",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0044",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0045",
+          "case_id": "C06-gb300-delivery",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0047",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F003",
+          "gold_label": "not_entailed",
+          "phenomenon": "stance_flip"
+        },
+        {
+          "id": "semantic-hardneg-0050",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0052",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "scope_expansion"
+        },
+        {
+          "id": "semantic-hardneg-0053",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "uncertainty_to_certainty"
+        },
+        {
+          "id": "semantic-hardneg-0054",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0056",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0058",
+          "case_id": "C11-usa-paris-gold",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "scope_expansion"
+        },
+        {
+          "id": "semantic-hardneg-0059",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0060",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0062",
+          "case_id": "C01-python313",
+          "finding_id": "F003",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0065",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0068",
+          "case_id": "C02-star50",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0069",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0071",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0074",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        }
+      ]
+    },
+    {
+      "threshold": 0.9,
+      "accepted": 123,
+      "acceptance_rate": 0.7834394904458599,
+      "strict_support_among_accepted": 0.4878048780487805,
+      "strict_support_wilson95": [
+        0.4011841090135402,
+        0.5751643444906729
+      ],
+      "supported_recall": 0.8571428571428571,
+      "false_accept_count": 63,
+      "false_accepts": [
+        {
+          "id": "natural-0014",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0046",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0048",
+          "case_id": "C01-python313",
+          "finding_id": "F003",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0053",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0081",
+          "case_id": "C23-china-cpi-dec2025",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0083",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0084",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0087",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0097",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0106",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0112",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0117",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "semantic-hardneg-0001",
+          "case_id": "C02-star50",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "scope_expansion"
+        },
+        {
+          "id": "semantic-hardneg-0002",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0004",
+          "case_id": "C23-china-cpi-dec2025",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "scope_expansion"
+        },
+        {
+          "id": "semantic-hardneg-0006",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "target_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0008",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0010",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0012",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0014",
+          "case_id": "C11-usa-paris-gold",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0015",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0017",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0021",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0022",
+          "case_id": "C05-node22-lts",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0026",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0029",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0033",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0034",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0035",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0036",
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0039",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0041",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0042",
+          "case_id": "C01-python313",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0044",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0045",
+          "case_id": "C06-gb300-delivery",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0047",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F003",
+          "gold_label": "not_entailed",
+          "phenomenon": "stance_flip"
+        },
+        {
+          "id": "semantic-hardneg-0050",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0052",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "scope_expansion"
+        },
+        {
+          "id": "semantic-hardneg-0053",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "uncertainty_to_certainty"
+        },
+        {
+          "id": "semantic-hardneg-0054",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0056",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0058",
+          "case_id": "C11-usa-paris-gold",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "scope_expansion"
+        },
+        {
+          "id": "semantic-hardneg-0059",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0060",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0062",
+          "case_id": "C01-python313",
+          "finding_id": "F003",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0065",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0068",
+          "case_id": "C02-star50",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0069",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0071",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0074",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        }
+      ]
+    },
+    {
+      "threshold": 0.95,
+      "accepted": 104,
+      "acceptance_rate": 0.6624203821656051,
+      "strict_support_among_accepted": 0.49038461538461536,
+      "strict_support_wilson95": [
+        0.39637419660186013,
+        0.5850800844918921
+      ],
+      "supported_recall": 0.7285714285714285,
+      "false_accept_count": 53,
+      "false_accepts": [
+        {
+          "id": "natural-0014",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0046",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0048",
+          "case_id": "C01-python313",
+          "finding_id": "F003",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0081",
+          "case_id": "C23-china-cpi-dec2025",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0083",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0084",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0087",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0097",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0106",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0112",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0117",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "semantic-hardneg-0001",
+          "case_id": "C02-star50",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "scope_expansion"
+        },
+        {
+          "id": "semantic-hardneg-0002",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0004",
+          "case_id": "C23-china-cpi-dec2025",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "scope_expansion"
+        },
+        {
+          "id": "semantic-hardneg-0008",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0010",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0012",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0014",
+          "case_id": "C11-usa-paris-gold",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0015",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0017",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0021",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0022",
+          "case_id": "C05-node22-lts",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0026",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0029",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0033",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0034",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0035",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0036",
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0039",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0042",
+          "case_id": "C01-python313",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0044",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0050",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0052",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "scope_expansion"
+        },
+        {
+          "id": "semantic-hardneg-0054",
+          "case_id": "C18-xflare-2025",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0056",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0059",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0062",
+          "case_id": "C01-python313",
+          "finding_id": "F003",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0065",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0068",
+          "case_id": "C02-star50",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0069",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0071",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0074",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0076",
+          "case_id": "C12-wimbledon-topseed",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "scope_expansion"
+        },
+        {
+          "id": "semantic-hardneg-0079",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "scope_expansion"
+        },
+        {
+          "id": "semantic-hardneg-0080",
+          "case_id": "C05-node22-lts",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0085",
+          "case_id": "C23-china-cpi-dec2025",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "scope_expansion"
+        },
+        {
+          "id": "semantic-hardneg-0088",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "scope_expansion"
+        },
+        {
+          "id": "semantic-hardneg-0089",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0092",
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0095",
+          "case_id": "C14-nba-east-champ",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        }
+      ]
+    }
+  ],
+  "by_phenomenon": {
+    "causal_strengthening": {
+      "n": 13,
+      "exact_accuracy": 0.0,
+      "entailed_gold": 0,
+      "judge_accepted": 8,
+      "accept_precision": 0.0
+    },
+    "exclusivity_strengthening": {
+      "n": 15,
+      "exact_accuracy": 0.0,
+      "entailed_gold": 0,
+      "judge_accepted": 14,
+      "accept_precision": 0.0
+    },
+    "natural": {
+      "n": 87,
+      "exact_accuracy": 0.6896551724137931,
+      "entailed_gold": 70,
+      "judge_accepted": 72,
+      "accept_precision": 0.8333333333333334
+    },
+    "plan_to_actual": {
+      "n": 24,
+      "exact_accuracy": 0.25,
+      "entailed_gold": 0,
+      "judge_accepted": 18,
+      "accept_precision": 0.0
+    },
+    "scope_expansion": {
+      "n": 12,
+      "exact_accuracy": 0.0,
+      "entailed_gold": 0,
+      "judge_accepted": 8,
+      "accept_precision": 0.0
+    },
+    "stance_flip": {
+      "n": 1,
+      "exact_accuracy": 0.0,
+      "entailed_gold": 0,
+      "judge_accepted": 1,
+      "accept_precision": 0.0
+    },
+    "target_to_actual": {
+      "n": 4,
+      "exact_accuracy": 0.75,
+      "entailed_gold": 0,
+      "judge_accepted": 1,
+      "accept_precision": 0.0
+    },
+    "uncertainty_to_certainty": {
+      "n": 1,
+      "exact_accuracy": 0.0,
+      "entailed_gold": 0,
+      "judge_accepted": 1,
+      "accept_precision": 0.0
+    }
+  },
+  "judge_model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "judge_type": "local_causal_llm",
+  "independent_model": true,
+  "same_as_generator_model": false
+}

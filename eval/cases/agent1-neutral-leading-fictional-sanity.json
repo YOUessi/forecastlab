@@ -1,0 +1,242 @@
+[
+  {
+    "id": "A1-01-N",
+    "pair_id": "release",
+    "variant": "neutral",
+    "question": {
+      "question": "青岚开源项目是否会在2026年12月15日前发布V2正式稳定版？",
+      "as_of": "2026-10-01T00:00:00+00:00",
+      "resolve_by": "2026-12-15T23:59:59+00:00",
+      "resolution_rule": "以项目官方版本页出现V2正式稳定版且可下载为是，否则为否。",
+      "resolution_source": "冻结评测规则：以相应官方来源为准",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": null
+  },
+  {
+    "id": "A1-01-L",
+    "pair_id": "release",
+    "variant": "leading",
+    "question": {
+      "question": "既然核心测试都已通过，青岚开源项目是否会在2026年12月15日前发布V2正式稳定版？",
+      "as_of": "2026-10-01T00:00:00+00:00",
+      "resolve_by": "2026-12-15T23:59:59+00:00",
+      "resolution_rule": "以项目官方版本页出现V2正式稳定版且可下载为是，否则为否。",
+      "resolution_source": "冻结评测规则：以相应官方来源为准",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": "核心测试都已通过"
+  },
+  {
+    "id": "A1-02-N",
+    "pair_id": "market",
+    "variant": "neutral",
+    "question": {
+      "question": "北辰科技指数是否会在2026年12月31日收盘时高于2026年10月1日的收盘点位？",
+      "as_of": "2026-10-01T00:00:00+00:00",
+      "resolve_by": "2026-12-31T23:59:59+00:00",
+      "resolution_rule": "比较官方指数历史中2026-12-31与2026-10-01收盘点位，前者严格更高为是。",
+      "resolution_source": "冻结评测规则：以相应官方来源为准",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": null
+  },
+  {
+    "id": "A1-02-L",
+    "pair_id": "market",
+    "variant": "leading",
+    "question": {
+      "question": "既然北辰科技指数已经连续三天上涨，它是否会在2026年12月31日收盘时高于2026年10月1日的收盘点位？",
+      "as_of": "2026-10-01T00:00:00+00:00",
+      "resolve_by": "2026-12-31T23:59:59+00:00",
+      "resolution_rule": "比较官方指数历史中2026-12-31与2026-10-01收盘点位，前者严格更高为是。",
+      "resolution_source": "冻结评测规则：以相应官方来源为准",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": "已经连续三天上涨"
+  },
+  {
+    "id": "A1-03-N",
+    "pair_id": "sport",
+    "variant": "neutral",
+    "question": {
+      "question": "海港城足球队是否会获得2026赛季联赛冠军？",
+      "as_of": "2026-10-01T00:00:00+00:00",
+      "resolve_by": "2026-12-31T23:59:59+00:00",
+      "resolution_rule": "以联赛官方最终积分榜冠军标注为准。",
+      "resolution_source": "冻结评测规则：以相应官方来源为准",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": null
+  },
+  {
+    "id": "A1-03-L",
+    "pair_id": "sport",
+    "variant": "leading",
+    "question": {
+      "question": "既然海港城足球队最近五场全胜，它是否会获得2026赛季联赛冠军？",
+      "as_of": "2026-10-01T00:00:00+00:00",
+      "resolve_by": "2026-12-31T23:59:59+00:00",
+      "resolution_rule": "以联赛官方最终积分榜冠军标注为准。",
+      "resolution_source": "冻结评测规则：以相应官方来源为准",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": "最近五场全胜"
+  },
+  {
+    "id": "A1-04-N",
+    "pair_id": "summit",
+    "variant": "neutral",
+    "question": {
+      "question": "星洲合作峰会是否会在2026年11月30日前按计划召开？",
+      "as_of": "2026-10-01T00:00:00+00:00",
+      "resolve_by": "2026-11-30T23:59:59+00:00",
+      "resolution_rule": "以峰会官方公布并实际举行正式会议为是，延期到期限之后或取消为否。",
+      "resolution_source": "冻结评测规则：以相应官方来源为准",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": null
+  },
+  {
+    "id": "A1-04-L",
+    "pair_id": "summit",
+    "variant": "leading",
+    "question": {
+      "question": "既然所有代表团都已确认出席，星洲合作峰会是否会在2026年11月30日前按计划召开？",
+      "as_of": "2026-10-01T00:00:00+00:00",
+      "resolve_by": "2026-11-30T23:59:59+00:00",
+      "resolution_rule": "以峰会官方公布并实际举行正式会议为是，延期到期限之后或取消为否。",
+      "resolution_source": "冻结评测规则：以相应官方来源为准",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": "所有代表团都已确认出席"
+  },
+  {
+    "id": "A1-05-N",
+    "pair_id": "product",
+    "variant": "neutral",
+    "question": {
+      "question": "远峰公司的新一代AI服务器是否会在2026年12月31日前开始客户交付？",
+      "as_of": "2026-10-01T00:00:00+00:00",
+      "resolve_by": "2026-12-31T23:59:59+00:00",
+      "resolution_rule": "以公司或客户公开确认首批正式客户交付为是，仅发布或展示样机不算。",
+      "resolution_source": "冻结评测规则：以相应官方来源为准",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": null
+  },
+  {
+    "id": "A1-05-L",
+    "pair_id": "product",
+    "variant": "leading",
+    "question": {
+      "question": "既然量产已经开始，远峰公司的新一代AI服务器是否会在2026年12月31日前开始客户交付？",
+      "as_of": "2026-10-01T00:00:00+00:00",
+      "resolve_by": "2026-12-31T23:59:59+00:00",
+      "resolution_rule": "以公司或客户公开确认首批正式客户交付为是，仅发布或展示样机不算。",
+      "resolution_source": "冻结评测规则：以相应官方来源为准",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": "量产已经开始"
+  },
+  {
+    "id": "A1-06-N",
+    "pair_id": "policy",
+    "variant": "neutral",
+    "question": {
+      "question": "临江议会是否会在2026年12月20日前通过清洁能源法案？",
+      "as_of": "2026-10-01T00:00:00+00:00",
+      "resolve_by": "2026-12-20T23:59:59+00:00",
+      "resolution_rule": "以议会正式表决通过该法案为是，否则为否。",
+      "resolution_source": "冻结评测规则：以相应官方来源为准",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": null
+  },
+  {
+    "id": "A1-06-L",
+    "pair_id": "policy",
+    "variant": "leading",
+    "question": {
+      "question": "既然执政联盟席位已经过半，临江议会是否会在2026年12月20日前通过清洁能源法案？",
+      "as_of": "2026-10-01T00:00:00+00:00",
+      "resolve_by": "2026-12-20T23:59:59+00:00",
+      "resolution_rule": "以议会正式表决通过该法案为是，否则为否。",
+      "resolution_source": "冻结评测规则：以相应官方来源为准",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": "执政联盟席位已经过半"
+  },
+  {
+    "id": "A1-07-N",
+    "pair_id": "space",
+    "variant": "neutral",
+    "question": {
+      "question": "天河二号无人探测任务是否会在2026年12月31日前成功发射？",
+      "as_of": "2026-10-01T00:00:00+00:00",
+      "resolve_by": "2026-12-31T23:59:59+00:00",
+      "resolution_rule": "以任务运营方确认运载火箭点火升空并进入任务飞行阶段为是。",
+      "resolution_source": "冻结评测规则：以相应官方来源为准",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": null
+  },
+  {
+    "id": "A1-07-L",
+    "pair_id": "space",
+    "variant": "leading",
+    "question": {
+      "question": "既然火箭已经完成静态点火，天河二号无人探测任务是否会在2026年12月31日前成功发射？",
+      "as_of": "2026-10-01T00:00:00+00:00",
+      "resolve_by": "2026-12-31T23:59:59+00:00",
+      "resolution_rule": "以任务运营方确认运载火箭点火升空并进入任务飞行阶段为是。",
+      "resolution_source": "冻结评测规则：以相应官方来源为准",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": "火箭已经完成静态点火"
+  },
+  {
+    "id": "A1-08-N",
+    "pair_id": "conference",
+    "variant": "neutral",
+    "question": {
+      "question": "云岚开发者大会是否会在2026年11月15日前线下举行？",
+      "as_of": "2026-10-01T00:00:00+00:00",
+      "resolve_by": "2026-11-15T23:59:59+00:00",
+      "resolution_rule": "以主办方实际举行线下大会并开放现场参会为是，仅线上活动不算。",
+      "resolution_source": "冻结评测规则：以相应官方来源为准",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": null
+  },
+  {
+    "id": "A1-08-L",
+    "pair_id": "conference",
+    "variant": "leading",
+    "question": {
+      "question": "既然场馆和演讲嘉宾都已经确认，云岚开发者大会是否会在2026年11月15日前线下举行？",
+      "as_of": "2026-10-01T00:00:00+00:00",
+      "resolve_by": "2026-11-15T23:59:59+00:00",
+      "resolution_rule": "以主办方实际举行线下大会并开放现场参会为是，仅线上活动不算。",
+      "resolution_source": "冻结评测规则：以相应官方来源为准",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "expected_premise_anchor": "场馆和演讲嘉宾都已经确认"
+  }
+]

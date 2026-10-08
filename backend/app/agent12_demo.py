@@ -80,9 +80,9 @@ class EvidenceFixtureModel:
             raise ValueError("固定证据模型仅用于教学材料")
         active = [p["id"] for p in payload["question_framing"]["premises"]]
         findings = []
-        rows = [("E001", "计划在 11 月中旬发布 V2", "教学路线图给出了目标，不证明一定按期发布。", "background"),
-                ("E002", "两个高优先级兼容问题", "教学测试记录挑战了‘全部测试已完成’这一前提。", "challenges"),
-                ("E003", "可提供额外测试资源", "合作方排期提供了另一条需要核查的解释方向。", "alternative")]
+        rows = [("E001", "计划在 11 月中旬发布 V2", "计划在 11 月中旬发布 V2。", "background"),
+                ("E002", "两个高优先级兼容问题", "存在两个高优先级兼容问题。", "challenges"),
+                ("E003", "可提供额外测试资源", "可提供额外测试资源。", "alternative")]
         for eid, quote, claim, relation in rows:
             evidence = next(e for e in payload["evidence"] if e["id"] == eid)
             passage = next(p for p in evidence["passages"] if quote in p["text"])

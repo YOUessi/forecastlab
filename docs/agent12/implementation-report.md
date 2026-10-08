@@ -428,19 +428,19 @@ HTML 和 JSON 导出实际返回 HTTP 200。
 | 历史回放兼容 | 已实现 |
 | 固定教学演示 | 已实现 |
 | 自动化工程测试 | 已实现 |
-| 真实 LLM 语义质量评估 | **未执行** |
+| 真实 LLM 语义质量评估 | **已执行：DeepSeek temperature=0，neutral/leading + 24-case evidence audit** |
 | 真实 Tavily 在线取证质量评估 | **未执行** |
-| 人工原文支持率评估 | **未执行** |
+| finding → quote 语义支持率评估 | **已执行：单审阅者 30 条固定抽样；strict support 50% → 90%** |
 
 最准确的结论：
 
-> **Agent 1–2 的工程实现已经基本完成；剩余工作主要是用真实模型和真实检索做效果评估，而不是继续堆功能。**
+> **Agent 1–2 的工程实现与真实模型语义评估均已完成一轮闭环。当前主要剩余项是 Tavily 在线检索质量的正式评估，以及如需用于正式论文级结论时增加独立第二审阅者。**
 
 # 12. 已知限制
 
-## 12.1 真实模型尚未验证
+## 12.1 真实模型已经完成冻结评测，但仍不是线上泛化证明
 
-固定教学模型能验证接口、状态、数据契约、引用安全和前后端交互，但不能证明真实 LLM 的假设识别、澄清质量和替代解释质量。
+2026-10-07 已使用 DeepSeek `deepseek-flash`、temperature=0 完成 Agent 1 neutral-vs-leading、Agent 2 finding-to-quote 语义审计与 24-case 全流程一致性运行。结果能够支持当前冻结测试集上的 before/after 结论，但样本仍有限，远端模型即使 temperature=0 也存在运行级非确定性，不能据此外推所有真实预测问题。
 
 ## 12.2 Tavily 尚未真实验证
 
@@ -448,15 +448,15 @@ HTML 和 JSON 导出实际返回 HTTP 200。
 
 ## 12.3 自动校验不等于语义正确
 
-代码可以证明引文存在、编号有效、hash 未变、quote/offset 对得上；但“原文是否真的充分支持 claim”仍需要模型审查和人工抽查。
+代码可以证明引文存在、编号有效、hash 未变、quote/offset 对得上；为检验“原文是否真的充分支持 claim”，本项目额外对固定抽样 30 条 Finding 做单审阅者语义审计。Agent 2 保守 claim 修复后 strict support rate 从 50% 提升到 90%，但没有独立第二审阅者，因此该数字应视为课程级单审阅者结果，而不是带 inter-rater reliability 的正式人工标注基准。
 
 ## 12.4 多 Agent 不等于独立专家
 
 多个角色共享同类模型时可能一起犯错，不能把“多个 Agent 一致”当作额外证据。
 
-# 13. 下一步真实实验
+# 13. 已完成真实评测与后续建议
 
-建议冻结 5–10 个真实问题，覆盖：
+真实模型评测已经覆盖 neutral/leading paired questions、24-case evidence packs、Full/Single-Agent/no-evidence 对照，以及 finding→quote 语义审计。后续如继续扩展，应优先覆盖：
 
 - 中性问题；
 - 明显带前提的问题；
@@ -489,16 +489,20 @@ Agent 2 记录：
 
 可以写：
 
-> 我们实现了一个版本化的问题定义流程，在启动预测前显式识别用户问题中的候选前提，并要求用户对每项前提选择“待核查”“情景条件”或“否认”。证据阶段使用带核查目标的检索任务收集资料，并将每项证据发现链接到具体前提、来源编号和保存的原文段落。系统使用服务端快照哈希、段落编号和逐字引用校验阻止不存在或错配的引用进入有效结果。固定教学案例和自动化测试验证了完整软件流程，但尚未完成真实模型语义质量和在线检索质量评估。
+> 我们实现了版本化的问题定义与可追溯证据流程。Agent 1 在修复后的两套 neutral-vs-leading 冻结评测中保持 100% leading-premise 检出与 100% 显式字段保持，同时将 unexpected neutral-premise 与 blocking clarification 降至 0%。Agent 2 继续使用服务端 snapshot/hash/paragraph/exact-quote 结构校验，并通过保守 claim 约束将 30 条固定抽样的单审阅者 strict semantic support 从 50% 提升到 90%。24-case 全流程最终一致性运行没有 hard failure，但 Full 在 matched cases 上仍未超过 Single Agent + evidence，因此当前结果支持 Agent 1/2 可靠性与 evidence 价值，不支持“多阶段 simulation 已提高预测准确率”的结论。
 
-目前不能写：
+目前仍不能写：
 
-- Agent 1 准确率达到 X%；
-- Agent 2 引用支持率达到 X%；
-- 多 Agent 显著优于单 Agent；
-- 预测概率已经校准。
+- 预测概率已经校准；
+- Full pipeline 显著优于 Single Agent；
+- 90% 是双人/多人一致性人工标注结果；
+- Tavily 在线搜索在真实网页环境中的召回、来源质量和成功率已经完成正式评估；
+- 这些历史回测结果可以直接外推到真实未来预测。
 
-这些必须等真实实验完成后再报告。
+详细数据：
+
+- [ForecastLab-v2 多臂评测](../../experiment-2026-10-07-v2/report.md)
+- [Agent 1/2 语义稳健性 before/after](../../experiment-2026-10-07-agent12-semantic/report.md)
 
 # 15. 相关文档
 

@@ -1,22 +1,27 @@
 """Agent 1: produce a candidate, then apply deterministic ownership checks."""
 from __future__ import annotations
+import re
 from uuid import uuid4
 from pydantic import ValidationError
 from ..schemas import (AnalyzeQuestionRequest, FramingCandidate, QuestionFraming, QuestionInput,
     QuestionDraft, QuestionSpec, QuestionClarification, QuestionPremise, RetrievalTask)
 
-PROMPT = """First distinguish a prediction target from an asserted premise. A question asking whether X will happen is NOT a premise; neutral questions normally have an empty premises list. Only extract asserted claims such as "all tests have passed". Do NOT extract the predicted conclusion as its own premise.
-Read all supplied question fields before asking clarifications. If the subject, as_of, resolve_by and resolution_rule are explicit, do not ask the user to reconfirm them. Do not ask about geographic scope or whether the subject is unique unless it materially changes the provided settlement rule. Return clarifications=[] when the supplied fields suffice. Keep every rationale and search direction concise.
-澄清研究对象、时间、地区和判定标准，保留用户原意，不接受其预设结论。
-你收到的inputs是用户原话和补充回答。premises只识别这些文本中确有依据的前提，
-必须给source_input_id和逐字original_span；中性问题可没有前提。
-model_inferred表示从措辞推断，绝不冒充用户明确观点。被用户否认的原有前提不得重新当作用户认可的前提。
-把研究问题和用户的解释分开，给少量值得核查的alternative_directions，不机械凑正反数量。
-不要自己创造公司、地区、日期或成功阈值。已有as_of、mode、结算日期和规则原样保留，
-需要调整就列clarifications。缺少关键对象/口径则提出具体blocking问题；已回答的澄清不要重复。
-未来结果尚未发生是研究目标，不是让用户补充的事实。user_assumptions只能照抄用户明确填写的条件。
-最多3个检索任务，每个标注purpose和零起始premise_indexes；方向可为initial/challenge/alternative/background。
-只输出FramingCandidate，不生成草稿编号、状态、确认记录或外部证据。"""
+PROMPT = """澄清研究对象、时间、地区和判定标准，保留用户原意，不接受其预设结论。
+premises 只识别用户文本中可被核查或证伪的背景事实、世界状态、因果解释或情景条件；
+必须给 source_input_id 和逐字 original_span。中性问题可以完全没有 premise。
+绝对不要把这些内容写成 premise：研究对象/实体名称、预测目标本身、信息截点、结算日期、比较日期、
+大于/小于等比较规则、resolution_rule、resolution_source、binary/scenario 模式，或对问题原句的改写。
+“既然/因为/由于/鉴于/假设”等前置陈述若是用户明确主张的事实，应作为 premise 提取并等待核查。
+model_inferred 表示从措辞推断的世界状态或因果前提，绝不冒充用户明确观点；不要用它重新编码问题字段。
+被用户否认的原有前提不得重新当作用户认可的前提。
+把研究问题和用户的解释分开，给少量值得核查的 alternative_directions，不机械凑正反数量。
+不要自己创造公司、地区、日期或成功阈值。已有 as_of、mode、resolve_by、resolution_rule、resolution_source
+和 user_assumptions 都视为用户已经给定的问题定义；只要这些字段内部一致，就不要再次追问更细口径、
+备用来源、格式偏好或常识性实体消歧。只有不回答就会导致两个合理解释产生不同结算结果时，才提出 blocking clarification；
+非关键补充应设 blocking=false 或直接省略。已回答的澄清不要重复。
+未来结果尚未发生是研究目标，不是让用户补充的事实。user_assumptions 只能照抄用户明确填写的条件。
+最多3个检索任务，每个标注 purpose 和零起始 premise_indexes；方向可为 initial/challenge/alternative/background。
+只输出 FramingCandidate，不生成草稿编号、状态、确认记录或外部证据。"""
 
 
 def question_inputs(request: AnalyzeQuestionRequest, previous: QuestionFraming | None) -> list[QuestionInput]:
@@ -53,6 +58,26 @@ def analyze_question(request: AnalyzeQuestionRequest, previous: QuestionFraming 
     return model.complete("question12", payload, FramingCandidate, PROMPT, attempt_limit=1)
 
 
+_SCOPE_RESTATEMENT = re.compile(
+    r"^(?:研究对象|研究问题|问题关注|该问题关注|该问题研究|判定(?:对象|标准|条件|事件|时间|截止|口径)|"
+    r"时间(?:截止|窗口|范围)|截止(?:时间|日期|时点)|比较(?:的)?(?:两个)?(?:时点|日期)|比较(?:对象|基准|方式)|"
+    r"该问题为二元|问题为二元|结果条件|结算(?:时间|日期|规则|来源)|数据来源|研究模式)"
+)
+_ENTITY_EXISTENCE = re.compile(
+    r"^(?:存在(?:一个|一家|一支|一项|一场).*?(?:项目|公司|指数|峰会|大会|法案|任务|球队|赛事)|该研究对象存在)"
+)
+
+
+def question_spec_restatement(premise) -> bool:
+    """Reject obvious question-schema restatements without guessing about real-world facts."""
+    content = premise.content.strip()
+    if _SCOPE_RESTATEMENT.search(content) or _ENTITY_EXISTENCE.search(content):
+        return True
+    if premise.origin == "model_inferred" and re.search(r"(?:二元(?:判定|问题|模式)|是/否|是否.*二元)", content):
+        return True
+    return False
+
+
 def finalize_framing(candidate: FramingCandidate, request: AnalyzeQuestionRequest,
                      previous: QuestionFraming | None) -> QuestionFraming:
     inputs = question_inputs(request, previous)
@@ -85,9 +110,12 @@ def finalize_framing(candidate: FramingCandidate, request: AnalyzeQuestionReques
     old = previous.premises if previous else []
     next_number = max([previous.next_premise_number if previous else 1] + [int(p.id[1:])+1 for p in old])
     premises = []
-    for c in candidate.premises:
+    candidate_index_to_premise = {}
+    for candidate_index, c in enumerate(candidate.premises):
         if c.source_input_id not in texts or c.original_span not in texts[c.source_input_id]:
             raise ValueError("候选前提的原话未出现在指定用户输入中")
+        if question_spec_restatement(c):
+            continue
         exact = next((p for p in old if (p.content, p.original_span, p.source_input_id, p.origin) ==
                       (c.content, c.original_span, c.source_input_id, c.origin)), None)
         if exact:
@@ -101,11 +129,15 @@ def finalize_framing(candidate: FramingCandidate, request: AnalyzeQuestionReques
             premise = QuestionPremise(id=f"P{next_number:03}", **data)
             next_number += 1
         premises.append(premise)
+        candidate_index_to_premise[candidate_index] = premise
     tasks = []
     for i, task in enumerate(candidate.retrieval_plan):
-        if any(index < 0 or index >= len(premises) for index in task.premise_indexes):
+        if any(index < 0 or index >= len(candidate.premises) for index in task.premise_indexes):
             raise ValueError("检索任务引用了不存在的候选前提")
-        targets = list(dict.fromkeys(premises[index].id for index in task.premise_indexes))
+        targets = list(dict.fromkeys(candidate_index_to_premise[index].id for index in task.premise_indexes
+                                     if index in candidate_index_to_premise))
+        if task.premise_indexes and not targets:
+            continue
         retained_targets = [p for p in targets if next(x for x in premises if x.id == p).user_review != "rejected"]
         if targets and not retained_targets:
             continue

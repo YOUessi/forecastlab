@@ -1,0 +1,86 @@
+{
+  "suite": "tavily-quality-v1",
+  "description": "Live retrieval-quality benchmark for ForecastLab production Tavily integration. Current-web cases only; no historical cutoff claims.",
+  "cases": [
+    {
+      "id": "T01-python-release",
+      "category": "tech",
+      "question": "What is the current stable Python release and its official release status?",
+      "expected_authoritative_domains": ["python.org"],
+      "tasks": [
+        {"id": "R001", "query": "site:python.org Python latest stable release", "purpose": "initial"},
+        {"id": "R002", "query": "site:python.org downloads Python release", "purpose": "background"}
+      ]
+    },
+    {
+      "id": "T02-node-lts",
+      "category": "tech",
+      "question": "What Node.js release line is currently listed as LTS by the project?",
+      "expected_authoritative_domains": ["nodejs.org"],
+      "tasks": [
+        {"id": "R001", "query": "site:nodejs.org Node.js LTS current release", "purpose": "initial"},
+        {"id": "R002", "query": "site:nodejs.org releases schedule LTS", "purpose": "background"}
+      ]
+    },
+    {
+      "id": "T03-fed-rate",
+      "category": "finance",
+      "question": "What target range for the federal funds rate is stated in the latest Federal Reserve FOMC statement?",
+      "expected_authoritative_domains": ["federalreserve.gov"],
+      "tasks": [
+        {"id": "R001", "query": "site:federalreserve.gov latest FOMC statement target range federal funds rate", "purpose": "initial"},
+        {"id": "R002", "query": "site:federalreserve.gov monetarypolicy FOMC statement", "purpose": "background"}
+      ]
+    },
+    {
+      "id": "T04-nasa-artemis",
+      "category": "public",
+      "question": "What is NASA's latest official status update for Artemis II?",
+      "expected_authoritative_domains": ["nasa.gov"],
+      "tasks": [
+        {"id": "R001", "query": "site:nasa.gov Artemis II latest official status", "purpose": "initial"},
+        {"id": "R002", "query": "site:nasa.gov Artemis II mission update", "purpose": "background"}
+      ]
+    },
+    {
+      "id": "T05-copernicus-climate",
+      "category": "public",
+      "question": "What does the latest Copernicus Climate Change Service monthly bulletin report about global temperature?",
+      "expected_authoritative_domains": ["climate.copernicus.eu"],
+      "tasks": [
+        {"id": "R001", "query": "site:climate.copernicus.eu latest monthly climate bulletin global temperature", "purpose": "initial"},
+        {"id": "R002", "query": "site:climate.copernicus.eu surface air temperature monthly bulletin", "purpose": "background"}
+      ]
+    },
+    {
+      "id": "T06-atp-ranking",
+      "category": "sport",
+      "question": "Who is listed at the top of the current ATP singles rankings?",
+      "expected_authoritative_domains": ["atptour.com"],
+      "tasks": [
+        {"id": "R001", "query": "site:atptour.com rankings singles current ATP", "purpose": "initial"},
+        {"id": "R002", "query": "site:atptour.com PIF ATP Rankings No. 1", "purpose": "background"}
+      ]
+    },
+    {
+      "id": "T07-premier-league-table",
+      "category": "sport",
+      "question": "What does the official Premier League table currently show at the top of the standings?",
+      "expected_authoritative_domains": ["premierleague.com"],
+      "tasks": [
+        {"id": "R001", "query": "site:premierleague.com table standings current", "purpose": "initial"},
+        {"id": "R002", "query": "site:premierleague.com Premier League table", "purpose": "background"}
+      ]
+    },
+    {
+      "id": "T08-china-cpi",
+      "category": "finance",
+      "question": "What does China's National Bureau of Statistics latest CPI release report?",
+      "expected_authoritative_domains": ["stats.gov.cn"],
+      "tasks": [
+        {"id": "R001", "query": "site:stats.gov.cn latest CPI National Bureau of Statistics China consumer prices", "purpose": "initial"},
+        {"id": "R002", "query": "site:stats.gov.cn 居民消费价格 最新 CPI", "purpose": "background"}
+      ]
+    }
+  ]
+}

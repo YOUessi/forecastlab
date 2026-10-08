@@ -1,0 +1,25 @@
+{
+  "_about": "曼城 2024/25 英超是否进前四的冻结证据包。信息截至 2024-08-01；使用英超官方截点前资料。",
+  "evidence": [
+    {
+      "source_url": "https://www.premierleague.com/en/news/4019801",
+      "title": "Man City make history with fourth title in a row",
+      "publisher": "Premier League",
+      "published_at": "2024-05-19T00:00:00Z",
+      "excerpt": "Manchester City claimed a record fourth Premier League title in a row on the final day of the 2023/24 season.",
+      "claim": "曼城以四连冠身份进入 2024/25 赛季，构成其继续保持前四竞争力的强事前基线。",
+      "source_type": "exercise",
+      "source_group": "premierleague.com"
+    },
+    {
+      "source_url": "https://www.premierleague.com/en/news/4039167",
+      "title": "All you need to know for 2024/25 Fixture Release Day",
+      "publisher": "Premier League",
+      "published_at": "2024-06-17T00:00:00Z",
+      "excerpt": "Who will champions Manchester City start their title defence against?",
+      "claim": "英超官方在截点前已确认曼城以卫冕冠军身份进入 2024/25 赛季，并公布新赛季赛程。",
+      "source_type": "exercise",
+      "source_group": "premierleague.com"
+    }
+  ]
+}

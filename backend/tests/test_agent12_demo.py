@@ -41,6 +41,10 @@ def test_fixed_case_walks_through_confirm_and_evidence(tmp_path, monkeypatch):
         assert run["status"] == "completed", run["errors"]
         assert len(run["evidence_assessment"]["findings"]) >= 2
         assert run["evidence_assessment"]["rejected_findings"] == []
+        quality = run["evidence_assessment"]["quality_profile"]
+        assert quality["source_count"] == len(run["evidence"])
+        assert quality["validated_finding_count"] == len(run["evidence_assessment"]["findings"])
+        assert quality["search_failure_count"] == 0
         assert all(e["date_status"] == "synthetic" for e in run["evidence"])
         assert run["usage"]["calls"] == 0
         assert run["question_framing"]["analysis_record"]["validation_mode"] == "fixture"

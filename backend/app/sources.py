@@ -1,6 +1,7 @@
 """Tool-owned evidence metadata. Models never create source URLs or hashes."""
-import html
 import hashlib
+import html
+import threading
 import ipaddress
 import json
 from concurrent.futures import ThreadPoolExecutor
@@ -11,7 +12,6 @@ from datetime import datetime, timezone
 import math
 import re
 import time
-import threading
 import httpx
 from . import config
 from .schemas import Evidence, ImportedEvidence, QuestionSpec, utcnow
@@ -106,12 +106,14 @@ def _search_one(query: str) -> list[dict]:
     if config.BRAVE_SEARCH_API_KEY:
         global _brave_last_request
         with _brave_lock:
-            time.sleep(max(0, 1.1 - (time.monotonic() - _brave_last_request)))
+            time.sleep(max(0.0, 1.1 - (time.monotonic() - _brave_last_request)))
             _brave_last_request = time.monotonic()
         with httpx.Client(timeout=25, proxy=config.SEARCH_PROXY or None) as client:
-            with client.stream("GET", "https://api.search.brave.com/res/v1/web/search",
+            with client.stream(
+                "GET", "https://api.search.brave.com/res/v1/web/search",
                 headers={"X-Subscription-Token": config.BRAVE_SEARCH_API_KEY, "Accept": "application/json"},
-                params={"q": query[:400], "count": 8, "extra_snippets": "true"}) as response:
+                params={"q": query[:400], "count": 8, "extra_snippets": "true"},
+            ) as response:
                 response.raise_for_status()
                 content = bytearray()
                 for chunk in response.iter_bytes():
@@ -122,11 +124,14 @@ def _search_one(query: str) -> list[dict]:
         results = payload.get("web", {}).get("results", [])
         if not isinstance(results, list):
             raise ValueError("检索响应缺少资料数组")
-        return [{"url": r.get("url", ""), "title": r.get("title", ""),
-                 "content": html.unescape(re.sub(r"<[^>]+>", "", "\n".join(
-                     [r.get("description") or "", *[v for v in r.get("extra_snippets", []) if isinstance(v, str)]]))),
-                 "score": max(.1, 1 - i * .08)}
-                for i, r in enumerate(results[:8]) if isinstance(r, dict)]
+        return [
+            {"url": row.get("url", ""), "title": row.get("title", ""),
+             "content": html.unescape(re.sub(r"<[^>]+>", "", "\n".join(
+                 [row.get("description") or "",
+                  *[value for value in row.get("extra_snippets", []) if isinstance(value, str)]]))),
+             "score": max(.1, 1 - i * .08)}
+            for i, row in enumerate(results[:8]) if isinstance(row, dict)
+        ]
     with httpx.Client(timeout=25) as client:
         with client.stream("POST", "https://api.tavily.com/search", json={
             "api_key": config.TAVILY_API_KEY, "query": query,
@@ -285,6 +290,13 @@ def retrieve_evidence(question: QuestionSpec, tasks, data_dir: Path):
         for name in ("published_at", "updated_at", "event_at"):
             if getattr(c, name):
                 date_basis[name] = "服务商元数据；缺少时区或仅有日期时按UTC展示，不证明截点前可得"
+        cutoff_delay = (snapshot.stored_at - question.as_of).total_seconds()
+        live_near_cutoff = 0 <= cutoff_delay <= config.LIVE_CUTOFF_GRACE_SECONDS
+        if live_near_cutoff:
+            date_basis["cutoff_validation"] = (
+                f"实时在线检索在信息截至时间后 {cutoff_delay:.0f} 秒取得；按 "
+                f"{config.LIVE_CUTOFF_GRACE_SECONDS} 秒 near-cutoff 窗口接受，仅适用于当前实时预测，不证明历史可用性"
+            )
         evidence.append(Evidence(id=f"E{len(evidence)+1:03}", source_url=c.url, title=c.title,
             publisher=urlparse(c.url).hostname, published_at=c.published_at, updated_at=c.updated_at, event_at=c.event_at,
             retrieved_at=snapshot.stored_at, excerpt=excerpt, content_hash=hashlib.sha256(excerpt.encode()).hexdigest(),
@@ -293,7 +305,7 @@ def retrieve_evidence(question: QuestionSpec, tasks, data_dir: Path):
             content_kind="body" if c.has_body else "snippet", content_truncated=snapshot.content_truncated,
             source_group=c.source_group, source_group_basis=c.source_group_basis,
             aliases=c.aliases, query_ids=c.query_ids, possible_same_source=c.possible_same_source,
-            date_basis=date_basis, date_status="unknown", availability="unverified",
+            date_basis=date_basis, date_status="unknown", availability="live_near_cutoff" if live_near_cutoff else "unverified",
             event_status="planned" if c.event_at and c.event_at > question.as_of else "unknown",
             passages=select_passages(split_passages(snapshot), [question.question, *[t.query for t in tasks]])))
     failures = sum(log.status == "failed" for log in logs)
@@ -313,7 +325,7 @@ def online_search(question: QuestionSpec, data_dir: Path, queries: list[str] | N
     return result.evidence
 
 
-def import_evidence(items, question: QuestionSpec, data_dir: Path):
+def import_evidence(items, question: QuestionSpec, data_dir: Path, *, cutoff_verified: bool = False):
     """Save new imports, never trust a client-supplied old path or timestamp."""
     from .provenance import save_snapshot, split_passages, select_passages
     from .schemas import RetrievalResult
@@ -352,9 +364,12 @@ def import_evidence(items, question: QuestionSpec, data_dir: Path):
         e.source_kind_basis = "导入者声明（未独立核实）：" + item.source_kind_basis if item.source_kind_basis else ""
         e.source_group = item.source_group or "document:" + hashlib.sha256(str(item.source_url or item.file_id).encode()).hexdigest()[:16]
         e.source_group_basis = ("导入者声明：" + (item.source_group_basis or "未提供分组依据")) if item.source_group else "单独资料，未核实独立性"
-        e.availability = "historical_exercise" if historical else "unverified"
+        e.availability = ("verified_before_cutoff" if cutoff_verified else
+                          "historical_exercise" if historical else "unverified")
         e.event_status = "planned" if item.event_at and item.event_at > question.as_of else item.event_status
         e.date_basis = {"retrieved_at": "本次实际导入时间"}
+        if cutoff_verified:
+            e.date_basis["cutoff_validation"] = "服务端离线校验通过的冻结评测证据"
         for field in ("published_at", "updated_at", "event_at"):
             if getattr(item, field):
                 e.date_basis[field] = "导入者提供，未独立核实"

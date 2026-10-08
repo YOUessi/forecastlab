@@ -91,3 +91,269 @@ def test_downstream_context_never_keeps_orphaned_finding(tmp_path, clear_framing
     small = m.make_evidence_context(retrieval.evidence, a, max_chars_per_source=4)
     assert small["findings"] == [] and small["limitations"]
     assert a.model_dump() == original
+
+
+def test_future_information_gap_detects_post_cutoff_market_result(clear_framing):
+    from app.agents.evidence import _future_information_gap
+    from app.schemas import GapDetail, QuestionSpec
+
+    q = QuestionSpec.model_validate({
+        "question": "科创50在2026-07-31是否高于基准？",
+        "as_of": "2026-06-30T23:59:00+08:00",
+        "resolve_by": "2026-07-31T23:59:00+08:00",
+        "resolution_rule": "以官方收盘点位为准",
+        "mode": "binary",
+    })
+    assert _future_information_gap(
+        GapDetail(missing="缺少2026年7月31日的实际收盘点位", cause="not_found"), q
+    ) is True
+    assert _future_information_gap(
+        GapDetail(missing="缺少截至2026年6月30日的指数成分权重", cause="not_found"), q
+    ) is False
+
+
+def test_evidence_prompt_requires_claim_to_be_directly_entailed():
+    prompt = module().PROMPT
+    assert "直接蕴含" in prompt
+    assert "不能从“没提到”推断“未发生”" in prompt
+    assert "不得塞进 claim" in prompt
+    assert "裸表格行" in prompt
+    assert "固定提交" in prompt
+
+
+@pytest.mark.parametrize(
+    "claim,quote,publisher",
+    [
+        (
+            "2025-06-30 当日标普500与纳斯达克综合指数各上涨 0.5%，道琼斯工业平均指数上涨 0.6%。",
+            "The S&P 500 (SPX) and Nasdaq Composite (IXIC) each rose 0.5%, while the Dow Jones Industrial Average (DJI) added 0.6%.",
+            "Investopedia",
+        ),
+        (
+            "在 2024/25 赛季赛程公布相关报道中，曼城被称为卫冕冠军。",
+            "Who will champions Manchester City start their title defence against?",
+            "Premier League",
+        ),
+        (
+            "Python 3.13.0rc2 是最终发布预览，若无发现严重缺陷，该版本预计将成为最终的 3.13.0 正式版。",
+            "This release, 3.13.0rc2, is the final release preview. This release is expected to become the final 3.13.0 release, barring any critical bugs being discovered.",
+            "Python Software Foundation",
+        ),
+        (
+            "InfoWorld 片段称，在一篇 12 月 2 日的博客文章中，微软提供了关于 TypeScript 7.0（又称 Project Corsa）的更新。",
+            "In a December 2 blog post, Microsoft provided updates on TypeScript 7.0, also known as Project Corsa.",
+            "InfoWorld",
+        ),
+        (
+            "NASA 将此次试飞的目标发射时间定为不早于 4 月 1 日（星期三）。",
+            "The agency is targeting no earlier than Wednesday, April 1, for the test flight.",
+            "NASA",
+        ),
+        (
+            "FAA 要求 SpaceX 就 2025 年 1 月 16 日发射操作中 Starship 飞行器的损失开展事故调查。",
+            "The FAA is requiring SpaceX to perform a mishap investigation into the loss of the Starship vehicle during launch operations on Jan. 16.",
+            "Federal Aviation Administration",
+        ),
+        (
+            "在 PEP 719 的该固定提交中，3.13.0 candidate 2 被列为 2024-09-06（星期五）。",
+            "- 3.13.0 candidate 2: Friday, 2024-09-06",
+            "Python PEP Repository",
+        ),
+        (
+            "Gracenote 虚拟奖牌榜预测美国获得 39 枚金牌。",
+            "Virtual Medal Table: United States 39 gold.",
+            "Nielsen",
+        ),
+        (
+            "在 2026 年 4 月的 FIFA 男足世界排名中，法国居首，西班牙和阿根廷分列第二、第三。",
+            "France now lead the way. Spain and Argentina are second and third respectively.",
+            "FIFA",
+        ),
+    ],
+)
+def test_exact_quote_boundary_rejects_metadata_or_dates_not_in_quote(tmp_path, claim, quote, publisher):
+    m = module()
+    q = QuestionSpec(question="这些材料是否直接支持该事实？", mode="scenario", as_of=utcnow())
+    retrieval = import_evidence(
+        [ImportedEvidence(file_id="boundary-case", title=f"Boundary source: {claim}", publisher=publisher, excerpt=quote)],
+        q,
+        tmp_path,
+    )
+    e = retrieval.evidence[0]
+    p = e.passages[0]
+    candidate = AssessmentCandidate.model_validate({
+        "summary": "boundary test",
+        "findings": [{
+            "claim": claim,
+            "relation": "background",
+            "citations": [{
+                "evidence_id": e.id,
+                "snapshot_hash": e.snapshot_hash,
+                "paragraph_id": p.paragraph_id,
+                "quote": quote,
+            }],
+        }],
+    })
+    valid, rejected = m.validate_findings(candidate, None, retrieval.evidence, {e.id: e.passages})
+    assert valid == []
+    assert len(rejected) == 1
+    assert "exact-quote claim boundary" in rejected[0].reason
+
+
+def test_exact_quote_boundary_allows_translated_month_when_quote_spells_month(tmp_path):
+    m = module()
+    q = QuestionSpec(question="目标发射日期是否被原文直接支持？", mode="scenario", as_of=utcnow())
+    quote = "The agency is targeting no earlier than Wednesday, April 1, for the test flight."
+    retrieval = import_evidence(
+        [ImportedEvidence(file_id="boundary-month", title="Launch notice", publisher="NASA", excerpt=quote)],
+        q,
+        tmp_path,
+    )
+    e = retrieval.evidence[0]
+    p = e.passages[0]
+    candidate = AssessmentCandidate.model_validate({
+        "summary": "boundary test",
+        "findings": [{
+            "claim": "目标发射时间定为不早于 4 月 1 日（星期三）。",
+            "relation": "background",
+            "citations": [{
+                "evidence_id": e.id,
+                "snapshot_hash": e.snapshot_hash,
+                "paragraph_id": p.paragraph_id,
+                "quote": quote,
+            }],
+        }],
+    })
+    valid, rejected = m.validate_findings(candidate, None, retrieval.evidence, {e.id: e.passages})
+    assert len(valid) == 1
+    assert rejected == []
+
+
+def test_exact_quote_boundary_feedback_triggers_repair(tmp_path, clear_framing, mock_model):
+    m = module()
+    q, frame, retrieval, good = setup(tmp_path, clear_framing)
+    bad = deepcopy(good)
+    bad["findings"][0]["claim"] = "2026 年公告表示单元测试已完成"
+    model = mock_model([bad, good])
+    assessment = m.assess_evidence(q, frame, retrieval, model, tmp_path)
+    assert model.call_count == 2
+    assert len(assessment.findings) == 2
+    assert assessment.rejected_findings == []
+    assert "validation_feedback" in model.calls[1][1]
+    assert any("exact-quote claim boundary" in x for x in model.calls[1][1]["validation_feedback"])
+
+
+@pytest.mark.parametrize(
+    "claim,quote,publisher,title",
+    [
+        (
+            "2025-06-30 的收盘数值为 22679.010。",
+            "2025-06-30\t22679.010",
+            "FRED / Nasdaq, Inc.",
+            "Table Data - NASDAQ-100",
+        ),
+        (
+            "Cleveland Cavaliers 在周日与 OKC 一同进入60胜行列。",
+            "The Cavs’ teamwork was on full display Sunday as they joined OKC in the 60-win club.",
+            "NBA.com",
+            "Starting 5, March 31",
+        ),
+        (
+            "在固定提交中，3.13.0 final 被列为 Expected 2024-10-01（星期二）。",
+            "- 3.13.0 final: Tuesday, 2024-10-01",
+            "Python PEP Repository",
+            "PEP 719 release schedule — fixed Git commit",
+        ),
+        (
+            "官方曾公布将 TypeScript 编译器移植（port）的工作。",
+            "This past March we unveiled our efforts to port the TypeScript compiler a",
+            "Microsoft TypeScript Blog",
+            "Announcing TypeScript Native Previews",
+        ),
+    ],
+)
+def test_exact_quote_boundary_v2_rejects_residual_semantic_expansion(tmp_path, claim, quote, publisher, title):
+    m = module()
+    q = QuestionSpec(question="这些材料是否直接支持该事实？", mode="scenario", as_of=utcnow())
+    retrieval = import_evidence(
+        [ImportedEvidence(file_id="boundary-v2", title=title, publisher=publisher, excerpt=quote)],
+        q,
+        tmp_path,
+    )
+    e = retrieval.evidence[0]
+    p = e.passages[0]
+    candidate = AssessmentCandidate.model_validate({
+        "summary": "boundary v2 test",
+        "findings": [{
+            "claim": claim,
+            "relation": "background",
+            "citations": [{
+                "evidence_id": e.id,
+                "snapshot_hash": e.snapshot_hash,
+                "paragraph_id": p.paragraph_id,
+                "quote": quote,
+            }],
+        }],
+    })
+    valid, rejected = m.validate_findings(candidate, None, retrieval.evidence, {e.id: e.passages})
+    assert valid == []
+    assert len(rejected) == 1
+    assert "exact-quote claim boundary" in rejected[0].reason
+
+
+def test_exact_quote_boundary_v2_allows_english_entities_present_in_quote(tmp_path):
+    m = module()
+    q = QuestionSpec(question="这些材料是否直接支持该事实？", mode="scenario", as_of=utcnow())
+    quote = "Apple will begin updating its Mac lineup with M4 chips in late 2024."
+    retrieval = import_evidence(
+        [ImportedEvidence(file_id="boundary-v2-positive", title="M4 update", publisher="Example", excerpt=quote)],
+        q,
+        tmp_path,
+    )
+    e = retrieval.evidence[0]
+    p = e.passages[0]
+    candidate = AssessmentCandidate.model_validate({
+        "summary": "positive boundary test",
+        "findings": [{
+            "claim": "Apple 将于 2024 年末开始用 M4 芯片更新其 Mac 产品线。",
+            "relation": "background",
+            "citations": [{
+                "evidence_id": e.id,
+                "snapshot_hash": e.snapshot_hash,
+                "paragraph_id": p.paragraph_id,
+                "quote": quote,
+            }],
+        }],
+    })
+    valid, rejected = m.validate_findings(candidate, None, retrieval.evidence, {e.id: e.passages})
+    assert len(valid) == 1
+    assert rejected == []
+
+
+def test_exact_quote_boundary_v2_allows_close_when_quote_says_closed(tmp_path):
+    m = module()
+    q = QuestionSpec(question="这些材料是否直接支持该事实？", mode="scenario", as_of=utcnow())
+    quote = "The index closed at 22679.010."
+    retrieval = import_evidence(
+        [ImportedEvidence(file_id="boundary-v2-close", title="Index report", publisher="Example", excerpt=quote)],
+        q,
+        tmp_path,
+    )
+    e = retrieval.evidence[0]
+    p = e.passages[0]
+    candidate = AssessmentCandidate.model_validate({
+        "summary": "positive close test",
+        "findings": [{
+            "claim": "该指数收盘为 22679.010。",
+            "relation": "background",
+            "citations": [{
+                "evidence_id": e.id,
+                "snapshot_hash": e.snapshot_hash,
+                "paragraph_id": p.paragraph_id,
+                "quote": quote,
+            }],
+        }],
+    })
+    valid, rejected = m.validate_findings(candidate, None, retrieval.evidence, {e.id: e.passages})
+    assert len(valid) == 1
+    assert rejected == []

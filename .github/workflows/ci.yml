@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.11.26"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install Python dependencies
+        run: uv sync --locked --group browser
+
+      - name: Backend tests
+        run: uv run --group browser pytest -q
+
+      # Preserve and verify teammate v1/v2/v3v4 suites as part of upstream integration.
+      - name: Validate upstream experiment suites
+        run: uv run python experiment/validate_suite.py
+
+      - name: Frontend install
+        working-directory: frontend
+        run: npm ci
+
+      - name: Frontend production build
+        working-directory: frontend
+        run: npm run build
+
+      - name: Install Chromium
+        run: uv run --group browser playwright install --with-deps chromium
+
+      - name: Browser end-to-end tests
+        run: uv run --group browser pytest frontend/tests -q

@@ -169,7 +169,7 @@ def test_world_retries_user_premise_as_evidence_parent():
     record = RunRecord(run_id="run_world_repair", question=DEMO_QUESTION, evidence_mode="import", model="fake")
     state = build_graph(record, demo_evidence(), model, Path("/tmp")).invoke({"question": DEMO_QUESTION.model_dump(mode="json")})
     assert model.world_calls == 2
-    repaired = next(a for a in state["world"]["assumptions"] if a["id"] == "H099")
+    repaired = next(a for a in state["world"]["assumptions"] if a["content"] == "conditional assumption")
     assert repaired["parent_ids"] == ["E001"]
 
 
@@ -178,7 +178,7 @@ def test_review_accepts_actor_action_reference_and_receives_compact_context():
         def complete(self, role, payload, schema, instructions):
             output = demo_output(role, payload.get("actor", {}).get("id"), payload.get("round", 1))
             if role == "review":
-                output["issues"][0]["affected_ids"] = ["M1-A1"]
+                output["issues"][0]["affected_ids"] = ["M1-A001"]
                 assert all(len(item["excerpt"]) <= 1200 for item in payload["evidence"])
                 assert all("rationale_summary" not in action for action in payload["actions"])
             if role == "forecast":
@@ -187,7 +187,7 @@ def test_review_accepts_actor_action_reference_and_receives_compact_context():
 
     record = RunRecord(run_id="run_review_action", question=DEMO_QUESTION, evidence_mode="import", model="fake")
     state = build_graph(record, demo_evidence(), FakeModel(), Path("/tmp")).invoke({"question": DEMO_QUESTION.model_dump(mode="json")})
-    assert state["review"]["issues"][0]["affected_ids"] == ["M1-A1"]
+    assert state["review"]["issues"][0]["affected_ids"] == ["M1-A001"]
 
 
 def test_review_repairs_retrieval_ids_without_inventing_audit_references():
@@ -202,15 +202,15 @@ def test_review_repairs_retrieval_ids_without_inventing_audit_references():
                     output["issues"][0]["affected_ids"] = ["R001"]
                 else:
                     assert payload["validation_feedback"]["invalid_affected_ids"] == ["R001"]
-                    assert "M1-A1" in payload["valid_affected_ids"]
-                    output["issues"][0]["affected_ids"] = ["M1-A1"]
+                    assert "M1-A001" in payload["valid_affected_ids"]
+                    output["issues"][0]["affected_ids"] = ["M1-A001"]
             return schema.model_validate(output)
 
     model = FakeModel()
     record = RunRecord(run_id="review_repair", question=DEMO_QUESTION, evidence_mode="import", model="fake")
     state = build_graph(record, demo_evidence(), model, Path("/tmp")).invoke({"question": DEMO_QUESTION.model_dump(mode="json")})
     assert model.reviews == 2
-    assert state["review"]["issues"][0]["affected_ids"] == ["M1-A1"]
+    assert state["review"]["issues"][0]["affected_ids"] == ["M1-A001"]
 
 
 def test_review_rejects_repeated_invalid_references_after_one_repair():
@@ -301,22 +301,54 @@ def test_reuse_keeps_frozen_evidence_and_history(monkeypatch):
     class FakeModel:
         def __init__(self):
             self.usage = {"calls": 0, "prompt_tokens": 0, "completion_tokens": 0}
-        def complete(self, role, payload, schema, instructions):
+        def complete(self, role, payload, schema, instructions, **kwargs):
             self.usage["calls"] += 1
+            if role == "evidence12":
+                # The production route now calls Agent 2 even for imported
+                # evidence. Stub its exact-quote contract, not the legacy
+                # "evidence" response, so the test exercises real validation.
+                evidence = payload["evidence"][0]
+                paragraph = evidence["passages"][0]
+                quote = paragraph["text"][:min(12, len(paragraph["text"]))]
+                return schema.model_validate({
+                    "summary": "测试资料已取得，逐字引用可回溯",
+                    "findings": [{
+                        "claim": quote, "relation": "background",
+                        "target_premise_ids": [],
+                        "citations": [{
+                            "evidence_id": evidence["id"],
+                            "snapshot_hash": evidence["snapshot_hash"],
+                            "paragraph_id": paragraph["paragraph_id"],
+                            "quote": quote,
+                        }],
+                    }],
+                })
             return schema.model_validate(demo_output(role, payload.get("actor", {}).get("id"), payload.get("round", 1)))
     monkeypatch.setattr(config, "MODEL_API_KEY", "test-only")
     monkeypatch.setattr("app.graph.ModelClient", FakeModel)
     with TemporaryDirectory() as directory, TestClient(create_app(Path(directory))) as client:
-        # Seed a non-demo run with the fake model. Reusing a demo as real evidence is now rejected.
-        first_id = client.post("/api/runs", json={"question": DEMO_QUESTION.model_dump(mode="json"), "evidence_mode": "import",
+        # Exercise a genuinely accepted import rather than a historical cutoff
+        # fixture that can legitimately be excluded by current provenance rules.
+        from datetime import timedelta
+        from app.schemas import utcnow
+        as_of = utcnow()
+        question = DEMO_QUESTION.model_copy(update={
+            "as_of": as_of, "resolve_by": as_of + timedelta(days=30),
+        })
+        first_id = client.post("/api/runs", json={"question": question.model_dump(mode="json"), "evidence_mode": "import",
             "evidence": [e.model_dump(mode="json") for e in demo_evidence()]}).json()["run_id"]
-        second_id = client.post("/api/runs", json={"question": DEMO_QUESTION.model_dump(mode="json"), "evidence_mode": "reuse", "parent_run_id": first_id}).json()["run_id"]
+        second_id = client.post("/api/runs", json={"question": question.model_dump(mode="json"), "evidence_mode": "reuse", "parent_run_id": first_id}).json()["run_id"]
         first = client.get(f"/api/runs/{first_id}").json()
         second = client.get(f"/api/runs/{second_id}").json()
+        assert len(first["evidence"]) == 3, first["errors"]
         assert second["status"] == "completed", second["errors"]
+        # No new E ID or source content appears merely because the user reused a run.
         assert second["parent_run_id"] == first_id
         assert second["question_version"] == 2
         assert second["evidence"] == first["evidence"]
+        assert first["evidence_assessment"]["findings_validated"] is True
+        assert second["evidence_assessment"]["findings_validated"] is True
+        assert all(finding["citations"] for finding in second["evidence_assessment"]["findings"])
 
 
 def test_restart_marks_inflight_record_interrupted():
@@ -343,7 +375,7 @@ def test_actor_repairs_hypothesis_misfiled_as_external_evidence():
         repaired_actor_calls = 0
         def complete(self, role, payload, schema, instructions):
             output = demo_output(role, payload.get("actor", {}).get("id"), payload.get("round", 1))
-            if role == "actor" and payload["actor"]["id"] == "A1" and payload["round"] == 1:
+            if role == "actor" and payload["actor"]["id"] == "A001" and payload["round"] == 1:
                 self.repaired_actor_calls += 1
                 if self.repaired_actor_calls == 1:
                     output["evidence_ids"] = ["H001"]

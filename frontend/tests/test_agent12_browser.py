@@ -234,3 +234,35 @@ def test_research_supplement_requires_reviewed_status(page, app_url):
     with page.expect_response("**/assets/research-run_fixture.json"):
         page.get_by_role("button", name=re.compile("研究报告")).click()
     expect(page.get_by_text("候选正文不能展示", exact=True)).to_be_visible()
+
+
+def test_quality_profile_and_conflict_source_links_are_in_existing_evidence_flow(page, app_url):
+    run = evidence_run()
+    assessment = run["evidence_assessment"]
+    assessment["quality_profile"] = {
+        "source_count": 2, "source_group_count": 1, "body_source_count": 1,
+        "snippet_only_count": 1, "primary_label_count": 0, "unknown_publication_count": 2,
+        "truncated_count": 2, "suspected_same_source_count": 0, "merged_alias_count": 0,
+        "search_success_count": 1, "search_empty_count": 0, "search_failure_count": 1,
+        "excluded_count": 1, "validated_finding_count": 2, "rejected_finding_count": 1,
+        "unresolved_conflict_count": 1,
+        "warnings": ["来源组不代表真实独立性", "只有摘要需保留限制"],
+    }
+    assessment["conflict_details"] = [{
+        "issue": "测试口径冲突", "finding_ids": ["F001", "F002"],
+        "scope_comparison": "测试计划与测试完成状态口径不同",
+        "status": "unresolved", "explanation": "仍需比对原文",
+    }]
+    inspect_view(page, app_url, run)
+    quality = page.get_by_label("证据质量概览")
+    expect(quality).to_be_visible()
+    expect(quality.get_by_text("有效来源", exact=True)).to_be_visible()
+    expect(quality.get_by_text("来源组", exact=True)).to_be_visible()
+    quality.get_by_text("其他取证指标", exact=True).click()
+    expect(quality.get_by_text("标记一手来源", exact=False)).to_be_visible()
+    quality.get_by_text("来源与证据限制（2）", exact=True).click()
+    expect(quality.get_by_text("来源组不代表真实独立性", exact=True)).to_be_visible()
+    expect(page.get_by_text("测试口径冲突", exact=True)).to_be_visible()
+    page.get_by_role("button", name="E001 · 来源 E001").click()
+    expect(page.get_by_role("dialog")).to_be_visible()
+    expect(page.locator("mark")).to_have_text("计划🙂延期")

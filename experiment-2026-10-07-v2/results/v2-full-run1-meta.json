@@ -1,0 +1,10 @@
+{
+  "branch": "YOUessi/forecastlab:fix/full-pipeline-coverage",
+  "remote_commit": "71a95d1188df1733a7eb785ad615dea09da4816f",
+  "tree": "99339204249e2cf7e1ea8fa65eacbf0888edd71a",
+  "suite": "eval/suites/forecastlab-v2.json",
+  "arm": "full",
+  "provider": "deepseek",
+  "model": "deepseek-flash",
+  "temperature": 0
+}

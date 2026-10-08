@@ -1,0 +1,25 @@
+{
+  "_about": "2025 年是否出现 X 级太阳耀斑的冻结证据包。信息截至 2025-01-01；使用 NASA/NOAA 在截点前发布的太阳活动周期资料。",
+  "evidence": [
+    {
+      "source_url": "https://science.nasa.gov/science-research/heliophysics/nasa-noaa-sun-reaches-maximum-phase-in-11-year-solar-cycle/",
+      "title": "NASA, NOAA: Sun Reaches Maximum Phase in 11-Year Solar Cycle",
+      "publisher": "NASA",
+      "published_at": "2024-10-15T00:00:00Z",
+      "excerpt": "The Sun has reached its solar maximum period, which could continue for the next year.",
+      "claim": "截至 2025 年初，NASA/NOAA 判断太阳处于活动极大期并可能持续一年，为 2025 年出现强耀斑提供较强事前依据。",
+      "source_type": "exercise",
+      "source_group": "nasa.gov"
+    },
+    {
+      "source_url": "https://www.swpc.noaa.gov/news/noaa-forecasts-quicker-stronger-peak-solar-activity",
+      "title": "NOAA forecasts quicker, stronger peak of solar activity",
+      "publisher": "NOAA Space Weather Prediction Center",
+      "published_at": "2023-10-25T23:55:00Z",
+      "excerpt": "Solar activity will increase more quickly and peak at a higher level than that predicted by an expert panel in December 2019.",
+      "claim": "NOAA 在更早的周期预测中已上调 Solar Cycle 25 的峰值强度预期，为后续强耀斑事件提供独立的事前周期信号。",
+      "source_type": "exercise",
+      "source_group": "noaa.gov"
+    }
+  ]
+}

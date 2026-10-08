@@ -1,0 +1,25 @@
+{
+  "_about": "ISS 2024 全年是否连续载人驻留的冻结证据包。信息截至 2024-01-01；使用截点前 NASA 官方资料。",
+  "evidence": [
+    {
+      "source_url": "https://www.nasa.gov/missions/station/the-international-space-station-20-years-of-communications-excellence/",
+      "title": "The International Space Station: 20 Years of Communications Excellence",
+      "publisher": "NASA",
+      "published_at": "2020-11-06T00:00:00Z",
+      "excerpt": "Since Nov. 2, 2000, the space station has been occupied continuously by astronauts from NASA and international space organizations.",
+      "claim": "NASA 官方长期记录表明 ISS 自 2000 年起保持连续载人驻留，是 2024 年继续保持连续驻留的重要基线。",
+      "source_type": "exercise",
+      "source_group": "nasa.gov"
+    },
+    {
+      "source_url": "https://www.nasa.gov/news-release/nasas-spacex-crew-7-launches-to-international-space-station/",
+      "title": "NASA’s SpaceX Crew-7 Launches to International Space Station",
+      "publisher": "NASA",
+      "published_at": "2023-08-26T00:00:00Z",
+      "excerpt": "We continue the nearly 23 years of a continuous human presence aboard the microgravity laboratory.",
+      "claim": "2023-08 Crew-7 发射时 NASA 再次确认连续载人驻留延续，且 Crew-7 任务跨入 2024 年轮换周期。",
+      "source_type": "exercise",
+      "source_group": "nasa.gov"
+    }
+  ]
+}

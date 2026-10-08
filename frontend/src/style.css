@@ -50,3 +50,27 @@
 .research-desk .reading-report .detail-scroll>h3,.research-desk .reading-report .detail-scroll>.notice,.research-desk .reading-report .detail-scroll>.section-line,.research-desk .reading-report .report-section,.research-desk .reading-report .report-exports{min-width:0;max-width:860px;margin-left:auto;margin-right:auto}
 .research-desk .reading-report .report-section{border-left:0;border-top:1px solid #dae4d3;padding:20px 0;margin-top:22px}
 .research-desk .reading-report .report-section p{font-size:14px;line-height:1.9}
+
+/* Preserve Fork evidence-quality summary inside the new Research Workspace */
+/* Agent 2 quality coverage is an explanatory layer within the full workflow. */
+.evidence-quality-profile{margin:16px 0 20px;padding:16px;border:1px solid #dce8df;background:#f9fcf9;border-radius:8px}
+.evidence-quality-heading{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+.evidence-quality-heading h4{font-size:13px;color:#173e31;margin:0}
+.evidence-quality-heading small{font-size:10px;color:#799186}
+.evidence-quality-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0}
+.evidence-quality-grid>div{display:flex;flex-direction:column-reverse;gap:4px;min-width:0;padding:11px 12px;border-radius:5px;border:1px solid #e2ebe3;background:#fff}
+.evidence-quality-grid dt{color:#688276;font-size:10px}
+.evidence-quality-grid dd{margin:0;font:600 21px/1.2 'IBM Plex Mono',monospace;color:#0b7664}
+.evidence-quality-disclaimer{font-size:11px;line-height:1.7;color:#6c8578;margin:12px 0 0}
+.evidence-quality-extra,.evidence-quality-warnings{background:#fff;border:1px solid #e2eae1;border-radius:5px;margin:10px 0 0;padding:10px 12px}
+.evidence-quality-extra summary,.evidence-quality-warnings summary{font-size:11px;font-weight:600;color:#356b5a;cursor:pointer}
+.evidence-quality-extra p,.evidence-quality-warnings li{font-size:11px;line-height:1.65;color:#607568}
+.evidence-quality-warnings ul{margin:10px 0 0;padding-left:19px}
+.conflict-source-links{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:9px}
+.conflict-source-links>span{font-size:11px;color:#6a8076}
+.conflict-source-links .text-button{padding:5px 9px;font-size:10px;border:1px solid #cbded3;border-radius:4px;max-width:100%;overflow-wrap:anywhere}
+@media(max-width:650px){.evidence-quality-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.evidence-quality-heading{display:block}}
+
+/* Conflict citations remain readable in the research side panel. */
+.conflict-details article{border-top:1px solid #dce6d8;padding:10px 0}
+.conflict-source-links .text-button{white-space:normal;line-height:1.4}

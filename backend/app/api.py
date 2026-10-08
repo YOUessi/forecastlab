@@ -11,7 +11,7 @@ from . import config
 from .demo import DEMO_QUESTION, demo_evidence
 from .graph import execute
 from .schemas import QuestionDraft, QuestionSpec, RunRecord, RunRequest, Settlement, SettlementRequest, utcnow
-from .sources import normalize_import, import_evidence
+from .sources import import_evidence
 from .provenance import load_snapshot, split_passages
 from .storage import RunStore, VersionConflict
 from .question_service import QuestionService, ModelNotConfigured
@@ -54,6 +54,16 @@ def report_html(run: RunRecord) -> str:
         framing_html += f"<p>用户原话：{esc(run.question_framing.raw_question)}</p>"
         framing_html += "<ul>" + "".join(f"<li>{esc(p.id)} · {esc(p.content)} · {esc(p.user_review)} / {esc(p.treatment)}</li>" for p in run.question_framing.premises) + "</ul>"
     if run.evidence_assessment:
+        quality = run.evidence_assessment.quality_profile
+        if quality:
+            framing_html += (
+                "<h2>证据质量概览</h2>"
+                f"<p>有效来源 {quality.source_count} · 来源组 {quality.source_group_count}"
+                f"（未经独立性认证） · 正文 {quality.body_source_count} · 仅摘要 {quality.snippet_only_count}"
+                f" · 有效发现 {quality.validated_finding_count} · 被拒绝候选 {quality.rejected_finding_count}</p>"
+                "<p>来源标签、分组与快照哈希不证明来源真实、独立或语义蕴含。</p>"
+                "<ul>" + "".join(f"<li>{esc(warning)}</li>" for warning in quality.warnings) + "</ul>"
+            )
         framing_html += "<h2>逐项证据发现</h2>" + "".join(
             f"<article><h3>{esc(f.id)} · {esc(f.claim)}</h3><p>{esc(f.relation)} · 前提 {esc(', '.join(f.target_premise_ids))}</p>"
             + "".join(f"<blockquote>{esc(c.quote)}</blockquote><small>{esc(c.evidence_id)} / {esc(c.paragraph_id)} / {c.start}–{c.end}</small>" for c in f.citations)
@@ -188,20 +198,16 @@ def create_app(data_dir: Path | None = None, *, question_model_factory=None) -> 
                 if not config.MODEL_API_KEY:
                     raise HTTPException(503, "未配置 QWEN_API_KEY 或 DEEPSEEK_API_KEY；请先体验教学演示或配置后端密钥。")
                 if request.evidence_mode == "import":
-                    if framing:
-                        retrieval = import_evidence(request.evidence, question, store.directory)
-                        evidence = retrieval.evidence
-                    else:
-                        evidence = normalize_import(request.evidence, question)
+                    retrieval = import_evidence(request.evidence, question, store.directory)
+                    evidence = retrieval.evidence
                 elif request.evidence_mode == "reuse":
                     if not parent:
                         raise HTTPException(422, "沿用证据需要 parent_run_id")
                     if question.as_of < parent.question.as_of:
                         raise HTTPException(422, "沿用证据时，信息截至时间不能早于父运行")
                     evidence = [e.model_copy(deep=True) for e in parent.evidence]
-                    if framing:
-                        from .schemas import RetrievalResult
-                        retrieval = RetrievalResult(evidence=evidence)
+                    from .schemas import RetrievalResult
+                    retrieval = RetrievalResult(evidence=evidence)
                 else:
                     if not (config.BRAVE_SEARCH_API_KEY or config.TAVILY_API_KEY):
                         raise HTTPException(503, "未配置 Brave 或 Tavily 搜索密钥；请导入证据包。")

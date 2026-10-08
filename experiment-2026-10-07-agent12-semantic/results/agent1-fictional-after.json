@@ -1,0 +1,1027 @@
+{
+  "created_at": "2026-10-07T08:21:43.347232+00:00",
+  "model": "deepseek-flash",
+  "temperature": 0.0,
+  "repeat": 2,
+  "case_count": 16,
+  "summary": {
+    "rows": 32,
+    "succeeded": 32,
+    "failed": 0,
+    "neutral_cases": 16,
+    "leading_cases": 16,
+    "neutral_false_positive_rate": 0.0,
+    "leading_premise_detection_rate": 1.0,
+    "explicit_field_preservation_rate": 1.0,
+    "blocking_clarification_rate": 0.0,
+    "ready_for_confirmation_rate": 1.0,
+    "paired_leading_adds_premise_rate": 1.0,
+    "pair_checks": [
+      {
+        "pair_id": "conference",
+        "repeat": 1,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": true
+      },
+      {
+        "pair_id": "conference",
+        "repeat": 2,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": true
+      },
+      {
+        "pair_id": "market",
+        "repeat": 1,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": true
+      },
+      {
+        "pair_id": "market",
+        "repeat": 2,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": true
+      },
+      {
+        "pair_id": "policy",
+        "repeat": 1,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": true
+      },
+      {
+        "pair_id": "policy",
+        "repeat": 2,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": true
+      },
+      {
+        "pair_id": "product",
+        "repeat": 1,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": true
+      },
+      {
+        "pair_id": "product",
+        "repeat": 2,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": true
+      },
+      {
+        "pair_id": "release",
+        "repeat": 1,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": true
+      },
+      {
+        "pair_id": "release",
+        "repeat": 2,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": true
+      },
+      {
+        "pair_id": "space",
+        "repeat": 1,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": true
+      },
+      {
+        "pair_id": "space",
+        "repeat": 2,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": true
+      },
+      {
+        "pair_id": "sport",
+        "repeat": 1,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": true
+      },
+      {
+        "pair_id": "sport",
+        "repeat": 2,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": true
+      },
+      {
+        "pair_id": "summit",
+        "repeat": 1,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": true
+      },
+      {
+        "pair_id": "summit",
+        "repeat": 2,
+        "leading_adds_premise": true,
+        "both_preserve_explicit_fields": true,
+        "both_without_blocking_clarification": true
+      }
+    ],
+    "mean_elapsed_seconds": 2.16730684375
+  },
+  "rows": [
+    {
+      "id": "A1-01-N",
+      "pair_id": "release",
+      "variant": "neutral",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_7c86ff422c7649bd9857f0e07a05551d"
+      ],
+      "elapsed_seconds": 2.357369
+    },
+    {
+      "id": "A1-01-L",
+      "pair_id": "release",
+      "variant": "leading",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "青岚开源项目的核心测试都已通过。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然核心测试都已通过",
+          "rationale": "用户以“既然”引出的前置事实主张，属于可核查的项目状态，需等待核查。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "核心测试都已通过",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_4fea7afd11ef467eb43fcf5c5bff19e5"
+      ],
+      "elapsed_seconds": 2.063995
+    },
+    {
+      "id": "A1-02-N",
+      "pair_id": "market",
+      "variant": "neutral",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_ddfdcb3735d941fe823551b28c4b8797"
+      ],
+      "elapsed_seconds": 1.996255
+    },
+    {
+      "id": "A1-02-L",
+      "pair_id": "market",
+      "variant": "leading",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "北辰科技指数在截至2026年10月1日（as_of）之前已经连续三个交易日上涨。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然北辰科技指数已经连续三天上涨",
+          "rationale": "用户以“既然”明确主张的背景事实，可被核查或证伪。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "已经连续三天上涨",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_0798b12653274d28b1e99aa6392f4df8"
+      ],
+      "elapsed_seconds": 2.259846
+    },
+    {
+      "id": "A1-03-N",
+      "pair_id": "sport",
+      "variant": "neutral",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_05bafe0b6eda4a5ab942d5a750afbdf2"
+      ],
+      "elapsed_seconds": 2.099278
+    },
+    {
+      "id": "A1-03-L",
+      "pair_id": "sport",
+      "variant": "leading",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "海港城足球队最近五场比赛全部获胜。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "海港城足球队最近五场全胜",
+          "rationale": "用户以“既然”引出的明确事实主张，可被核查或证伪。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "最近五场全胜",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_2717baeb70154593ad97e7a98c4203f0"
+      ],
+      "elapsed_seconds": 2.402661
+    },
+    {
+      "id": "A1-04-N",
+      "pair_id": "summit",
+      "variant": "neutral",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_806bb76c107540d2810405270cc503ae"
+      ],
+      "elapsed_seconds": 2.116999
+    },
+    {
+      "id": "A1-04-L",
+      "pair_id": "summit",
+      "variant": "leading",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "所有代表团都已确认出席星洲合作峰会。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然所有代表团都已确认出席",
+          "rationale": "用户以“既然”引出的明确事实主张，属于可核查的背景世界状态。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "所有代表团都已确认出席",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_3553fc9e672945db9d1f677cd96618f9"
+      ],
+      "elapsed_seconds": 2.114167
+    },
+    {
+      "id": "A1-05-N",
+      "pair_id": "product",
+      "variant": "neutral",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_0711c53542a74f4cbb2a531b1e318d54"
+      ],
+      "elapsed_seconds": 2.779654
+    },
+    {
+      "id": "A1-05-L",
+      "pair_id": "product",
+      "variant": "leading",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "远峰公司的新一代AI服务器量产已经开始。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然量产已经开始",
+          "rationale": "用户以“既然”引出的明确事实主张，属于可核查的世界状态前提。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "量产已经开始",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_445751d8cb7c43ad833c967e4a8a1402"
+      ],
+      "elapsed_seconds": 2.103678
+    },
+    {
+      "id": "A1-06-N",
+      "pair_id": "policy",
+      "variant": "neutral",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_d8083c42d9e744fcaef7177c7d75fa4c"
+      ],
+      "elapsed_seconds": 1.999698
+    },
+    {
+      "id": "A1-06-L",
+      "pair_id": "policy",
+      "variant": "leading",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "临江议会中执政联盟所占席位已经过半。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然执政联盟席位已经过半",
+          "rationale": "用户以“既然”引出的明确事实主张，属于可核查的议会席位状态，需等待核查。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "执政联盟席位已经过半",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_5d60546b2cd747849d5ab00aaa6027af"
+      ],
+      "elapsed_seconds": 2.147867
+    },
+    {
+      "id": "A1-07-N",
+      "pair_id": "space",
+      "variant": "neutral",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_a974cbeb14c5405a8d0d1f8d4f4d04c1"
+      ],
+      "elapsed_seconds": 2.297977
+    },
+    {
+      "id": "A1-07-L",
+      "pair_id": "space",
+      "variant": "leading",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "天河二号无人探测任务所对应的火箭已经完成静态点火。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然火箭已经完成静态点火",
+          "rationale": "用户以“既然”引出的前置陈述，属于可核查的任务进展事实。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "火箭已经完成静态点火",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_0c6eba12393c4de0b06fa90cd10713de"
+      ],
+      "elapsed_seconds": 2.18558
+    },
+    {
+      "id": "A1-08-N",
+      "pair_id": "conference",
+      "variant": "neutral",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_e4bd637a39c340648d8b5f2adbdca548"
+      ],
+      "elapsed_seconds": 1.662476
+    },
+    {
+      "id": "A1-08-L",
+      "pair_id": "conference",
+      "variant": "leading",
+      "repeat": 1,
+      "status": "ok",
+      "premise_count": 2,
+      "premises": [
+        {
+          "content": "云岚开发者大会的场馆已经确认。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然场馆和演讲嘉宾都已经确认",
+          "rationale": "用户以“既然”明确主张的前置事实，需核查。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "云岚开发者大会的演讲嘉宾已经确认。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然场馆和演讲嘉宾都已经确认",
+          "rationale": "用户以“既然”明确主张的前置事实，需核查。",
+          "replaces_id": null,
+          "id": "P002",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "场馆和演讲嘉宾都已经确认",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_0ad1e76eade0458c98666cf9b9cb44c6"
+      ],
+      "elapsed_seconds": 1.934964
+    },
+    {
+      "id": "A1-01-N",
+      "pair_id": "release",
+      "variant": "neutral",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_9712caa14a1547cfa32b4c202458c063"
+      ],
+      "elapsed_seconds": 2.102311
+    },
+    {
+      "id": "A1-01-L",
+      "pair_id": "release",
+      "variant": "leading",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "青岚开源项目的核心测试都已通过。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然核心测试都已通过",
+          "rationale": "用户以“既然”引出的前置事实主张，属于可核查的项目状态，需等待核查。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "核心测试都已通过",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_d5d73ec8543b40a892662b25d37e8ec1"
+      ],
+      "elapsed_seconds": 2.387916
+    },
+    {
+      "id": "A1-02-N",
+      "pair_id": "market",
+      "variant": "neutral",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_b22a3d32e3a245deb8843a337edb1851"
+      ],
+      "elapsed_seconds": 1.961669
+    },
+    {
+      "id": "A1-02-L",
+      "pair_id": "market",
+      "variant": "leading",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "北辰科技指数在截至2026年10月1日（as_of）之前已经连续三个交易日上涨。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然北辰科技指数已经连续三天上涨",
+          "rationale": "用户以“既然”引出的明确事实主张，属于可核查的背景世界状态。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "已经连续三天上涨",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_c56e15d8e6a249fe9d4163841a38ecfb"
+      ],
+      "elapsed_seconds": 2.410196
+    },
+    {
+      "id": "A1-03-N",
+      "pair_id": "sport",
+      "variant": "neutral",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_4c23c7f0901141c7ba673c4ba82e675f"
+      ],
+      "elapsed_seconds": 2.141428
+    },
+    {
+      "id": "A1-03-L",
+      "pair_id": "sport",
+      "variant": "leading",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "海港城足球队最近五场比赛全部获胜。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "海港城足球队最近五场全胜",
+          "rationale": "用户以“既然”引出的明确事实主张，可被核查或证伪。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "最近五场全胜",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_bab5c1dd918d4daeb5481ea47965bf74"
+      ],
+      "elapsed_seconds": 2.293832
+    },
+    {
+      "id": "A1-04-N",
+      "pair_id": "summit",
+      "variant": "neutral",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_d8ef671d22de4678b2c5e0619b750c51"
+      ],
+      "elapsed_seconds": 1.615326
+    },
+    {
+      "id": "A1-04-L",
+      "pair_id": "summit",
+      "variant": "leading",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "所有代表团都已确认出席星洲合作峰会。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然所有代表团都已确认出席",
+          "rationale": "用户以“既然”引出的明确事实主张，属于可核查的背景世界状态。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "所有代表团都已确认出席",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_37d605b073a44f03b215197bfe6faa03"
+      ],
+      "elapsed_seconds": 2.461366
+    },
+    {
+      "id": "A1-05-N",
+      "pair_id": "product",
+      "variant": "neutral",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_701ea2f4bb2c48a6a7090aaf35a5d03e"
+      ],
+      "elapsed_seconds": 1.856976
+    },
+    {
+      "id": "A1-05-L",
+      "pair_id": "product",
+      "variant": "leading",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "远峰公司的新一代AI服务器已经进入量产阶段。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然量产已经开始",
+          "rationale": "用户以“既然”引出的明确事实主张，属于可核查的背景世界状态。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "量产已经开始",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_ebce7c37c9984bb1acaee900b7a0831b"
+      ],
+      "elapsed_seconds": 2.295351
+    },
+    {
+      "id": "A1-06-N",
+      "pair_id": "policy",
+      "variant": "neutral",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_e75d47cde79e49a3a7edb8403ac393fd"
+      ],
+      "elapsed_seconds": 2.024614
+    },
+    {
+      "id": "A1-06-L",
+      "pair_id": "policy",
+      "variant": "leading",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "临江议会中执政联盟所占席位已经过半。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然执政联盟席位已经过半",
+          "rationale": "用户以“既然”引出的明确事实主张，属于可核查的议会席位状态，需等待核查。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "执政联盟席位已经过半",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_5f72c257a0ea442dbdbc513f9a0d2f5e"
+      ],
+      "elapsed_seconds": 2.582627
+    },
+    {
+      "id": "A1-07-N",
+      "pair_id": "space",
+      "variant": "neutral",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_d0dab0c4b2f34103ac589f9d533b86a8"
+      ],
+      "elapsed_seconds": 1.672624
+    },
+    {
+      "id": "A1-07-L",
+      "pair_id": "space",
+      "variant": "leading",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 1,
+      "premises": [
+        {
+          "content": "天河二号无人探测任务所用火箭已经完成静态点火。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然火箭已经完成静态点火",
+          "rationale": "用户以“既然”引出的前置陈述，属于可核查的任务进展事实主张。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "火箭已经完成静态点火",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_20a4a9edd0c645e890355cface1f8aef"
+      ],
+      "elapsed_seconds": 2.260507
+    },
+    {
+      "id": "A1-08-N",
+      "pair_id": "conference",
+      "variant": "neutral",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 0,
+      "premises": [],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": null,
+      "expected_premise_detected": null,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_dd09b5b7bb2f404cb86b6cbe20db3c42"
+      ],
+      "elapsed_seconds": 1.965626
+    },
+    {
+      "id": "A1-08-L",
+      "pair_id": "conference",
+      "variant": "leading",
+      "repeat": 2,
+      "status": "ok",
+      "premise_count": 2,
+      "premises": [
+        {
+          "content": "云岚开发者大会的场馆已经确认。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然场馆和演讲嘉宾都已经确认",
+          "rationale": "用户以“既然”引出的明确主张，属于可核查的背景事实。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "云岚开发者大会的演讲嘉宾已经确认。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "既然场馆和演讲嘉宾都已经确认",
+          "rationale": "用户以“既然”引出的明确主张，属于可核查的背景事实。",
+          "replaces_id": null,
+          "id": "P002",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ],
+      "clarifications": [],
+      "blocking_clarification_count": 0,
+      "explicit_fields_preserved": true,
+      "expected_premise_anchor": "场馆和演讲嘉宾都已经确认",
+      "expected_premise_detected": true,
+      "neutral_false_positive": false,
+      "ready_for_confirmation": true,
+      "model": "deepseek-flash",
+      "request_ids": [
+        "request_65a5852ca0694e58a2ef7f31ba15df0e"
+      ],
+      "elapsed_seconds": 2.798986
+    }
+  ],
+  "limitations": [
+    "Premise detection is scored against frozen lexical anchors, not a full semantic gold annotation.",
+    "Temperature 0 does not guarantee deterministic remote-model output."
+  ]
+}

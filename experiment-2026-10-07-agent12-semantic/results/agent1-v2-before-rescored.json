@@ -1,0 +1,529 @@
+{
+  "rows": 32,
+  "succeeded": 32,
+  "failed": 0,
+  "neutral_runs": 16,
+  "neutral_raw_any_premise_rate": 0.8125,
+  "neutral_unexpected_premise_rate": 0.8125,
+  "leading_premise_detection_rate": 1.0,
+  "explicit_field_preservation_rate": 1.0,
+  "blocking_clarification_rate": 0.75,
+  "ready_for_confirmation_rate": 0.25,
+  "details": [
+    {
+      "id": "A1V2-01-N",
+      "repeat": 1,
+      "premise_count": 3,
+      "allowed_fact_count": 0,
+      "unexpected_premise_count": 3,
+      "unexpected_premises": [
+        {
+          "content": "Python 3.13.0 存在一个“正式稳定版”（区别于 RC/beta 预发布版本）。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "Python 3.13.0 正式稳定版",
+          "rationale": "用户以“正式稳定版”作为判定对象，隐含该版本类别存在。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "判定标准是 python.org 下载页是否实际提供可下载的正式稳定版。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本？",
+          "rationale": "用户明确以“官方提供可下载版本”为判定口径。",
+          "replaces_id": null,
+          "id": "P002",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "时间截止点为 UTC 2024-10-01 23:59。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "UTC 2024-10-01 23:59 前",
+          "rationale": "用户明确给出截止时间。",
+          "replaces_id": null,
+          "id": "P003",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ]
+    },
+    {
+      "id": "A1V2-02-N",
+      "repeat": 1,
+      "premise_count": 4,
+      "allowed_fact_count": 1,
+      "unexpected_premise_count": 3,
+      "unexpected_premises": [
+        {
+          "content": "研究对象为科创 50 指数在 2026-07-31 的实际收盘点位。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "2026-07-31 科创 50 实际收盘点位",
+          "rationale": "用户原话明确指定标的与日期。",
+          "replaces_id": null,
+          "id": "P002",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "判定标准为严格高于（>）基准点位，而非大于等于。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "是否严格高于",
+          "rationale": "用户原话使用“严格高于”。",
+          "replaces_id": null,
+          "id": "P003",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "该问题为二元判定（是/否）。",
+          "origin": "model_inferred",
+          "source_input_id": "I001",
+          "original_span": "是否严格高于",
+          "rationale": "从“是否”措辞推断为二元问题，用户未显式声明模式。",
+          "replaces_id": null,
+          "id": "P004",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ]
+    },
+    {
+      "id": "A1V2-03-N",
+      "repeat": 1,
+      "premise_count": 3,
+      "allowed_fact_count": 0,
+      "unexpected_premise_count": 3,
+      "unexpected_premises": [
+        {
+          "content": "研究对象是 SpaceX 星舰（Starship）飞行任务。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "SpaceX 星舰",
+          "rationale": "用户问题中明确以 SpaceX 星舰为研究对象。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "判定时间窗口为 2025-03-31 之前。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "在 2025-03-31 前",
+          "rationale": "用户问题中明确给出截止日期。",
+          "replaces_id": null,
+          "id": "P002",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "判定标准是飞行须实际进入轨道并完成轨道级运行，亚轨道弹道飞行不算。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "实际进入轨道并完成轨道级运行的飞行",
+          "rationale": "用户问题中明确以进入轨道并完成轨道级运行为判定标准。",
+          "replaces_id": null,
+          "id": "P003",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ]
+    },
+    {
+      "id": "A1V2-04-N",
+      "repeat": 1,
+      "premise_count": 2,
+      "allowed_fact_count": 0,
+      "unexpected_premise_count": 2,
+      "unexpected_premises": [
+        {
+          "content": "研究对象是曼城（Manchester City）在 2024/25 赛季英超联赛的最终排名。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "曼城是否在 2024/25 英超最终排名前四？",
+          "rationale": "用户明确指定球队、赛季与联赛。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "判定标准为最终排名是否进入前四（名次 ≤ 4）。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "最终排名前四",
+          "rationale": "用户明确给出前四这一阈值。",
+          "replaces_id": null,
+          "id": "P002",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ]
+    },
+    {
+      "id": "A1V2-05-N",
+      "repeat": 1,
+      "premise_count": 3,
+      "allowed_fact_count": 0,
+      "unexpected_premise_count": 3,
+      "unexpected_premises": [
+        {
+          "content": "研究对象是 Artemis II 任务。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "Artemis II",
+          "rationale": "用户问题中明确以 Artemis II 为研究对象。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "判定事件是完成载人发射并安全返回地球。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "完成载人发射并安全返回地球",
+          "rationale": "用户问题中明确给出判定事件的两个环节。",
+          "replaces_id": null,
+          "id": "P002",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "判定截止时间为 2026-06-30。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "2026-06-30 前",
+          "rationale": "用户问题中明确给出时间界限。",
+          "replaces_id": null,
+          "id": "P003",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ]
+    },
+    {
+      "id": "A1V2-06-N",
+      "repeat": 1,
+      "premise_count": 3,
+      "allowed_fact_count": 0,
+      "unexpected_premise_count": 3,
+      "unexpected_premises": [
+        {
+          "content": "存在一个被称作“2025 G20 领导人峰会”的会议，且其有“计划日期”。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "2025 G20 领导人峰会是否在 2025-12-31 前按计划日期实际举行？",
+          "rationale": "用户提问以该峰会及其计划日期为既定对象。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "判定时点为 2025-12-31 之前（含当日）。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "在 2025-12-31 前",
+          "rationale": "用户明确给出时间界限。",
+          "replaces_id": null,
+          "id": "P002",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "判定标准是“按计划日期实际举行”，而非仅宣布或改期。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "按计划日期实际举行",
+          "rationale": "用户明确区分计划与实际举行。",
+          "replaces_id": null,
+          "id": "P003",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ]
+    },
+    {
+      "id": "A1V2-07-N",
+      "repeat": 1,
+      "premise_count": 3,
+      "allowed_fact_count": 0,
+      "unexpected_premise_count": 3,
+      "unexpected_premises": [
+        {
+          "content": "研究对象为纳斯达克 100 指数（NDX）的官方日收盘点位。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "纳斯达克 100 指数 2025-12-31 实际收盘是否高于 2025-06-30 收盘？",
+          "rationale": "用户明确以该指数收盘点位作为比较对象。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "比较的两个时点为 2025-06-30 收盘与 2025-12-31 收盘。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "2025-12-31 实际收盘是否高于 2025-06-30 收盘",
+          "rationale": "用户明确给出两个比较日期。",
+          "replaces_id": null,
+          "id": "P002",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "判定标准为 2025-12-31 收盘点位严格高于 2025-06-30 收盘点位。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "2025-12-31 实际收盘是否高于 2025-06-30 收盘",
+          "rationale": "用户以“高于”表述二元判定方向。",
+          "replaces_id": null,
+          "id": "P003",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ]
+    },
+    {
+      "id": "A1V2-08-N",
+      "repeat": 1,
+      "premise_count": 3,
+      "allowed_fact_count": 0,
+      "unexpected_premise_count": 3,
+      "unexpected_premises": [
+        {
+          "content": "研究对象为黄金现货价格。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "黄金现货",
+          "rationale": "用户问题中明确以“黄金现货”为比较对象。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "比较的是 2026-09-30 的实际收盘价与 2026-06-30 的收盘价。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "2026-09-30 实际收盘价是否高于 2026-06-30 收盘价",
+          "rationale": "用户问题中明确给出两个日期及比较关系。",
+          "replaces_id": null,
+          "id": "P002",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "判定标准为 2026-09-30 收盘价是否高于 2026-06-30 收盘价。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "是否高于",
+          "rationale": "用户问题中明确使用“高于”作为比较方向。",
+          "replaces_id": null,
+          "id": "P003",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ]
+    },
+    {
+      "id": "A1V2-01-N",
+      "repeat": 2,
+      "premise_count": 2,
+      "allowed_fact_count": 0,
+      "unexpected_premise_count": 2,
+      "unexpected_premises": [
+        {
+          "content": "研究对象是 Python 官方发布的 Python 3.13.0 正式稳定版（非 RC/beta）的可下载版本。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本？",
+          "rationale": "用户原话明确指向 Python 官方、Python 3.13.0 正式稳定版、可下载版本。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "判定时间边界为 UTC 2024-10-01 23:59。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "在 UTC 2024-10-01 23:59 前",
+          "rationale": "用户原话给出明确的时间截止点。",
+          "replaces_id": null,
+          "id": "P002",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ]
+    },
+    {
+      "id": "A1V2-02-N",
+      "repeat": 2,
+      "premise_count": 3,
+      "allowed_fact_count": 2,
+      "unexpected_premise_count": 1,
+      "unexpected_premises": [
+        {
+          "content": "研究对象为科创 50 指数的收盘点位。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "科创 50 实际收盘点位",
+          "rationale": "用户原话指明标的与观测值类型。",
+          "replaces_id": null,
+          "id": "P003",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ]
+    },
+    {
+      "id": "A1V2-03-N",
+      "repeat": 2,
+      "premise_count": 0,
+      "allowed_fact_count": 0,
+      "unexpected_premise_count": 0,
+      "unexpected_premises": []
+    },
+    {
+      "id": "A1V2-04-N",
+      "repeat": 2,
+      "premise_count": 2,
+      "allowed_fact_count": 0,
+      "unexpected_premise_count": 2,
+      "unexpected_premises": [
+        {
+          "content": "研究对象是曼城（Manchester City）在 2024/25 赛季英超联赛的最终排名。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "曼城是否在 2024/25 英超最终排名前四？",
+          "rationale": "用户明确指定球队、赛季与联赛。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "判定标准为最终排名是否进入前四（名次 ≤ 4）。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "最终排名前四",
+          "rationale": "用户明确给出前四这一阈值。",
+          "replaces_id": null,
+          "id": "P002",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ]
+    },
+    {
+      "id": "A1V2-05-N",
+      "repeat": 2,
+      "premise_count": 3,
+      "allowed_fact_count": 0,
+      "unexpected_premise_count": 3,
+      "unexpected_premises": [
+        {
+          "content": "研究对象是 Artemis II 任务。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "Artemis II 是否在 2026-06-30 前完成载人发射并安全返回地球？",
+          "rationale": "用户问题明确以 Artemis II 为研究对象。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "判定时间节点为 2026-06-30。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "2026-06-30 前",
+          "rationale": "用户问题中明确给出该日期。",
+          "replaces_id": null,
+          "id": "P002",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "判定标准包含载人发射与安全返回地球两个环节。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "完成载人发射并安全返回地球",
+          "rationale": "用户问题中明确列出这两个环节。",
+          "replaces_id": null,
+          "id": "P003",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ]
+    },
+    {
+      "id": "A1V2-06-N",
+      "repeat": 2,
+      "premise_count": 0,
+      "allowed_fact_count": 0,
+      "unexpected_premise_count": 0,
+      "unexpected_premises": []
+    },
+    {
+      "id": "A1V2-07-N",
+      "repeat": 2,
+      "premise_count": 3,
+      "allowed_fact_count": 0,
+      "unexpected_premise_count": 3,
+      "unexpected_premises": [
+        {
+          "content": "研究对象为纳斯达克 100 指数（NDX）的官方日收盘点位。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "纳斯达克 100 指数 2025-12-31 实际收盘是否高于 2025-06-30 收盘？",
+          "rationale": "用户明确以该指数收盘点位作为比较对象。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "比较的两个时点为 2025-06-30 收盘与 2025-12-31 收盘。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "2025-12-31 实际收盘是否高于 2025-06-30 收盘",
+          "rationale": "用户明确给出两个日期。",
+          "replaces_id": null,
+          "id": "P002",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        },
+        {
+          "content": "判定标准为 2025-12-31 收盘点位严格高于 2025-06-30 收盘点位。",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "2025-12-31 实际收盘是否高于 2025-06-30 收盘？",
+          "rationale": "用户以“高于”表述二元判定。",
+          "replaces_id": null,
+          "id": "P003",
+          "user_review": "pending",
+          "treatment": "to_verify"
+        }
+      ]
+    },
+    {
+      "id": "A1V2-08-N",
+      "repeat": 2,
+      "premise_count": 0,
+      "allowed_fact_count": 0,
+      "unexpected_premise_count": 0,
+      "unexpected_premises": []
+    }
+  ]
+}
