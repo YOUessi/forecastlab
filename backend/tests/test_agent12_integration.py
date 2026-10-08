@@ -66,6 +66,14 @@ def test_confirmed_request_controls_graph_input(tmp_path, clear_framing, monkeyp
         assert payloads["evidence12"]["question_framing"]["draft_id"] == c.draft_id
         assert payloads["world"]["question_framing"]["revision"] == c.revision
         assert payloads["world"]["evidence_assessment"]["findings"][0]["citations"]
+        quality = run["evidence_assessment"]["quality_profile"]
+        assert quality["source_count"] == 1 and quality["source_group_count"] == 1
+        assert quality["body_source_count"] == 0 and quality["validated_finding_count"] == 1
+        assert any("来源组" in warning for warning in quality["warnings"])
+        assert payloads["world"]["evidence_assessment"]["quality_profile"] == quality
+        assert payloads["review"]["evidence_assessment"]["quality_profile"] == quality
+        assert client.get(f"/api/runs/{run['run_id']}/evidence-assessment").json()["quality_profile"] == quality
+        assert "证据质量概览" in client.get(f"/api/runs/{run['run_id']}/export").text
         assert client.get(f"/api/runs/{run['run_id']}/evidence-assessment").status_code == 200
         assert client.get(f"/api/runs/{run['run_id']}/evidence/E001/passages").json()["text"]
 
@@ -123,6 +131,8 @@ def test_failed_retrieval_logs_survive_resume(tmp_path, clear_framing, monkeypat
     monkeypatch.setattr(G, "retrieve_evidence", fail)
     execute(record, [], store)
     assert record.status == "failed" and record.evidence_assessment.retrieval_log
+    assert record.evidence_assessment.quality_profile.source_count == 0
+    assert record.evidence_assessment.quality_profile.search_failure_count == 1
     assert "evidence" not in record.stage_outputs
     execute(store.get(record.run_id), [], store, resume=True)
     assert count == [1], "resume must not exceed the original three-search budget"
