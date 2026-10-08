@@ -13,6 +13,8 @@ MODEL_BASE_URL = (os.getenv("QWEN_BASE_URL", "https://token-plan.maas.qianwenaia
                   if QWEN_API_KEY else os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com"))
 MODEL_NAME = (os.getenv("QWEN_MODEL", "qwen3.8-flash")
               if QWEN_API_KEY else os.getenv("DEEPSEEK_MODEL", "deepseek-flash"))
+BRAVE_SEARCH_API_KEY = os.getenv("BRAVE_SEARCH_API_KEY", "")
+SEARCH_PROXY = os.getenv("FORECASTLAB_SEARCH_PROXY", "")
 TAVILY_API_KEY = os.getenv("TAVILY_API_KEY", "")
 MAX_CALLS = int(os.getenv("FORECASTLAB_MAX_CALLS", "18"))
 MAX_SECONDS = int(os.getenv("FORECASTLAB_MAX_SECONDS", "300"))

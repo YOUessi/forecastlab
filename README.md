@@ -2,9 +2,9 @@
 
 ## 当前实现状态
 
-ForecastLab 现在使用一条正式产品流程：“创建预测 → 问题确认 → 证据与模型 → 推演过程 → 结果与历史”。Agent 1 的问题分析/澄清/前提确认与 Agent 2 的逐项取证/原文追溯已经嵌入这条主流程，不再提供 Agent 1/2 专用产品演示入口。快速本机启动：`bash scripts/start-local.sh`，默认地址 `http://127.0.0.1:8765`。
+ForecastLab 采用**完整预测研究工作台（Research Workspace）**：新建研究 → Agent 1 问题确认 → Agent 2 证据与溯源 → World → Simulation → Review → Forecast。已保留小组最新的可缩放推演画布、阅读面板和来源原文抽屉，而不是 Agent 1/2 的单独演示首页。快速本机启动：`bash scripts/start-local.sh`，默认地址 `http://127.0.0.1:8765`。
 
-无密钥时可点击“运行教学演示”查看固定虚构材料的完整 ForecastLab 流程；固定 Agent 1/2 fixture 仍保留在后端自动化测试中，但不是正式产品入口。教学材料、固定模型响应和概率不代表真实模型质量。
+无密钥时可使用后端固定教学回放或历史记录查看固定虚构材料的完整 ForecastLab 流程；固定 Agent 1/2 fixture 仍保留在后端自动化测试中，但不是正式产品入口。教学材料、固定模型响应和概率不代表真实模型质量。
 
 现在证据阶段还会在同一次预测运行中展示**证据质量概览**（来源组、正文/摘要、检索失败、拒绝候选、未解决冲突），冲突条目可点击关联 E 编号检查原文；相关限制随 EvidenceAssessment 传入 Review，并写入 HTML/JSON 报告。来源组不等于已验证独立性，指标不会自动决定预测概率。详见 [2026-10-08 质量与冲突整合记录](docs/agent12/evidence-quality-integration-2026-10-08.md)。
 
@@ -19,7 +19,7 @@ uv run --group browser pytest frontend/tests -q
 uv run python eval/agent12.py --mode fixture --cases examples/agent12/neutral-leading-pairs.json --output fixture-eval.json
 ```
 
-真实生成仍需在后端 `.env` 配置模型服务，在线检索另需 Tavily。没有配置时返回明确错误，不把固定答案作为真实分析。浏览器测试只访问临时本机服务；最终 Python 自动化测试禁止真实 httpx 出网。
+真实生成仍需在后端 `.env` 配置模型服务，在线检索可使用 Brave 或 Tavily。没有配置时返回明确错误，不把固定答案作为真实分析。浏览器测试只访问临时本机服务；最终 Python 自动化测试禁止真实 httpx 出网。
 
 源码包和补丁由 `scripts/package_agent12.py` 从**已提交**版本生成，排除运行数据和凭证。不要把 `.env`、数据库、模型密钥或用户材料加入小组仓库。
 
@@ -27,7 +27,7 @@ uv run python eval/agent12.py --mode fixture --cases examples/agent12/neutral-le
 
 基于证据溯源与多主体推演的课程级预测工作台。这个仓库实现了所附 [工程计划](docs/agent-framework-plan-v1.html) 的核心 Demo：统一问题格式、证据包或在线检索、LangGraph 状态图、主体独立行动、两轮环境推进、审查、主观概率、SQLite 回放与报告导出。
 
-**状态说明：**教学演示仍使用明确标注的虚构材料与固定输出，用于无密钥联调；真实运行需要模型服务 Key，在线检索另需 Tavily Key。仓库现已包含 DeepSeek `deepseek-flash`、temperature=0 的冻结历史评测、Agent 1/2 语义审计、真实 Tavily 检索质量评测，以及真实模型 + 真实 Tavily 的 HTTP Live E2E。它们仍是课程级实验，不代表概率已校准。完整实验见 [ForecastLab-v2 多臂评测](experiment-2026-10-07-v2/report.md)、[Agent 1/2 语义稳健性](experiment-2026-10-07-agent12-semantic/report.md)、[Tavily Live Retrieval](experiment-2026-10-07-tavily/report.md) 与 [Live Full E2E](experiment-2026-10-07-live-e2e/report.md)。
+**状态说明：**教学演示仍使用明确标注的虚构材料与固定输出，用于无密钥联调；真实运行需要模型服务 Key，在线检索另需 Brave 或 Tavily Key。仓库现已包含 DeepSeek `deepseek-flash`、temperature=0 的冻结历史评测、Agent 1/2 语义审计、真实 Tavily 检索质量评测，以及真实模型 + 真实 Tavily 的 HTTP Live E2E。它们仍是课程级实验，不代表概率已校准。完整实验见 [ForecastLab-v2 多臂评测](experiment-2026-10-07-v2/report.md)、[Agent 1/2 语义稳健性](experiment-2026-10-07-agent12-semantic/report.md)、[Tavily Live Retrieval](experiment-2026-10-07-tavily/report.md) 与 [Live Full E2E](experiment-2026-10-07-live-e2e/report.md)。
 
 ## 与小组主仓库研究线整合（2026-10-08）
 
@@ -43,7 +43,7 @@ cd frontend && npm ci && npm run build && cd ..
 uv run uvicorn app.api:app --app-dir backend --host 127.0.0.1 --port 8000
 ```
 
-打开 <http://127.0.0.1:8000>，点击“运行教学演示”。它会经过同一个 LangGraph 流程，显示 3 个主体、2 轮行动、审查、引用和回放。首次运行会在 `data/` 创建 SQLite 与各阶段 JSON 快照。
+打开 <http://127.0.0.1:8000>，使用后端固定教学回放或历史记录。它会经过同一个 LangGraph 流程，显示 3 个主体、2 轮行动、审查、引用和回放。首次运行会在 `data/` 创建 SQLite 与各阶段 JSON 快照。
 
 首页另有科技、体育、公共事件三个**问题预设**。它们只填写问题和结算规则；需要真实证据与模型密钥才能生成新预测。
 

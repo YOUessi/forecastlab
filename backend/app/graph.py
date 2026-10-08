@@ -272,6 +272,12 @@ def validate_forecast(forecast: Forecast, question: QuestionSpec, evidence: list
     if question.mode == "scenario" or (review.status == "blocked" and not evidence_only) or not evidence:
         forecast.probabilities = None
         forecast.status = "scenario_only" if question.mode == "scenario" else "insufficient_evidence"
+    if question.mode == "scenario":
+        if any(re.search(r"\d+(?:\.\d+)?\s*[%％]", item)
+               and not re.search(r"假设|示意|非统计|未经校准", item) for item in forecast.scenarios):
+            raise ValueError("情景中的定量比例须明确标为假设，不得呈现为已测量或有依据的预测")
+        if any(re.match(r"^E\d+\s*(?:显示|指出|提及)", item) for item in forecast.new_information):
+            raise ValueError("后续信息应描述待收集或核验的资料，不能复述来源结论")
     if require_probability and forecast.probabilities is None:
         raise ValueError("事前证据复审允许主观概率，报告仍未给出概率")
     if forecast.probabilities is not None:
@@ -305,6 +311,20 @@ def repair_forecast(forecast: Forecast, question: QuestionSpec, evidence: list[E
                 removed += 1
         setattr(forecast, name, valid_claims)
     forecast.key_assumptions = [item for item in forecast.key_assumptions if item in assumption_ids]
+    if question.mode == "scenario":
+        forecast.scenarios = [item for item in forecast.scenarios
+                              if not re.search(r"\d+(?:\.\d+)?\s*[%％]", item)
+                              or re.search(r"假设|示意|非统计|未经校准", item)]
+        forecast.new_information = [item for item in forecast.new_information
+                                    if not re.match(r"^E\d+\s*(?:显示|指出|提及)", item)]
+    if any(marker in reason for marker in ("情景中的定量比例", "后续信息应描述")):
+        # Field-level unsupported assertion: retain only audit trail.
+        forecast.supporting = []
+        forecast.opposing = []
+        forecast.scenarios = []
+        forecast.new_information = []
+        forecast.key_assumptions = []
+        forecast.limitations = [item for item in forecast.limitations if "校验未通过" in item]
     forecast.probabilities = None
     forecast.status = ("scenario_only" if question.mode == "scenario" else
                        "insufficient_evidence" if not evidence or (review.status == "blocked" and review.probability_basis != "evidence_only")
@@ -341,6 +361,25 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
                 payload[key] = context["evidence"]
                 payload["evidence_assessment"] = context["assessment"].model_dump(mode="json")
                 payload["evidence_context_limitations"] = context["limitations"]
+            if role in {"world", "actor", "environment", "review", "forecast"}:
+                # Downstream references must use E/H/M/S, while the persisted
+                # framing keeps full premise IDs for provenance and user review.
+                if "question_framing" in payload:
+                    frame = payload["question_framing"]
+                    payload["question_framing"] = {
+                        "revision": frame["revision"], "proposed_spec": frame["proposed_spec"],
+                        "premises": [{key: premise[key] for key in ("content", "user_review", "treatment")}
+                                     for premise in frame["premises"]],
+                    }
+                if "evidence_assessment" in payload:
+                    def remove_premise_targets(value):
+                        if isinstance(value, dict):
+                            return {key: remove_premise_targets(item) for key, item in value.items()
+                                    if key != "target_premise_ids"}
+                        if isinstance(value, list):
+                            return [remove_premise_targets(item) for item in value]
+                        return value
+                    payload["evidence_assessment"] = remove_premise_targets(payload["evidence_assessment"])
             instructions += " 待核查前提不是事实；P不能作为外部证据。"
         if record.evidence_assessment and record.evidence_assessment.findings_validated:
             if role == "review":
@@ -418,11 +457,40 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
     def world_node(state: FlowState):
         question = QuestionSpec.model_validate(state["question"])
         evidence = [Evidence.model_validate(x) for x in state["evidence"]]
-        world = ask("world", {"question": question.model_dump(mode="json"), "evidence": evidence_for_model(evidence, 1600), "evidence_assessment": state["evidence_assessment"]}, WorldState,
-                    "只用 E 编号引用外部事实；不确定的动机必须写为 assumption。assumption.parent_ids 可引用合法 F finding 作为中间溯源节点，"
-                    "但 world.evidence_refs 和 actor.visible_evidence_ids 仍只能引用 E。若无战略主体，可留空 actors 并说明原因。主体最多 3 个。"
-                    "信息截至时间之后的事件均未发生，计划发布日期不能写成实际发布日期。"
-                    "市场价格问题可以没有战略主体；预测期行情未知是需要预测的目标，不能据此认定无法预测。")
+        evidence_ids = {e.id for e in evidence}
+        assessment = EvidenceAssessment.model_validate(state["evidence_assessment"])
+        validated_findings = validated_finding_ids(assessment, evidence_ids)
+        parent_ids_allowed = evidence_ids | validated_findings
+        world_payload = {
+            "question": question.model_dump(mode="json"),
+            "evidence": evidence_for_model(evidence, 1600),
+            "evidence_assessment": state["evidence_assessment"],
+            "valid_evidence_ids": sorted(evidence_ids),
+            "valid_finding_ids": sorted(validated_findings),
+        }
+        world_instructions = (
+            "构建条件性的世界状态，不要把预测当作已发生事实。E 才是外部证据；"
+            "经过原文校验的 F 可以作为假设的中间溯源节点，但不能假装它是独立来源。"
+            "assumption.parent_ids 仅允许 E、经过校验的 F 或本次定义的 H 编号；"
+            "world.evidence_refs 和 actor.visible_evidence_ids 必须引用 E。"
+            "若无战略主体，可留空 actors 并说明原因。主体最多 3 个。"
+            "信息截至日之后尚未发生的事件不能陈述为既成事实。"
+        )
+        for attempt in range(2):
+            world = ask("world", world_payload, WorldState, world_instructions)
+            try:
+                model_h_ids = {a.id for a in world.assumptions}
+                check_ids(world.evidence_refs, evidence_ids | validated_findings, "世界状态")
+                for actor in world.actors:
+                    check_ids(actor.visible_evidence_ids, evidence_ids | validated_findings, "主体画像")
+                for assumption in world.assumptions:
+                    check_ids(assumption.parent_ids, parent_ids_allowed | model_h_ids, "假设")
+                break
+            except ValueError as exc:
+                if attempt:
+                    raise
+                world_payload["validation_feedback"] = str(exc)
+                world_payload["invalid_output"] = world.model_dump(mode="json")
         world.actors = world.actors[:3]
         canonicalize_world_ids(world)
         allowed_conditions = set(question.user_assumptions)
@@ -486,8 +554,31 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
             parent = round_number - 1
             def actor_call(actor):
                 visible = evidence_for_model([e for e in evidence if e.id in actor.visible_evidence_ids], 1000)
-                action = ask("actor", {"question": state["question"], "actor": actor.model_dump(), "state": current, "visible_evidence": visible, "round": round_number}, ActorAction,
-                             "只代表这个主体做一个可能行动。信息截至时间之后的行动只能是假设情景，不可说成真实事实；计划日期不是实际发布日期。只引用给你的证据编号。", actor_id=actor.id, round_number=round_number)
+                actor_evidence_ids = {e["id"] for e in visible}
+                actor_h_ids = {a.id for a in world.assumptions}
+                actor_payload = {
+                    "question": state["question"], "actor": actor.model_dump(),
+                    "state": current, "visible_evidence": visible, "round": round_number,
+                    "valid_evidence_ids": sorted(actor_evidence_ids),
+                    "valid_assumption_ids": sorted(actor_h_ids),
+                }
+                actor_instructions = (
+                    "仅做一次条件性行动；evidence_ids 只允许 valid_evidence_ids 中的 E，"
+                    "assumption_ids 只允许 valid_assumption_ids 中的 H。H 是假设而不是证据。"
+                    "不得声称预测期计划或假设的行动已经发生。"
+                )
+                for attempt in range(2):
+                    action = ask("actor", actor_payload, ActorAction, actor_instructions,
+                                 actor_id=actor.id, round_number=round_number)
+                    try:
+                        check_ids(action.evidence_ids, actor_evidence_ids, "主体行动")
+                        check_ids(action.assumption_ids, actor_h_ids, "主体行动假设")
+                        break
+                    except ValueError as exc:
+                        if attempt:
+                            raise
+                        actor_payload["validation_feedback"] = str(exc)
+                        actor_payload["invalid_output"] = action.model_dump(mode="json")
                 action.id = f"M{round_number}-{actor.id}"
                 action.created_by = actor.id
                 action.actor_id = actor.id
@@ -532,13 +623,45 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
         question = QuestionSpec.model_validate(state["question"])
         evidence = [Evidence.model_validate(x) for x in state["evidence"]]
         world = WorldState.model_validate(state["world"])
-        review = ask("review", {"question": state["question"], "evidence": evidence_for_model(evidence, 1200), "evidence_assessment": state["evidence_assessment"], "world": state["world"], **trace_for_model(state)}, Review,
-                     "检查给定证据节选是否支持关键判断、遗漏反证和模拟跳步。最多列 5 条关键问题，每条不超过 80 字；严重问题用 blocked。"
-                     "审查时参考 evidence_assessment.quality_profile 的来源覆盖与检索限制：来源组不等于独立认证，"
-                     "仅摘要、日期未知、疑似同源或被拒绝发现不能被包装为已验证事实。"
-                     "这些是风险提示，不得单凭统计数量自动判为 blocked，也不得直接由这些数量修改概率。"
-                     "信息截至日之后的结果未知是预测对象，不得要求未来证据来证明结果；可指出截至日当时缺少的资料。"
-                     "affected_ids 可引用已有证据、假设、主体、行动或模拟编号，不能新造编号或证据。")
+        evidence_ids_for_review = {e.id for e in evidence}
+        assessment_for_review = EvidenceAssessment.model_validate(state["evidence_assessment"])
+        trusted_findings = validated_finding_ids(assessment_for_review, evidence_ids_for_review)
+        valid_review_ids = (
+            evidence_ids_for_review | trusted_findings |
+            {a.id for a in world.assumptions} | {a.id for a in world.actors} |
+            {a["id"] for a in state["actions"]} | {item["id"] for item in state["simulation"]}
+        )
+        review_payload = {
+            "question": state["question"], "evidence": evidence_for_model(evidence, 1200),
+            "evidence_assessment": state["evidence_assessment"], "world": state["world"],
+            **trace_for_model(state), "valid_affected_ids": sorted(valid_review_ids),
+        }
+        review_instructions = (
+            "检查证据是否支持关键判断、遗漏反证和模拟跳步。最多五个简洁问题。"
+            "审查时关注 evidence_assessment.quality_profile 的来源覆盖和限制；"
+            "来源组不等于独立认证，来源数量不能自动修改概率或成为 blocked 判据。"
+            "不要求预测期尚未发生的结果作为证据。affected_ids 只能使用 valid_affected_ids；"
+            "F 仅用于定位已验证 Finding，不等于新外部证据；禁止 R 检索任务编号。"
+        )
+        for attempt in range(2):
+            review = ask("review", review_payload, Review, review_instructions)
+            invalid = sorted({
+                rid for issue in review.issues
+                if not mistakes_future_outcome_for_missing_evidence(
+                    f"{issue.claim} {issue.explanation}", question
+                )
+                for rid in canonical_ids(issue.affected_ids, valid_review_ids)
+                if rid not in valid_review_ids
+            })
+            if not invalid:
+                break
+            if attempt:
+                raise ValueError("审查意见引用了不存在的节点：" + ", ".join(invalid))
+            review_payload["validation_feedback"] = {
+                "invalid_affected_ids": invalid,
+                "allowed_ids": sorted(valid_review_ids),
+                "instruction": "删除无效引用，或改用 allowed_ids 中的真实编号。",
+            }
         future_gap_found = any(mistakes_future_outcome_for_missing_evidence(
             f"{issue.claim} {issue.explanation}", question) for issue in review.issues)
         future_gap_found |= any(mistakes_future_outcome_for_missing_evidence(x, question, assume_missing=True)
@@ -649,6 +772,10 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
             probability_instructions = (f"概率键必须严格为 {question.outcomes}，数值在 0 到 1 且合计为 1；"
                                         "概率是未经校准的主观判断；证据不足或开放问题必须用 null。")
             forecast_schema = Forecast
+        if question.mode == "scenario":
+            instructions += ("Open scenario analysis: use qualitative conditional possibilities, not invented "
+                             "impact percentages or arbitrary numerical indices. Source material and simulation "
+                             "outcomes are not measurements, and new_information lists what needs verifying. ")
         if price_context:
             forecast_payload["market_price_context"] = price_context
             price_note = ("对于市场价格问题，先比较预测期限与历史价格覆盖：一两日涨势不能直接外推到月末，"

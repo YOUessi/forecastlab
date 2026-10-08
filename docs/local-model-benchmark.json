@@ -1,0 +1,71 @@
+{
+  "model": "Qwen3-8B",
+  "dtype": "BF16",
+  "physical_gpu": [
+    4
+  ],
+  "thinking": false,
+  "max_model_len": 16384,
+  "single_request_runs": [
+    {
+      "completion_tokens": 128,
+      "ttft_seconds": 0.0486,
+      "end_to_end_seconds": 4.3948,
+      "end_to_end_output_tokens_per_second": 29.13,
+      "approximate_decode_tokens_per_second": 29.22,
+      "text_sample": "学习Python编程是一个循序渐进的过程，适合初学者和有经验的开发者。Python语法简洁、功能强大，广泛应用于数据分析、人工智能、Web开发、自动化脚本等多个领域。以下是详细的**学习Python编程的步骤和练习建议**，帮助你从零开始掌握Python。\n\n---\n\n## 一、学习Python前的准备\n\n### 1.1 了解Python的基本概念\n- Python是一种**解释型语言**，不需要编译，直接运行。\n- Python是**面向对象**的，也支持函数式编程。\n- Python语法简洁，代码可读性强，适合初学者"
+    },
+    {
+      "completion_tokens": 128,
+      "ttft_seconds": 0.0487,
+      "end_to_end_seconds": 4.396,
+      "end_to_end_output_tokens_per_second": 29.12,
+      "approximate_decode_tokens_per_second": 29.21,
+      "text_sample": "学习Python编程是一个循序渐进的过程，适合初学者和有经验的开发者。Python语法简洁、功能强大，广泛应用于数据分析、人工智能、Web开发、自动化脚本等多个领域。以下是详细的**学习Python编程的步骤和练习建议**，帮助你从零开始掌握Python。\n\n---\n\n## 一、学习Python前的准备\n\n### 1.1 了解Python的基本概念\n- Python是一种**解释型语言**，不需要编译，直接运行。\n- Python是**面向对象**的，也支持函数式编程。\n- Python语法简洁，代码可读性强，适合初学者"
+    },
+    {
+      "completion_tokens": 128,
+      "ttft_seconds": 0.0483,
+      "end_to_end_seconds": 4.3943,
+      "end_to_end_output_tokens_per_second": 29.13,
+      "approximate_decode_tokens_per_second": 29.22,
+      "text_sample": "学习Python编程是一个循序渐进的过程，适合初学者和有经验的开发者。Python语法简洁、功能强大，广泛应用于数据分析、人工智能、Web开发、自动化脚本等多个领域。以下是详细的**学习Python编程的步骤和练习建议**，帮助你从零开始掌握Python。\n\n---\n\n## 一、学习Python前的准备\n\n### 1.1 了解Python的基本概念\n- Python是一种**解释型语言**，不需要编译，直接运行。\n- Python是**面向对象**的，也支持函数式编程。\n- Python语法简洁，代码可读性强，适合初学者"
+    }
+  ],
+  "concurrency_4_runs": [
+    {
+      "completion_tokens": 128,
+      "ttft_seconds": 0.0538,
+      "end_to_end_seconds": 5.1448,
+      "end_to_end_output_tokens_per_second": 24.88,
+      "approximate_decode_tokens_per_second": 24.95,
+      "text_sample": "学习Python编程是一个循序渐进的过程，适合初学者和有经验的开发者。Python语法简洁、功能强大，广泛应用于数据分析、人工智能、Web开发、自动化脚本等多个领域。以下是详细的**学习Python编程的步骤和练习建议**，帮助你从零开始掌握Python。\n\n---\n\n## 一、学习Python前的准备\n\n### 1.1 了解Python的基本概念\n- Python是一种**解释型语言**，不需要编译，直接运行。\n- Python是**面向对象**的，也支持函数式编程。\n- Python语法简洁，代码可读性强，适合初学者"
+    },
+    {
+      "completion_tokens": 128,
+      "ttft_seconds": 0.1012,
+      "end_to_end_seconds": 5.1845,
+      "end_to_end_output_tokens_per_second": 24.69,
+      "approximate_decode_tokens_per_second": 24.98,
+      "text_sample": "学习Python编程是一个循序渐进的过程，适合初学者和有经验的开发者。Python语法简洁、功能强大，广泛应用于数据分析、人工智能、Web开发、自动化脚本等多个领域。以下是详细的**学习Python编程的步骤和练习建议**，帮助你从零开始掌握Python。\n\n---\n\n## 一、学习Python前的准备\n\n### 1.1 了解Python的基本概念\n- Python是一种**解释型语言**，不需要编译，直接运行。\n- Python是**面向对象**的，也支持函数式编程。\n- Python语法简洁，代码可读性强，适合初学者"
+    },
+    {
+      "completion_tokens": 128,
+      "ttft_seconds": 0.1009,
+      "end_to_end_seconds": 5.1842,
+      "end_to_end_output_tokens_per_second": 24.69,
+      "approximate_decode_tokens_per_second": 24.98,
+      "text_sample": "学习Python编程是一个循序渐进的过程，适合初学者和有经验的开发者。Python语法简洁、功能强大，广泛应用于数据分析、人工智能、Web开发、自动化脚本等多个领域。以下是详细的**学习Python编程的步骤和练习建议**，帮助你从零开始掌握Python。\n\n---\n\n## 一、学习Python前的准备\n\n### 1.1 了解Python的基本概念\n- Python是一种**解释型语言**，不需要编译，直接运行。\n- Python是**面向对象**的，也支持函数式编程。\n- Python语法简洁，代码可读性强，适合初学者"
+    },
+    {
+      "completion_tokens": 128,
+      "ttft_seconds": 0.1005,
+      "end_to_end_seconds": 5.1839,
+      "end_to_end_output_tokens_per_second": 24.69,
+      "approximate_decode_tokens_per_second": 24.98,
+      "text_sample": "学习Python编程是一个循序渐进的过程，适合初学者和有经验的开发者。Python语法简洁、功能强大，广泛应用于数据分析、人工智能、Web开发、自动化脚本等多个领域。以下是详细的**学习Python编程的步骤和练习建议**，帮助你从零开始掌握Python。\n\n---\n\n## 一、学习Python前的准备\n\n### 1.1 了解Python的基本概念\n- Python是一种**解释型语言**，不需要编译，直接运行。\n- Python是**面向对象**的，也支持函数式编程。\n- Python语法简洁，代码可读性强，适合初学者"
+    }
+  ],
+  "concurrency_4_aggregate_output_tokens_per_second": 98.72,
+  "measurement_note": "Decode rate is approximate because streaming chunks can contain multiple tokens. Token counts come from server usage, not character estimates. This is a short prompt workload."
+}
