@@ -42,7 +42,7 @@ PROMPT = """你是严格的文本蕴含判定器。只能依据 exact_quotes 判
 class Decision(BaseModel):
     label: Literal["entailed", "partially_entailed", "not_entailed", "unclear"]
     confidence: float = Field(ge=0, le=1)
-    unsupported_spans: list[str] = Field(default_factory=list)
+    unsupported_spans: list[str | dict[str, int]] = Field(default_factory=list)
     rationale: str = Field(default="", max_length=1000)
 
 
@@ -74,6 +74,10 @@ def load_runtime(model_name: str):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
     model.eval()
+    model.generation_config.do_sample = False
+    model.generation_config.temperature = None
+    model.generation_config.top_p = None
+    model.generation_config.top_k = None
     return torch, tokenizer, model, device
 
 
