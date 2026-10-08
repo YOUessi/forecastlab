@@ -1,0 +1,588 @@
+{
+  "benchmark_rows": 157,
+  "split": "dev",
+  "judged_rows": 157,
+  "coverage": 1.0,
+  "four_class_exact_accuracy": 0.535031847133758,
+  "confusion_matrix": {
+    "entailed": {
+      "entailed": 45,
+      "partially_entailed": 15,
+      "not_entailed": 3,
+      "unclear": 7
+    },
+    "partially_entailed": {
+      "entailed": 4,
+      "partially_entailed": 34,
+      "not_entailed": 8,
+      "unclear": 11
+    },
+    "not_entailed": {
+      "entailed": 8,
+      "partially_entailed": 11,
+      "not_entailed": 5,
+      "unclear": 6
+    },
+    "unclear": {
+      "entailed": 0,
+      "partially_entailed": 0,
+      "not_entailed": 0,
+      "unclear": 0
+    }
+  },
+  "missing_prediction_ids": [],
+  "thresholds": [
+    {
+      "threshold": 0.5,
+      "accepted": 57,
+      "acceptance_rate": 0.3630573248407643,
+      "strict_support_among_accepted": 0.7894736842105263,
+      "strict_support_wilson95": [
+        0.6671363132153347,
+        0.875255734331081
+      ],
+      "supported_recall": 0.6428571428571429,
+      "false_accept_count": 12,
+      "false_accepts": [
+        {
+          "id": "natural-0053",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "semantic-hardneg-0002",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0007",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "target_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0008",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0018",
+          "case_id": "C01-python313",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0021",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0029",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0031",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "target_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0033",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0061",
+          "case_id": "C01-python313",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0083",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0096",
+          "case_id": "C01-python313",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        }
+      ]
+    },
+    {
+      "threshold": 0.7,
+      "accepted": 57,
+      "acceptance_rate": 0.3630573248407643,
+      "strict_support_among_accepted": 0.7894736842105263,
+      "strict_support_wilson95": [
+        0.6671363132153347,
+        0.875255734331081
+      ],
+      "supported_recall": 0.6428571428571429,
+      "false_accept_count": 12,
+      "false_accepts": [
+        {
+          "id": "natural-0053",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "semantic-hardneg-0002",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0007",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "target_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0008",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0018",
+          "case_id": "C01-python313",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0021",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0029",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0031",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "target_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0033",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0061",
+          "case_id": "C01-python313",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0083",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0096",
+          "case_id": "C01-python313",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        }
+      ]
+    },
+    {
+      "threshold": 0.8,
+      "accepted": 57,
+      "acceptance_rate": 0.3630573248407643,
+      "strict_support_among_accepted": 0.7894736842105263,
+      "strict_support_wilson95": [
+        0.6671363132153347,
+        0.875255734331081
+      ],
+      "supported_recall": 0.6428571428571429,
+      "false_accept_count": 12,
+      "false_accepts": [
+        {
+          "id": "natural-0053",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "semantic-hardneg-0002",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0007",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "target_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0008",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0018",
+          "case_id": "C01-python313",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0021",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0029",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0031",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "target_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0033",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0061",
+          "case_id": "C01-python313",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0083",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0096",
+          "case_id": "C01-python313",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        }
+      ]
+    },
+    {
+      "threshold": 0.9,
+      "accepted": 57,
+      "acceptance_rate": 0.3630573248407643,
+      "strict_support_among_accepted": 0.7894736842105263,
+      "strict_support_wilson95": [
+        0.6671363132153347,
+        0.875255734331081
+      ],
+      "supported_recall": 0.6428571428571429,
+      "false_accept_count": 12,
+      "false_accepts": [
+        {
+          "id": "natural-0053",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "semantic-hardneg-0002",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0007",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "target_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0008",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0018",
+          "case_id": "C01-python313",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0021",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0029",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0031",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "target_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0033",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0061",
+          "case_id": "C01-python313",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0083",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0096",
+          "case_id": "C01-python313",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        }
+      ]
+    },
+    {
+      "threshold": 0.95,
+      "accepted": 57,
+      "acceptance_rate": 0.3630573248407643,
+      "strict_support_among_accepted": 0.7894736842105263,
+      "strict_support_wilson95": [
+        0.6671363132153347,
+        0.875255734331081
+      ],
+      "supported_recall": 0.6428571428571429,
+      "false_accept_count": 12,
+      "false_accepts": [
+        {
+          "id": "natural-0053",
+          "case_id": "C08-typescript6-release",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "semantic-hardneg-0002",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0007",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "target_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0008",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0018",
+          "case_id": "C01-python313",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0021",
+          "case_id": "C04-starship-orbit",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0029",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0031",
+          "case_id": "C15-artemis2-complete",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "target_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0033",
+          "case_id": "C17-iss-crewed-2024",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "causal_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0061",
+          "case_id": "C01-python313",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0083",
+          "case_id": "C21-fed-sep-cut",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0096",
+          "case_id": "C01-python313",
+          "finding_id": "F001",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        }
+      ]
+    }
+  ],
+  "by_phenomenon": {
+    "causal_strengthening": {
+      "n": 13,
+      "exact_accuracy": 0.6923076923076923,
+      "entailed_gold": 0,
+      "judge_accepted": 2,
+      "accept_precision": 0.0
+    },
+    "exclusivity_strengthening": {
+      "n": 15,
+      "exact_accuracy": 0.4666666666666667,
+      "entailed_gold": 0,
+      "judge_accepted": 1,
+      "accept_precision": 0.0
+    },
+    "natural": {
+      "n": 87,
+      "exact_accuracy": 0.6666666666666666,
+      "entailed_gold": 70,
+      "judge_accepted": 46,
+      "accept_precision": 0.9782608695652174
+    },
+    "plan_to_actual": {
+      "n": 24,
+      "exact_accuracy": 0.16666666666666666,
+      "entailed_gold": 0,
+      "judge_accepted": 6,
+      "accept_precision": 0.0
+    },
+    "scope_expansion": {
+      "n": 12,
+      "exact_accuracy": 0.4166666666666667,
+      "entailed_gold": 0,
+      "judge_accepted": 0,
+      "accept_precision": null
+    },
+    "stance_flip": {
+      "n": 1,
+      "exact_accuracy": 1.0,
+      "entailed_gold": 0,
+      "judge_accepted": 0,
+      "accept_precision": null
+    },
+    "target_to_actual": {
+      "n": 4,
+      "exact_accuracy": 0.0,
+      "entailed_gold": 0,
+      "judge_accepted": 2,
+      "accept_precision": 0.0
+    },
+    "uncertainty_to_certainty": {
+      "n": 1,
+      "exact_accuracy": 0.0,
+      "entailed_gold": 0,
+      "judge_accepted": 0,
+      "accept_precision": null
+    }
+  },
+  "judge_model": "/tmp/qwen2.5-7b-awq-local",
+  "judge_type": "local_awq_llm",
+  "independent_model": true,
+  "same_as_generator_model": false
+}
