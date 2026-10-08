@@ -1,0 +1,60 @@
+[
+  {
+    "name": "qwen1.5+qwen3",
+    "thresholds": [
+      0.5,
+      0.5
+    ],
+    "dev": {
+      "accepted": 43,
+      "precision": 0.7674418604651163,
+      "recall": 0.4714285714285714,
+      "false_accepts": 10
+    },
+    "test": {
+      "accepted": 20,
+      "precision": 0.85,
+      "recall": 0.5,
+      "false_accepts": 3
+    }
+  },
+  {
+    "name": "nli+qwen3",
+    "thresholds": [
+      0.95,
+      0.5
+    ],
+    "dev": {
+      "accepted": 33,
+      "precision": 0.8181818181818182,
+      "recall": 0.38571428571428573,
+      "false_accepts": 6
+    },
+    "test": {
+      "accepted": 18,
+      "precision": 0.9444444444444444,
+      "recall": 0.5,
+      "false_accepts": 1
+    }
+  },
+  {
+    "name": "nli+qwen1.5+qwen3",
+    "thresholds": [
+      0.95,
+      0.5,
+      0.5
+    ],
+    "dev": {
+      "accepted": 28,
+      "precision": 0.8928571428571429,
+      "recall": 0.35714285714285715,
+      "false_accepts": 3
+    },
+    "test": {
+      "accepted": 16,
+      "precision": 1.0,
+      "recall": 0.47058823529411764,
+      "false_accepts": 0
+    }
+  }
+]
