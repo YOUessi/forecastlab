@@ -474,6 +474,9 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
         world = WorldState.model_validate(state["world"])
         review = ask("review", {"question": state["question"], "evidence": evidence_for_model(evidence, 1200), "evidence_assessment": state["evidence_assessment"], "world": state["world"], **trace_for_model(state)}, Review,
                      "检查给定证据节选是否支持关键判断、遗漏反证和模拟跳步。最多列 5 条关键问题，每条不超过 80 字；严重问题用 blocked。"
+                     "审查时参考 evidence_assessment.quality_profile 的来源覆盖与检索限制：来源组不等于独立认证，"
+                     "仅摘要、日期未知、疑似同源或被拒绝发现不能被包装为已验证事实。"
+                     "这些是风险提示，不得单凭统计数量自动判为 blocked，也不得直接由这些数量修改概率。"
                      "信息截至日之后的结果未知是预测对象，不得要求未来证据来证明结果；可指出截至日当时缺少的资料。"
                      "affected_ids 可引用已有证据、假设、主体、行动或模拟编号，不能新造编号或证据。")
         future_gap_found = any(mistakes_future_outcome_for_missing_evidence(
