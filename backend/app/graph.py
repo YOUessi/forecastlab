@@ -147,6 +147,52 @@ def canonical_ids(values: list[str], valid: set[str]) -> list[str]:
     return list(dict.fromkeys(normalized))
 
 
+def finding_evidence_map(assessment: dict | None) -> dict[str, list[str]]:
+    """Map finding ids (``F001``…) to the evidence ids they cite.
+
+    Review/世界状态 stages routinely reference a finding when they mean the
+    evidence behind it. Without this map those references fail validation and the
+    whole run aborts, which is what used to happen on more than half of cases.
+    """
+    if not assessment or not assessment.get("findings_validated", False):
+        # Legacy/model-supplied findings are not certified quote references.
+        return {}
+    mapping: dict[str, list[str]] = {}
+    for finding in (assessment or {}).get("findings") or []:
+        fid = finding.get("id")
+        ids = [c.get("evidence_id") for c in (finding.get("citations") or []) if c.get("evidence_id")]
+        if fid and ids:
+            mapping[fid] = list(dict.fromkeys(ids))
+    return mapping
+
+
+def resolve_refs(values: list[str], valid: set[str],
+                 *, expansions: dict[str, list[str]] | None = None) -> tuple[list[str], list[str]]:
+    """Canonicalize model-authored references, expand aliases, drop the rest.
+
+    Model references are advisory: each resolved id is kept, an alias (a finding
+    id) is expanded to the ids it stands for, and anything still unknown is
+    dropped and reported rather than raising — the surviving output still
+    satisfies "no invented ids", and one bad id no longer aborts the run.
+    """
+    aliases = expansions or {}
+    allowed = valid | set(aliases)
+    resolved: list[str] = []
+    dropped: list[str] = []
+    for value in values:
+        hits: list[str] = []
+        for item in canonical_ids([value], allowed):
+            if item in valid:
+                hits.append(item)
+            else:
+                hits.extend(i for i in aliases.get(item, ()) if i in valid)
+        if hits:
+            resolved.extend(hits)
+        else:
+            dropped.append(value)
+    return list(dict.fromkeys(resolved)), dropped
+
+
 def sanitize_review_issue_ids(issue: ReviewIssue, valid: set[str]) -> list[str]:
     """Keep review prose but drop locator IDs that are not valid trace nodes.
 
@@ -406,15 +452,26 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
             if premise_id:
                 mapping[premise_id] = assumption.id
         record.premise_assumption_map = mapping
-        check_ids(world.evidence_refs, {e.id for e in evidence}, "世界状态")
-        for actor in world.actors:
-            check_ids(actor.visible_evidence_ids, {e.id for e in evidence}, "主体画像")
         evidence_ids = {e.id for e in evidence}
         assessment = EvidenceAssessment.model_validate(state["evidence_assessment"])
         finding_ids = validated_finding_ids(assessment, evidence_ids)
+        finding_aliases = finding_evidence_map(state.get("evidence_assessment"))
+        world.evidence_refs, dropped_refs = resolve_refs(world.evidence_refs, evidence_ids, expansions=finding_aliases)
+        for actor in world.actors:
+            actor.visible_evidence_ids, dropped = resolve_refs(
+                actor.visible_evidence_ids, evidence_ids, expansions=finding_aliases
+            )
+            dropped_refs += dropped
+        # Unlike raw source references, assumption parent_ids intentionally retain
+        # validated F IDs as intermediate provenance nodes.
         valid_parents = evidence_ids | finding_ids | {a.id for a in world.assumptions}
         for assumption in world.assumptions:
-            check_ids(assumption.parent_ids, valid_parents, "假设")
+            assumption.parent_ids, dropped = resolve_refs(assumption.parent_ids, valid_parents)
+            dropped_refs += dropped
+        if dropped_refs:
+            record.errors.append(
+                f"世界状态丢弃无法解析的引用：{', '.join(dict.fromkeys(dropped_refs))}"
+            )
         return {"world": world.model_dump(mode="json"), "premise_assumption_map": mapping}
 
     def simulation_node(state: FlowState):
@@ -438,8 +495,8 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
                 action.parent_state = parent
                 action.parent_ids = [f"S{parent}"]
                 action.kind = "simulation"
-                check_ids(action.evidence_ids, {e["id"] for e in visible}, "主体行动")
-                check_ids(action.assumption_ids, {a.id for a in world.assumptions}, "主体行动假设")
+                action.evidence_ids, _ = resolve_refs(action.evidence_ids, {e["id"] for e in visible})
+                action.assumption_ids, _ = resolve_refs(action.assumption_ids, {a.id for a in world.assumptions})
                 return action
             with ThreadPoolExecutor(max_workers=min(3, len(world.actors))) as pool:
                 round_actions = list(pool.map(actor_call, world.actors))
@@ -462,8 +519,11 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
             step.parent_state = parent
             step.next_state = round_number
             step.kind = "simulation"
-            check_ids(step.evidence_ids, {e.id for e in evidence}, "环境推进")
-            check_ids(step.assumption_ids, {a.id for a in world.assumptions}, "环境推进假设")
+            step.evidence_ids, _ = resolve_refs(
+                step.evidence_ids, {e.id for e in evidence},
+                expansions=finding_evidence_map(state.get("evidence_assessment")),
+            )
+            step.assumption_ids, _ = resolve_refs(step.assumption_ids, {a.id for a in world.assumptions})
             steps.append(step)
             current = {**current, "state_version": round_number, "variables": {**current.get("variables", {}), **step.state_changes}, "simulation_summary": step.summary}
         return {"actions": [a.model_dump(mode="json") for a in actions], "simulation": [s.model_dump(mode="json") for s in steps]}
@@ -541,6 +601,28 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
         review = Review.model_validate(state["review"])
         evidence_only = review.probability_basis == "evidence_only"
         price_context = market_price_context(question, evidence)
+        if evidence_only and config.SHADOW_FULL:
+            full_world = world
+            full_simulation = [SimulationStep.model_validate(x) for x in state["simulation"]]
+            full_payload = {
+                "question": state["question"],
+                "evidence": evidence_for_model(evidence, 900),
+                "evidence_assessment": state["evidence_assessment"],
+                "world": state["world"],
+                **trace_for_model(state),
+                "review": state["review"],
+                "valid_evidence_ids": [e.id for e in evidence],
+                "valid_assumption_ids": [a.id for a in full_world.assumptions],
+                "valid_simulation_ids": [step.id for step in full_simulation],
+            }
+            full_instructions = (
+                "只用已给资料与审查过的判断。支持/反对的每条主张必须至少引用"
+                "一个有效证据、假设或模拟编号；无法引用的主张请删除。"
+            )
+            full_probability_instructions = (
+                f"概率键必须严格为 {question.outcomes}，数值在 0 到 1 且合计为 1；"
+                "概率是未经校准的主观判断；证据不足或开放问题必须用 null。"
+            )
         if evidence_only:
             world = WorldState(summary="仅使用事前外部证据")
             simulation = []
@@ -569,11 +651,15 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
             forecast_schema = Forecast
         if price_context:
             forecast_payload["market_price_context"] = price_context
-            instructions += ("对于市场价格问题，先比较预测期限与历史价格覆盖：一两日涨势不能直接外推到月末，"
-                             "高振幅也可能意味着回撤；宏观指标与指数涨跌之间不能直接画等号。"
-                             "没有查到利空消息不是上涨证据。若缺少同期限历史基准率、波动和估值资料，"
-                             "不要把微弱证据表达成明显的方向优势；在局限中指出缺少哪些事前资料。"
-                             "历史练习绝不可使用信息截至日之后的实际结果。")
+            price_note = ("对于市场价格问题，先比较预测期限与历史价格覆盖：一两日涨势不能直接外推到月末，"
+                          "高振幅也可能意味着回撤；宏观指标与指数涨跌之间不能直接画等号。"
+                          "没有查到利空消息不是上涨证据。若缺少同期限历史基准率、波动和估值资料，"
+                          "不要把微弱证据表达成明显的方向优势；在局限中指出缺少哪些事前资料。"
+                          "历史练习绝不可使用信息截至日之后的实际结果。")
+            instructions += price_note
+            if evidence_only and config.SHADOW_FULL:
+                full_payload["market_price_context"] = price_context
+                full_instructions += price_note
         for attempt in range(2):
             forecast = ask("forecast", forecast_payload, forecast_schema,
                            instructions + "语言简洁。" + probability_instructions)
@@ -595,6 +681,44 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
                                   require_probability=evidence_only)
                 if evidence_only:
                     forecast.limitations.append("概率仅依据截至日已有证据，未采用模拟行动或建模假设。")
+                if evidence_only and config.SHADOW_FULL:
+                    # Disabled in the product by default. Shadow failures cannot
+                    # invalidate or silently replace the already validated main forecast.
+                    shadow = None
+                    shadow_review = review.model_copy(update={"status": "passed", "probability_basis": "full"})
+                    try:
+                        shadow = ask(
+                            "forecast", full_payload, Forecast,
+                            full_instructions + "语言简洁。" + full_probability_instructions,
+                        )
+                        shadow.probability_basis = "full"
+                        canonicalize_forecast_ids(shadow, evidence, full_world, full_simulation)
+                        ev_ids = {e.id for e in evidence}
+                        as_ids = {a.id for a in full_world.assumptions}
+                        sim_ids = {step.id for step in full_simulation}
+                        shadow.key_assumptions = [sid for sid in shadow.key_assumptions if sid in as_ids]
+                        for claim in shadow.supporting + shadow.opposing:
+                            claim.evidence_ids = [eid for eid in claim.evidence_ids if eid in ev_ids]
+                            claim.assumption_ids = [aid for aid in claim.assumption_ids if aid in as_ids]
+                            claim.simulation_ids = [sid for sid in claim.simulation_ids if sid in sim_ids]
+                        shadow.supporting = [claim for claim in shadow.supporting
+                                             if claim.evidence_ids or claim.assumption_ids or claim.simulation_ids]
+                        shadow.opposing = [claim for claim in shadow.opposing
+                                           if claim.evidence_ids or claim.assumption_ids or claim.simulation_ids]
+                        validate_forecast(shadow, question, evidence, full_world, full_simulation, shadow_review)
+                        record.shadow_forecast = shadow
+                    except (ValueError, RuntimeError, BudgetExceeded) as exc:
+                        if shadow is not None:
+                            try:
+                                record.shadow_forecast = repair_forecast(
+                                    shadow, question, evidence, full_world, full_simulation,
+                                    shadow_review, str(exc)
+                                )
+                                record.errors.append(f"影子 full 预测经兜底修复：{type(exc).__name__}")
+                            except (ValueError, RuntimeError, BudgetExceeded) as inner:
+                                record.errors.append(f"影子 full 预测失败：{type(inner).__name__}")
+                        else:
+                            record.errors.append(f"影子 full 预测失败：{type(exc).__name__}")
                 if (price_context and price_context["forecast_horizon_days"] >= 14
                         and price_context["dated_price_observation_days"] <= 3):
                     forecast.limitations.append(

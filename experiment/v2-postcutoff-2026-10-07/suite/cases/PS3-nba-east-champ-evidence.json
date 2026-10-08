@@ -1,0 +1,35 @@
+{
+  "_about": "2026 年 NBA 总冠军是否来自东部联盟的冻结证据包。信息截至 2026-05-31T23:59Z（总决赛开打前）。",
+  "evidence": [
+    {
+      "source_url": "https://lakersnation.com/full-schedule-tv-info-for-2026-nba-finals-between-spurs-knicks/",
+      "title": "Full Schedule & TV Info For 2026 NBA Finals Between Spurs & Knicks",
+      "publisher": "Lakers Nation",
+      "published_at": "2026-05-31T00:00:00Z",
+      "excerpt": "The full schedule and TV info for the NBA Finals between the San Antonio Spurs and the New York Knicks",
+      "claim": "总决赛对阵为东部尼克斯 vs 西部马刺；冠军归属（东部或西部）待定。",
+      "source_type": "exercise",
+      "source_group": "lakersnation.com"
+    },
+    {
+      "source_url": "https://www.sportingnews.com/us/nba/news/knicks-vs-spurs-prediction-odds-schedule-keys-2026-nba-finals/d7af6829d7915f436e951bf6",
+      "title": "Knicks vs. Spurs prediction, odds, schedule, keys to the 2026 NBA Finals",
+      "publisher": "Sporting News",
+      "published_at": "2026-05-31T00:00:00Z",
+      "excerpt": "The Spurs open as favorites to win the series",
+      "claim": "赛前马刺（西部）更被看好，说明\"东部夺冠\"并非既定事实。",
+      "source_type": "exercise",
+      "source_group": "sportingnews.com"
+    },
+    {
+      "source_url": "https://www.blogdebasket.com/en/2026/05/31/nba-2026-finals-spurs-vs-knicks-preview-keys-and-predictions",
+      "title": "NBA 2026 Finals Spurs vs Knicks: Preview, Keys and Predictions",
+      "publisher": "Blog de Basket",
+      "published_at": "2026-05-31T00:00:00Z",
+      "excerpt": "Everything you need to know about the epic battle for the ring between the San Antonio Spurs and the New York Knicks.",
+      "claim": "双方实力接近，赛前预测分歧，结果具有真实不确定性。",
+      "source_type": "exercise",
+      "source_group": "blogdebasket.com"
+    }
+  ]
+}

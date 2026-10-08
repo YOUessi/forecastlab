@@ -1,0 +1,269 @@
+﻿{
+  "n_rows": 20,
+  "n_settled": 20,
+  "columns": {
+    "full_p": {
+      "settled_n": 20,
+      "valid_n": 14,
+      "coverage": 0.7,
+      "base_rate": 0.571429,
+      "brier_on_valid": 0.118429,
+      "brier_with_half_fallback": 0.1579,
+      "brier_reference_half": 0.25,
+      "brier_reference_base_rate": 0.244898,
+      "brier_skill_vs_half": 0.526286,
+      "brier_skill_vs_base_rate": 0.516417
+    },
+    "shadow_full_p": {
+      "settled_n": 20,
+      "valid_n": 12,
+      "coverage": 0.6,
+      "base_rate": 0.5,
+      "brier_on_valid": 0.105708,
+      "brier_with_half_fallback": 0.163425,
+      "brier_reference_half": 0.25,
+      "brier_reference_base_rate": 0.25,
+      "brier_skill_vs_half": 0.577167,
+      "brier_skill_vs_base_rate": 0.577167
+    },
+    "single_agent_p": {
+      "settled_n": 20,
+      "valid_n": 20,
+      "coverage": 1.0,
+      "base_rate": 0.5,
+      "brier_on_valid": 0.11321,
+      "brier_with_half_fallback": 0.11321,
+      "brier_reference_half": 0.25,
+      "brier_reference_base_rate": 0.25,
+      "brier_skill_vs_half": 0.54716,
+      "brier_skill_vs_base_rate": 0.54716
+    },
+    "no_evidence_p": {
+      "settled_n": 20,
+      "valid_n": 20,
+      "coverage": 1.0,
+      "base_rate": 0.5,
+      "brier_on_valid": 0.201291,
+      "brier_with_half_fallback": 0.201291,
+      "brier_reference_half": 0.25,
+      "brier_reference_base_rate": 0.25,
+      "brier_skill_vs_half": 0.194835,
+      "brier_skill_vs_base_rate": 0.194835
+    }
+  },
+  "group_by": "category",
+  "groups": {
+    "finance": {
+      "n_rows": 4,
+      "columns": {
+        "full_p": {
+          "settled_n": 4,
+          "valid_n": 4,
+          "coverage": 1.0,
+          "base_rate": 0.5,
+          "brier_on_valid": 0.1386,
+          "brier_with_half_fallback": 0.1386,
+          "brier_reference_half": 0.25,
+          "brier_reference_base_rate": 0.25,
+          "brier_skill_vs_half": 0.4456,
+          "brier_skill_vs_base_rate": 0.4456
+        },
+        "shadow_full_p": {
+          "settled_n": 4,
+          "valid_n": 4,
+          "coverage": 1.0,
+          "base_rate": 0.5,
+          "brier_on_valid": 0.10335,
+          "brier_with_half_fallback": 0.10335,
+          "brier_reference_half": 0.25,
+          "brier_reference_base_rate": 0.25,
+          "brier_skill_vs_half": 0.5866,
+          "brier_skill_vs_base_rate": 0.5866
+        },
+        "single_agent_p": {
+          "settled_n": 4,
+          "valid_n": 4,
+          "coverage": 1.0,
+          "base_rate": 0.5,
+          "brier_on_valid": 0.110625,
+          "brier_with_half_fallback": 0.110625,
+          "brier_reference_half": 0.25,
+          "brier_reference_base_rate": 0.25,
+          "brier_skill_vs_half": 0.5575,
+          "brier_skill_vs_base_rate": 0.5575
+        },
+        "no_evidence_p": {
+          "settled_n": 4,
+          "valid_n": 4,
+          "coverage": 1.0,
+          "base_rate": 0.5,
+          "brier_on_valid": 0.114375,
+          "brier_with_half_fallback": 0.114375,
+          "brier_reference_half": 0.25,
+          "brier_reference_base_rate": 0.25,
+          "brier_skill_vs_half": 0.5425,
+          "brier_skill_vs_base_rate": 0.5425
+        }
+      }
+    },
+    "public": {
+      "n_rows": 4,
+      "columns": {
+        "full_p": {
+          "settled_n": 4,
+          "valid_n": 2,
+          "coverage": 0.5,
+          "base_rate": 0.5,
+          "brier_on_valid": 0.026,
+          "brier_with_half_fallback": 0.138,
+          "brier_reference_half": 0.25,
+          "brier_reference_base_rate": 0.25,
+          "brier_skill_vs_half": 0.896,
+          "brier_skill_vs_base_rate": 0.896
+        },
+        "shadow_full_p": {
+          "settled_n": 4,
+          "valid_n": 1,
+          "coverage": 0.25,
+          "base_rate": 0.0,
+          "brier_on_valid": 0.0225,
+          "brier_with_half_fallback": 0.193125,
+          "brier_reference_half": 0.25,
+          "brier_reference_base_rate": 0.0,
+          "brier_skill_vs_half": 0.91,
+          "brier_skill_vs_base_rate": null
+        },
+        "single_agent_p": {
+          "settled_n": 4,
+          "valid_n": 4,
+          "coverage": 1.0,
+          "base_rate": 0.5,
+          "brier_on_valid": 0.15695,
+          "brier_with_half_fallback": 0.15695,
+          "brier_reference_half": 0.25,
+          "brier_reference_base_rate": 0.25,
+          "brier_skill_vs_half": 0.3722,
+          "brier_skill_vs_base_rate": 0.3722
+        },
+        "no_evidence_p": {
+          "settled_n": 4,
+          "valid_n": 4,
+          "coverage": 1.0,
+          "base_rate": 0.5,
+          "brier_on_valid": 0.26385,
+          "brier_with_half_fallback": 0.26385,
+          "brier_reference_half": 0.25,
+          "brier_reference_base_rate": 0.25,
+          "brier_skill_vs_half": -0.055401,
+          "brier_skill_vs_base_rate": -0.055401
+        }
+      }
+    },
+    "sport": {
+      "n_rows": 7,
+      "columns": {
+        "full_p": {
+          "settled_n": 7,
+          "valid_n": 5,
+          "coverage": 0.714286,
+          "base_rate": 0.6,
+          "brier_on_valid": 0.18374,
+          "brier_with_half_fallback": 0.202671,
+          "brier_reference_half": 0.25,
+          "brier_reference_base_rate": 0.24,
+          "brier_skill_vs_half": 0.26504,
+          "brier_skill_vs_base_rate": 0.234417
+        },
+        "shadow_full_p": {
+          "settled_n": 7,
+          "valid_n": 4,
+          "coverage": 0.571429,
+          "base_rate": 0.5,
+          "brier_on_valid": 0.137325,
+          "brier_with_half_fallback": 0.185614,
+          "brier_reference_half": 0.25,
+          "brier_reference_base_rate": 0.25,
+          "brier_skill_vs_half": 0.4507,
+          "brier_skill_vs_base_rate": 0.4507
+        },
+        "single_agent_p": {
+          "settled_n": 7,
+          "valid_n": 7,
+          "coverage": 1.0,
+          "base_rate": 0.428571,
+          "brier_on_valid": 0.158657,
+          "brier_with_half_fallback": 0.158657,
+          "brier_reference_half": 0.25,
+          "brier_reference_base_rate": 0.244898,
+          "brier_skill_vs_half": 0.365371,
+          "brier_skill_vs_base_rate": 0.35215
+        },
+        "no_evidence_p": {
+          "settled_n": 7,
+          "valid_n": 7,
+          "coverage": 1.0,
+          "base_rate": 0.428571,
+          "brier_on_valid": 0.245289,
+          "brier_with_half_fallback": 0.245289,
+          "brier_reference_half": 0.25,
+          "brier_reference_base_rate": 0.244898,
+          "brier_skill_vs_half": 0.018843,
+          "brier_skill_vs_base_rate": -0.001598
+        }
+      }
+    },
+    "tech": {
+      "n_rows": 5,
+      "columns": {
+        "full_p": {
+          "settled_n": 5,
+          "valid_n": 3,
+          "coverage": 0.6,
+          "base_rate": 0.666667,
+          "brier_on_valid": 0.0443,
+          "brier_with_half_fallback": 0.12658,
+          "brier_reference_half": 0.25,
+          "brier_reference_base_rate": 0.222222,
+          "brier_skill_vs_half": 0.8228,
+          "brier_skill_vs_base_rate": 0.80065
+        },
+        "shadow_full_p": {
+          "settled_n": 5,
+          "valid_n": 3,
+          "coverage": 0.6,
+          "base_rate": 0.666667,
+          "brier_on_valid": 0.094433,
+          "brier_with_half_fallback": 0.15666,
+          "brier_reference_half": 0.25,
+          "brier_reference_base_rate": 0.222222,
+          "brier_skill_vs_half": 0.622267,
+          "brier_skill_vs_base_rate": 0.57505
+        },
+        "single_agent_p": {
+          "settled_n": 5,
+          "valid_n": 5,
+          "coverage": 1.0,
+          "base_rate": 0.6,
+          "brier_on_valid": 0.01666,
+          "brier_with_half_fallback": 0.01666,
+          "brier_reference_half": 0.25,
+          "brier_reference_base_rate": 0.24,
+          "brier_skill_vs_half": 0.93336,
+          "brier_skill_vs_base_rate": 0.930583
+        },
+        "no_evidence_p": {
+          "settled_n": 5,
+          "valid_n": 5,
+          "coverage": 1.0,
+          "base_rate": 0.6,
+          "brier_on_valid": 0.15918,
+          "brier_with_half_fallback": 0.15918,
+          "brier_reference_half": 0.25,
+          "brier_reference_base_rate": 0.24,
+          "brier_skill_vs_half": 0.36328,
+          "brier_skill_vs_base_rate": 0.33675
+        }
+      }
+    }
+  }
+}

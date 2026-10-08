@@ -1,0 +1,46 @@
+{
+  "_about": "米兰-科尔蒂纳 2026 冬奥会最终金牌榜第一名的冻结证据包。信息截至 2026-02-21T23:59Z（倒数第二天结束、闭幕日之前）。",
+  "evidence": [
+    {
+      "source_url": "https://www.olympics.com/en/news/winter-olympics-2026-highlights-daily-results-milano-cortina-21-february",
+      "title": "Winter Olympics 2026: Highlights and daily results from Milano Cortina – 21 February",
+      "publisher": "Olympics.com",
+      "published_at": "2026-02-21T22:45:00+08:00",
+      "excerpt": "The 15th day, like so many others at these Games, belonged to the king of cross-country skiing, Johannes Hoesflot Klaebo.",
+      "claim": "截至倒数第二天，挪威继续大举收金（当日为 Klaebo 第六金），但闭幕日的奖牌尚未产生。",
+      "source_type": "exercise",
+      "source_group": "olympics.com"
+    },
+    {
+      "source_url": "https://www.nbcolympics.com/news/live/2026-winter-olympics-live-updates-fri-feb-20-highlights-scores-results-medal-count-day-14",
+      "title": "2026 Winter Olympics live updates: Medals, scores, results, highlights from Milan Cortina Day 14 on Feb. 20",
+      "publisher": "NBC Olympics",
+      "published_at": "2026-02-20T00:00:00Z",
+      "excerpt": "2026 Winter Olympics live updates: Medals, scores, results, highlights from Milan Cortina Day 14 on Feb. 20",
+      "claim": "第 14 天结束时挪威奖牌榜领跑，剩余赛程有限，但最终排名未定。",
+      "source_type": "exercise",
+      "source_group": "nbcolympics.com"
+    },
+    {
+      "source_url": "https://usaherald.com/norway-tops-medal-table-after-day-13-at-2026-winter-olympics-as-team-usa-surges-into-second-place/",
+      "title": "Norway Tops Medal Table After Day 13 at 2026 Winter Olympics as Team USA Surges into Second Place",
+      "publisher": "USA Herald",
+      "published_at": "2026-02-20T00:00:00Z",
+      "excerpt": "With 13 days complete at the 2026 Milan Cortina Winter Olympics, Norway sits atop the overall medal standings, collecting 34 total medals and positioning itself to potentially lead the Winter Games medal table for a third straight Olympics",
+      "claim": "第 13 天后挪威领先，但报道用词仍是\"有望\"（potentially），说明最终归属尚未确定。",
+      "source_type": "exercise",
+      "source_group": "usaherald.com"
+    }
+    ,
+    {
+      "source_url": "https://www.olympics.com/zh/news/winter-olympics-2026-highlights-daily-results-milano-cortina-games-20-february",
+      "title": "2026年米兰科尔蒂纳冬奥会每日精彩回顾与赛果速览——2月20日",
+      "publisher": "Olympics.com",
+      "published_at": "2026-02-20T00:00:00Z",
+      "excerpt": "以下是2026年米兰科尔蒂纳冬奥会2月20日（星期五）的精彩瞬间与每日赛事结果汇总。",
+      "claim": "官方逐日回顾确认第 14 天赛果；截至信息日闭幕日赛事尚未进行。",
+      "source_type": "exercise",
+      "source_group": "olympics.com"
+    }
+  ]
+}

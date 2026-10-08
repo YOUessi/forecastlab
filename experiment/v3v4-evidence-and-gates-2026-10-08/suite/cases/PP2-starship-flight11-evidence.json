@@ -1,0 +1,36 @@
+{
+  "_about": "SpaceX 是否在 2025-12-31 前执行星舰第 11 次飞行（Flight 11）的冻结证据包。信息截至 2025-09-30T23:59Z（发射之前）。",
+  "evidence": [
+    {
+      "source_url": "https://www.space.com/space-exploration/launches-spacecraft/spacex-targeting-oct-13-for-next-starship-megarocket-launch",
+      "title": "SpaceX targeting Oct. 13 for next Starship megarocket launch",
+      "publisher": "Space.com",
+      "published_at": "2025-09-30T00:00:00Z",
+      "excerpt": "SpaceX announced on Monday (Sept. 29) that it's targeting Oct. 13 for Starship Flight 11.",
+      "claim": "SpaceX 已公布目标日期，但截至信息日尚未发射，存在延期风险。",
+      "source_type": "exercise",
+      "source_group": "space.com"
+    },
+    {
+      "source_url": "https://spacexstock.com/spacex-schedules-starship-flight-test/",
+      "title": "SpaceX schedules Starship Flight 11 test for October 13",
+      "publisher": "SpaceX Stock",
+      "published_at": "2025-09-30T00:00:00Z",
+      "excerpt": "Next up: Flight 11 of Starship is targeted to launch as early as Monday, October 13",
+      "claim": "多家媒体确认目标窗口为 10 月中，属于计划而非既成事实。",
+      "source_type": "exercise",
+      "source_group": "spacexstock.com"
+    }
+    ,
+    {
+      "source_url": "https://en.gmw.cn/2025-09/30/content_38321602.htm",
+      "title": "SpaceX eyes mid-October for Starship's 11th flight test",
+      "publisher": "Guangming Online / Xinhua",
+      "published_at": "2025-09-30T00:00:00Z",
+      "excerpt": "LOS ANGELES, Sept. 29 (Xinhua) -- SpaceX is targeting mid-October for the 11th flight test of its Starship rocket, the company announced on Monday.",
+      "claim": "通稿确认公司口径为 10 月中目标窗口，截至信息日尚未发射。",
+      "source_type": "exercise",
+      "source_group": "gmw.cn"
+    }
+  ]
+}

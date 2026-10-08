@@ -29,6 +29,10 @@ uv run python eval/agent12.py --mode fixture --cases examples/agent12/neutral-le
 
 **状态说明：**教学演示仍使用明确标注的虚构材料与固定输出，用于无密钥联调；真实运行需要模型服务 Key，在线检索另需 Tavily Key。仓库现已包含 DeepSeek `deepseek-flash`、temperature=0 的冻结历史评测、Agent 1/2 语义审计、真实 Tavily 检索质量评测，以及真实模型 + 真实 Tavily 的 HTTP Live E2E。它们仍是课程级实验，不代表概率已校准。完整实验见 [ForecastLab-v2 多臂评测](experiment-2026-10-07-v2/report.md)、[Agent 1/2 语义稳健性](experiment-2026-10-07-agent12-semantic/report.md)、[Tavily Live Retrieval](experiment-2026-10-07-tavily/report.md) 与 [Live Full E2E](experiment-2026-10-07-live-e2e/report.md)。
 
+## 与小组主仓库研究线整合（2026-10-08）
+
+本版本在恢复 **完整 ForecastLab 产品入口**（创建问题 → Agent 1 确认 → Agent 2 取证 → World → Simulation → Review → Forecast）的同时，保留上游组员在 `experiment/` 目录中的 v1/v2/v3v4 研究和可选影子 full-basis 评测（`FORECASTLAB_SHADOW=0` 默认关闭）。对应差异、引用编号融合和回归记录见 [同步说明](docs/upstream-main-merge-2026-10-08.md)。不得把影子试验输出当作正式预测，不以研究报告替代真实运行结果。
+
 ## 快速启动
 
 环境：macOS/Linux、Python 3.12、`uv`、Node.js 20.19+/22.12+、npm。

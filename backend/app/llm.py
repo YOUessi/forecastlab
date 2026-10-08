@@ -94,7 +94,7 @@ class ModelClient:
                               {"role": "user", "content": prompt}],
                     response_format={"type": "json_object"},
                     temperature=config.MODEL_TEMPERATURE,
-                    max_tokens=(5200 if role == "evidence12" else 4500 if role in {"review", "forecast"} else 3000) + attempt * 1000,
+                    max_tokens=(8000 if role in {"review", "forecast", "evidence", "evidence12"} else 3000) + attempt * 1000,
                 )
                 if config.MODEL_PROVIDER == "qwen" and config.MODEL_NAME == "qwen3.8-flash":
                     kwargs["extra_body"] = {"enable_thinking": False}

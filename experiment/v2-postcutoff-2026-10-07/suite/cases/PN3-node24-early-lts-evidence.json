@@ -1,0 +1,24 @@
+{
+  "_about": "Node.js 24 是否在 2025-09-30 前成为 Active LTS 的冻结证据包（负例）。信息截至 2025-08-31。",
+  "evidence": [
+    {
+      "source_url": "https://nodejs.org/en/blog/release/v24.0.0",
+      "title": "Node.js 24.0.0 (Current)",
+      "publisher": "Node.js",
+      "published_at": "2025-05-06T00:00:00Z",
+      "excerpt": "We're excited to announce the release of Node.js 24!",
+      "claim": "Node.js 24 才刚作为 Current 发布，距离 LTS 还有数月。",
+      "source_type": "exercise",
+      "source_group": "nodejs.org"
+    },
+    {
+      "source_url": "https://nodejs.org/en/about/previous-releases",
+      "title": "Node.js Release Schedule (previous releases and LTS status)",
+      "publisher": "Node.js",
+      "excerpt": "Node.js 24 is scheduled to become Active LTS in October 2025.",
+      "claim": "官方日程显示 LTS 升级计划在 2025 年 10 月，即 9 月底之前不会发生（该页为长期维护的日程页，无单一发布日，故不填 published_at）。",
+      "source_type": "exercise",
+      "source_group": "nodejs.org"
+    }
+  ]
+}
