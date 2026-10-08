@@ -52,10 +52,6 @@ def stable_key(row: dict) -> str:
     return json.dumps([row.get("claim", ""), quote_text(row)], ensure_ascii=False, separators=(",", ":"))
 
 
-def stable_id(prefix: str, row: dict) -> str:
-    digest = hashlib.sha256(stable_key(row).encode()).hexdigest()[:12]
-    return f"{prefix}-{digest}"
-
 
 def mutate_number(claim: str) -> tuple[str, str] | None:
     match = re.search(r"\d+(?:\.\d+)?", claim)
@@ -89,7 +85,7 @@ def load_natural() -> list[dict]:
             if key in unique:
                 continue
             item = {
-                "id": stable_id("natural", row),
+                "id": "",
                 "origin": "human_role_audit",
                 "source_dataset": source,
                 "case_id": row["case_id"],
@@ -109,6 +105,8 @@ def load_natural() -> list[dict]:
 
 def build() -> dict:
     natural = load_natural()
+    for index, item in enumerate(natural, 1):
+        item["id"] = f"natural-{index:04d}"
     generated = []
     for item in natural:
         if item["gold_label"] != "entailed":
@@ -122,7 +120,7 @@ def build() -> dict:
         mutated_claim, phenomenon = contradiction(row)
         mutated = dict(item)
         mutated.update({
-            "id": stable_id("hardneg", {**row, "claim": mutated_claim}),
+            "id": f"hardneg-{len(generated)+1:04d}",
             "origin": "controlled_hard_negative",
             "source_dataset": item["source_dataset"],
             "claim": mutated_claim,
