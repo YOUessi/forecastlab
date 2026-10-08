@@ -65,7 +65,7 @@ def test_quality_counts_are_derived_from_sources_logs_and_finding_validation():
     assert (profile.search_success_count, profile.search_empty_count, profile.search_failure_count) == (1, 1, 1)
     assert profile.excluded_count == 1
     assert (profile.validated_finding_count, profile.rejected_finding_count, profile.unresolved_conflict_count) == (1, 1, 1)
-    assert any("不是已经核实的独立来源" in warning for warning in profile.warnings)
+    assert any("不等于已经核实的独立来源" in warning for warning in profile.warnings)
     assert any("检索任务失败" in warning for warning in profile.warnings)
     assert all("独立来源数量：" not in warning for warning in profile.warnings)
 
