@@ -156,7 +156,7 @@ def main() -> None:
     p.add_argument("--output", type=Path, required=True)
     p.add_argument("--model", default=DEFAULT_MODEL)
     p.add_argument("--limit", type=int)
-    p.add_argument("--max-new-tokens", type=int, default=192)
+    p.add_argument("--max-new-tokens", type=int, default=320)
     p.add_argument("--resume", action="store_true")
     p.add_argument("--awq", action="store_true", help="load an AutoAWQ quantized model")
     args = p.parse_args()
