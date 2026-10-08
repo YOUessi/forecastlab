@@ -70,22 +70,36 @@ def extract_json(text: str) -> dict:
         return json.loads(repaired)
 
 
-def load_runtime(model_name: str):
+def load_runtime(model_name: str, *, awq: bool = False):
     try:
         import torch
         from transformers import AutoModelForCausalLM, AutoTokenizer
     except ImportError as exc:
         raise SystemExit("本地 LLM Judge 需要可选研究依赖 torch + transformers") from exc
     tokenizer = AutoTokenizer.from_pretrained(model_name)
-    dtype = torch.float16 if torch.cuda.is_available() else torch.float32
-    model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=dtype)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model.to(device)
+    if awq:
+        if not torch.cuda.is_available():
+            raise SystemExit("AWQ Judge 当前要求 CUDA")
+        try:
+            from awq import AutoAWQForCausalLM
+        except ImportError as exc:
+            raise SystemExit("AWQ Judge 需要可选研究依赖 autoawq") from exc
+        model = AutoAWQForCausalLM.from_quantized(
+            model_name,
+            fuse_layers=True,
+            trust_remote_code=True,
+        )
+    else:
+        dtype = torch.float16 if torch.cuda.is_available() else torch.float32
+        model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=dtype)
+        model.to(device)
     model.eval()
-    model.generation_config.do_sample = False
-    model.generation_config.temperature = None
-    model.generation_config.top_p = None
-    model.generation_config.top_k = None
+    if hasattr(model, "generation_config"):
+        model.generation_config.do_sample = False
+        model.generation_config.temperature = None
+        model.generation_config.top_p = None
+        model.generation_config.top_k = None
     return torch, tokenizer, model, device
 
 
@@ -122,7 +136,7 @@ def make_output(args, judged, total_elapsed: float, device) -> dict:
         "judge_model": args.model,
         "same_as_generator_model": False,
         "independent_model": True,
-        "judge_type": "local_causal_llm",
+        "judge_type": "local_awq_llm" if getattr(args, "awq", False) else "local_causal_llm",
         "device": str(device),
         "total_elapsed_seconds": total_elapsed,
         "rows": judged,
@@ -144,6 +158,7 @@ def main() -> None:
     p.add_argument("--limit", type=int)
     p.add_argument("--max-new-tokens", type=int, default=192)
     p.add_argument("--resume", action="store_true")
+    p.add_argument("--awq", action="store_true", help="load an AutoAWQ quantized model")
     args = p.parse_args()
 
     data = json.loads(args.benchmark.read_text(encoding="utf-8"))
@@ -151,7 +166,7 @@ def main() -> None:
     if args.limit:
         rows = rows[:args.limit]
 
-    torch, tokenizer, model, device = load_runtime(args.model)
+    torch, tokenizer, model, device = load_runtime(args.model, awq=args.awq)
     judged, total_elapsed = [], 0.0
     if args.resume and args.output.exists():
         previous = json.loads(args.output.read_text(encoding="utf-8"))
