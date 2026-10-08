@@ -232,7 +232,14 @@ python eval/agent2_nli_judge.py \\
   --output nli.json
 ```
 
-随后可用 `eval/cascade_entailment_judges.py` 比较 `agreement` 与 `nli_then_llm` 两种 cascade。生产 hard gate 只有在 held-out benchmark 上的 accepted strict precision 达到 ≥95%（理想 ≥98%）且 supported recall ≥90% 后才应启用。
+随后可用 `eval/cascade_entailment_judges.py` 比较 `agreement` 与 `nli_then_llm` 两种 cascade。阈值选择必须只用 `dev`，最终报告只看一次 `test`：
+
+```bash
+python eval/score_entailment_benchmark.py BENCHMARK JUDGE.json --split dev
+python eval/score_entailment_benchmark.py BENCHMARK JUDGE.json --split test
+```
+
+生产 hard gate 只有在 held-out benchmark 上的 accepted strict precision 达到 ≥95%（理想 ≥98%）且 supported recall ≥90% 后才应启用。
 
 ## 目录
 
