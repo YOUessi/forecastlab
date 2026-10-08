@@ -17,7 +17,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field, ValidationError
 
-DEFAULT_MODEL = os.getenv("ENTAILMENT_LOCAL_LLM_MODEL", "Qwen/Qwen2.5-3B-Instruct")
+DEFAULT_MODEL = os.getenv("ENTAILMENT_LOCAL_LLM_MODEL", "Qwen/Qwen2.5-1.5B-Instruct")
 
 PROMPT = """你是严格的文本蕴含判定器。只能依据 exact_quotes 判断 claim，不得使用来源标题、publisher、URL、常识或外部上下文补全。
 
