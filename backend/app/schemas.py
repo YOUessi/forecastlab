@@ -398,8 +398,30 @@ class QuestionAnalysis(BaseModel):
     caveats: list[str] = Field(default_factory=list)
 
 
+class EvidenceQualityProfile(StrictModel):
+    """Descriptive, server-derived evidence coverage; not a trust/independence certificate."""
+    source_count: int = Field(default=0, ge=0)
+    source_group_count: int = Field(default=0, ge=0)
+    body_source_count: int = Field(default=0, ge=0)
+    snippet_only_count: int = Field(default=0, ge=0)
+    primary_label_count: int = Field(default=0, ge=0)
+    unknown_publication_count: int = Field(default=0, ge=0)
+    truncated_count: int = Field(default=0, ge=0)
+    suspected_same_source_count: int = Field(default=0, ge=0)
+    merged_alias_count: int = Field(default=0, ge=0)
+    search_success_count: int = Field(default=0, ge=0)
+    search_empty_count: int = Field(default=0, ge=0)
+    search_failure_count: int = Field(default=0, ge=0)
+    excluded_count: int = Field(default=0, ge=0)
+    validated_finding_count: int = Field(default=0, ge=0)
+    rejected_finding_count: int = Field(default=0, ge=0)
+    unresolved_conflict_count: int = Field(default=0, ge=0)
+    warnings: list[str] = Field(default_factory=list)
+
+
 class EvidenceAssessment(BaseModel):
     summary: str
+    quality_profile: EvidenceQualityProfile | None = None
     # Server-controlled trust bit. Legacy/model output is forced to False; only
     # assess_evidence() may set it True after exact snapshot/passage validation.
     findings_validated: bool = False
