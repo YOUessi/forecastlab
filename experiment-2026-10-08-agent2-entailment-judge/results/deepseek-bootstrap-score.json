@@ -1,0 +1,121 @@
+{
+  "n": 30,
+  "binary_strict_gate": {
+    "tp_supported_accept": 27,
+    "tn_nonstrict_block": 0,
+    "fp_nonstrict_accept": 3,
+    "fn_supported_block": 0,
+    "precision_of_accept": 0.9,
+    "recall_of_supported": 1.0,
+    "specificity_for_nonstrict": 0.0,
+    "accuracy": 0.9
+  },
+  "four_class_exact_accuracy": 0.9,
+  "thresholds": [
+    {
+      "threshold": 0.5,
+      "accepted": 30,
+      "acceptance_rate": 1.0,
+      "strict_supported_accepted": 27,
+      "strict_support_among_accepted": 0.9,
+      "non_strict_leaks": [
+        {
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F002"
+        },
+        {
+          "case_id": "C16-cop30-roadmap-adopted",
+          "finding_id": "F002"
+        },
+        {
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002"
+        }
+      ]
+    },
+    {
+      "threshold": 0.7,
+      "accepted": 30,
+      "acceptance_rate": 1.0,
+      "strict_supported_accepted": 27,
+      "strict_support_among_accepted": 0.9,
+      "non_strict_leaks": [
+        {
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F002"
+        },
+        {
+          "case_id": "C16-cop30-roadmap-adopted",
+          "finding_id": "F002"
+        },
+        {
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002"
+        }
+      ]
+    },
+    {
+      "threshold": 0.8,
+      "accepted": 30,
+      "acceptance_rate": 1.0,
+      "strict_supported_accepted": 27,
+      "strict_support_among_accepted": 0.9,
+      "non_strict_leaks": [
+        {
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F002"
+        },
+        {
+          "case_id": "C16-cop30-roadmap-adopted",
+          "finding_id": "F002"
+        },
+        {
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002"
+        }
+      ]
+    },
+    {
+      "threshold": 0.9,
+      "accepted": 30,
+      "acceptance_rate": 1.0,
+      "strict_supported_accepted": 27,
+      "strict_support_among_accepted": 0.9,
+      "non_strict_leaks": [
+        {
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F002"
+        },
+        {
+          "case_id": "C16-cop30-roadmap-adopted",
+          "finding_id": "F002"
+        },
+        {
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002"
+        }
+      ]
+    },
+    {
+      "threshold": 0.95,
+      "accepted": 30,
+      "acceptance_rate": 1.0,
+      "strict_supported_accepted": 27,
+      "strict_support_among_accepted": 0.9,
+      "non_strict_leaks": [
+        {
+          "case_id": "C09-man-city-top4",
+          "finding_id": "F002"
+        },
+        {
+          "case_id": "C16-cop30-roadmap-adopted",
+          "finding_id": "F002"
+        },
+        {
+          "case_id": "C20-g20-summit-held",
+          "finding_id": "F002"
+        }
+      ]
+    }
+  ]
+}
