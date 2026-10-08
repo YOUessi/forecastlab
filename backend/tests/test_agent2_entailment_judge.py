@@ -170,3 +170,34 @@ def test_local_llm_judge_json_extraction():
     parsed = m.extract_json('{"label":"partially_entailed","confidence":0.8,"unsupported_spans":["x"],"rationale":"r"}')
     assert parsed["label"] == "partially_entailed"
     assert parsed["confidence"] == 0.8
+
+
+def test_benchmark_split_is_case_grouped_without_mutation_leakage():
+    m = load("build_entailment_benchmark.py")
+    for data, expected in [(m.build(), {"dev": 208, "test": 109}), (m.build_post_boundary(), {"dev": 157, "test": 82})]:
+        counts = {"dev": 0, "test": 0}
+        by_id = {row["id"]: row for row in data["rows"]}
+        for row in data["rows"]:
+            counts[row["split"]] += 1
+            if row.get("mutation"):
+                assert row["split"] == by_id[row["mutation"]["base_id"]]["split"]
+        assert counts == expected
+
+
+def test_benchmark_scorer_can_hold_out_test_split():
+    m = load("score_entailment_benchmark.py")
+    benchmark = {"rows": [
+        {"id": "d", "split": "dev", "gold_label": "entailed", "phenomenon": "natural", "case_id": "A", "finding_id": "F1"},
+        {"id": "t1", "split": "test", "gold_label": "entailed", "phenomenon": "natural", "case_id": "B", "finding_id": "F1"},
+        {"id": "t2", "split": "test", "gold_label": "not_entailed", "phenomenon": "plan_to_actual", "case_id": "B", "finding_id": "F2"},
+    ]}
+    judged = {"rows": [
+        {"id": "d", "judge": {"label": "entailed", "confidence": 0.99}},
+        {"id": "t1", "judge": {"label": "entailed", "confidence": 0.99}},
+        {"id": "t2", "judge": {"label": "not_entailed", "confidence": 0.99}},
+    ]}
+    result = m.score(benchmark, judged, thresholds=(0.9,), split="test")
+    assert result["benchmark_rows"] == 2
+    assert result["judged_rows"] == 2
+    assert result["split"] == "test"
+    assert result["four_class_exact_accuracy"] == 1.0
