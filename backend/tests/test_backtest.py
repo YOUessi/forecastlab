@@ -152,7 +152,7 @@ def test_dated_reconstructed_market_evidence_can_be_used_with_audit_label():
         "resolve_by": "2026-07-31T15:30:00+08:00",
         "resolution_rule": "严格高于2207.86点为是，否则为否。",
     })
-    items = [ImportedEvidence.model_validate(item) for item in json.loads(example.read_text())["evidence"]]
+    items = [ImportedEvidence.model_validate(item) for item in json.loads(example.read_text(encoding="utf-8"))["evidence"]]
     evidence = normalize_import(items, question)
     assert len(evidence) == 3
     assert all(item.retrieved_at > question.as_of for item in evidence)
@@ -197,7 +197,7 @@ def test_market_evidence_only_forecast_ignores_future_result_gap_and_returns_pro
         "resolve_by": "2026-07-31T15:30:00+08:00",
         "resolution_rule": "严格高于2207.86点为是，否则为否。",
     })
-    imported = [ImportedEvidence.model_validate(item) for item in json.loads(example.read_text())["evidence"]]
+    imported = [ImportedEvidence.model_validate(item) for item in json.loads(example.read_text(encoding="utf-8"))["evidence"]]
     evidence = normalize_import(imported, question)
 
     class FutureGapModel:

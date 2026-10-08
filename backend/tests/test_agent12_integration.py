@@ -66,6 +66,11 @@ def test_confirmed_request_controls_graph_input(tmp_path, clear_framing, monkeyp
         assert payloads["evidence12"]["question_framing"]["draft_id"] == c.draft_id
         assert payloads["world"]["question_framing"]["revision"] == c.revision
         assert payloads["world"]["evidence_assessment"]["findings"][0]["citations"]
+        assert "id" not in payloads["world"]["question_framing"]["premises"][0]
+        assert "target_premise_ids" not in payloads["world"]["evidence_assessment"]["findings"][0]
+        # The saved audit keeps the original premise identity and its mapping.
+        assert run["question_framing"]["premises"][0]["id"] == "P001"
+        assert run["evidence_assessment"]["findings"][0]["target_premise_ids"] == ["P001"]
         assert client.get(f"/api/runs/{run['run_id']}/evidence-assessment").status_code == 200
         assert client.get(f"/api/runs/{run['run_id']}/evidence/E001/passages").json()["text"]
 
@@ -148,3 +153,59 @@ def test_stale_confirmation_rejected_at_atomic_run_insert(tmp_path, clear_framin
     with pytest.raises(VersionConflict):
         store.save(record)
     assert store.get("stale") is None
+
+
+def test_confirmed_simulation_does_not_require_optional_assessment_payload(tmp_path, clear_framing):
+    from app.demo import demo_output
+    class ActorModel(WorkflowModel):
+        environment_calls = 0
+        def complete(self, role, payload, schema, instructions, **kwargs):
+            if role in {"world", "actor", "environment"}:
+                body = demo_output(role, payload.get("actor", {}).get("id"), payload.get("round", 1))
+                if role == "world":
+                    body["evidence_refs"] = ["E001"]
+                    for actor in body["actors"]:
+                        actor["visible_evidence_ids"] = ["E001"]
+                    for assumption in body["assumptions"]:
+                        assumption["parent_ids"] = ["E001"]
+                else:
+                    body["evidence_ids"] = ["E001"]
+                if role == "environment":
+                    self.environment_calls += 1
+                    assert "evidence_assessment" not in payload
+                    assert payload["question_framing"]["premises"][0]["content"]
+                return schema.model_validate(body)
+            return super().complete(role, payload, schema, instructions, **kwargs)
+    store = RunStore(tmp_path)
+    c = confirmed(store, clear_framing)
+    record = RunRecord(run_id="run_confirmed_actors", question=c.question, question_framing=c.framing,
+        confirmation_id=c.confirmation_id, question_origin="confirmed", evidence_mode="import", model="fixture")
+    model = ActorModel()
+    output = build_graph(record, material(c.question, tmp_path).evidence, model, tmp_path).invoke({"question": c.question.model_dump(mode="json")})
+    assert model.environment_calls == 2
+    assert len(output["actions"]) == 6
+    assert output["forecast"]["probabilities"] is None
+
+
+def test_review_can_audit_an_existing_finding_but_not_invent_one(tmp_path, clear_framing):
+    class FindingReviewModel(WorkflowModel):
+        def complete(self, role, payload, schema, instructions, **kwargs):
+            body = super().complete(role, payload, schema, instructions, **kwargs)
+            if role == "evidence12":
+                invalid = body.findings[0].model_copy(deep=True)
+                invalid.citations[0].quote = "不在来源原文中的引文"
+                body.findings.append(invalid)
+            if role == "review":
+                from app.schemas import ReviewIssue
+                assert "F001" in payload["valid_affected_ids"]
+                body.issues = [ReviewIssue(severity="medium", claim="发现的范围需要保留", explanation="只审查实际保存的发现。", affected_ids=["F001"])]
+            return body
+    store = RunStore(tmp_path); c = confirmed(store, clear_framing)
+    record = RunRecord(run_id="run_finding_audit", question=c.question, question_framing=c.framing,
+        confirmation_id=c.confirmation_id, question_origin="confirmed", evidence_mode="import", model="fixture")
+    output = build_graph(record, material(c.question, tmp_path).evidence, FindingReviewModel(), tmp_path).invoke({"question": c.question.model_dump(mode="json")})
+    assert output["review"]["issues"][0]["affected_ids"] == ["F001"]
+    assert output["evidence_assessment"]["rejected_findings"]
+    from app.graph import check_ids
+    with pytest.raises(ValueError, match="F999"):
+        check_ids(["F999"], {"F001"}, "审查意见")

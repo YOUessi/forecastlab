@@ -66,7 +66,8 @@ def test_patch_applies_to_clean_baseline(tmp_path, small_repo):
     repo, base = small_repo
     result = module().package_agent12(repo, tmp_path / "out", base=base)
     fresh = tmp_path / "fresh"
-    subprocess.run(["git", "clone", "--quiet", str(repo), str(fresh)], check=True, capture_output=True)
+    subprocess.run(["git", "-c", "core.autocrlf=false", "clone", "--quiet", str(repo), str(fresh)], check=True, capture_output=True)
+    git(fresh, "config", "core.autocrlf", "false")
     git(fresh, "checkout", "--quiet", base)
     check = subprocess.run(["git", "-C", str(fresh), "apply", "--check", result["patch"]], capture_output=True)
     assert check.returncode == 0, check.stderr.decode()

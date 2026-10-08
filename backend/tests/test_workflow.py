@@ -150,6 +150,29 @@ def test_forecast_retries_claim_without_reference():
     assert state["forecast"]["supporting"][0]["evidence_ids"] == ["E001"]
 
 
+def test_world_retries_user_premise_as_evidence_parent():
+    class FakeModel:
+        world_calls = 0
+
+        def complete(self, role, payload, schema, instructions):
+            output = demo_output(role, payload.get("actor", {}).get("id"), payload.get("round", 1))
+            if role == "world":
+                self.world_calls += 1
+                parent = "P001" if self.world_calls == 1 else "E001"
+                output["assumptions"].append({"id": "H099", "created_by": "model",
+                                              "parent_ids": [parent], "content": "conditional assumption"})
+                if self.world_calls == 2:
+                    assert "P001" in payload["validation_feedback"]
+            return schema.model_validate(output)
+
+    model = FakeModel()
+    record = RunRecord(run_id="run_world_repair", question=DEMO_QUESTION, evidence_mode="import", model="fake")
+    state = build_graph(record, demo_evidence(), model, Path("/tmp")).invoke({"question": DEMO_QUESTION.model_dump(mode="json")})
+    assert model.world_calls == 2
+    repaired = next(a for a in state["world"]["assumptions"] if a["id"] == "H099")
+    assert repaired["parent_ids"] == ["E001"]
+
+
 def test_review_accepts_actor_action_reference_and_receives_compact_context():
     class FakeModel:
         def complete(self, role, payload, schema, instructions):
@@ -165,6 +188,47 @@ def test_review_accepts_actor_action_reference_and_receives_compact_context():
     record = RunRecord(run_id="run_review_action", question=DEMO_QUESTION, evidence_mode="import", model="fake")
     state = build_graph(record, demo_evidence(), FakeModel(), Path("/tmp")).invoke({"question": DEMO_QUESTION.model_dump(mode="json")})
     assert state["review"]["issues"][0]["affected_ids"] == ["M1-A1"]
+
+
+def test_review_repairs_retrieval_ids_without_inventing_audit_references():
+    class FakeModel:
+        reviews = 0
+
+        def complete(self, role, payload, schema, instructions):
+            output = demo_output(role, payload.get("actor", {}).get("id"), payload.get("round", 1))
+            if role == "review":
+                self.reviews += 1
+                if self.reviews == 1:
+                    output["issues"][0]["affected_ids"] = ["R001"]
+                else:
+                    assert payload["validation_feedback"]["invalid_affected_ids"] == ["R001"]
+                    assert "M1-A1" in payload["valid_affected_ids"]
+                    output["issues"][0]["affected_ids"] = ["M1-A1"]
+            return schema.model_validate(output)
+
+    model = FakeModel()
+    record = RunRecord(run_id="review_repair", question=DEMO_QUESTION, evidence_mode="import", model="fake")
+    state = build_graph(record, demo_evidence(), model, Path("/tmp")).invoke({"question": DEMO_QUESTION.model_dump(mode="json")})
+    assert model.reviews == 2
+    assert state["review"]["issues"][0]["affected_ids"] == ["M1-A1"]
+
+
+def test_review_rejects_repeated_invalid_references_after_one_repair():
+    class FakeModel:
+        reviews = 0
+
+        def complete(self, role, payload, schema, instructions):
+            output = demo_output(role, payload.get("actor", {}).get("id"), payload.get("round", 1))
+            if role == "review":
+                self.reviews += 1
+                output["issues"][0]["affected_ids"] = ["R001"]
+            return schema.model_validate(output)
+
+    model = FakeModel()
+    record = RunRecord(run_id="review_invalid", question=DEMO_QUESTION, evidence_mode="import", model="fake")
+    with pytest.raises(ValueError, match="R001"):
+        build_graph(record, demo_evidence(), model, Path("/tmp")).invoke({"question": DEMO_QUESTION.model_dump(mode="json")})
+    assert model.reviews == 2
 
 
 def test_forecast_falls_back_without_probability_when_citations_never_validate():
@@ -272,3 +336,51 @@ def test_export_escapes_untrusted_evidence():
     assert "<script>alert(1)</script>" not in html
     assert "&lt;script&gt;" in html
     assert "<img src=x" not in html
+
+
+def test_actor_repairs_hypothesis_misfiled_as_external_evidence():
+    class FakeModel:
+        repaired_actor_calls = 0
+        def complete(self, role, payload, schema, instructions):
+            output = demo_output(role, payload.get("actor", {}).get("id"), payload.get("round", 1))
+            if role == "actor" and payload["actor"]["id"] == "A1" and payload["round"] == 1:
+                self.repaired_actor_calls += 1
+                if self.repaired_actor_calls == 1:
+                    output["evidence_ids"] = ["H001"]
+                else:
+                    assert "H001" in payload["validation_feedback"]
+                    assert "H001" not in payload["valid_evidence_ids"]
+                    assert payload["valid_assumption_ids"]
+            return schema.model_validate(output)
+    model = FakeModel()
+    record = RunRecord(run_id="run_actor_repair", question=DEMO_QUESTION, evidence_mode="import", model="fake")
+    state = build_graph(record, demo_evidence(), model, Path("/tmp")).invoke({"question": DEMO_QUESTION.model_dump(mode="json")})
+    assert model.repaired_actor_calls == 2
+    assert all(not any(e.startswith("H") for e in action["evidence_ids"]) for action in state["actions"])
+
+
+def test_open_scenarios_cannot_present_arbitrary_rates_as_estimates():
+    from app.graph import validate_forecast, repair_forecast
+    from app.schemas import QuestionSpec, Forecast, Review, WorldState
+    from app.demo import DEMO_QUESTION
+    question = DEMO_QUESTION.model_copy(update={"mode": "scenario", "outcomes": []})
+    forecast = Forecast(status="scenario_only", conclusion="conditional", scenarios=["AI影响达55%"],
+                        new_information=["E008指出形式化证明需24个月验证周期"])
+    with pytest.raises(ValueError, match="定量比例"):
+        validate_forecast(forecast, question, [], WorldState(summary="fixture"), [], Review(status="qualified"))
+    forecast.scenarios = ["工具逐步采用"]
+    with pytest.raises(ValueError, match="后续信息"):
+        validate_forecast(forecast, question, [], WorldState(summary="fixture"), [], Review(status="qualified"))
+    repaired = repair_forecast(forecast, question, [], WorldState(summary="fixture"), [], Review(status="qualified"), "unsupported information")
+    assert repaired.new_information == [] and repaired.probabilities is None
+
+
+def test_failed_scenario_grounding_does_not_leave_other_prose_as_a_conclusion():
+    from app.graph import repair_forecast
+    from app.schemas import Claim
+    question = DEMO_QUESTION.model_copy(update={"mode": "scenario", "outcomes": []})
+    forecast = Forecast(status="scenario_only", conclusion="invalid report", scenarios=["验证需24个月"],
+                        supporting=[Claim(text="source assertion", assumption_ids=["H001"])])
+    world = WorldState.model_validate(demo_output("world"))
+    repaired = repair_forecast(forecast, question, demo_evidence(), world, [], Review(status="qualified"), "情景中的定量比例未过质量门")
+    assert repaired.supporting == [] and repaired.scenarios == [] and repaired.key_assumptions == []

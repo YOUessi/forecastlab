@@ -51,22 +51,23 @@ def routes(page, *, missing_key=False, runs=None, framing=None, passages=None):
 
 def prepare(page, app_url):
     page.goto(app_url)
-    page.get_by_placeholder("例如：某产品能否在 12 月 20 日前发布正式版？").fill(QUESTION["question"])
-    page.get_by_role("button", name="开放情景分析").click()
+    page.get_by_role("button", name="＋ 新建研究", exact=True).click()
+    page.get_by_label("研究问题", exact=True).fill(QUESTION["question"])
+    page.get_by_label("分析方式").select_option("scenario")
     page.get_by_role("button", name="分析问题", exact=True).click()
 
 
 def test_question_confirmation_flow(page, app_url):
     captured = routes(page)
     prepare(page, app_url)
-    expect(page.get_by_role("button", name="确认并继续", exact=True)).to_be_disabled()
-    expect(page.get_by_text("待核查前提，不是已证实事实", exact=True)).to_be_visible()
+    expect(page.get_by_role("button", name="确认问题", exact=True)).to_be_disabled()
+    expect(page.get_by_role("option", name="保留并核查，不当作事实", exact=True)).to_have_count(1)
     page.get_by_label("P001 前提处理").select_option("to_verify")
-    page.get_by_role("button", name="确认并继续", exact=True).click()
-    expect(page.get_by_text("问题已确认", exact=True)).to_be_visible()
-    page.get_by_role("button", name="在线检索", exact=True).click()
-    page.get_by_role("button", name=re.compile("^开始预测")).click()
-    expect(page.get_by_text("run_fixture", exact=True).first).to_be_visible()
+    page.get_by_role("button", name="确认问题", exact=True).click()
+    expect(page.get_by_text("问题已确认。联网搜索、核查和推演将使用这一版本。", exact=True)).to_be_visible()
+    page.get_by_role("button", name=re.compile("^开始联网推演")).click()
+    expect(page.get_by_role("dialog",name="新建事件研究")).to_have_count(0)
+    expect(page.locator(".work-header h1")).to_have_text(QUESTION["question"])
     assert captured["runs"][0]["confirmation_id"] == "confirm_fixture"
     assert "question" not in captured["runs"][0]
 
@@ -74,28 +75,28 @@ def test_question_confirmation_flow(page, app_url):
 def test_edit_invalidates_confirmation(page, app_url):
     routes(page); prepare(page, app_url)
     page.get_by_label("P001 前提处理").select_option("to_verify")
-    page.get_by_role("button", name="确认并继续", exact=True).click()
-    expect(page.get_by_text("问题已确认", exact=True)).to_be_visible()
-    page.get_by_placeholder("例如：某产品能否在 12 月 20 日前发布正式版？").fill("修改了范围，另一个版本能否发布？")
-    expect(page.get_by_role("button", name=re.compile("^开始预测"))).to_be_disabled()
-    expect(page.get_by_text("内容已修改，请重新分析后确认", exact=True)).to_be_visible()
+    page.get_by_role("button", name="确认问题", exact=True).click()
+    expect(page.get_by_text("问题已确认。联网搜索、核查和推演将使用这一版本。", exact=True)).to_be_visible()
+    page.locator(".research-dialog textarea").first.fill("修改了范围，另一个版本能否发布？")
+    expect(page.get_by_role("button", name=re.compile("^开始联网推演"))).to_be_disabled()
+    expect(page.get_by_text("内容已修改，请重新分析后确认。", exact=True)).to_be_visible()
 
 
-def test_refresh_loads_saved_draft(page, app_url):
-    routes(page)
+def test_new_research_does_not_restore_offline_draft(page, app_url):
+    captured = routes(page)
     page.add_init_script("localStorage.setItem('forecastlab.agent12.draft_id','draft_fixture')")
     page.goto(app_url)
-    expect(page.get_by_text("需要核查实际范围", exact=True)).to_be_visible()
-    expect(page.get_by_placeholder("例如：某产品能否在 12 月 20 日前发布正式版？")).to_have_value(QUESTION["question"])
-    page.reload()
-    expect(page.get_by_text("需要核查实际范围", exact=True)).to_be_visible()
+    page.get_by_role("button", name="＋ 新建研究", exact=True).click()
+    expect(page.get_by_label("研究问题", exact=True)).to_have_value("")
+    expect(page.get_by_text("需要核查实际范围", exact=True)).to_have_count(0)
+    assert captured["analyses"] == []
 
 
 def test_missing_key_does_not_create_fake_analysis(page, app_url):
     routes(page, missing_key=True); prepare(page, app_url)
     expect(page.get_by_text("未配置模型密钥，不能生成真实分析", exact=True)).to_be_visible()
     expect(page.get_by_text("需要核查实际范围", exact=True)).to_have_count(0)
-    expect(page.get_by_role("button", name=re.compile("^开始预测"))).to_be_disabled()
+    expect(page.get_by_role("button", name=re.compile("^开始联网推演"))).to_be_disabled()
 
 
 SOURCE_TEXT = "说明😀：计划🙂延期，不代表项目取消。"
@@ -127,7 +128,7 @@ def inspect_view(page, app_url, run=None):
     routes(page, runs=[run], passages={"evidence_id": "E001", "text": SOURCE_TEXT, "snapshot_hash": "fixture-hash", "content_truncated": True,
         "passages": [{"paragraph_id": "B000001", "text": SOURCE_TEXT, "start": 0, "end": len(SOURCE_TEXT), "snapshot_hash": "fixture-hash"}]})
     page.goto(app_url)
-    page.get_by_role("button", name=re.compile("02.*证据与模型")).click()
+    page.get_by_role("button", name=re.compile("问题与证据")).click()
 
 
 def test_filter_findings_by_premise_and_relation(page, app_url):
@@ -181,28 +182,55 @@ def test_mobile_findings_and_drawer_fit_viewport(page, app_url):
     page.get_by_role("button", name="查看 E001 原文", exact=True).click()
     expect(page.locator("mark")).to_have_text("计划🙂延期")
     assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
-    page.get_by_role("button", name="关闭详情", exact=True).click()
+    page.get_by_role("button", name="关闭来源原文", exact=True).click()
     expect(page.get_by_role("button", name="查看 E001 原文", exact=True)).to_be_focused()
 
 
 
-def test_real_backend_fixed_teaching_flow(page, app_url):
-    # No page.route: this test exercises the actual backend, SQLite, graph and UI.
+def test_real_backend_saved_run_and_source_inspection(page, app_url):
+    # Populate only the isolated test backend; production has no demo entry.
+    response = page.request.post(app_url + "/api/runs", data={"question": RUN["question"], "evidence_mode": "demo", "evidence": []})
+    assert response.status == 202
+    run_id = response.json()["run_id"]
+    import time
+    for _ in range(100):
+        record = page.request.get(app_url + "/api/runs/" + run_id).json()
+        if record["status"] not in ("queued", "running"):
+            break
+        time.sleep(.1)
+    assert record["status"] in ("completed", "scenario_only", "insufficient_evidence")
     page.goto(app_url)
-    page.get_by_role("button", name="体验问题与证据新流程", exact=True).click()
-    page.get_by_role("button", name="分析问题", exact=True).click()
-    expect(page.get_by_text("需要补充信息", exact=True)).to_be_visible()
-    page.get_by_label("这里的发布是可下载的正式版，还是测试版？（需补充）").fill("可下载的正式版")
-    page.get_by_role("button", name="提交补充并重新分析", exact=True).click()
-    expect(page.get_by_text("请核对系统理解", exact=True)).to_be_visible()
-    page.get_by_label("P001 前提处理").select_option("to_verify")
-    page.get_by_label("P002 前提处理").select_option("to_verify")
-    page.get_by_role("button", name="确认并继续", exact=True).click()
-    expect(page.get_by_text("问题已确认", exact=True)).to_be_visible()
-    page.get_by_role("button", name=re.compile("^开始预测")).click()
-    expect(page.get_by_text("已完成", exact=True).first).to_be_visible(timeout=10000)
-    page.get_by_role("button", name=re.compile("02.*证据与模型")).click()
-    expect(page.get_by_test_id("valid-findings")).to_be_visible()
-    page.get_by_role("button", name="查看 E002 原文", exact=True).click()
-    expect(page.locator("mark")).to_have_text("两个高优先级兼容问题")
+    expect(page.locator(".work-header h1")).to_have_text(record["question"]["question"])
+    page.get_by_role("button", name=re.compile("问题与证据")).click()
+    page.locator(".source-short").first.click()
+    expect(page.get_by_role("dialog", name="来源原文")).to_be_visible()
     expect(page.get_by_role("dialog").get_by_text("教学虚构材料", exact=True)).to_be_visible()
+
+
+def test_source_hash_mismatch_blocks_highlight(page, app_url):
+    run = evidence_run()
+    routes(page, runs=[run], passages={"evidence_id": "E001", "text": SOURCE_TEXT,
+        "snapshot_hash": "changed-hash", "content_truncated": True, "passages": []})
+    page.goto(app_url)
+    page.get_by_role("button", name=re.compile("问题与证据")).click()
+    page.get_by_role("button", name="查看 E001 原文", exact=True).click()
+    expect(page.get_by_role("alert")).to_have_text("原文哈希或引用位置不匹配，不能高亮引用。")
+    expect(page.locator("mark")).to_have_count(0)
+
+
+def test_research_supplement_requires_reviewed_status(page, app_url):
+    run = evidence_run()
+    routes(page, runs=[run])
+    candidate = {"model": "fixture", "generated_at": "2026-10-08", "quality_status": "candidate",
+        "parts": [{"name": "analysis", "request_id": "request_fixture", "sections": [{"title": "尚未核验的专题", "paragraphs": ["候选正文不能展示"], "source_ids": ["B001"]}]}],
+        "sources": [], "calls": []}
+    page.route("**/assets/research-run_fixture.json", lambda route: route.fulfill(content_type="application/json", body=json.dumps(candidate)))
+    page.goto(app_url)
+    with page.expect_response("**/assets/research-run_fixture.json"):
+        page.get_by_role("button", name=re.compile("研究报告")).click()
+    expect(page.get_by_text("候选正文不能展示", exact=True)).to_have_count(0)
+    candidate["quality_status"] = "reviewed"
+    page.get_by_role("button", name=re.compile("问题与证据")).click()
+    with page.expect_response("**/assets/research-run_fixture.json"):
+        page.get_by_role("button", name=re.compile("研究报告")).click()
+    expect(page.get_by_text("候选正文不能展示", exact=True)).to_be_visible()

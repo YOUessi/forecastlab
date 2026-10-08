@@ -4,9 +4,9 @@ import type { ClarificationAnswer, PremiseDecision, QuestionFraming } from '../t
 type Choice = '' | 'to_verify' | 'scenario_condition' | 'rejected'
 type Props = { demoQuestion?: string; framing: QuestionFraming | null; confirmationId: string | null; busy: boolean; dirty: boolean;
   onAnalyze: () => void; onAnswer: (answers: ClarificationAnswer[]) => void; onConfirm: (decisions: PremiseDecision[]) => void;
-  onEdit: () => void; onReload: () => void }
+  onEdit: () => void; onReload: () => void; onStart: () => void }
 
-export function QuestionConfirmationPanel({ demoQuestion, framing, confirmationId, busy, dirty, onAnalyze, onAnswer, onConfirm, onEdit, onReload }: Props) {
+export function QuestionConfirmationPanel({ demoQuestion, framing, confirmationId, busy, dirty, onAnalyze, onAnswer, onConfirm, onEdit, onReload, onStart }: Props) {
   const [choices, setChoices] = useState<Record<string, Choice>>({})
   const [answers, setAnswers] = useState<Record<string, string>>({})
   useEffect(() => {
@@ -45,7 +45,7 @@ export function QuestionConfirmationPanel({ demoQuestion, framing, confirmationI
           </select></label></article>) : <p>未识别出需要用户确认的前提；不会为凑数量而补出观点。</p>}
         {framing.alternative_directions.length > 0 && <details><summary>其他值得核查的方向（模型提出）</summary>{framing.alternative_directions.map((x,i) => <p key={i}>{x}</p>)}</details>}
         <div className="framing-actions"><button className="button button-primary" disabled={!canConfirm} onClick={() => onConfirm(decisions())}>确认并继续</button>{confirmationId && <button className="button button-outline" onClick={onEdit} disabled={busy}>修改前提决定</button>}</div>
-        <small>确认只保存本版本；之后再选择证据并开始运行。修改决定需重新分析生成新版本。</small>
+        {confirmationId && <div className="confirmed-next" role="status"><strong>问题确认完成</strong><p>核对上方选择的证据入口后，开始运行这个版本。</p><button className="button button-primary" onClick={onStart} disabled={busy}>运行已确认的问题 →</button></div>}<small>确认只保存本版本；之后再选择证据并开始运行。修改决定需重新分析生成新版本。</small>
       </>}
     </div>
   </section>

@@ -5,7 +5,9 @@ from pydantic import ValidationError
 from ..schemas import (AnalyzeQuestionRequest, FramingCandidate, QuestionFraming, QuestionInput,
     QuestionDraft, QuestionSpec, QuestionClarification, QuestionPremise, RetrievalTask)
 
-PROMPT = """澄清研究对象、时间、地区和判定标准，保留用户原意，不接受其预设结论。
+PROMPT = """First distinguish a prediction target from an asserted premise. A question asking whether X will happen is NOT a premise; neutral questions normally have an empty premises list. Only extract asserted claims such as "all tests have passed". Do NOT extract the predicted conclusion as its own premise.
+Read all supplied question fields before asking clarifications. If the subject, as_of, resolve_by and resolution_rule are explicit, do not ask the user to reconfirm them. Do not ask about geographic scope or whether the subject is unique unless it materially changes the provided settlement rule. Return clarifications=[] when the supplied fields suffice. Keep every rationale and search direction concise.
+澄清研究对象、时间、地区和判定标准，保留用户原意，不接受其预设结论。
 你收到的inputs是用户原话和补充回答。premises只识别这些文本中确有依据的前提，
 必须给source_input_id和逐字original_span；中性问题可没有前提。
 model_inferred表示从措辞推断，绝不冒充用户明确观点。被用户否认的原有前提不得重新当作用户认可的前提。

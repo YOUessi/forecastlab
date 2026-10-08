@@ -1,4 +1,5 @@
 """Tool-owned evidence metadata. Models never create source URLs or hashes."""
+import html
 import hashlib
 import ipaddress
 import json
@@ -10,6 +11,7 @@ from datetime import datetime, timezone
 import math
 import re
 import time
+import threading
 import httpx
 from . import config
 from .schemas import Evidence, ImportedEvidence, QuestionSpec, utcnow
@@ -95,8 +97,36 @@ def _parse_date(value):
         return None
 
 
+_brave_lock = threading.Lock()
+_brave_last_request = 0.0
+
+
 def _search_one(query: str) -> list[dict]:
     """Read a bounded streaming body; do not download unlimited text then truncate."""
+    if config.BRAVE_SEARCH_API_KEY:
+        global _brave_last_request
+        with _brave_lock:
+            time.sleep(max(0, 1.1 - (time.monotonic() - _brave_last_request)))
+            _brave_last_request = time.monotonic()
+        with httpx.Client(timeout=25, proxy=config.SEARCH_PROXY or None) as client:
+            with client.stream("GET", "https://api.search.brave.com/res/v1/web/search",
+                headers={"X-Subscription-Token": config.BRAVE_SEARCH_API_KEY, "Accept": "application/json"},
+                params={"q": query[:400], "count": 8, "extra_snippets": "true"}) as response:
+                response.raise_for_status()
+                content = bytearray()
+                for chunk in response.iter_bytes():
+                    if len(content) + len(chunk) > 8 * 1024 * 1024:
+                        raise ValueError("检索响应超过8 MiB限制")
+                    content.extend(chunk)
+                payload = json.loads(content)
+        results = payload.get("web", {}).get("results", [])
+        if not isinstance(results, list):
+            raise ValueError("检索响应缺少资料数组")
+        return [{"url": r.get("url", ""), "title": r.get("title", ""),
+                 "content": html.unescape(re.sub(r"<[^>]+>", "", "\n".join(
+                     [r.get("description") or "", *[v for v in r.get("extra_snippets", []) if isinstance(v, str)]]))),
+                 "score": max(.1, 1 - i * .08)}
+                for i, r in enumerate(results[:8]) if isinstance(r, dict)]
     with httpx.Client(timeout=25) as client:
         with client.stream("POST", "https://api.tavily.com/search", json={
             "api_key": config.TAVILY_API_KEY, "query": query,
@@ -192,8 +222,8 @@ def select_candidates(buckets: dict[str, list[SourceCandidate]], *, limit: int =
 def retrieve_evidence(question: QuestionSpec, tasks, data_dir: Path):
     from .schemas import RetrievalTask, RetrievalResult, RetrievalLog, SourceAlias
     from .provenance import save_snapshot, split_passages, select_passages, text_terms
-    if not config.TAVILY_API_KEY:
-        raise ValueError("在线检索需要 TAVILY_API_KEY；可改用导入证据包。")
+    if not (config.BRAVE_SEARCH_API_KEY or config.TAVILY_API_KEY):
+        raise ValueError("在线检索需要 BRAVE_SEARCH_API_KEY 或 TAVILY_API_KEY；可改用导入证据包。")
     if (utcnow() - question.as_of).total_seconds() > 86400:
         raise ValueError("历史问题不能用今天网页冒充截点前快照，请导入历史练习或使用已有冻结材料。")
     if len(tasks) > 3 or len({t.id for t in tasks}) != len(tasks):
@@ -247,7 +277,7 @@ def retrieve_evidence(question: QuestionSpec, tasks, data_dir: Path):
     candidates = select_candidates(buckets)
     evidence = []
     for c in candidates:
-        snapshot = save_snapshot(c.text, {"provider": "tavily", "source_url": c.url, "title": c.title,
+        snapshot = save_snapshot(c.text, {"provider": "brave" if config.BRAVE_SEARCH_API_KEY else "tavily", "source_url": c.url, "title": c.title,
             "query_ids": c.query_ids, "query_terms": [t.query for t in tasks if t.id in c.query_ids],
             "source_metadata": c.metadata}, data_dir)
         excerpt = snapshot.text[:12000]
@@ -278,7 +308,8 @@ def online_search(question: QuestionSpec, data_dir: Path, queries: list[str] | N
     result = retrieve_evidence(question, tasks, data_dir)
     if result.status == "failed":
         details = "；".join(f"第 {i+1} 条：{log.error}" for i, log in enumerate(result.retrieval_log))
-        raise RuntimeError(f"Tavily 在线检索全部失败（{details}）")
+        provider = "Brave" if config.BRAVE_SEARCH_API_KEY else "Tavily"
+        raise RuntimeError(f"{provider} 在线检索全部失败（{details}）")
     return result.evidence
 
 

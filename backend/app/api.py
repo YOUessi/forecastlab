@@ -138,7 +138,7 @@ def create_app(data_dir: Path | None = None, *, question_model_factory=None) -> 
 
     @app.get("/api/health")
     def health():
-        return {"ok": True, "model_configured": bool(config.MODEL_API_KEY), "search_configured": bool(config.TAVILY_API_KEY), "model": config.MODEL_NAME}
+        return {"ok": True, "model_configured": bool(config.MODEL_API_KEY), "search_configured": bool(config.BRAVE_SEARCH_API_KEY or config.TAVILY_API_KEY), "model": config.MODEL_NAME}
 
     @app.get("/api/examples")
     def examples():
@@ -203,8 +203,8 @@ def create_app(data_dir: Path | None = None, *, question_model_factory=None) -> 
                         from .schemas import RetrievalResult
                         retrieval = RetrievalResult(evidence=evidence)
                 else:
-                    if not config.TAVILY_API_KEY:
-                        raise HTTPException(503, "未配置 TAVILY_API_KEY；请导入证据包。")
+                    if not (config.BRAVE_SEARCH_API_KEY or config.TAVILY_API_KEY):
+                        raise HTTPException(503, "未配置 Brave 或 Tavily 搜索密钥；请导入证据包。")
                     evidence = []
             record = RunRecord(run_id=f"run_{uuid4().hex[:12]}", question=question,
                                parent_run_id=request.parent_run_id, question_version=2 if request.parent_run_id else 1,

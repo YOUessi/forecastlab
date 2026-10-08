@@ -44,7 +44,7 @@ def app_url(tmp_path_factory):
 @pytest.fixture(scope="session")
 def browser():
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
+        browser = p.chromium.launch(headless=True, executable_path=os.getenv("FORECASTLAB_BROWSER_EXECUTABLE") or None)
         yield browser
         browser.close()
 
