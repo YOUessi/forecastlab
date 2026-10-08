@@ -59,7 +59,15 @@ def extract_json(text: str) -> dict:
     start, end = cleaned.find("{"), cleaned.rfind("}")
     if start < 0 or end < start:
         raise ValueError("no JSON object in model output")
-    return json.loads(cleaned[start:end+1])
+    candidate = cleaned[start:end+1]
+    try:
+        return json.loads(candidate)
+    except json.JSONDecodeError:
+        # Small local models sometimes emit: "rationale": "text".}
+        # Repair syntax punctuation only; never change semantic content.
+        repaired = re.sub(r'"\s*\.\s*([,}])', r'"\1', candidate)
+        repaired = re.sub(r",\s*}", "}", repaired)
+        return json.loads(repaired)
 
 
 def load_runtime(model_name: str):
@@ -107,32 +115,8 @@ def judge_row(torch, tokenizer, model, device, row: dict, max_new_tokens: int) -
         raise RuntimeError(f"invalid local judge output: {raw[:500]}") from exc
 
 
-def main() -> None:
-    p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("benchmark", type=Path)
-    p.add_argument("--output", type=Path, required=True)
-    p.add_argument("--model", default=DEFAULT_MODEL)
-    p.add_argument("--limit", type=int)
-    p.add_argument("--max-new-tokens", type=int, default=192)
-    args = p.parse_args()
-
-    data = json.loads(args.benchmark.read_text(encoding="utf-8"))
-    rows = list(data.get("rows", []))
-    if args.limit:
-        rows = rows[:args.limit]
-
-    torch, tokenizer, model, device = load_runtime(args.model)
-    judged, total_elapsed = [], 0.0
-    for i, row in enumerate(rows, 1):
-        decision, elapsed = judge_row(torch, tokenizer, model, device, row, args.max_new_tokens)
-        total_elapsed += elapsed
-        item = json.loads(json.dumps(row, ensure_ascii=False))
-        item["judge"] = {**decision.model_dump(), "elapsed_seconds": elapsed}
-        judged.append(item)
-        row_name = row.get("id") or row.get("case_id") or str(i)
-        print(f"[{i}/{len(rows)}] {row_name} -> {decision.label} {decision.confidence:.2f}", flush=True)
-
-    out = {
+def make_output(args, judged, total_elapsed: float, device) -> dict:
+    return {
         "created_at": datetime.now(timezone.utc).isoformat(),
         "source_benchmark": str(args.benchmark),
         "judge_model": args.model,
@@ -143,9 +127,68 @@ def main() -> None:
         "total_elapsed_seconds": total_elapsed,
         "rows": judged,
     }
+
+
+def checkpoint(args, judged, total_elapsed: float, device) -> dict:
+    out = make_output(args, judged, total_elapsed, device)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(out, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(json.dumps({"rows": len(judged), "model": args.model, "device": str(device), "elapsed": total_elapsed}, ensure_ascii=False))
+    return out
+
+
+def main() -> None:
+    p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument("benchmark", type=Path)
+    p.add_argument("--output", type=Path, required=True)
+    p.add_argument("--model", default=DEFAULT_MODEL)
+    p.add_argument("--limit", type=int)
+    p.add_argument("--max-new-tokens", type=int, default=192)
+    p.add_argument("--resume", action="store_true")
+    args = p.parse_args()
+
+    data = json.loads(args.benchmark.read_text(encoding="utf-8"))
+    rows = list(data.get("rows", []))
+    if args.limit:
+        rows = rows[:args.limit]
+
+    torch, tokenizer, model, device = load_runtime(args.model)
+    judged, total_elapsed = [], 0.0
+    if args.resume and args.output.exists():
+        previous = json.loads(args.output.read_text(encoding="utf-8"))
+        judged = list(previous.get("rows", []))
+        total_elapsed = float(previous.get("total_elapsed_seconds", 0))
+    done = {row.get("id") for row in judged}
+
+    for i, row in enumerate(rows, 1):
+        if row.get("id") in done:
+            continue
+        error = None
+        try:
+            decision, elapsed = judge_row(torch, tokenizer, model, device, row, args.max_new_tokens)
+        except Exception as exc:
+            elapsed = 0.0
+            error = f"{type(exc).__name__}: {str(exc)[:300]}"
+            decision = Decision(
+                label="unclear",
+                confidence=0.0,
+                unsupported_spans=[],
+                rationale="Judge output could not be parsed; fail-closed as unclear.",
+            )
+        total_elapsed += elapsed
+        item = json.loads(json.dumps(row, ensure_ascii=False))
+        item["judge"] = {**decision.model_dump(), "elapsed_seconds": elapsed}
+        if error:
+            item["judge"]["error"] = error
+        judged.append(item)
+        checkpoint(args, judged, total_elapsed, device)
+        row_name = row.get("id") or row.get("case_id") or str(i)
+        print(f"[{i}/{len(rows)}] {row_name} -> {decision.label} {decision.confidence:.2f}", flush=True)
+
+    checkpoint(args, judged, total_elapsed, device)
+    print(json.dumps(
+        {"rows": len(judged), "model": args.model, "device": str(device), "elapsed": total_elapsed},
+        ensure_ascii=False,
+    ))
 
 
 if __name__ == "__main__":
