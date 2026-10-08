@@ -1,6 +1,6 @@
 # ForecastLab 多臂对照实验报告
 
-**日期**：2026-10-04　**套件**：`eval/suites/forecastlab-v1.json`（24 案例）　**数据**：`experiment-2026-10-04/results/v1-2026-10-04.json`（复现命令输出到 `data/eval/`）
+**日期**：2026-10-04　**套件**：`eval/suites/forecastlab-v1.json`（24 案例）　**数据**：`experiment/v1-2026-10-04/results/v1-2026-10-04.json`（复现命令输出到 `data/eval/`）
 
 ---
 
