@@ -34,3 +34,17 @@
 - 以整合分支最终 head 的 GitHub Actions 为合并前置条件；若有失败，不合并到小组主仓库。
 - PR 合并后再次验证小组仓库 main SHA、完整前端入口、`experiment/` 的历史研究与 CI 结果。
 
+
+## 最终验证及上游权限状态（2026-10-08）
+
+- 整合分支 `integration/upstream-main-full-workflow-20261008` 已进入 Fork PR #11；完整 CI #201 通过。
+- Fork PR #11 已合并到 `YOUessi/forecastlab:main`，合并提交 `2f6f6e11bba88dffb1a949dc21edfed885d6c928`。
+- Fork **合并后主分支** CI #202（workflow `37763745626`）通过：
+  - 后端 `191 passed`，2 条依赖弃用警告；
+  - 上游实验套件自动校验：v1 24/24，v2 20/20，v3v4 20/20，合计 64 个案例，0 个结构/证据包校验问题；
+  - 前端 Vite 生产构建通过；
+  - Chromium 端到端浏览器测试 `14 passed`；
+  - 产品首页不再包含额外的 Agent 1/2-only 按钮，原有全流程教学演示和完整导航保留。
+- 对比上游 `hkuaidt/forecastlab:main@34088e2` 与当前 Fork，当前 Fork **ahead 且 behind=0**：队友新提交已被纳入，不能误称丢失其 v3/v4 工作。
+- 尝试通过当前 GitHub App 在 `hkuaidt/forecastlab` 直接创建跨仓库 PR，返回 `403 Resource not accessible by integration`。已核实 GitHub App 当前只安装在 `YOUessi` 与 `Nexleap-Tech`，尚未授权 `hkuaidt` 组织。
+- **因此截至本记录，小组上游 `main` 尚未发生更改**。最终跨仓库 PR 的创建/审核/合并需要 `hkuaidt` 组织授权该 App，或由有 GitHub 权限的小组成员在网页上从 `YOUessi/forecastlab:main` 向 `hkuaidt/forecastlab:main` 创建并合并 PR。
