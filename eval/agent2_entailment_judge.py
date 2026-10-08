@@ -121,6 +121,7 @@ def main() -> None:
     p.add_argument("--output", type=Path, required=True)
     p.add_argument("--allow-primary-model", action="store_true")
     p.add_argument("--limit", type=int)
+    p.add_argument("--resume", action="store_true")
     args = p.parse_args()
 
     data = json.loads(args.audit.read_text(encoding="utf-8"))
@@ -133,29 +134,55 @@ def main() -> None:
 
     judged = []
     totals = {"calls": 0, "prompt_tokens": 0, "completion_tokens": 0, "elapsed_seconds": 0.0}
+    if args.resume and args.output.exists():
+        previous = json.loads(args.output.read_text(encoding="utf-8"))
+        judged = list(previous.get("rows", []))
+        totals.update(previous.get("usage", {}))
+    done = {row.get("id") or f"{row.get('case_id')}::{row.get('finding_id')}::{row.get('claim')}" for row in judged}
+
+    def checkpoint() -> None:
+        out = {
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "source_audit": str(args.audit),
+            "judge_model": model,
+            "same_as_generator_model": same_as_generator,
+            "independent_model": not same_as_generator,
+            "judge_prompt_version": "entailment-v1",
+            "rows": judged,
+            "usage": totals,
+        }
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(json.dumps(out, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
     for i, row in enumerate(rows, 1):
-        decision, meta = judge_row(client, model, row)
+        row_key = row.get("id") or f"{row.get('case_id')}::{row.get('finding_id')}::{row.get('claim')}"
+        if row_key in done:
+            continue
+        error = None
+        try:
+            decision, meta = judge_row(client, model, row)
+        except Exception as exc:
+            error = f"{type(exc).__name__}: {str(exc)[:300]}"
+            decision = EntailmentDecision(
+                label="unclear",
+                confidence=0.0,
+                unsupported_spans=[],
+                rationale="Judge request/output failed; fail-closed as unclear.",
+            )
+            meta = {"elapsed_seconds": 0.0, "prompt_tokens": 0, "completion_tokens": 0, "response_model": model}
         item = json.loads(json.dumps(row, ensure_ascii=False))
         item["judge"] = {**decision.model_dump(), **meta}
+        if error:
+            item["judge"]["error"] = error
         judged.append(item)
         totals["calls"] += 1
         totals["prompt_tokens"] += meta["prompt_tokens"]
         totals["completion_tokens"] += meta["completion_tokens"]
         totals["elapsed_seconds"] += meta["elapsed_seconds"]
-        print(f"[{i}/{len(rows)}] {row['case_id']} {row['finding_id']} -> {decision.label} {decision.confidence:.2f}")
+        checkpoint()
+        print(f"[{i}/{len(rows)}] {row.get('id', row.get('case_id'))} -> {decision.label} {decision.confidence:.2f}", flush=True)
 
-    out = {
-        "created_at": datetime.now(timezone.utc).isoformat(),
-        "source_audit": str(args.audit),
-        "judge_model": model,
-        "same_as_generator_model": same_as_generator,
-        "independent_model": not same_as_generator,
-        "judge_prompt_version": "entailment-v1",
-        "rows": judged,
-        "usage": totals,
-    }
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(out, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    checkpoint()
     print(json.dumps({"judge_model": model, "same_as_generator_model": same_as_generator, "usage": totals}, ensure_ascii=False))
 
 
