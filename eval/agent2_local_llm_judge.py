@@ -52,6 +52,9 @@ def row_quotes(row: dict) -> list[str]:
     return [c["quote"] for c in row.get("citations", [])]
 
 
+QUALITATIVE_CONFIDENCE = {"high": 0.95, "medium": 0.75, "moderate": 0.75, "low": 0.50}
+
+
 def extract_json(text: str) -> dict:
     cleaned = text.strip()
     cleaned = re.sub(r"^\s*\x60\x60\x60(?:json)?\s*", "", cleaned, flags=re.I)
@@ -67,7 +70,15 @@ def extract_json(text: str) -> dict:
         # Repair syntax punctuation only; never change semantic content.
         repaired = re.sub(r'"\s*\.\s*([,}])', r'"\1', candidate)
         repaired = re.sub(r",\s*}", "}", repaired)
-        return json.loads(repaired)
+        obj = json.loads(repaired)
+    else:
+        obj = json.loads(candidate)
+    confidence = obj.get("confidence")
+    if isinstance(confidence, str):
+        mapped = QUALITATIVE_CONFIDENCE.get(confidence.strip().casefold())
+        if mapped is not None:
+            obj["confidence"] = mapped
+    return obj
 
 
 def load_runtime(model_name: str, *, awq: bool = False):
