@@ -320,7 +320,13 @@ def test_reuse_keeps_frozen_evidence_and_history(monkeypatch):
         second_id = client.post("/api/runs", json={"question": question.model_dump(mode="json"), "evidence_mode": "reuse", "parent_run_id": first_id}).json()["run_id"]
         first = client.get(f"/api/runs/{first_id}").json()
         second = client.get(f"/api/runs/{second_id}").json()
-        assert len(first["evidence"]) == 3
+        assert len(first["evidence"]) == 3, {
+            "status": first["status"],
+            "errors": first["errors"],
+            "exclusions": (first.get("retrieval_result") or {}).get("exclusions"),
+            "assessment": first.get("evidence_assessment"),
+            "source_input": [e.model_dump(mode="json") for e in demo_evidence()],
+        }
         assert second["status"] == "completed", second["errors"]
         # No new E ID or source content appears merely because the user reused a run.
         assert second["parent_run_id"] == first_id
