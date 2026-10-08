@@ -1,0 +1,1006 @@
+{
+  "created_at": "2026-10-08T02:25:50.021163+00:00",
+  "source_audit": "experiment-2026-10-08-agent2-boundary-v2/results/agent2-audit-main-seed7606.json",
+  "judge_model": "deepseek-flash",
+  "same_as_generator_model": true,
+  "independent_model": false,
+  "judge_prompt_version": "entailment-v1",
+  "rows": [
+    {
+      "case_id": "C02-star50",
+      "category": "finance",
+      "finding_id": "F001",
+      "relation": "background",
+      "claim": "2026年6月30日，科创50指数收于2207.86点，日涨3.85%。",
+      "limitation": "该段仅确认基准日收盘点位，未涉及7月31日或后续走势。",
+      "citations": [
+        {
+          "evidence_id": "E001",
+          "source_title": "新华财经：2026年6月30日科创板收盘播报",
+          "publisher": "新华财经",
+          "paragraph_id": "B000001",
+          "quote": "2026年6月30日，科创50指数收于2207.86点，日涨3.85%；盘中最高2214.61点，创历史新高；日内振幅4.73%，成交额约2193.5亿元。",
+          "snapshot_hash": "0923f1f1bc4413a34de3529b9fa1f3d93169ca712bdefca176e0a18db4e45b88",
+          "start": 0,
+          "end": 78
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 1.0,
+        "unsupported_spans": [],
+        "rationale": "The quote explicitly states the same date, index, closing value, and daily gain as the claim.",
+        "elapsed_seconds": 59.507390875020064,
+        "prompt_tokens": 513,
+        "completion_tokens": 48,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C21-fed-sep-cut",
+      "category": "finance",
+      "finding_id": "F001",
+      "relation": "background",
+      "claim": "委员会决定将联邦基金利率目标区间维持在 4-1/4 至 4-1/2 个百分点。",
+      "limitation": "该段落未写明会议日期，也未说明这是哪一次会议；仅表明该次决议为维持不变。",
+      "citations": [
+        {
+          "evidence_id": "E001",
+          "source_title": "Federal Reserve issues FOMC statement",
+          "publisher": "Federal Reserve Board",
+          "paragraph_id": "B000001",
+          "quote": "The Committee decided to maintain the target range for the federal funds rate at 4-1/4 to 4-1/2 percent.",
+          "snapshot_hash": "e6401896adf01f3131af929fb36020cedec95b79814ec1f3cf2bd2beed4e495e",
+          "start": 0,
+          "end": 104
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 1.0,
+        "unsupported_spans": [],
+        "rationale": "The quote directly states that the Committee decided to maintain the target range for the federal funds rate at 4-1/4 to 4-1/2 percent, which matches the Chinese claim exactly.",
+        "elapsed_seconds": 34.206413083011284,
+        "prompt_tokens": 491,
+        "completion_tokens": 69,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C22-ndx-h2-2025",
+      "category": "finance",
+      "finding_id": "F001",
+      "relation": "background",
+      "claim": "2025-06-30 对应的数值为 22679.010。",
+      "limitation": "该行仅为日期与数值，未在引文中标明指数名称、口径（收盘/开盘等）或单位；不得据此补出指数名称或“收盘”口径。",
+      "citations": [
+        {
+          "evidence_id": "E001",
+          "source_title": "Table Data - NASDAQ-100",
+          "publisher": "FRED / Nasdaq, Inc.",
+          "paragraph_id": "B000001",
+          "quote": "2025-06-30\t22679.010",
+          "snapshot_hash": "85c2d332f705d4e6a3f74e22282799458f3fcf87446f8d3b1c377a6f8bf8c44e",
+          "start": 0,
+          "end": 20
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 1.0,
+        "unsupported_spans": [],
+        "rationale": "The quote directly shows the date 2025-06-30 paired with the value 22679.010, matching the claim exactly.",
+        "elapsed_seconds": 88.39143825002247,
+        "prompt_tokens": 463,
+        "completion_tokens": 56,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C23-china-cpi-dec2025",
+      "category": "finance",
+      "finding_id": "F001",
+      "relation": "background",
+      "claim": "2025年9月份，全国居民消费价格同比下降0.3%。",
+      "limitation": "该数据为9月读数，与12月读数无直接对应关系。",
+      "citations": [
+        {
+          "evidence_id": "E001",
+          "source_title": "2025年9月份居民消费价格同比下降0.3% 环比上涨0.1%",
+          "publisher": "国家统计局",
+          "paragraph_id": "B000001",
+          "quote": "2025年9月份，全国居民消费价格同比下降0.3%。",
+          "snapshot_hash": "05d8aaf07c3b6762565c6a0995a83c43c55af9664e337bfaf71054e603ddc114",
+          "start": 0,
+          "end": 26
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 1.0,
+        "unsupported_spans": [],
+        "rationale": "The claim is identical to the provided exact quote, so every material part is directly supported.",
+        "elapsed_seconds": 1.5582761659752578,
+        "prompt_tokens": 466,
+        "completion_tokens": 46,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C24-gold-q3-2026",
+      "category": "finance",
+      "finding_id": "F002",
+      "relation": "background",
+      "claim": "委员会决定将联邦基金利率目标区间维持在 3-1/2 至 3-3/4 百分比。",
+      "limitation": "quote 未给出决议日期、机构名称或与金价的任何关系；仅说明利率目标区间维持不变。",
+      "citations": [
+        {
+          "evidence_id": "E002",
+          "source_title": "Federal Reserve issues FOMC statement",
+          "publisher": "Federal Reserve Board",
+          "paragraph_id": "B000001",
+          "quote": "The Committee decided to maintain the target range for the federal funds rate at 3-1/2 to 3-3/4 percent, in support of the Federal Reserve's dual mandate.",
+          "snapshot_hash": "21adb48131b3578083906616df4725a88c4c118a7bc3026ac9b5283c27a6d7ec",
+          "start": 0,
+          "end": 154
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 0.95,
+        "unsupported_spans": [],
+        "rationale": "The quote states the Committee decided to maintain the target range for the federal funds rate at 3-1/2 to 3-3/4 percent, which directly matches the claim's core proposition in Chinese translation.",
+        "elapsed_seconds": 2.4942390419892035,
+        "prompt_tokens": 501,
+        "completion_tokens": 72,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C15-artemis2-complete",
+      "category": "public",
+      "finding_id": "F001",
+      "relation": "background",
+      "claim": "Artemis II 试飞的倒计时已经开始，目标发射时间为 4 月 1 日（星期三）。",
+      "limitation": "原文仅说明倒计时进行中及目标发射时间，未说明实际是否发射、是否返回，也未给出年份。",
+      "citations": [
+        {
+          "evidence_id": "E001",
+          "source_title": "NASA's Artemis II Launch Mission Countdown Begins",
+          "publisher": "NASA",
+          "paragraph_id": "B000001",
+          "quote": "The countdown for NASA's Artemis II test flight is underway ... to a targeted launch time on Wednesday, April 1.",
+          "snapshot_hash": "cdabb600939e275beae50da2ab34ebbd172b17ecb9c7f08db2919ea0fbe4066f",
+          "start": 0,
+          "end": 112
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 0.95,
+        "unsupported_spans": [],
+        "rationale": "The quote states the countdown for Artemis II test flight is underway and gives a targeted launch time on Wednesday, April 1. The Chinese claim directly translates these elements: countdown started, Artemis II test flight, targeted launch time April 1 Wednesday.",
+        "elapsed_seconds": 1.2656597919994965,
+        "prompt_tokens": 485,
+        "completion_tokens": 79,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C15-artemis2-complete",
+      "category": "public",
+      "finding_id": "F002",
+      "relation": "background",
+      "claim": "该试飞的目标发射时间不早于 4 月 1 日（星期三）。",
+      "limitation": "原文为“目标不早于”的计划表述，未说明实际发射日期，也未给出年份；quote 未写出机构名称。",
+      "citations": [
+        {
+          "evidence_id": "E002",
+          "source_title": "NASA Sets Coverage for First Artemis Crewed Mission Around Moon",
+          "publisher": "NASA",
+          "paragraph_id": "B000001",
+          "quote": "The agency is targeting no earlier than Wednesday, April 1, for the test flight.",
+          "snapshot_hash": "f32e488f4d7c29e70d79e726409845f7ee119120f14c74cf76385703c51aa58d",
+          "start": 0,
+          "end": 80
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 0.95,
+        "unsupported_spans": [],
+        "rationale": "The quote states the target is 'no earlier than Wednesday, April 1,' which directly matches the claim that the target launch time is no earlier than April 1 (Wednesday).",
+        "elapsed_seconds": 1.0749133749632165,
+        "prompt_tokens": 474,
+        "completion_tokens": 65,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C16-cop30-roadmap-adopted",
+      "category": "public",
+      "finding_id": "F002",
+      "relation": "background",
+      "claim": "这些议题不会全部作为贝伦会议的单独议程项目出现。",
+      "limitation": "引文中的“They”所指议题范围未在片段中给出，也未说明与 cover decision 或化石燃料退出路线图的关系；不能据此推断任何条款是否通过。",
+      "citations": [
+        {
+          "evidence_id": "E002",
+          "source_title": "Sixth Letter from the President",
+          "publisher": "COP30 Brasil Presidency",
+          "paragraph_id": "B000001",
+          "quote": "They do not all appear as individual agenda items for discussion in Belem.",
+          "snapshot_hash": "56a308e6a1352999e73be372ece51df8391c6e1f6795f1dbb7a1b05be3ede8b7",
+          "start": 0,
+          "end": 74
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 0.95,
+        "unsupported_spans": [],
+        "rationale": "The quote states that the items do not all appear as individual agenda items for discussion in Belem, which directly matches the claim that these issues will not all appear as separate agenda items at the Belem conference.",
+        "elapsed_seconds": 1.5020195419783704,
+        "prompt_tokens": 464,
+        "completion_tokens": 70,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C17-iss-crewed-2024",
+      "category": "public",
+      "finding_id": "F001",
+      "relation": "background",
+      "claim": "自 2000 年 11 月 2 日起，空间站被来自 NASA 和国际空间组织的宇航员持续占据。",
+      "limitation": "该表述未给出截止日期，也未覆盖 2024 年；不能据此直接判定 2024 全年状态。",
+      "citations": [
+        {
+          "evidence_id": "E001",
+          "source_title": "The International Space Station: 20 Years of Communications Excellence",
+          "publisher": "NASA",
+          "paragraph_id": "B000001",
+          "quote": "Since Nov. 2, 2000, the space station has been occupied continuously by astronauts from NASA and international space organizations.",
+          "snapshot_hash": "f4b4e580d7197daebb77fd50cb1099fec3e1132b3dd4833c7972f47817982e09",
+          "start": 0,
+          "end": 131
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 0.95,
+        "unsupported_spans": [],
+        "rationale": "The quote directly states that since Nov. 2, 2000, the space station has been occupied continuously by astronauts from NASA and international space organizations, matching all material elements of the claim.",
+        "elapsed_seconds": 1.0950869579683058,
+        "prompt_tokens": 491,
+        "completion_tokens": 67,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C17-iss-crewed-2024",
+      "category": "public",
+      "finding_id": "F002",
+      "relation": "background",
+      "claim": "有表述称延续了近 23 年的连续人类驻留。",
+      "limitation": "该片段未标明说话者、具体日期或 2024 年数据；近 23 年与 2000 年起算相符，但未覆盖 2024 全年。",
+      "citations": [
+        {
+          "evidence_id": "E002",
+          "source_title": "NASA’s SpaceX Crew-7 Launches to International Space Station",
+          "publisher": "NASA",
+          "paragraph_id": "B000001",
+          "quote": "We continue the nearly 23 years of a continuous human presence aboard the microgravity laboratory.",
+          "snapshot_hash": "3daaf48db798c2a0324b164edd3ee6e82fbf721862842cf16e94d74ebc06b4ce",
+          "start": 0,
+          "end": 98
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 0.95,
+        "unsupported_spans": [],
+        "rationale": "The quote states 'We continue the nearly 23 years of a continuous human presence aboard the microgravity laboratory.' The claim says there is a statement of continuing nearly 23 years of continuous human presence. This follows directly, with only the location 'aboard the microgravity laboratory' omitted, which is not material to the claim's core proposition.",
+        "elapsed_seconds": 4.809492207947187,
+        "prompt_tokens": 468,
+        "completion_tokens": 97,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C18-xflare-2025",
+      "category": "public",
+      "finding_id": "F002",
+      "relation": "background",
+      "claim": "太阳活动将比 2019 年 12 月一个专家小组预测的更快增强，并在更高水平达到峰值。",
+      "limitation": "该段落为事前预测表述，未提及任何具体耀斑、X 级等级或 2025 年内的实际观测记录；预测不等于实际发生。",
+      "citations": [
+        {
+          "evidence_id": "E002",
+          "source_title": "NOAA forecasts quicker, stronger peak of solar activity",
+          "publisher": "NOAA Space Weather Prediction Center",
+          "paragraph_id": "B000001",
+          "quote": "Solar activity will increase more quickly and peak at a higher level than that predicted by an expert panel in December 2019.",
+          "snapshot_hash": "9a42e61ea4546bec0fe13b0dc3508bc19f7f10f06589e14ecedf0be7213bb74d",
+          "start": 0,
+          "end": 125
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 1.0,
+        "unsupported_spans": [],
+        "rationale": "The claim is a direct Chinese translation of the exact quote, preserving all material elements: solar activity increasing more quickly, peaking at a higher level, and the comparison to the December 2019 expert panel prediction.",
+        "elapsed_seconds": 1.9666530840331689,
+        "prompt_tokens": 488,
+        "completion_tokens": 71,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C19-copernicus-h1",
+      "category": "public",
+      "finding_id": "F002",
+      "relation": "challenges",
+      "claim": "2026 年 2 月是有记录以来第五暖的 2 月，比工业化前水平高 1.49°C。",
+      "limitation": "原文仅给出 2 月单月排名与距平，未涉及 1–6 月整体或 ERA5 口径说明。",
+      "citations": [
+        {
+          "evidence_id": "E002",
+          "source_title": "Copernicus: Exceptionally wet conditions in western Europe, during fifth-warmest February globally",
+          "publisher": "Copernicus C3S",
+          "paragraph_id": "B000001",
+          "quote": "February 2026 was the fifth warmest on record, at 1.49°C above pre-industrial levels.",
+          "snapshot_hash": "974936a090e2bd444047a157841997f7298f4f04e405600a306cb506e5221822",
+          "start": 0,
+          "end": 85
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 0.95,
+        "unsupported_spans": [],
+        "rationale": "The quote directly states that February 2026 was the fifth warmest on record at 1.49°C above pre-industrial levels, matching all material elements of the claim.",
+        "elapsed_seconds": 1.3808043339522555,
+        "prompt_tokens": 491,
+        "completion_tokens": 64,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C20-g20-summit-held",
+      "category": "public",
+      "finding_id": "F001",
+      "relation": "background",
+      "claim": "南非将于 2025 年 11 月 22 日和 23 日在豪登省约翰内斯堡主办 G20 领导人峰会。",
+      "limitation": "该句为未来时态的计划表述，未说明峰会是否实际举行；quote 未出现主办方名称以外的机构身份或发布年份。",
+      "citations": [
+        {
+          "evidence_id": "E001",
+          "source_title": "Media accreditation for the G20 Leaders' Summit in Johannesburg, South Africa",
+          "publisher": "South Africa DIRCO",
+          "paragraph_id": "B000001",
+          "quote": "South Africa will host the G20 Leaders' Summit on 22 and 23 November 2025 in Johannesburg, Gauteng Province.",
+          "snapshot_hash": "fc1475e568ec9f362b3b8996ff84d5c88c5d6972e79cc5b005ee6d6cf0cdb914",
+          "start": 0,
+          "end": 108
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 1.0,
+        "unsupported_spans": [],
+        "rationale": "The quote directly states that South Africa will host the G20 Leaders' Summit on 22 and 23 November 2025 in Johannesburg, Gauteng Province, matching all material elements of the claim.",
+        "elapsed_seconds": 1.479459833004512,
+        "prompt_tokens": 496,
+        "completion_tokens": 68,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C20-g20-summit-held",
+      "category": "public",
+      "finding_id": "F002",
+      "relation": "background",
+      "claim": "G20 峰会将由南非在约翰内斯堡主办，时间为 2025 年 11 月 22 日和 23 日，媒体注册自 2025 年 9 月 1 日星期一开始。",
+      "limitation": "该句为筹备阶段的未来时态表述，仅涉及媒体注册启动，未说明峰会是否实际召开。",
+      "citations": [
+        {
+          "evidence_id": "E002",
+          "source_title": "Commencement of Media Accreditation for the G20 Summit",
+          "publisher": "G20 South Africa",
+          "paragraph_id": "B000001",
+          "quote": "Members of the media are informed that accreditation for the G20 Summit, which will be hosted in Johannesburg, South Africa, on 22 and 23 November 2025, will commence on Monday, 01 September 2025.",
+          "snapshot_hash": "7bb3913b3a04fc6be1f7fb8688450422ae0dcdeb4a946e65c194a76858b49a9d",
+          "start": 0,
+          "end": 196
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 0.95,
+        "unsupported_spans": [],
+        "rationale": "The quote states the G20 Summit will be hosted in Johannesburg, South Africa, on 22 and 23 November 2025, and that media accreditation will commence on Monday, 01 September 2025. This directly supports the claim's core facts about host location, dates, and media registration start date.",
+        "elapsed_seconds": 1.5878834999748506,
+        "prompt_tokens": 535,
+        "completion_tokens": 91,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C09-man-city-top4",
+      "category": "sport",
+      "finding_id": "F002",
+      "relation": "background",
+      "claim": "曼城被称为冠军，并被问及将以卫冕身份对阵谁开启新赛季。",
+      "limitation": "该引文为赛程发布日的提问式表述，未给出2024/25赛季任何比赛结果或最终排名。",
+      "citations": [
+        {
+          "evidence_id": "E002",
+          "source_title": "All you need to know for 2024/25 Fixture Release Day",
+          "publisher": "Premier League",
+          "paragraph_id": "B000001",
+          "quote": "Who will champions Manchester City start their title defence against?",
+          "snapshot_hash": "b1e9fd92ba494fb502fb78064366d0cff5eb26bbc418ccacbba54f0de158d1f3",
+          "start": 0,
+          "end": 69
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 0.95,
+        "unsupported_spans": [],
+        "rationale": "The quote directly states that Manchester City are champions and asks who they will start their title defence against, which matches the claim's core propositions.",
+        "elapsed_seconds": 4.73120633297367,
+        "prompt_tokens": 465,
+        "completion_tokens": 56,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C10-real-madrid-ucl",
+      "category": "sport",
+      "finding_id": "F001",
+      "relation": "background",
+      "claim": "2024/25 赛季欧冠联赛阶段抽签已举行，这是新赛制下的首次抽签。",
+      "limitation": "原文片段在此处截断，未说明抽签的具体日期、地点或结果；未提及皇家马德里。",
+      "citations": [
+        {
+          "evidence_id": "E001",
+          "source_title": "UEFA Champions League: League phase draw",
+          "publisher": "UEFA",
+          "paragraph_id": "B000001",
+          "quote": "The 2024/25 UEFA Champions League league phase draw, a historic first under the new format, took place",
+          "snapshot_hash": "ce0dc9ba58af97d865bba2ff9fd049c5f8b98fb076a5cbbeb5f7d633949823a3",
+          "start": 0,
+          "end": 102
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 0.95,
+        "unsupported_spans": [],
+        "rationale": "The quote states the 2024/25 UEFA Champions League league phase draw took place and calls it a historic first under the new format. This directly supports the claim that the draw was held and was the first under the new format.",
+        "elapsed_seconds": 1.8455737499753013,
+        "prompt_tokens": 482,
+        "completion_tokens": 75,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C11-usa-paris-gold",
+      "category": "sport",
+      "finding_id": "F002",
+      "relation": "background",
+      "claim": "虚拟奖牌榜显示美国39枚金牌。",
+      "limitation": "该片段为预测性虚拟奖牌榜，非官方最终奖牌榜；quote未给出年份、赛事名称或发布机构。",
+      "citations": [
+        {
+          "evidence_id": "E002",
+          "source_title": "Nielsen's Gracenote Expects USA, China, Great Britain, France and Australia to Lead 2024 Paris Olympic Games Medal Table",
+          "publisher": "Nielsen",
+          "paragraph_id": "B000001",
+          "quote": "Virtual Medal Table: United States 39 gold.",
+          "snapshot_hash": "0cfbe13d7026834bcb6a508559b61e765f9b2fa24e0d43e5ece7a565681f696f",
+          "start": 0,
+          "end": 43
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 0.95,
+        "unsupported_spans": [],
+        "rationale": "The quote 'Virtual Medal Table: United States 39 gold.' directly supports the claim that the virtual medal table shows the United States with 39 gold medals. The Chinese translation preserves the same entities and numbers.",
+        "elapsed_seconds": 1.5861805829918012,
+        "prompt_tokens": 456,
+        "completion_tokens": 70,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C12-wimbledon-topseed",
+      "category": "sport",
+      "finding_id": "F001",
+      "relation": "background",
+      "claim": "Jannik Sinner 于 2024 年 6 月 10 日成为首位升至 PIF ATP Rankings 世界第一的意大利人。",
+      "limitation": "该段落只说明 2024 年 6 月 10 日升至世界第一，未提及 2025 年温网签表或种子编号。",
+      "citations": [
+        {
+          "evidence_id": "E001",
+          "source_title": "On This Day: Jannik Sinner becomes first Italian to rise to No. 1 in 2024",
+          "publisher": "ATP Tour",
+          "paragraph_id": "B000001",
+          "quote": "Jannik Sinner made history on 10 June 2024 when he became the first Italian to rise to No. 1 in the PIF ATP Rankings.",
+          "snapshot_hash": "0f95d34760440698fad5cfc2c8cb9acd6af06b2445220e4074a8d1de4cb3a7be",
+          "start": 0,
+          "end": 117
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 1.0,
+        "unsupported_spans": [],
+        "rationale": "The quote states Jannik Sinner made history on 10 June 2024 by becoming the first Italian to rise to No. 1 in the PIF ATP Rankings. This directly supports the claim that he became the first Italian to reach world No. 1 on that date.",
+        "elapsed_seconds": 2.160330166982021,
+        "prompt_tokens": 504,
+        "completion_tokens": 86,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C13-worldcup-southamerica",
+      "category": "sport",
+      "finding_id": "F002",
+      "relation": "background",
+      "claim": "该文章称西班牙是赢得 2026 年世界杯的边际热门。",
+      "limitation": "这是赛前预测性表述，不是实际比赛结果；原文未说明西班牙所属足联，也未给出预测依据或时间。",
+      "citations": [
+        {
+          "evidence_id": "E002",
+          "source_title": "What happened to the FIFA World Cup favourites?",
+          "publisher": "FIFA",
+          "paragraph_id": "B000001",
+          "quote": "Spain are the marginal favourites to win the FIFA World Cup 2026.",
+          "snapshot_hash": "66c169c054587b22612cd12844de02b4726657ca3a0768be2421f829eb2d3f62",
+          "start": 0,
+          "end": 65
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 0.95,
+        "unsupported_spans": [],
+        "rationale": "The quote directly states that Spain are the marginal favourites to win the FIFA World Cup 2026, which matches the claim's proposition that the article says Spain is the marginal favourite to win the 2026 World Cup.",
+        "elapsed_seconds": 8.928250625031069,
+        "prompt_tokens": 467,
+        "completion_tokens": 72,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C14-nba-east-champ",
+      "category": "sport",
+      "finding_id": "F002",
+      "relation": "background",
+      "claim": "Cavs 在周日与 OKC 一同进入60胜行列。",
+      "limitation": "原文仅以简称“Cavs”“OKC”指代，未写出球队全名或所属分区；片段未提及季后赛或总冠军结果。",
+      "citations": [
+        {
+          "evidence_id": "E002",
+          "source_title": "Starting 5, March 31: What’s trending entering final 2 weeks of regular season",
+          "publisher": "NBA.com",
+          "paragraph_id": "B000001",
+          "quote": "The Cavs’ teamwork was on full display Sunday as they joined OKC in the 60-win club.",
+          "snapshot_hash": "015189f36c057550388d84a92c0009fa9792300322f08e45e1560d30a3c6cbb9",
+          "start": 0,
+          "end": 84
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 0.95,
+        "unsupported_spans": [],
+        "rationale": "The quote states the Cavs joined OKC in the 60-win club on Sunday, which directly matches the claim that the Cavs entered the 60-win ranks together with OKC on Sunday.",
+        "elapsed_seconds": 1.5931782920379192,
+        "prompt_tokens": 474,
+        "completion_tokens": 68,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C01-python313",
+      "category": "tech",
+      "finding_id": "F001",
+      "relation": "background",
+      "claim": "3.13.0rc2 是最终发布预览版，若无发现严重缺陷，该版本预计将成为最终的 3.13.0 版本。",
+      "limitation": "该表述为预期，且附带“若无严重缺陷”的条件，不等于正式稳定版已发布。",
+      "citations": [
+        {
+          "evidence_id": "E001",
+          "source_title": "Python 3.13.0rc2 official release page — 2024-09-07 Wayback snapshot",
+          "publisher": "Python Software Foundation",
+          "paragraph_id": "B000001",
+          "quote": "This release, 3.13.0rc2, is the final release preview. This release is expected to become the final 3.13.0 release, barring any critical bugs being discovered.",
+          "snapshot_hash": "518eae1d811095ee396f93bc36138d3a014c392a5030b4b4c940aa03c6aa514c",
+          "start": 0,
+          "end": 159
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 0.95,
+        "unsupported_spans": [],
+        "rationale": "The quote states that 3.13.0rc2 is the final release preview and is expected to become the final 3.13.0 release, barring any critical bugs being discovered. This directly supports the claim's content, including the conditional about critical bugs.",
+        "elapsed_seconds": 2.5917532079620287,
+        "prompt_tokens": 511,
+        "completion_tokens": 83,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C03-apple-m4-mac",
+      "category": "tech",
+      "finding_id": "F001",
+      "relation": "background",
+      "claim": "有报道称一款新的低端 14 英寸 MacBook Pro 将搭载 M4 芯片（代号 J604）。",
+      "limitation": "该段为对报道内容的转述，未说明预售或销售是否已开启，也未给出具体日期。",
+      "citations": [
+        {
+          "evidence_id": "E001",
+          "source_title": "Apple Expected To Release M4 MacBook Pro Models In October 2024",
+          "publisher": "Production Expert",
+          "paragraph_id": "B000001",
+          "quote": "Bloomberg's Mark Gurman has reported, referring to the following M4 Macs… J604: a new low-end 14-inch MacBook Pro with the M4 chip.",
+          "snapshot_hash": "68d16515aa1fafbc66724b8028b97984fe8ba20afda910ff3669ae39ca767868",
+          "start": 0,
+          "end": 131
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 0.95,
+        "unsupported_spans": [],
+        "rationale": "The quote states that Bloomberg's Mark Gurman reported on a new low-end 14-inch MacBook Pro with the M4 chip, codenamed J604. The claim's material elements—reported by Bloomberg/Gurman, new low-end 14-inch MacBook Pro, M4 chip, codename J604—are all directly supported.",
+        "elapsed_seconds": 1.3951524579897523,
+        "prompt_tokens": 499,
+        "completion_tokens": 99,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C03-apple-m4-mac",
+      "category": "tech",
+      "finding_id": "F002",
+      "relation": "background",
+      "claim": "据 Bloomberg 的 Mark Gurman 称，Apple 将于 2024 年末开始用 M4 芯片更新其 Mac 产品线。",
+      "limitation": "这是对未来更新时间的预期表述，不是实际开启预售或销售的事实；未提及任何下单渠道或日期。",
+      "citations": [
+        {
+          "evidence_id": "E002",
+          "source_title": "Macs to Get AI-Focused M4 Chips Starting in Late 2024",
+          "publisher": "MacRumors",
+          "paragraph_id": "B000001",
+          "quote": "Apple will begin updating its Mac lineup with M4 chips in late 2024, according to Bloomberg's Mark Gurman.",
+          "snapshot_hash": "c79a2e466c27b338d85d4f6d20011176490c4318f2ca9e500fce01c8c9d2894a",
+          "start": 0,
+          "end": 106
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 1.0,
+        "unsupported_spans": [],
+        "rationale": "The quote directly states that Apple will begin updating its Mac lineup with M4 chips in late 2024, according to Bloomberg's Mark Gurman, matching all material elements of the claim.",
+        "elapsed_seconds": 1.5578741669887677,
+        "prompt_tokens": 492,
+        "completion_tokens": 66,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C04-starship-orbit",
+      "category": "tech",
+      "finding_id": "F002",
+      "relation": "background",
+      "claim": "2025 年 1 月 16 日，Starship 于美国中部时间下午 4:37 从得克萨斯州 Starbase 成功升空。",
+      "limitation": "原文只描述升空，未说明是否达到轨道速度、是否完成轨道级运行或后续飞行结果。",
+      "citations": [
+        {
+          "evidence_id": "E002",
+          "source_title": "Starship's Seventh Flight Test",
+          "publisher": "SpaceX",
+          "paragraph_id": "B000001",
+          "quote": "On January 16, 2025, Starship successfully lifted off at 4:37 p.m. CT from Starbase in Texas.",
+          "snapshot_hash": "e93c9d3ebb3ee2f29680becf3b5d9e97c7786b974f92afc4a7445736936e8dd2",
+          "start": 0,
+          "end": 93
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 1.0,
+        "unsupported_spans": [],
+        "rationale": "The quote directly states the date (January 16, 2025), the vehicle (Starship), the successful liftoff time (4:37 p.m. CT), and the location (Starbase in Texas). The claim's Chinese phrasing preserves all material facts without adding unsupported details.",
+        "elapsed_seconds": 1.7311182909761555,
+        "prompt_tokens": 502,
+        "completion_tokens": 89,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C05-node22-lts",
+      "category": "tech",
+      "finding_id": "F002",
+      "relation": "background",
+      "claim": "Node.js 22 将在 10 月 29 日当周被提升为长期支持（LTS）。",
+      "limitation": "该句为未来计划表述，未说明年份，也未确认提升是否已实际完成；未提及 Active LTS 标注。",
+      "citations": [
+        {
+          "evidence_id": "E002",
+          "source_title": "Node.js 23 Now Available",
+          "publisher": "OpenJS Foundation",
+          "paragraph_id": "B000001",
+          "quote": "Node.js 22 will be promoted to Long-Term Support (LTS) in the week of October 29th.",
+          "snapshot_hash": "8b4185fddf35ce8e75dd44b0d6fb8af409be0986332a156884ff03e1a433c7ec",
+          "start": 0,
+          "end": 83
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 1.0,
+        "unsupported_spans": [],
+        "rationale": "The quote directly states that Node.js 22 will be promoted to Long-Term Support (LTS) in the week of October 29th, matching all material elements of the claim.",
+        "elapsed_seconds": 1.5395087919896469,
+        "prompt_tokens": 485,
+        "completion_tokens": 65,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C06-gb300-delivery",
+      "category": "tech",
+      "finding_id": "F001",
+      "relation": "challenges",
+      "claim": "基于该平台的产品预计自 2025 年下半年起由合作伙伴提供。",
+      "limitation": "该句为对合作伙伴产品可用时间的预期，未提及 GB300 NVL72 型号，也未说明是否已有实际交付或部署；预期不等于实际发生。",
+      "citations": [
+        {
+          "evidence_id": "E001",
+          "source_title": "NVIDIA Blackwell Ultra AI Factory Platform Paves Way for Age of AI Reasoning",
+          "publisher": "NVIDIA Newsroom",
+          "paragraph_id": "B000001",
+          "quote": "Blackwell Ultra-based products are expected to be available from partners starting from the second half of 2025.",
+          "snapshot_hash": "9d4637af087fdbe332296cecc47dca586e074a65321677d440e50ed097203bef",
+          "start": 0,
+          "end": 112
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 0.95,
+        "unsupported_spans": [],
+        "rationale": "The quote states that Blackwell Ultra-based products are expected to be available from partners starting in the second half of 2025. The Chinese claim says products based on this platform are expected to be provided by partners starting from the second half of 2025. '该平台' refers to Blackwell Ultra, '由合作伙伴提供' corresponds to 'available from partners', and the timing matches. No material details are added.",
+        "elapsed_seconds": 2.4556580419884995,
+        "prompt_tokens": 474,
+        "completion_tokens": 111,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C07-gpt5-availability",
+      "category": "tech",
+      "finding_id": "F001",
+      "relation": "background",
+      "claim": "该报道标题表述的是 OpenAI 对 GPT-4.5 和 GPT-5 的路线图更新。",
+      "limitation": "仅为标题片段，未说明路线图内容、时间或是否已发布；标题中的实体名称仅按字面引用。",
+      "citations": [
+        {
+          "evidence_id": "E001",
+          "source_title": "Altman updates OpenAI roadmap for GPT-4.5 and GPT-5",
+          "publisher": "Investing.com",
+          "paragraph_id": "B000001",
+          "quote": "Altman updates OpenAI roadmap for GPT-4.5 and GPT-5.",
+          "snapshot_hash": "3b80297964ed15f125727106c35e2e0c70791e6454aa89cf6ffe47b440413cc8",
+          "start": 0,
+          "end": 52
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 0.95,
+        "unsupported_spans": [],
+        "rationale": "The quote states that Altman updates the OpenAI roadmap for GPT-4.5 and GPT-5. The claim says the report title expresses OpenAI's roadmap update for GPT-4.5 and GPT-5. This follows directly, with only a minor omission of Altman as the updater, which does not contradict the core proposition.",
+        "elapsed_seconds": 1.8505449160002172,
+        "prompt_tokens": 476,
+        "completion_tokens": 96,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C07-gpt5-availability",
+      "category": "tech",
+      "finding_id": "F002",
+      "relation": "background",
+      "claim": "该报道标题表述的是 Sam Altman 公布了 GPT-5 和 GPT-4.5 的计划。",
+      "limitation": "仅为标题片段，使用“plans”一词，未说明计划的具体内容、时间表或是否已实际发布；不能据此推断发布状态。",
+      "citations": [
+        {
+          "evidence_id": "E002",
+          "source_title": "Sam Altman lays out plans for GPT-5 and GPT-4.5",
+          "publisher": "Fortune",
+          "paragraph_id": "B000001",
+          "quote": "Sam Altman lays out plans for GPT-5 and GPT-4.5 promising end of 'hated' model picker.",
+          "snapshot_hash": "b0c53ab0cee37f6191ad90531e7c89d03088b550ff4b1a0ec88307d409346402",
+          "start": 0,
+          "end": 86
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 0.95,
+        "unsupported_spans": [],
+        "rationale": "The quote states that Sam Altman lays out plans for GPT-5 and GPT-4.5, which directly supports the claim that the report title says Sam Altman announced plans for GPT-5 and GPT-4.5.",
+        "elapsed_seconds": 1.4098611670196988,
+        "prompt_tokens": 486,
+        "completion_tokens": 75,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C08-typescript6-release",
+      "category": "tech",
+      "finding_id": "F001",
+      "relation": "background",
+      "claim": "该段落提到“今年三月”公布了移植 TypeScript 编译器的工作。",
+      "limitation": "段落被截断，未说明移植目标版本、发布时间或 npm 可用性；quote 未出现“6.0”“稳定版”“npm”等字样。",
+      "citations": [
+        {
+          "evidence_id": "E001",
+          "source_title": "Announcing TypeScript Native Previews",
+          "publisher": "Microsoft TypeScript Blog",
+          "paragraph_id": "B000001",
+          "quote": "This past March we unveiled our efforts to port the TypeScript compiler a",
+          "snapshot_hash": "9a39892a55500da46dfd187def1aec89137f8664bea8e1d56ca1dd70b5b7bd83",
+          "start": 0,
+          "end": 73
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 0.95,
+        "unsupported_spans": [],
+        "rationale": "The quote states 'This past March we unveiled our efforts to port the TypeScript compiler,' which directly supports the claim that the paragraph mentions 'this March' announcing work to port the TypeScript compiler. The Chinese paraphrase adds no material facts beyond the quote.",
+        "elapsed_seconds": 9.153781792032532,
+        "prompt_tokens": 465,
+        "completion_tokens": 79,
+        "response_model": "deepseek-flash"
+      }
+    },
+    {
+      "case_id": "C08-typescript6-release",
+      "category": "tech",
+      "finding_id": "F002",
+      "relation": "background",
+      "claim": "该段落称，在一篇 12 月 2 日的博客文章中，微软提供了关于 TypeScript 7.0（亦称 Project Corsa）的更新；该项目于三月公布，基于 Google 的 Go 语言。",
+      "limitation": "quote 未给出年份，也未提及 TypeScript 6.0 的发布状态或 npm 可用性；仅涉及 7.0/Project Corsa 的更新。",
+      "citations": [
+        {
+          "evidence_id": "E002",
+          "source_title": "Microsoft steers native port of TypeScript to early 2026 release",
+          "publisher": "InfoWorld",
+          "paragraph_id": "B000001",
+          "quote": "In a December 2 blog post, Microsoft provided updates on TypeScript 7.0, also known as Project Corsa, a project revealed in March and based on Google's Go language.",
+          "snapshot_hash": "08aa2eab2bce80224483479b230f334549ed9061ba18573eeee9e504bea85193",
+          "start": 0,
+          "end": 164
+        }
+      ],
+      "structurally_validated": true,
+      "human_label": null,
+      "human_notes": "",
+      "judge": {
+        "label": "entailed",
+        "confidence": 1.0,
+        "unsupported_spans": [],
+        "rationale": "The quote directly states all material elements of the claim: a December 2 blog post, Microsoft providing updates on TypeScript 7.0, also known as Project Corsa, revealed in March, and based on Google's Go language.",
+        "elapsed_seconds": 1.1196065829717554,
+        "prompt_tokens": 523,
+        "completion_tokens": 76,
+        "response_model": "deepseek-flash"
+      }
+    }
+  ],
+  "usage": {
+    "calls": 30,
+    "prompt_tokens": 14587,
+    "completion_tokens": 2229,
+    "elapsed_seconds": 247.96930920775048
+  }
+}
