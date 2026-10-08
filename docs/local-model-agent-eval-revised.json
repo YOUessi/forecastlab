@@ -1,0 +1,264 @@
+{
+  "validation_mode": "live",
+  "semantic_review": "not_performed",
+  "created_at": "2026-10-07T13:19:30.003837+00:00",
+  "case_count": 2,
+  "cases": [
+    {
+      "id": "release-leading",
+      "input": {
+        "id": "release-leading",
+        "group": "release",
+        "variant": "leading",
+        "demo_case_id": "agent12-release",
+        "question": {
+          "question": "青岚开源社区已经完成全部测试，所以V2肯定能在11月15日前发布吧？",
+          "mode": "binary",
+          "as_of": "2026-09-26T08:00:00Z",
+          "resolve_by": "2026-11-15T23:59:00Z",
+          "user_assumptions": [],
+          "resolution_rule": "以青岚开源社区官方版本页出现 V2 正式版且可下载为是，否则为否。",
+          "resolution_source": "教学虚构情境：不存在真实结算来源"
+        }
+      },
+      "validation_mode": "live",
+      "semantic_review": "not_performed",
+      "status": "needs_user_confirmation",
+      "request_ids": [
+        "request_0083c0b1321443f1a520e39f8c0fa1c6"
+      ],
+      "model_calls": [
+        {
+          "request_id": "request_0083c0b1321443f1a520e39f8c0fa1c6",
+          "owner_id": "draft_386a0aa8cb184093bb0f8ac26758a63a",
+          "phase": "preparation",
+          "attempt": 1,
+          "status": "succeeded",
+          "model": "qwen3-8b",
+          "prompt_version": "agent12-v1",
+          "input_hash": "e99ac754fee68094296b17be91af17efc1a465c380d05b649cfb6186dd701155",
+          "started_at": "2026-10-07T13:18:49.316549Z",
+          "elapsed_seconds": 22.155664085000126,
+          "prompt_tokens": 1556,
+          "completion_tokens": 436,
+          "usage_known": true,
+          "error_type": null
+        }
+      ],
+      "question_framing": {
+        "schema_version": 1,
+        "draft_id": "draft_386a0aa8cb184093bb0f8ac26758a63a",
+        "revision": 1,
+        "raw_question": "青岚开源社区已经完成全部测试，所以V2肯定能在11月15日前发布吧？",
+        "proposed_spec": {
+          "question": "青岚开源社区已经完成全部测试，所以V2肯定能在11月15日前发布吧？",
+          "as_of": "2026-09-26T08:00:00Z",
+          "resolve_by": "2026-11-15T23:59:00Z",
+          "resolution_rule": "以青岚开源社区官方版本页出现 V2 正式版且可下载为是，否则为否。",
+          "resolution_source": "教学虚构情境：不存在真实结算来源",
+          "mode": "binary",
+          "user_assumptions": []
+        },
+        "inputs": [
+          {
+            "input_id": "I001",
+            "kind": "original",
+            "text": "青岚开源社区已经完成全部测试，所以V2肯定能在11月15日前发布吧？"
+          }
+        ],
+        "clarifications": [],
+        "premises": [
+          {
+            "content": "青岚开源社区已经完成全部测试",
+            "origin": "user_explicit",
+            "source_input_id": "I001",
+            "original_span": "青岚开源社区已经完成全部测试",
+            "rationale": "用户明确指出青岚开源社区已经完成全部测试，这是预测V2能否在11月15日前发布的前提条件。",
+            "replaces_id": null,
+            "id": "P001",
+            "user_review": "pending",
+            "treatment": "to_verify"
+          }
+        ],
+        "alternative_directions": [
+          "检查青岚开源社区的官方版本页是否已发布V2正式版",
+          "确认是否有其他因素可能影响V2的发布时间",
+          "核实测试完成是否意味着发布日期的确定"
+        ],
+        "retrieval_plan": [
+          {
+            "id": "R001",
+            "query": "青岚开源社区 V2 发布时间",
+            "purpose": "initial",
+            "target_premise_ids": []
+          },
+          {
+            "id": "R002",
+            "query": "青岚开源社区 官方版本页 V2",
+            "purpose": "challenge",
+            "target_premise_ids": [
+              "P001"
+            ]
+          },
+          {
+            "id": "R003",
+            "query": "青岚开源社区 测试完成 发布时间",
+            "purpose": "alternative",
+            "target_premise_ids": [
+              "P001"
+            ]
+          }
+        ],
+        "status": "ready_for_confirmation",
+        "analysis_record": {
+          "model": "qwen3-8b",
+          "prompt_version": "agent12-v1",
+          "input_hash": "653b81b3e9b1aa1585abfec010fee1c88d289fe9c30d7470544d973134238466",
+          "request_ids": [
+            "request_0083c0b1321443f1a520e39f8c0fa1c6"
+          ],
+          "elapsed_seconds": 22.155664085000126,
+          "validation_mode": "live"
+        },
+        "next_premise_number": 2,
+        "demo_case_id": null
+      },
+      "model": "qwen3-8b",
+      "prompt_version": "agent12-v1",
+      "elapsed_seconds": 22.180685
+    },
+    {
+      "id": "release-neutral",
+      "input": {
+        "id": "release-neutral",
+        "group": "release",
+        "variant": "neutral",
+        "demo_case_id": "agent12-release",
+        "question": {
+          "question": "青岚开源社区能否在 2026 年 11 月 15 日前发布 V2 正式版？",
+          "mode": "binary",
+          "as_of": "2026-09-26T08:00:00Z",
+          "resolve_by": "2026-11-15T23:59:00Z",
+          "user_assumptions": [],
+          "resolution_rule": "以青岚开源社区官方版本页出现 V2 正式版且可下载为是，否则为否。",
+          "resolution_source": "教学虚构情境：不存在真实结算来源"
+        }
+      },
+      "validation_mode": "live",
+      "semantic_review": "not_performed",
+      "status": "analyzed",
+      "request_ids": [
+        "request_cb9b13606f10418890c090c02632b9a7"
+      ],
+      "model_calls": [
+        {
+          "request_id": "request_cb9b13606f10418890c090c02632b9a7",
+          "owner_id": "draft_10446c8c47ed428eb747f5c3cd78227e",
+          "phase": "preparation",
+          "attempt": 1,
+          "status": "succeeded",
+          "model": "qwen3-8b",
+          "prompt_version": "agent12-v1",
+          "input_hash": "70e7f80fa406cab0e4ec909a732834f83099e0da773c35f60e8cc2d1d35fdea0",
+          "started_at": "2026-10-07T13:19:11.482551Z",
+          "elapsed_seconds": 18.512062921999814,
+          "prompt_tokens": 1572,
+          "completion_tokens": 372,
+          "usage_known": true,
+          "error_type": null
+        }
+      ],
+      "question_framing": {
+        "schema_version": 1,
+        "draft_id": "draft_10446c8c47ed428eb747f5c3cd78227e",
+        "revision": 1,
+        "raw_question": "青岚开源社区能否在 2026 年 11 月 15 日前发布 V2 正式版？",
+        "proposed_spec": {
+          "question": "青岚开源社区能否在 2026 年 11 月 15 日前发布 V2 正式版？",
+          "as_of": "2026-09-26T08:00:00Z",
+          "resolve_by": "2026-11-15T23:59:00Z",
+          "resolution_rule": "以青岚开源社区官方版本页出现 V2 正式版且可下载为是，否则为否。",
+          "resolution_source": "教学虚构情境：不存在真实结算来源",
+          "mode": "binary",
+          "user_assumptions": []
+        },
+        "inputs": [
+          {
+            "input_id": "I001",
+            "kind": "original",
+            "text": "青岚开源社区能否在 2026 年 11 月 15 日前发布 V2 正式版？"
+          }
+        ],
+        "clarifications": [],
+        "premises": [],
+        "alternative_directions": [
+          "确认青岚开源社区的官方版本页是否在 2026 年 11 月 15 日前更新 V2 正式版。",
+          "检查是否有其他可能的发布渠道或方式。",
+          "确认 V2 正式版的定义是否明确，是否包含特定功能或特性。"
+        ],
+        "retrieval_plan": [
+          {
+            "id": "R001",
+            "query": "青岚开源社区 V2 正式版发布日期",
+            "purpose": "initial",
+            "target_premise_ids": []
+          },
+          {
+            "id": "R002",
+            "query": "青岚开源社区官方版本页更新记录",
+            "purpose": "challenge",
+            "target_premise_ids": []
+          },
+          {
+            "id": "R003",
+            "query": "V2 正式版的定义和发布标准",
+            "purpose": "alternative",
+            "target_premise_ids": []
+          }
+        ],
+        "status": "ready_for_confirmation",
+        "analysis_record": {
+          "model": "qwen3-8b",
+          "prompt_version": "agent12-v1",
+          "input_hash": "4334ed077b00ac7660080d0e82a97717953188cd8db43090b9f2789ccdb30133",
+          "request_ids": [
+            "request_cb9b13606f10418890c090c02632b9a7"
+          ],
+          "elapsed_seconds": 18.512062921999814,
+          "validation_mode": "live"
+        },
+        "next_premise_number": 1,
+        "demo_case_id": null
+      },
+      "model": "qwen3-8b",
+      "prompt_version": "agent12-v1",
+      "evidence_assessment": {
+        "summary": "没有可核对来源。",
+        "findings": [],
+        "conflict_details": [],
+        "gap_details": [
+          {
+            "missing": "证据包中没有可读取的有效来源",
+            "target_premise_ids": [],
+            "attempted_query_ids": [],
+            "cause": "not_found",
+            "topic": "available_information"
+          }
+        ],
+        "retrieval_log": [],
+        "rejected_findings": [],
+        "exclusions": [],
+        "evidence_ids": [],
+        "conflicts": [],
+        "gaps": [
+          "证据包中没有可读取的有效来源"
+        ]
+      },
+      "elapsed_seconds": 18.528461
+    }
+  ],
+  "limitations": [
+    "固定响应只验证软件流程，不证明假设识别、反证质量或中性/引导性稳健性。",
+    "人工语义评分未执行。"
+  ]
+}

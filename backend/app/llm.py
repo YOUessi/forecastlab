@@ -2,6 +2,7 @@
 from __future__ import annotations
 import hashlib
 import json
+import os
 import threading
 import time
 from typing import Callable
@@ -48,7 +49,7 @@ class ModelClient:
                  on_finish: Callable[[ModelCallRecord], None] | None = None):
         if not config.MODEL_API_KEY:
             raise ValueError("请在项目 .env 中设置 QWEN_API_KEY 或 DEEPSEEK_API_KEY；或运行教学回放。")
-        self.client = OpenAI(api_key=config.MODEL_API_KEY, base_url=config.MODEL_BASE_URL, timeout=45, max_retries=0)
+        self.client = OpenAI(api_key=config.MODEL_API_KEY, base_url=config.MODEL_BASE_URL, timeout=float(os.getenv("FORECASTLAB_MODEL_TIMEOUT", "45")), max_retries=0)
         self.lock = threading.Lock()
         self.started = time.monotonic()
         self.initial_active_seconds = max(0, initial_active_seconds)
@@ -94,10 +95,20 @@ class ModelClient:
                               {"role": "user", "content": prompt}],
                     response_format={"type": "json_object"},
                     temperature=config.MODEL_TEMPERATURE,
-                    max_tokens=(8000 if role in {"review", "forecast", "evidence", "evidence12"} else 3000) + attempt * 1000,
+                    max_tokens=int(os.getenv("FORECASTLAB_MAX_OUTPUT_TOKENS", str((8000 if role in {"review", "forecast", "evidence", "evidence12"} else 3000) + attempt * 1000))),
                 )
-                if config.MODEL_PROVIDER == "qwen" and config.MODEL_NAME == "qwen3.8-flash":
-                    kwargs["extra_body"] = {"enable_thinking": False}
+                thinking = os.getenv("FORECASTLAB_ENABLE_THINKING", "false").strip().lower() in {"1", "true", "yes"}
+                if config.MODEL_BASE_URL.startswith(("http://127.0.0.1:", "http://localhost:")):
+                    kwargs["extra_body"] = {"chat_template_kwargs": {"enable_thinking": thinking}}
+                    kwargs["temperature"] = 0
+                    kwargs["response_format"] = {
+                        "type": "json_schema",
+                        "json_schema": {"name": schema.__name__, "schema": schema.model_json_schema()},
+                    }
+                    if os.getenv("FORECASTLAB_LOCAL_JSON_MODE") == "prompt":
+                        kwargs.pop("response_format")
+                elif config.MODEL_PROVIDER == "qwen" and config.MODEL_NAME == "qwen3.8-flash":
+                    kwargs["extra_body"] = {"enable_thinking": thinking}
                 elif config.MODEL_PROVIDER == "deepseek":
                     # DeepSeek V4.1 Flash enables high-effort thinking by default.
                     # Structured ForecastLab agents need concise JSON, not hidden reasoning.

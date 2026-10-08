@@ -8,7 +8,7 @@ from app.api import create_app, report_html
 from app.demo import DEMO_QUESTION, demo_evidence, demo_output
 from app.graph import build_graph, canonicalize_forecast_ids, evidence_for_model, execute, validate_forecast
 from app.schemas import Forecast, ImportedEvidence, Review, RunRecord, WorldState
-from app.sources import import_evidence, normalize_import, public_url
+from app.sources import normalize_import, public_url
 from app.storage import RunStore
 
 
@@ -150,12 +150,35 @@ def test_forecast_retries_claim_without_reference():
     assert state["forecast"]["supporting"][0]["evidence_ids"] == ["E001"]
 
 
+def test_world_retries_user_premise_as_evidence_parent():
+    class FakeModel:
+        world_calls = 0
+
+        def complete(self, role, payload, schema, instructions):
+            output = demo_output(role, payload.get("actor", {}).get("id"), payload.get("round", 1))
+            if role == "world":
+                self.world_calls += 1
+                parent = "P001" if self.world_calls == 1 else "E001"
+                output["assumptions"].append({"id": "H099", "created_by": "model",
+                                              "parent_ids": [parent], "content": "conditional assumption"})
+                if self.world_calls == 2:
+                    assert "P001" in payload["validation_feedback"]
+            return schema.model_validate(output)
+
+    model = FakeModel()
+    record = RunRecord(run_id="run_world_repair", question=DEMO_QUESTION, evidence_mode="import", model="fake")
+    state = build_graph(record, demo_evidence(), model, Path("/tmp")).invoke({"question": DEMO_QUESTION.model_dump(mode="json")})
+    assert model.world_calls == 2
+    repaired = next(a for a in state["world"]["assumptions"] if a["id"] == "H099")
+    assert repaired["parent_ids"] == ["E001"]
+
+
 def test_review_accepts_actor_action_reference_and_receives_compact_context():
     class FakeModel:
         def complete(self, role, payload, schema, instructions):
             output = demo_output(role, payload.get("actor", {}).get("id"), payload.get("round", 1))
             if role == "review":
-                output["issues"][0]["affected_ids"] = ["M1-A001"]
+                output["issues"][0]["affected_ids"] = ["M1-A1"]
                 assert all(len(item["excerpt"]) <= 1200 for item in payload["evidence"])
                 assert all("rationale_summary" not in action for action in payload["actions"])
             if role == "forecast":
@@ -164,7 +187,48 @@ def test_review_accepts_actor_action_reference_and_receives_compact_context():
 
     record = RunRecord(run_id="run_review_action", question=DEMO_QUESTION, evidence_mode="import", model="fake")
     state = build_graph(record, demo_evidence(), FakeModel(), Path("/tmp")).invoke({"question": DEMO_QUESTION.model_dump(mode="json")})
-    assert state["review"]["issues"][0]["affected_ids"] == ["M1-A001"]
+    assert state["review"]["issues"][0]["affected_ids"] == ["M1-A1"]
+
+
+def test_review_repairs_retrieval_ids_without_inventing_audit_references():
+    class FakeModel:
+        reviews = 0
+
+        def complete(self, role, payload, schema, instructions):
+            output = demo_output(role, payload.get("actor", {}).get("id"), payload.get("round", 1))
+            if role == "review":
+                self.reviews += 1
+                if self.reviews == 1:
+                    output["issues"][0]["affected_ids"] = ["R001"]
+                else:
+                    assert payload["validation_feedback"]["invalid_affected_ids"] == ["R001"]
+                    assert "M1-A1" in payload["valid_affected_ids"]
+                    output["issues"][0]["affected_ids"] = ["M1-A1"]
+            return schema.model_validate(output)
+
+    model = FakeModel()
+    record = RunRecord(run_id="review_repair", question=DEMO_QUESTION, evidence_mode="import", model="fake")
+    state = build_graph(record, demo_evidence(), model, Path("/tmp")).invoke({"question": DEMO_QUESTION.model_dump(mode="json")})
+    assert model.reviews == 2
+    assert state["review"]["issues"][0]["affected_ids"] == ["M1-A1"]
+
+
+def test_review_rejects_repeated_invalid_references_after_one_repair():
+    class FakeModel:
+        reviews = 0
+
+        def complete(self, role, payload, schema, instructions):
+            output = demo_output(role, payload.get("actor", {}).get("id"), payload.get("round", 1))
+            if role == "review":
+                self.reviews += 1
+                output["issues"][0]["affected_ids"] = ["R001"]
+            return schema.model_validate(output)
+
+    model = FakeModel()
+    record = RunRecord(run_id="review_invalid", question=DEMO_QUESTION, evidence_mode="import", model="fake")
+    with pytest.raises(ValueError, match="R001"):
+        build_graph(record, demo_evidence(), model, Path("/tmp")).invoke({"question": DEMO_QUESTION.model_dump(mode="json")})
+    assert model.reviews == 2
 
 
 def test_forecast_falls_back_without_probability_when_citations_never_validate():
@@ -237,10 +301,8 @@ def test_reuse_keeps_frozen_evidence_and_history(monkeypatch):
     class FakeModel:
         def __init__(self):
             self.usage = {"calls": 0, "prompt_tokens": 0, "completion_tokens": 0}
-        def complete(self, role, payload, schema, instructions, **kwargs):
+        def complete(self, role, payload, schema, instructions):
             self.usage["calls"] += 1
-            if role == "evidence12":
-                return schema.model_validate({"summary": "导入证据已完成原文校验。"})
             return schema.model_validate(demo_output(role, payload.get("actor", {}).get("id"), payload.get("round", 1)))
     monkeypatch.setattr(config, "MODEL_API_KEY", "test-only")
     monkeypatch.setattr("app.graph.ModelClient", FakeModel)
@@ -275,119 +337,50 @@ def test_export_escapes_untrusted_evidence():
     assert "&lt;script&gt;" in html
     assert "<img src=x" not in html
 
-def test_review_accepts_agent2_finding_reference(tmp_path):
-    """Review may point at a server-validated Agent 2 finding that traces to E evidence."""
-    retrieval = import_evidence([
-        ImportedEvidence(file_id=e.file_id, title=e.title, publisher=e.publisher,
-                         excerpt=e.excerpt, source_type="exercise")
-        for e in demo_evidence()
-    ], DEMO_QUESTION, tmp_path)
 
+def test_actor_repairs_hypothesis_misfiled_as_external_evidence():
     class FakeModel:
-        def complete(self, role, payload, schema, instructions, **kwargs):
-            if role == "evidence12":
-                e = next(item for item in payload["evidence"] if item["id"] == "E002")
-                passage = e["passages"][0]
-                output = {
-                    "summary": "兼容问题仍未确认修复。",
-                    "findings": [{
-                        "target_premise_ids": [],
-                        "claim": "兼容问题仍未确认修复。",
-                        "relation": "challenges",
-                        "citations": [{
-                            "evidence_id": "E002",
-                            "snapshot_hash": e["snapshot_hash"],
-                            "paragraph_id": passage["paragraph_id"],
-                            "quote": "9 月回归测试发现两个高优先级兼容问题",
-                        }],
-                        "limitation": "教学测试 finding。",
-                    }],
-                }
-            else:
-                output = demo_output(role, payload.get("actor", {}).get("id"), payload.get("round", 1))
-                if role == "review":
-                    assert payload["evidence_assessment"]["findings_validated"] is True
-                    assert payload["evidence_assessment"]["findings"][0]["id"] == "F001"
-                    output["issues"][0]["affected_ids"] = ["F001"]
-            return schema.model_validate(output)
-
-    record = RunRecord(run_id="run_review_finding", question=DEMO_QUESTION,
-                       evidence_mode="import", model="fake", retrieval_result=retrieval)
-    state = build_graph(record, retrieval.evidence, FakeModel(), tmp_path).invoke(
-        {"question": DEMO_QUESTION.model_dump(mode="json")}
-    )
-    assert state["evidence_assessment"]["findings_validated"] is True
-    assert state["review"]["issues"][0]["affected_ids"] == ["F001"]
-
-
-def test_world_assumption_may_depend_on_traceable_agent2_finding(tmp_path):
-    """A model assumption may cite validated F, provided F itself traces to valid E evidence."""
-    retrieval = import_evidence([
-        ImportedEvidence(file_id=e.file_id, title=e.title, publisher=e.publisher,
-                         excerpt=e.excerpt, source_type="exercise")
-        for e in demo_evidence()
-    ], DEMO_QUESTION, tmp_path)
-
-    class FakeModel:
-        def complete(self, role, payload, schema, instructions, **kwargs):
-            if role == "evidence12":
-                e = next(item for item in payload["evidence"] if item["id"] == "E002")
-                passage = e["passages"][0]
-                output = {
-                    "summary": "兼容问题仍未确认修复。",
-                    "findings": [{
-                        "target_premise_ids": [],
-                        "claim": "兼容问题仍未确认修复。",
-                        "relation": "challenges",
-                        "citations": [{
-                            "evidence_id": "E002",
-                            "snapshot_hash": e["snapshot_hash"],
-                            "paragraph_id": passage["paragraph_id"],
-                            "quote": "9 月回归测试发现两个高优先级兼容问题",
-                        }],
-                    }],
-                }
-            else:
-                output = demo_output(role, payload.get("actor", {}).get("id"), payload.get("round", 1))
-                if role == "world":
-                    output["assumptions"][0]["parent_ids"] = ["F001"]
-            return schema.model_validate(output)
-
-    record = RunRecord(run_id="run_world_finding_parent", question=DEMO_QUESTION,
-                       evidence_mode="import", model="fake", retrieval_result=retrieval)
-    state = build_graph(record, retrieval.evidence, FakeModel(), tmp_path).invoke(
-        {"question": DEMO_QUESTION.model_dump(mode="json")}
-    )
-    assert state["evidence_assessment"]["findings_validated"] is True
-    assert state["world"]["assumptions"][0]["parent_ids"] == ["F001"]
-
-
-def test_legacy_model_cannot_self_attest_finding_validation():
-    """A legacy model cannot make F trusted by returning findings_validated=true itself."""
-    class FakeModel:
-        def complete(self, role, payload, schema, instructions, **kwargs):
+        repaired_actor_calls = 0
+        def complete(self, role, payload, schema, instructions):
             output = demo_output(role, payload.get("actor", {}).get("id"), payload.get("round", 1))
-            if role == "evidence":
-                output["findings_validated"] = True
-                output["findings"] = [{
-                    "id": "F001",
-                    "target_premise_ids": [],
-                    "claim": "未经服务器原文校验的 finding",
-                    "relation": "background",
-                    "citations": [{
-                        "evidence_id": "E001",
-                        "snapshot_hash": "forged",
-                        "paragraph_id": "B000001",
-                        "quote": "伪造引文",
-                        "start": 0,
-                        "end": 4,
-                    }],
-                }]
+            if role == "actor" and payload["actor"]["id"] == "A1" and payload["round"] == 1:
+                self.repaired_actor_calls += 1
+                if self.repaired_actor_calls == 1:
+                    output["evidence_ids"] = ["H001"]
+                else:
+                    assert "H001" in payload["validation_feedback"]
+                    assert "H001" not in payload["valid_evidence_ids"]
+                    assert payload["valid_assumption_ids"]
             return schema.model_validate(output)
+    model = FakeModel()
+    record = RunRecord(run_id="run_actor_repair", question=DEMO_QUESTION, evidence_mode="import", model="fake")
+    state = build_graph(record, demo_evidence(), model, Path("/tmp")).invoke({"question": DEMO_QUESTION.model_dump(mode="json")})
+    assert model.repaired_actor_calls == 2
+    assert all(not any(e.startswith("H") for e in action["evidence_ids"]) for action in state["actions"])
 
-    record = RunRecord(run_id="run_unvalidated_finding", question=DEMO_QUESTION,
-                       evidence_mode="import", model="fake")
-    with pytest.raises(ValueError, match="未经过原文校验"):
-        build_graph(record, demo_evidence(), FakeModel(), Path("/tmp")).invoke(
-            {"question": DEMO_QUESTION.model_dump(mode="json")}
-        )
+
+def test_open_scenarios_cannot_present_arbitrary_rates_as_estimates():
+    from app.graph import validate_forecast, repair_forecast
+    from app.schemas import QuestionSpec, Forecast, Review, WorldState
+    from app.demo import DEMO_QUESTION
+    question = DEMO_QUESTION.model_copy(update={"mode": "scenario", "outcomes": []})
+    forecast = Forecast(status="scenario_only", conclusion="conditional", scenarios=["AI影响达55%"],
+                        new_information=["E008指出形式化证明需24个月验证周期"])
+    with pytest.raises(ValueError, match="定量比例"):
+        validate_forecast(forecast, question, [], WorldState(summary="fixture"), [], Review(status="qualified"))
+    forecast.scenarios = ["工具逐步采用"]
+    with pytest.raises(ValueError, match="后续信息"):
+        validate_forecast(forecast, question, [], WorldState(summary="fixture"), [], Review(status="qualified"))
+    repaired = repair_forecast(forecast, question, [], WorldState(summary="fixture"), [], Review(status="qualified"), "unsupported information")
+    assert repaired.new_information == [] and repaired.probabilities is None
+
+
+def test_failed_scenario_grounding_does_not_leave_other_prose_as_a_conclusion():
+    from app.graph import repair_forecast
+    from app.schemas import Claim
+    question = DEMO_QUESTION.model_copy(update={"mode": "scenario", "outcomes": []})
+    forecast = Forecast(status="scenario_only", conclusion="invalid report", scenarios=["验证需24个月"],
+                        supporting=[Claim(text="source assertion", assumption_ids=["H001"])])
+    world = WorldState.model_validate(demo_output("world"))
+    repaired = repair_forecast(forecast, question, demo_evidence(), world, [], Review(status="qualified"), "情景中的定量比例未过质量门")
+    assert repaired.supporting == [] and repaired.scenarios == [] and repaired.key_assumptions == []

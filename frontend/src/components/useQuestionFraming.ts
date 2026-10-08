@@ -37,18 +37,6 @@ export function useQuestionFraming(fields: QuestionFields, applyFields: (next: Q
     try { localStorage.setItem(KEY, frame.draft_id) } catch { /* Storage can be disabled. */ }
   }
 
-  useEffect(() => {
-    let active = true
-    let id: string | null = null
-    try { id = localStorage.getItem(KEY) } catch { return }
-    if (!id) return
-    const initial = latestSignature.current
-    api<QuestionDraftView>(`/questions/${encodeURIComponent(id)}`).then(view => {
-      if (active && latestSignature.current === initial) install(view.confirmation?.framing || view.framing, view.confirmation?.confirmation_id || null)
-    }).catch(error => { if (active) callbacks.current.onError((error as Error).message) })
-    return () => { active = false }
-  }, [])
-
   useEffect(() => { if (dirty) setConfirmationId(null) }, [dirty])
 
   async function analyze(answers: ClarificationAnswer[] = []) {

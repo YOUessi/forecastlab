@@ -48,3 +48,17 @@
 - 对比上游 `hkuaidt/forecastlab:main@34088e2` 与当前 Fork，当前 Fork **ahead 且 behind=0**：队友新提交已被纳入，不能误称丢失其 v3/v4 工作。
 - 尝试通过当前 GitHub App 在 `hkuaidt/forecastlab` 直接创建跨仓库 PR，返回 `403 Resource not accessible by integration`。已核实 GitHub App 当前只安装在 `YOUessi` 与 `Nexleap-Tech`，尚未授权 `hkuaidt` 组织。
 - **因此截至本记录，小组上游 `main` 尚未发生更改**。最终跨仓库 PR 的创建/审核/合并需要 `hkuaidt` 组织授权该 App，或由有 GitHub 权限的小组成员在网页上从 `YOUessi/forecastlab:main` 向 `hkuaidt/forecastlab:main` 创建并合并 PR。
+
+## 2026-10-08 晚间再次同步上游 Research Workspace 和 Brave 搜索
+
+- 上游在之前的整合后新增 `328859672c6b50e41fa7f010c828f2b81baba31c`（Research Workspace、Brave Search、模型推理改进和验收文件）。由于双方修改了 `App.tsx / graph.py / llm.py / sources.py`，旧 Fork 与新上游暂时分叉，GitHub compare 出现 `Can't automatically merge`。
+
+- 冲突处理原则：保留上游**新一代完整六阶段 Research Workspace**（并非 Agent 1/2-only），以及 Brave 检索、来源阅读器、导图与研究报告；保留 Fork 的 Agent 1/2 正式边界与质量 Profile、精确 Quote 校验和历史记录，保留双方其他实验目录及提交历史。
+
+- Agent 1/2 质量统计仍通过新的 `DetailPanel → EvidenceFindingsPanel` 展示；样式迁移到新工作台，而不是恢复原来的旧 UI。
+
+- 新的 Brave/Tavily 按来源、检索记录和原始快照区别展示；模型配置维持 Fork 的显式 provider/temperature 保护，增加上游本地 Qwen JSON 的兼容能力。
+
+- 不在此次整合中启用未经真实验证的强 Semantic Judge 或改变 Reviewer 的 hard gate 定义；新增上下游代码覆盖应以最终 CI 报告为准。
+
+- GitHub App 仍无 `hkuaidt` 组织写权限；只能在 YOUessi Fork 修复并通过 CI，然后由已登录且有合作者权限的 GitHub 账户创建到 `hkuaidt/forecastlab:main` 的 PR。

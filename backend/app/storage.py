@@ -4,6 +4,7 @@ import json
 import hashlib
 from uuid import uuid4
 import sqlite3
+from contextlib import contextmanager
 from pathlib import Path
 from threading import RLock
 from .schemas import (RunRecord, utcnow, QuestionFraming, QuestionSpec, QuestionConfirmation,
@@ -44,10 +45,15 @@ class RunStore:
                     input_hash TEXT NOT NULL, draft_id TEXT NOT NULL, status TEXT NOT NULL, data TEXT, error TEXT);
             """)
 
+    @contextmanager
     def connect(self):
         con = sqlite3.connect(self.db, timeout=20)
         con.row_factory = sqlite3.Row
-        return con
+        try:
+            with con:
+                yield con
+        finally:
+            con.close()
 
     def save(self, record: RunRecord, snapshot: bool = True):
         data = record.model_dump_json()

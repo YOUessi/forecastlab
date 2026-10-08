@@ -1,19 +1,26 @@
-"""Formal product entry must not expose an Agent 1/2-only demo path."""
-import re
+"""New research starts blank and never launches a model without confirmation."""
 import pytest
 from playwright.sync_api import expect
 
-
 @pytest.mark.parametrize("viewport", [{"width": 1724, "height": 864}, {"width": 390, "height": 844}])
-def test_product_entry_uses_normal_forecast_workflow(page, app_url, viewport):
+@pytest.mark.parametrize("motion", ["no-preference", "reduce"])
+def test_new_research_is_blank_and_does_not_start_run(page, app_url, viewport, motion):
+    from test_agent12_browser import routes
+    routes(page)
     page.set_viewport_size(viewport)
+    page.emulate_media(reduced_motion=motion)
     writes = []
     page.on("request", lambda r: writes.append(r.url) if r.method == "POST" else None)
     page.goto(app_url)
-
-    expect(page.get_by_role("button", name="体验问题与证据新流程", exact=True)).to_have_count(0)
-    expect(page.get_by_role("button", name=re.compile("^运行教学演示"))).to_be_visible()
-    expect(page.get_by_placeholder("例如：某产品能否在 12 月 20 日前发布正式版？")).to_be_visible()
-    expect(page.get_by_role("button", name="分析问题", exact=True)).to_be_visible()
-    expect(page.get_by_role("button", name="开始预测 →", exact=True)).to_be_disabled()
-    assert writes == [], "Opening the formal create page must not start analysis or prediction automatically"
+    entry = page.get_by_role("button", name="＋ 新建研究", exact=True)
+    entry.focus()
+    page.keyboard.press("Enter")
+    question = page.get_by_label("研究问题", exact=True)
+    expect(question).to_have_value("")
+    expect(question).to_be_focused()
+    expect(question).to_be_in_viewport()
+    expect(page.get_by_role("button", name="开始联网推演 →", exact=True)).to_be_disabled()
+    assert writes == []
+    page.keyboard.press("Escape")
+    expect(page.get_by_role("dialog")).to_have_count(0)
+    expect(entry).to_be_focused()

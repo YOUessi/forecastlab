@@ -272,6 +272,12 @@ def validate_forecast(forecast: Forecast, question: QuestionSpec, evidence: list
     if question.mode == "scenario" or (review.status == "blocked" and not evidence_only) or not evidence:
         forecast.probabilities = None
         forecast.status = "scenario_only" if question.mode == "scenario" else "insufficient_evidence"
+    if question.mode == "scenario":
+        if any(re.search(r"\\d+(?:\\.\\d+)?\\s*[%％]", item)
+               and not re.search(r"假设|示意|非统计|未经校准", item) for item in forecast.scenarios):
+            raise ValueError("情景中的定量比例须明确标为假设，不得呈现为已测量或有依据的预测")
+        if any(re.match(r"^E\\d+\\s*(?:显示|指出|提及)", item) for item in forecast.new_information):
+            raise ValueError("后续信息应描述待收集或核验的资料，不能复述来源结论")
     if require_probability and forecast.probabilities is None:
         raise ValueError("事前证据复审允许主观概率，报告仍未给出概率")
     if forecast.probabilities is not None:
@@ -305,6 +311,20 @@ def repair_forecast(forecast: Forecast, question: QuestionSpec, evidence: list[E
                 removed += 1
         setattr(forecast, name, valid_claims)
     forecast.key_assumptions = [item for item in forecast.key_assumptions if item in assumption_ids]
+    if question.mode == "scenario":
+        forecast.scenarios = [item for item in forecast.scenarios
+                              if not re.search(r"\\d+(?:\\.\\d+)?\\s*[%％]", item)
+                              or re.search(r"假设|示意|非统计|未经校准", item)]
+        forecast.new_information = [item for item in forecast.new_information
+                                    if not re.match(r"^E\\d+\\s*(?:显示|指出|提及)", item)]
+    if any(marker in reason for marker in ("情景中的定量比例", "后续信息应描述")):
+        # Field-level unsupported assertion: retain only audit trail.
+        forecast.supporting = []
+        forecast.opposing = []
+        forecast.scenarios = []
+        forecast.new_information = []
+        forecast.key_assumptions = []
+        forecast.limitations = [item for item in forecast.limitations if "校验未通过" in item]
     forecast.probabilities = None
     forecast.status = ("scenario_only" if question.mode == "scenario" else
                        "insufficient_evidence" if not evidence or (review.status == "blocked" and review.probability_basis != "evidence_only")
@@ -649,6 +669,10 @@ def build_graph(record: RunRecord, imported: list[Evidence], model: ModelClient 
             probability_instructions = (f"概率键必须严格为 {question.outcomes}，数值在 0 到 1 且合计为 1；"
                                         "概率是未经校准的主观判断；证据不足或开放问题必须用 null。")
             forecast_schema = Forecast
+        if question.mode == "scenario":
+            instructions += ("Open scenario analysis: use qualitative conditional possibilities, not invented "
+                             "impact percentages or arbitrary numerical indices. Source material and simulation "
+                             "outcomes are not measurements, and new_information lists what needs verifying. ")
         if price_context:
             forecast_payload["market_price_context"] = price_context
             price_note = ("对于市场价格问题，先比较预测期限与历史价格覆盖：一两日涨势不能直接外推到月末，"

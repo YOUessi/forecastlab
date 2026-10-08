@@ -62,7 +62,13 @@ def test_path_and_symlink_escape_rejected(tmp_path):
     with pytest.raises(ValueError):
         p.load_snapshot(e, owned)
     e.snapshot_path = snapshot.snapshot_path
-    path = owned / snapshot.snapshot_path; path.unlink(); path.symlink_to(outside)
+    path = owned / snapshot.snapshot_path; path.unlink()
+    try:
+        path.symlink_to(outside)
+    except OSError as exc:
+        if getattr(exc, "winerror", None) == 1314:
+            pytest.skip("Windows does not grant symbolic-link creation; checked on Linux deployment host")
+        raise
     with pytest.raises(ValueError):
         p.load_snapshot(e, owned)
 
@@ -70,7 +76,7 @@ def test_path_and_symlink_escape_rejected(tmp_path):
 def test_tampered_snapshot_hash_rejected(tmp_path):
     p = module(); snapshot = p.save_snapshot("原始材料", {}, tmp_path)
     path = tmp_path / snapshot.snapshot_path
-    data = json.loads(path.read_text()); data["text"] = "已被篡改"; path.write_text(json.dumps(data))
+    data = json.loads(path.read_text(encoding="utf-8")); data["text"] = "已被篡改"; path.write_text(json.dumps(data))
     with pytest.raises(ValueError, match="哈希"):
         p.load_snapshot(source(snapshot), tmp_path)
 

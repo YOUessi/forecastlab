@@ -1,0 +1,1468 @@
+{
+  "test": "real model integration, historical exercise, not calibrated accuracy",
+  "model": "qwen3-8b",
+  "case_id": "C01-python313",
+  "preparation_cached": true,
+  "framing": {
+    "schema_version": 1,
+    "draft_id": "draft_b2806afc22a141318777b47b2afe99e7",
+    "revision": 1,
+    "raw_question": "Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本？",
+    "proposed_spec": {
+      "question": "Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本？",
+      "as_of": "2024-09-10T00:00:00Z",
+      "resolve_by": "2024-10-01T23:59:00Z",
+      "resolution_rule": "以 python.org 下载页实际提供正式稳定版（非 RC/beta）的日期为准。",
+      "resolution_source": "https://www.python.org/downloads/release/python-3130/",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "inputs": [
+      {
+        "input_id": "I001",
+        "kind": "original",
+        "text": "Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本？"
+      }
+    ],
+    "clarifications": [],
+    "premises": [
+      {
+        "content": "Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本？",
+        "origin": "user_explicit",
+        "source_input_id": "I001",
+        "original_span": "Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本？",
+        "rationale": "用户明确提出的预测目标，即 Python 官方是否在指定时间前提供 Python 3.13.0 正式稳定版的可下载版本。",
+        "replaces_id": null,
+        "id": "P001",
+        "user_review": "pending",
+        "treatment": "to_verify"
+      }
+    ],
+    "alternative_directions": [
+      "检查 Python 官方的下载页面是否在指定时间前更新了 Python 3.13.0 的正式稳定版。",
+      "确认 Python 官方的发布日历或公告是否提及 Python 3.13.0 的正式稳定版发布时间。",
+      "查看 Python 官方的社交媒体或论坛是否有相关公告或讨论。"
+    ],
+    "retrieval_plan": [
+      {
+        "id": "R001",
+        "query": "Python 3.13.0 正式稳定版发布日期",
+        "purpose": "initial",
+        "target_premise_ids": []
+      },
+      {
+        "id": "R002",
+        "query": "Python 官方下载页面更新时间",
+        "purpose": "challenge",
+        "target_premise_ids": []
+      },
+      {
+        "id": "R003",
+        "query": "Python 3.13.0 发布公告",
+        "purpose": "alternative",
+        "target_premise_ids": []
+      }
+    ],
+    "status": "ready_for_confirmation",
+    "analysis_record": {
+      "model": "qwen3-8b",
+      "prompt_version": "agent12-v1",
+      "input_hash": "6764480c97eece405a4cb6ca2cbcd87089204defd9f47ffdc8fdcf2da82d424f",
+      "request_ids": [
+        "request_51f30adbb07e401bab9cdff6f522c9c8"
+      ],
+      "elapsed_seconds": 29.347656418000042,
+      "validation_mode": "live"
+    },
+    "next_premise_number": 2,
+    "demo_case_id": null
+  },
+  "preparation_calls": [
+    {
+      "request_id": "request_51f30adbb07e401bab9cdff6f522c9c8",
+      "owner_id": "draft_b2806afc22a141318777b47b2afe99e7",
+      "phase": "preparation",
+      "attempt": 1,
+      "status": "succeeded",
+      "model": "qwen3-8b",
+      "prompt_version": "agent12-v1",
+      "input_hash": "57190a7a31a92317caa8cbde46d9c7bd34cb7173c7da755ba3f338f3f7e842f7",
+      "started_at": "2026-10-07T13:24:17.589776Z",
+      "elapsed_seconds": 29.347656418000042,
+      "prompt_tokens": 1603,
+      "completion_tokens": 576,
+      "usage_known": true,
+      "error_type": null
+    }
+  ],
+  "status": "insufficient_evidence",
+  "run": {
+    "retrieval_result": {
+      "evidence": [
+        {
+          "id": "E001",
+          "source_url": "https://web.archive.org/web/20240907232733/https://www.python.org/downloads/release/python-3130rc2/",
+          "file_id": null,
+          "title": "Python 3.13.0rc2 官方发布页：2024-09-07 归档快照",
+          "publisher": "Python Software Foundation",
+          "published_at": null,
+          "updated_at": null,
+          "retrieved_at": "2026-10-07T13:33:33.441681Z",
+          "event_at": null,
+          "excerpt": "对 2024-09-07 官方页面快照的摘要：Python 3.13.0rc2 被描述为当时计划中的最后一个候选版本。若没有发现关键问题，正式稳定版计划于 2024-10-01 发布；页面同时说明关键问题可能改变这一计划。此时尚未发布正式稳定版。",
+          "claim": "截至该快照时，官方计划在 2024-10-01 发布 Python 3.13.0 正式版，但关键问题可能导致变化。",
+          "content_hash": "31ec244c92a8652059af6ceec70fda47abad864fed4d28a3d782bc4ea5491f74",
+          "source_type": "exercise",
+          "source_group": "python-core-release",
+          "date_status": "unknown",
+          "conflict_group": null,
+          "source_kind": "unknown",
+          "content_kind": "imported_excerpt",
+          "source_kind_basis": "",
+          "snapshot_hash": "31ec244c92a8652059af6ceec70fda47abad864fed4d28a3d782bc4ea5491f74",
+          "content_truncated": false,
+          "query_ids": [],
+          "aliases": [
+            {
+              "source_url": "https://web.archive.org/web/20240907232733/https://www.python.org/downloads/release/python-3130rc2/",
+              "publisher": "Python Software Foundation",
+              "published_at": null,
+              "updated_at": null,
+              "metadata": {
+                "snapshot_hash": "31ec244c92a8652059af6ceec70fda47abad864fed4d28a3d782bc4ea5491f74",
+                "source_group": "python-core-release",
+                "source_group_basis": "导入者声明：未提供分组依据"
+              }
+            }
+          ],
+          "source_group_basis": "导入者声明：未提供分组依据",
+          "possible_same_source": [],
+          "date_basis": {
+            "retrieved_at": "本次实际导入时间"
+          },
+          "availability": "historical_exercise",
+          "event_status": "unknown",
+          "passages": [
+            {
+              "paragraph_id": "B000001",
+              "start": 0,
+              "end": 123,
+              "text": "对 2024-09-07 官方页面快照的摘要：Python 3.13.0rc2 被描述为当时计划中的最后一个候选版本。若没有发现关键问题，正式稳定版计划于 2024-10-01 发布；页面同时说明关键问题可能改变这一计划。此时尚未发布正式稳定版。",
+              "snapshot_hash": "31ec244c92a8652059af6ceec70fda47abad864fed4d28a3d782bc4ea5491f74"
+            }
+          ]
+        },
+        {
+          "id": "E002",
+          "source_url": "https://github.com/python/peps/blob/a9fec384f2be8c13e01b20a16a1e1704f16a9365/peps/pep-0719.rst",
+          "file_id": null,
+          "title": "PEP 719 发布日程：2024-09-07 Git 固定版本",
+          "publisher": "Python PEP Repository",
+          "published_at": null,
+          "updated_at": null,
+          "retrieved_at": "2026-10-07T13:33:33.441681Z",
+          "event_at": null,
+          "excerpt": "对 2024-09-07 固定 Git 版本的摘要：PEP 719 当时的 Python 3.13.0 日程列出第二个候选版为 2024-09-06，正式稳定版计划为 2024-10-01。这是事前计划日期，不是最终发布日期。",
+          "claim": "截至该 Git 版本时，正式稳定版计划日期仍为 2024-10-01。",
+          "content_hash": "baedd5b2a674a6d7e4995a51d492139c81a5a5e7b78ff88a6360d1b533b0fb5b",
+          "source_type": "exercise",
+          "source_group": "python-core-release",
+          "date_status": "unknown",
+          "conflict_group": null,
+          "source_kind": "unknown",
+          "content_kind": "imported_excerpt",
+          "source_kind_basis": "",
+          "snapshot_hash": "baedd5b2a674a6d7e4995a51d492139c81a5a5e7b78ff88a6360d1b533b0fb5b",
+          "content_truncated": false,
+          "query_ids": [],
+          "aliases": [
+            {
+              "source_url": "https://github.com/python/peps/blob/a9fec384f2be8c13e01b20a16a1e1704f16a9365/peps/pep-0719.rst",
+              "publisher": "Python PEP Repository",
+              "published_at": null,
+              "updated_at": null,
+              "metadata": {
+                "snapshot_hash": "baedd5b2a674a6d7e4995a51d492139c81a5a5e7b78ff88a6360d1b533b0fb5b",
+                "source_group": "python-core-release",
+                "source_group_basis": "导入者声明：未提供分组依据"
+              }
+            }
+          ],
+          "source_group_basis": "导入者声明：未提供分组依据",
+          "possible_same_source": [],
+          "date_basis": {
+            "retrieved_at": "本次实际导入时间"
+          },
+          "availability": "historical_exercise",
+          "event_status": "unknown",
+          "passages": [
+            {
+              "paragraph_id": "B000001",
+              "start": 0,
+              "end": 113,
+              "text": "对 2024-09-07 固定 Git 版本的摘要：PEP 719 当时的 Python 3.13.0 日程列出第二个候选版为 2024-09-06，正式稳定版计划为 2024-10-01。这是事前计划日期，不是最终发布日期。",
+              "snapshot_hash": "baedd5b2a674a6d7e4995a51d492139c81a5a5e7b78ff88a6360d1b533b0fb5b"
+            }
+          ]
+        }
+      ],
+      "retrieval_log": [],
+      "exclusions": [],
+      "status": "completed"
+    },
+    "retrieval_started": false,
+    "question_framing": {
+      "schema_version": 1,
+      "draft_id": "draft_b2806afc22a141318777b47b2afe99e7",
+      "revision": 1,
+      "raw_question": "Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本？",
+      "proposed_spec": {
+        "question": "Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本？",
+        "as_of": "2024-09-10T00:00:00Z",
+        "resolve_by": "2024-10-01T23:59:00Z",
+        "resolution_rule": "以 python.org 下载页实际提供正式稳定版（非 RC/beta）的日期为准。",
+        "resolution_source": "https://www.python.org/downloads/release/python-3130/",
+        "mode": "binary",
+        "user_assumptions": []
+      },
+      "inputs": [
+        {
+          "input_id": "I001",
+          "kind": "original",
+          "text": "Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本？"
+        }
+      ],
+      "clarifications": [],
+      "premises": [
+        {
+          "content": "Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本？",
+          "origin": "user_explicit",
+          "source_input_id": "I001",
+          "original_span": "Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本？",
+          "rationale": "用户明确提出的预测目标，即 Python 官方是否在指定时间前提供 Python 3.13.0 正式稳定版的可下载版本。",
+          "replaces_id": null,
+          "id": "P001",
+          "user_review": "retained",
+          "treatment": "to_verify"
+        }
+      ],
+      "alternative_directions": [
+        "检查 Python 官方的下载页面是否在指定时间前更新了 Python 3.13.0 的正式稳定版。",
+        "确认 Python 官方的发布日历或公告是否提及 Python 3.13.0 的正式稳定版发布时间。",
+        "查看 Python 官方的社交媒体或论坛是否有相关公告或讨论。"
+      ],
+      "retrieval_plan": [
+        {
+          "id": "R001",
+          "query": "Python 3.13.0 正式稳定版发布日期",
+          "purpose": "initial",
+          "target_premise_ids": []
+        },
+        {
+          "id": "R002",
+          "query": "Python 官方下载页面更新时间",
+          "purpose": "challenge",
+          "target_premise_ids": []
+        },
+        {
+          "id": "R003",
+          "query": "Python 3.13.0 发布公告",
+          "purpose": "alternative",
+          "target_premise_ids": []
+        }
+      ],
+      "status": "ready_for_confirmation",
+      "analysis_record": {
+        "model": "qwen3-8b",
+        "prompt_version": "agent12-v1",
+        "input_hash": "6764480c97eece405a4cb6ca2cbcd87089204defd9f47ffdc8fdcf2da82d424f",
+        "request_ids": [
+          "request_51f30adbb07e401bab9cdff6f522c9c8"
+        ],
+        "elapsed_seconds": 29.347656418000042,
+        "validation_mode": "live"
+      },
+      "next_premise_number": 2,
+      "demo_case_id": null
+    },
+    "confirmation_id": "confirm_29f7efd62e7244e6a061bb1302f876bd",
+    "question_origin": "confirmed",
+    "preparation_records": [
+      {
+        "request_id": "request_51f30adbb07e401bab9cdff6f522c9c8",
+        "owner_id": "draft_b2806afc22a141318777b47b2afe99e7",
+        "phase": "preparation",
+        "attempt": 1,
+        "status": "succeeded",
+        "model": "qwen3-8b",
+        "prompt_version": "agent12-v1",
+        "input_hash": "57190a7a31a92317caa8cbde46d9c7bd34cb7173c7da755ba3f338f3f7e842f7",
+        "started_at": "2026-10-07T13:24:17.589776Z",
+        "elapsed_seconds": 29.347656418000042,
+        "prompt_tokens": 1603,
+        "completion_tokens": 576,
+        "usage_known": true,
+        "error_type": null
+      }
+    ],
+    "model_calls": [
+      {
+        "request_id": "request_642e4f9d5d6d4b85af68876459535ac4",
+        "owner_id": "local_smoke_1799e2b4",
+        "phase": "runtime",
+        "attempt": 1,
+        "status": "succeeded",
+        "model": "qwen3-8b",
+        "prompt_version": "agent12-v1",
+        "input_hash": "3341adb0fa31260340e7051bdacde901dcbc827f12898f6cdb6af369fa46d40c",
+        "started_at": "2026-10-07T13:33:33.493900Z",
+        "elapsed_seconds": 47.94626385999982,
+        "prompt_tokens": 3553,
+        "completion_tokens": 659,
+        "usage_known": true,
+        "error_type": null
+      },
+      {
+        "request_id": "request_de8aa3255a054129b499704aa2f99782",
+        "owner_id": "local_smoke_1799e2b4",
+        "phase": "runtime",
+        "attempt": 2,
+        "status": "succeeded",
+        "model": "qwen3-8b",
+        "prompt_version": "agent12-v1",
+        "input_hash": "f6cbc12391a9cfe07074408bc5d744c1d5d15402928eb6470b67ccc8a7269583",
+        "started_at": "2026-10-07T13:34:21.444646Z",
+        "elapsed_seconds": 35.72946233999983,
+        "prompt_tokens": 4060,
+        "completion_tokens": 491,
+        "usage_known": true,
+        "error_type": null
+      },
+      {
+        "request_id": "request_3c58de5ca245412db8ac92062b6ec392",
+        "owner_id": "local_smoke_1799e2b4",
+        "phase": "runtime",
+        "attempt": 3,
+        "status": "succeeded",
+        "model": "qwen3-8b",
+        "prompt_version": "agent12-v1",
+        "input_hash": "65488e62b56e9be3f7d3b9cdcad353aad46af4a2156c5ef0b760fca1127b5157",
+        "started_at": "2026-10-07T13:34:57.178224Z",
+        "elapsed_seconds": 20.38856587400005,
+        "prompt_tokens": 4349,
+        "completion_tokens": 266,
+        "usage_known": true,
+        "error_type": null
+      },
+      {
+        "request_id": "request_b4cc67bcaff041e89df2c7e737133eb7",
+        "owner_id": "local_smoke_1799e2b4",
+        "phase": "runtime",
+        "attempt": 4,
+        "status": "succeeded",
+        "model": "qwen3-8b",
+        "prompt_version": "agent12-v1",
+        "input_hash": "1b242f45562aaf50f06a803ce793dc40f8ece010ff08f671bf27ebbeebc24fb0",
+        "started_at": "2026-10-07T13:35:17.568494Z",
+        "elapsed_seconds": 10.521879502000047,
+        "prompt_tokens": 2095,
+        "completion_tokens": 190,
+        "usage_known": true,
+        "error_type": null
+      },
+      {
+        "request_id": "request_2f0fe14d82a844ecbf0707039851454b",
+        "owner_id": "local_smoke_1799e2b4",
+        "phase": "runtime",
+        "attempt": 5,
+        "status": "succeeded",
+        "model": "qwen3-8b",
+        "prompt_version": "agent12-v1",
+        "input_hash": "4542b773eca12856c47cda1f6e0fde1ab709f5e86e9bb9c76b5e6f4a5d6fbed3",
+        "started_at": "2026-10-07T13:35:28.092312Z",
+        "elapsed_seconds": 20.53919459000008,
+        "prompt_tokens": 4354,
+        "completion_tokens": 268,
+        "usage_known": true,
+        "error_type": null
+      },
+      {
+        "request_id": "request_fd864d5384724d5c9933bf9f9ccd2c27",
+        "owner_id": "local_smoke_1799e2b4",
+        "phase": "runtime",
+        "attempt": 6,
+        "status": "succeeded",
+        "model": "qwen3-8b",
+        "prompt_version": "agent12-v1",
+        "input_hash": "d8dedf8a17073f4d5fa15ed82ab9325f9737e22c34017330d3b01720aa2a0561",
+        "started_at": "2026-10-07T13:35:48.633280Z",
+        "elapsed_seconds": 10.110478223000428,
+        "prompt_tokens": 2101,
+        "completion_tokens": 182,
+        "usage_known": true,
+        "error_type": null
+      },
+      {
+        "request_id": "request_0bfadf4d9de94a6389731f9715cf0c3e",
+        "owner_id": "local_smoke_1799e2b4",
+        "phase": "runtime",
+        "attempt": 7,
+        "status": "succeeded",
+        "model": "qwen3-8b",
+        "prompt_version": "agent12-v1",
+        "input_hash": "5ba4667d46387bc21cbfd9121a0a730e04f6595e49016b398456fef55189af14",
+        "started_at": "2026-10-07T13:35:58.747601Z",
+        "elapsed_seconds": 37.4068189149998,
+        "prompt_tokens": 4839,
+        "completion_tokens": 468,
+        "usage_known": true,
+        "error_type": null
+      },
+      {
+        "request_id": "request_d7e4100a307f4e2da9b3640270ab2337",
+        "owner_id": "local_smoke_1799e2b4",
+        "phase": "runtime",
+        "attempt": 8,
+        "status": "succeeded",
+        "model": "qwen3-8b",
+        "prompt_version": "agent12-v1",
+        "input_hash": "4d74d00ff12f8b1251ee351ace49457ceda3a65acdb60a498db74b0a676f5ce0",
+        "started_at": "2026-10-07T13:36:36.157578Z",
+        "elapsed_seconds": 20.40962722300037,
+        "prompt_tokens": 4886,
+        "completion_tokens": 246,
+        "usage_known": true,
+        "error_type": null
+      },
+      {
+        "request_id": "request_43c71c8e7a8a4ae2b60951c55342ed30",
+        "owner_id": "local_smoke_1799e2b4",
+        "phase": "runtime",
+        "attempt": 9,
+        "status": "succeeded",
+        "model": "qwen3-8b",
+        "prompt_version": "agent12-v1",
+        "input_hash": "7c8d8d1ca1bfeb59adf490a6ff4caa0dea671fa1ee1cce4439632c3a554f389e",
+        "started_at": "2026-10-07T13:36:56.569025Z",
+        "elapsed_seconds": 3.3064598030000525,
+        "prompt_tokens": 2991,
+        "completion_tokens": 43,
+        "usage_known": true,
+        "error_type": null
+      },
+      {
+        "request_id": "request_257809c6205d4707840879d78afcbbd9",
+        "owner_id": "local_smoke_1799e2b4",
+        "phase": "runtime",
+        "attempt": 10,
+        "status": "succeeded",
+        "model": "qwen3-8b",
+        "prompt_version": "agent12-v1",
+        "input_hash": "e63bb28858b4be87f06f3ffaca438c1b37e3ae1fd4bb402a8a386ce1694ed629",
+        "started_at": "2026-10-07T13:36:59.879368Z",
+        "elapsed_seconds": 29.68647623800007,
+        "prompt_tokens": 5145,
+        "completion_tokens": 357,
+        "usage_known": true,
+        "error_type": null
+      }
+    ],
+    "active_seconds": 236.10107066299997,
+    "premise_assumption_map": {},
+    "run_id": "local_smoke_1799e2b4",
+    "question_version": 1,
+    "parent_run_id": null,
+    "question": {
+      "id": "Q-06b2055e",
+      "question": "Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本？",
+      "as_of": "2024-09-10T00:00:00Z",
+      "resolve_by": "2024-10-01T23:59:00Z",
+      "outcomes": [
+        "是",
+        "否"
+      ],
+      "resolution_rule": "以 python.org 下载页实际提供正式稳定版（非 RC/beta）的日期为准。",
+      "resolution_source": "https://www.python.org/downloads/release/python-3130/",
+      "mode": "binary",
+      "user_assumptions": []
+    },
+    "evidence_mode": "import",
+    "demo": false,
+    "status": "insufficient_evidence",
+    "stage": "done",
+    "failed_stage": null,
+    "stage_durations": {
+      "question": 0.002,
+      "evidence": 47.951,
+      "world": 35.732,
+      "simulation": 61.569,
+      "review": 61.13,
+      "forecast": 29.689
+    },
+    "stage_outputs": {
+      "question": {
+        "question_analysis": {
+          "normalized_question": "Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本？",
+          "search_queries": [
+            "Python 3.13.0 正式稳定版发布日期",
+            "Python 官方下载页面更新时间",
+            "Python 3.13.0 发布公告"
+          ],
+          "caveats": []
+        },
+        "question_framing": {
+          "schema_version": 1,
+          "draft_id": "draft_b2806afc22a141318777b47b2afe99e7",
+          "revision": 1,
+          "raw_question": "Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本？",
+          "proposed_spec": {
+            "question": "Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本？",
+            "as_of": "2024-09-10T00:00:00Z",
+            "resolve_by": "2024-10-01T23:59:00Z",
+            "resolution_rule": "以 python.org 下载页实际提供正式稳定版（非 RC/beta）的日期为准。",
+            "resolution_source": "https://www.python.org/downloads/release/python-3130/",
+            "mode": "binary",
+            "user_assumptions": []
+          },
+          "inputs": [
+            {
+              "input_id": "I001",
+              "kind": "original",
+              "text": "Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本？"
+            }
+          ],
+          "clarifications": [],
+          "premises": [
+            {
+              "content": "Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本？",
+              "origin": "user_explicit",
+              "source_input_id": "I001",
+              "original_span": "Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本？",
+              "rationale": "用户明确提出的预测目标，即 Python 官方是否在指定时间前提供 Python 3.13.0 正式稳定版的可下载版本。",
+              "replaces_id": null,
+              "id": "P001",
+              "user_review": "retained",
+              "treatment": "to_verify"
+            }
+          ],
+          "alternative_directions": [
+            "检查 Python 官方的下载页面是否在指定时间前更新了 Python 3.13.0 的正式稳定版。",
+            "确认 Python 官方的发布日历或公告是否提及 Python 3.13.0 的正式稳定版发布时间。",
+            "查看 Python 官方的社交媒体或论坛是否有相关公告或讨论。"
+          ],
+          "retrieval_plan": [
+            {
+              "id": "R001",
+              "query": "Python 3.13.0 正式稳定版发布日期",
+              "purpose": "initial",
+              "target_premise_ids": []
+            },
+            {
+              "id": "R002",
+              "query": "Python 官方下载页面更新时间",
+              "purpose": "challenge",
+              "target_premise_ids": []
+            },
+            {
+              "id": "R003",
+              "query": "Python 3.13.0 发布公告",
+              "purpose": "alternative",
+              "target_premise_ids": []
+            }
+          ],
+          "status": "ready_for_confirmation",
+          "analysis_record": {
+            "model": "qwen3-8b",
+            "prompt_version": "agent12-v1",
+            "input_hash": "6764480c97eece405a4cb6ca2cbcd87089204defd9f47ffdc8fdcf2da82d424f",
+            "request_ids": [
+              "request_51f30adbb07e401bab9cdff6f522c9c8"
+            ],
+            "elapsed_seconds": 29.347656418000042,
+            "validation_mode": "live"
+          },
+          "next_premise_number": 2,
+          "demo_case_id": null
+        }
+      },
+      "evidence": {
+        "evidence": [
+          {
+            "id": "E001",
+            "source_url": "https://web.archive.org/web/20240907232733/https://www.python.org/downloads/release/python-3130rc2/",
+            "file_id": null,
+            "title": "Python 3.13.0rc2 官方发布页：2024-09-07 归档快照",
+            "publisher": "Python Software Foundation",
+            "published_at": null,
+            "updated_at": null,
+            "retrieved_at": "2026-10-07T13:33:33.441681Z",
+            "event_at": null,
+            "excerpt": "对 2024-09-07 官方页面快照的摘要：Python 3.13.0rc2 被描述为当时计划中的最后一个候选版本。若没有发现关键问题，正式稳定版计划于 2024-10-01 发布；页面同时说明关键问题可能改变这一计划。此时尚未发布正式稳定版。",
+            "claim": "截至该快照时，官方计划在 2024-10-01 发布 Python 3.13.0 正式版，但关键问题可能导致变化。",
+            "content_hash": "31ec244c92a8652059af6ceec70fda47abad864fed4d28a3d782bc4ea5491f74",
+            "source_type": "exercise",
+            "source_group": "python-core-release",
+            "date_status": "unknown",
+            "conflict_group": null,
+            "source_kind": "unknown",
+            "content_kind": "imported_excerpt",
+            "source_kind_basis": "",
+            "snapshot_hash": "31ec244c92a8652059af6ceec70fda47abad864fed4d28a3d782bc4ea5491f74",
+            "content_truncated": false,
+            "query_ids": [],
+            "aliases": [
+              {
+                "source_url": "https://web.archive.org/web/20240907232733/https://www.python.org/downloads/release/python-3130rc2/",
+                "publisher": "Python Software Foundation",
+                "published_at": null,
+                "updated_at": null,
+                "metadata": {
+                  "snapshot_hash": "31ec244c92a8652059af6ceec70fda47abad864fed4d28a3d782bc4ea5491f74",
+                  "source_group": "python-core-release",
+                  "source_group_basis": "导入者声明：未提供分组依据"
+                }
+              }
+            ],
+            "source_group_basis": "导入者声明：未提供分组依据",
+            "possible_same_source": [],
+            "date_basis": {
+              "retrieved_at": "本次实际导入时间"
+            },
+            "availability": "historical_exercise",
+            "event_status": "unknown",
+            "passages": [
+              {
+                "paragraph_id": "B000001",
+                "start": 0,
+                "end": 123,
+                "text": "对 2024-09-07 官方页面快照的摘要：Python 3.13.0rc2 被描述为当时计划中的最后一个候选版本。若没有发现关键问题，正式稳定版计划于 2024-10-01 发布；页面同时说明关键问题可能改变这一计划。此时尚未发布正式稳定版。",
+                "snapshot_hash": "31ec244c92a8652059af6ceec70fda47abad864fed4d28a3d782bc4ea5491f74"
+              }
+            ]
+          },
+          {
+            "id": "E002",
+            "source_url": "https://github.com/python/peps/blob/a9fec384f2be8c13e01b20a16a1e1704f16a9365/peps/pep-0719.rst",
+            "file_id": null,
+            "title": "PEP 719 发布日程：2024-09-07 Git 固定版本",
+            "publisher": "Python PEP Repository",
+            "published_at": null,
+            "updated_at": null,
+            "retrieved_at": "2026-10-07T13:33:33.441681Z",
+            "event_at": null,
+            "excerpt": "对 2024-09-07 固定 Git 版本的摘要：PEP 719 当时的 Python 3.13.0 日程列出第二个候选版为 2024-09-06，正式稳定版计划为 2024-10-01。这是事前计划日期，不是最终发布日期。",
+            "claim": "截至该 Git 版本时，正式稳定版计划日期仍为 2024-10-01。",
+            "content_hash": "baedd5b2a674a6d7e4995a51d492139c81a5a5e7b78ff88a6360d1b533b0fb5b",
+            "source_type": "exercise",
+            "source_group": "python-core-release",
+            "date_status": "unknown",
+            "conflict_group": null,
+            "source_kind": "unknown",
+            "content_kind": "imported_excerpt",
+            "source_kind_basis": "",
+            "snapshot_hash": "baedd5b2a674a6d7e4995a51d492139c81a5a5e7b78ff88a6360d1b533b0fb5b",
+            "content_truncated": false,
+            "query_ids": [],
+            "aliases": [
+              {
+                "source_url": "https://github.com/python/peps/blob/a9fec384f2be8c13e01b20a16a1e1704f16a9365/peps/pep-0719.rst",
+                "publisher": "Python PEP Repository",
+                "published_at": null,
+                "updated_at": null,
+                "metadata": {
+                  "snapshot_hash": "baedd5b2a674a6d7e4995a51d492139c81a5a5e7b78ff88a6360d1b533b0fb5b",
+                  "source_group": "python-core-release",
+                  "source_group_basis": "导入者声明：未提供分组依据"
+                }
+              }
+            ],
+            "source_group_basis": "导入者声明：未提供分组依据",
+            "possible_same_source": [],
+            "date_basis": {
+              "retrieved_at": "本次实际导入时间"
+            },
+            "availability": "historical_exercise",
+            "event_status": "unknown",
+            "passages": [
+              {
+                "paragraph_id": "B000001",
+                "start": 0,
+                "end": 113,
+                "text": "对 2024-09-07 固定 Git 版本的摘要：PEP 719 当时的 Python 3.13.0 日程列出第二个候选版为 2024-09-06，正式稳定版计划为 2024-10-01。这是事前计划日期，不是最终发布日期。",
+                "snapshot_hash": "baedd5b2a674a6d7e4995a51d492139c81a5a5e7b78ff88a6360d1b533b0fb5b"
+              }
+            ]
+          }
+        ],
+        "evidence_assessment": {
+          "summary": "根据提供的证据，Python 3.13.0 的正式稳定版计划于 2024-10-01 发布，但存在关键问题可能导致计划变更。目前尚未发布正式稳定版。",
+          "findings": [
+            {
+              "id": "F001",
+              "target_premise_ids": [
+                "P001"
+              ],
+              "claim": "Python 官方计划在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本。",
+              "relation": "supports",
+              "citations": [
+                {
+                  "evidence_id": "E001",
+                  "snapshot_hash": "31ec244c92a8652059af6ceec70fda47abad864fed4d28a3d782bc4ea5491f74",
+                  "paragraph_id": "B000001",
+                  "quote": "对 2024-09-07 官方页面快照的摘要：Python 3.13.0rc2 被描述为当时计划中的最后一个候选版本。若没有发现关键问题，正式稳定版计划于 2024-10-01 发布；页面同时说明关键问题可能改变这一计划。此时尚未发布正式稳定版。",
+                  "start": 0,
+                  "end": 123
+                },
+                {
+                  "evidence_id": "E002",
+                  "snapshot_hash": "baedd5b2a674a6d7e4995a51d492139c81a5a5e7b78ff88a6360d1b533b0fb5b",
+                  "paragraph_id": "B000001",
+                  "quote": "对 2024-09-07 固定 Git 版本的摘要：PEP 719 当时的 Python 3.13.0 日程列出第二个候选版为 2024-09-06，正式稳定版计划为 2024-10-01。这是事前计划日期，不是最终发布日期。",
+                  "start": 0,
+                  "end": 113
+                }
+              ],
+              "limitation": "计划日期可能因关键问题而改变，且目前尚未发布正式稳定版。"
+            }
+          ],
+          "conflict_details": [],
+          "gap_details": [
+            {
+              "missing": "E001 发布时间未知",
+              "target_premise_ids": [],
+              "attempted_query_ids": [],
+              "cause": "date_unknown",
+              "topic": "available_information"
+            },
+            {
+              "missing": "E001 为事后整理的历史练习，不是严格盲测快照",
+              "target_premise_ids": [],
+              "attempted_query_ids": [],
+              "cause": "historical_unverified",
+              "topic": "available_information"
+            },
+            {
+              "missing": "E002 发布时间未知",
+              "target_premise_ids": [],
+              "attempted_query_ids": [],
+              "cause": "date_unknown",
+              "topic": "available_information"
+            },
+            {
+              "missing": "E002 为事后整理的历史练习，不是严格盲测快照",
+              "target_premise_ids": [],
+              "attempted_query_ids": [],
+              "cause": "historical_unverified",
+              "topic": "available_information"
+            }
+          ],
+          "retrieval_log": [],
+          "rejected_findings": [],
+          "exclusions": [],
+          "evidence_ids": [
+            "E001",
+            "E002"
+          ],
+          "conflicts": [],
+          "gaps": [
+            "E001 发布时间未知",
+            "E001 为事后整理的历史练习，不是严格盲测快照",
+            "E002 发布时间未知",
+            "E002 为事后整理的历史练习，不是严格盲测快照"
+          ]
+        }
+      },
+      "world": {
+        "world": {
+          "state_version": 1,
+          "summary": "根据现有证据，Python 3.13.0 的正式稳定版计划于 2024-10-01 发布，但存在关键问题可能导致计划变更。目前尚未发布正式稳定版。",
+          "variables": {
+            "Q-06b2055e": "Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本？"
+          },
+          "relations": [
+            "E001",
+            "E002"
+          ],
+          "actors": [
+            {
+              "id": "A001",
+              "name": "Python Software Foundation",
+              "goal": "发布 Python 的正式稳定版本",
+              "resources": [
+                "E001",
+                "E002"
+              ],
+              "constraints": [
+                "关键问题可能导致计划变更"
+              ],
+              "visible_evidence_ids": [
+                "E001",
+                "E002"
+              ]
+            }
+          ],
+          "evidence_refs": [
+            "E001",
+            "E002"
+          ],
+          "assumptions": [
+            {
+              "id": "A001",
+              "created_by": "model",
+              "parent_ids": [],
+              "content": "Python 官方计划在 2024-10-01 发布 Python 3.13.0 正式稳定版。",
+              "rationale": "根据 E001 和 E002 的内容，Python 3.13.0 的正式稳定版计划于 2024-10-01 发布。"
+            },
+            {
+              "id": "A002",
+              "created_by": "model",
+              "parent_ids": [],
+              "content": "关键问题可能导致计划变更。",
+              "rationale": "根据 E001 的内容，关键问题可能导致计划变更。"
+            }
+          ],
+          "simulation_branch_reason": "根据现有证据，Python 3.13.0 的正式稳定版计划于 2024-10-01 发布，但存在关键问题可能导致计划变更。目前尚未发布正式稳定版。"
+        },
+        "premise_assumption_map": {}
+      },
+      "simulation": {
+        "actions": [
+          {
+            "id": "M1-A001",
+            "created_by": "A001",
+            "parent_ids": [
+              "S0"
+            ],
+            "actor_id": "A001",
+            "round": 1,
+            "parent_state": 0,
+            "action": "检查 Python 官方下载页面是否在指定时间前更新了 Python 3.13.0 的正式稳定版。",
+            "rationale_summary": "根据现有证据，Python 3.13.0 的正式稳定版计划于 2024-10-01 发布，但存在关键问题可能导致计划变更。目前尚未发布正式稳定版。",
+            "expected_impact": "确认 Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本。",
+            "evidence_ids": [
+              "E001",
+              "E002"
+            ],
+            "assumption_ids": [
+              "A001",
+              "A002"
+            ],
+            "conditions": [
+              "关键问题可能导致计划变更",
+              "目前尚未发布正式稳定版"
+            ],
+            "kind": "simulation"
+          },
+          {
+            "id": "M2-A001",
+            "created_by": "A001",
+            "parent_ids": [
+              "S1"
+            ],
+            "actor_id": "A001",
+            "round": 2,
+            "parent_state": 1,
+            "action": "检查 Python 官方下载页面是否在指定时间前更新了 Python 3.13.0 的正式稳定版",
+            "rationale_summary": "根据现有证据，Python 3.13.0 的正式稳定版计划于 2024-10-01 发布，但存在关键问题可能导致计划变更。目前尚未发布正式稳定版。",
+            "expected_impact": "确认 Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本。",
+            "evidence_ids": [
+              "E001",
+              "E002"
+            ],
+            "assumption_ids": [
+              "A001",
+              "A002"
+            ],
+            "conditions": [
+              "关键问题未被发现",
+              "Python 官方未更改发布计划"
+            ],
+            "kind": "simulation"
+          }
+        ],
+        "simulation": [
+          {
+            "id": "S1",
+            "created_by": "environment",
+            "parent_ids": [
+              "M1-A001"
+            ],
+            "round": 1,
+            "parent_state": 0,
+            "next_state": 1,
+            "summary": "Python 3.13.0 的正式稳定版计划于 2024-10-01 发布，但存在关键问题可能导致计划变更。目前尚未发布正式稳定版。",
+            "state_changes": {
+              "Q-06b2055e": "未确定"
+            },
+            "conflicts": [],
+            "unresolved": [
+              "关键问题可能导致计划变更",
+              "目前尚未发布正式稳定版"
+            ],
+            "evidence_ids": [
+              "E001",
+              "E002"
+            ],
+            "assumption_ids": [
+              "A001",
+              "A002"
+            ],
+            "kind": "simulation"
+          },
+          {
+            "id": "S2",
+            "created_by": "environment",
+            "parent_ids": [
+              "M2-A001"
+            ],
+            "round": 2,
+            "parent_state": 1,
+            "next_state": 2,
+            "summary": "Python 3.13.0 的正式稳定版计划于 2024-10-01 发布，但存在关键问题可能导致计划变更。目前尚未发布正式稳定版。",
+            "state_changes": {
+              "Q-06b2055e": "未确定"
+            },
+            "conflicts": [],
+            "unresolved": [
+              "关键问题可能导致计划变更"
+            ],
+            "evidence_ids": [
+              "E001",
+              "E002"
+            ],
+            "assumption_ids": [
+              "A001",
+              "A002"
+            ],
+            "kind": "simulation"
+          }
+        ]
+      },
+      "review": {
+        "review": {
+          "status": "blocked",
+          "probability_basis": "none",
+          "issues": [
+            {
+              "severity": "medium",
+              "claim": "预测期结果未知应由概率表达",
+              "explanation": "审查排除了要求未来行情的判断；概率仅使用截至日证据。",
+              "affected_ids": []
+            }
+          ],
+          "unsupported_claims": [],
+          "missing_evidence": [
+            "E001 发布时间未知",
+            "E001 为事后整理的历史练习，不是严格盲测快照",
+            "E002 发布时间未知",
+            "E002 为事后整理的历史练习，不是严格盲测快照"
+          ]
+        }
+      },
+      "forecast": {
+        "forecast": {
+          "status": "insufficient_evidence",
+          "probability_basis": "full",
+          "conclusion": "无法确定",
+          "probabilities": null,
+          "calibrated": false,
+          "supporting": [
+            {
+              "text": "Python 3.13.0 的正式稳定版计划于 2024-10-01 发布，但存在关键问题可能导致计划变更。",
+              "evidence_ids": [
+                "E001",
+                "E002"
+              ],
+              "assumption_ids": [
+                "A001",
+                "A002"
+              ],
+              "simulation_ids": [
+                "S1",
+                "S2"
+              ]
+            }
+          ],
+          "opposing": [
+            {
+              "text": "目前尚未发布正式稳定版，且计划日期可能因关键问题而改变。",
+              "evidence_ids": [
+                "E001",
+                "E002"
+              ],
+              "assumption_ids": [
+                "A001",
+                "A002"
+              ],
+              "simulation_ids": [
+                "S1",
+                "S2"
+              ]
+            }
+          ],
+          "key_assumptions": [
+            "A001",
+            "A002"
+          ],
+          "scenarios": [
+            "关键问题可能导致计划变更",
+            "目前尚未发布正式稳定版"
+          ],
+          "limitations": [
+            "E001 发布时间未知",
+            "E001 为事后整理的历史练习，不是严格盲测快照",
+            "E002 发布时间未知",
+            "E002 为事后整理的历史练习，不是严格盲测快照",
+            "历史演练资料是事后按发布日期整理，并非截至日冻结快照；可能存在回看偏差。"
+          ],
+          "new_information": []
+        }
+      }
+    },
+    "question_analysis": {
+      "normalized_question": "Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本？",
+      "search_queries": [
+        "Python 3.13.0 正式稳定版发布日期",
+        "Python 官方下载页面更新时间",
+        "Python 3.13.0 发布公告"
+      ],
+      "caveats": []
+    },
+    "evidence": [
+      {
+        "id": "E001",
+        "source_url": "https://web.archive.org/web/20240907232733/https://www.python.org/downloads/release/python-3130rc2/",
+        "file_id": null,
+        "title": "Python 3.13.0rc2 官方发布页：2024-09-07 归档快照",
+        "publisher": "Python Software Foundation",
+        "published_at": null,
+        "updated_at": null,
+        "retrieved_at": "2026-10-07T13:33:33.441681Z",
+        "event_at": null,
+        "excerpt": "对 2024-09-07 官方页面快照的摘要：Python 3.13.0rc2 被描述为当时计划中的最后一个候选版本。若没有发现关键问题，正式稳定版计划于 2024-10-01 发布；页面同时说明关键问题可能改变这一计划。此时尚未发布正式稳定版。",
+        "claim": "截至该快照时，官方计划在 2024-10-01 发布 Python 3.13.0 正式版，但关键问题可能导致变化。",
+        "content_hash": "31ec244c92a8652059af6ceec70fda47abad864fed4d28a3d782bc4ea5491f74",
+        "source_type": "exercise",
+        "source_group": "python-core-release",
+        "date_status": "unknown",
+        "conflict_group": null,
+        "source_kind": "unknown",
+        "content_kind": "imported_excerpt",
+        "source_kind_basis": "",
+        "snapshot_hash": "31ec244c92a8652059af6ceec70fda47abad864fed4d28a3d782bc4ea5491f74",
+        "content_truncated": false,
+        "query_ids": [],
+        "aliases": [
+          {
+            "source_url": "https://web.archive.org/web/20240907232733/https://www.python.org/downloads/release/python-3130rc2/",
+            "publisher": "Python Software Foundation",
+            "published_at": null,
+            "updated_at": null,
+            "metadata": {
+              "snapshot_hash": "31ec244c92a8652059af6ceec70fda47abad864fed4d28a3d782bc4ea5491f74",
+              "source_group": "python-core-release",
+              "source_group_basis": "导入者声明：未提供分组依据"
+            }
+          }
+        ],
+        "source_group_basis": "导入者声明：未提供分组依据",
+        "possible_same_source": [],
+        "date_basis": {
+          "retrieved_at": "本次实际导入时间"
+        },
+        "availability": "historical_exercise",
+        "event_status": "unknown",
+        "passages": [
+          {
+            "paragraph_id": "B000001",
+            "start": 0,
+            "end": 123,
+            "text": "对 2024-09-07 官方页面快照的摘要：Python 3.13.0rc2 被描述为当时计划中的最后一个候选版本。若没有发现关键问题，正式稳定版计划于 2024-10-01 发布；页面同时说明关键问题可能改变这一计划。此时尚未发布正式稳定版。",
+            "snapshot_hash": "31ec244c92a8652059af6ceec70fda47abad864fed4d28a3d782bc4ea5491f74"
+          }
+        ]
+      },
+      {
+        "id": "E002",
+        "source_url": "https://github.com/python/peps/blob/a9fec384f2be8c13e01b20a16a1e1704f16a9365/peps/pep-0719.rst",
+        "file_id": null,
+        "title": "PEP 719 发布日程：2024-09-07 Git 固定版本",
+        "publisher": "Python PEP Repository",
+        "published_at": null,
+        "updated_at": null,
+        "retrieved_at": "2026-10-07T13:33:33.441681Z",
+        "event_at": null,
+        "excerpt": "对 2024-09-07 固定 Git 版本的摘要：PEP 719 当时的 Python 3.13.0 日程列出第二个候选版为 2024-09-06，正式稳定版计划为 2024-10-01。这是事前计划日期，不是最终发布日期。",
+        "claim": "截至该 Git 版本时，正式稳定版计划日期仍为 2024-10-01。",
+        "content_hash": "baedd5b2a674a6d7e4995a51d492139c81a5a5e7b78ff88a6360d1b533b0fb5b",
+        "source_type": "exercise",
+        "source_group": "python-core-release",
+        "date_status": "unknown",
+        "conflict_group": null,
+        "source_kind": "unknown",
+        "content_kind": "imported_excerpt",
+        "source_kind_basis": "",
+        "snapshot_hash": "baedd5b2a674a6d7e4995a51d492139c81a5a5e7b78ff88a6360d1b533b0fb5b",
+        "content_truncated": false,
+        "query_ids": [],
+        "aliases": [
+          {
+            "source_url": "https://github.com/python/peps/blob/a9fec384f2be8c13e01b20a16a1e1704f16a9365/peps/pep-0719.rst",
+            "publisher": "Python PEP Repository",
+            "published_at": null,
+            "updated_at": null,
+            "metadata": {
+              "snapshot_hash": "baedd5b2a674a6d7e4995a51d492139c81a5a5e7b78ff88a6360d1b533b0fb5b",
+              "source_group": "python-core-release",
+              "source_group_basis": "导入者声明：未提供分组依据"
+            }
+          }
+        ],
+        "source_group_basis": "导入者声明：未提供分组依据",
+        "possible_same_source": [],
+        "date_basis": {
+          "retrieved_at": "本次实际导入时间"
+        },
+        "availability": "historical_exercise",
+        "event_status": "unknown",
+        "passages": [
+          {
+            "paragraph_id": "B000001",
+            "start": 0,
+            "end": 113,
+            "text": "对 2024-09-07 固定 Git 版本的摘要：PEP 719 当时的 Python 3.13.0 日程列出第二个候选版为 2024-09-06，正式稳定版计划为 2024-10-01。这是事前计划日期，不是最终发布日期。",
+            "snapshot_hash": "baedd5b2a674a6d7e4995a51d492139c81a5a5e7b78ff88a6360d1b533b0fb5b"
+          }
+        ]
+      }
+    ],
+    "evidence_assessment": {
+      "summary": "根据提供的证据，Python 3.13.0 的正式稳定版计划于 2024-10-01 发布，但存在关键问题可能导致计划变更。目前尚未发布正式稳定版。",
+      "findings": [
+        {
+          "id": "F001",
+          "target_premise_ids": [
+            "P001"
+          ],
+          "claim": "Python 官方计划在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本。",
+          "relation": "supports",
+          "citations": [
+            {
+              "evidence_id": "E001",
+              "snapshot_hash": "31ec244c92a8652059af6ceec70fda47abad864fed4d28a3d782bc4ea5491f74",
+              "paragraph_id": "B000001",
+              "quote": "对 2024-09-07 官方页面快照的摘要：Python 3.13.0rc2 被描述为当时计划中的最后一个候选版本。若没有发现关键问题，正式稳定版计划于 2024-10-01 发布；页面同时说明关键问题可能改变这一计划。此时尚未发布正式稳定版。",
+              "start": 0,
+              "end": 123
+            },
+            {
+              "evidence_id": "E002",
+              "snapshot_hash": "baedd5b2a674a6d7e4995a51d492139c81a5a5e7b78ff88a6360d1b533b0fb5b",
+              "paragraph_id": "B000001",
+              "quote": "对 2024-09-07 固定 Git 版本的摘要：PEP 719 当时的 Python 3.13.0 日程列出第二个候选版为 2024-09-06，正式稳定版计划为 2024-10-01。这是事前计划日期，不是最终发布日期。",
+              "start": 0,
+              "end": 113
+            }
+          ],
+          "limitation": "计划日期可能因关键问题而改变，且目前尚未发布正式稳定版。"
+        }
+      ],
+      "conflict_details": [],
+      "gap_details": [
+        {
+          "missing": "E001 发布时间未知",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "date_unknown",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E001 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E002 发布时间未知",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "date_unknown",
+          "topic": "available_information"
+        },
+        {
+          "missing": "E002 为事后整理的历史练习，不是严格盲测快照",
+          "target_premise_ids": [],
+          "attempted_query_ids": [],
+          "cause": "historical_unverified",
+          "topic": "available_information"
+        }
+      ],
+      "retrieval_log": [],
+      "rejected_findings": [],
+      "exclusions": [],
+      "evidence_ids": [
+        "E001",
+        "E002"
+      ],
+      "conflicts": [],
+      "gaps": [
+        "E001 发布时间未知",
+        "E001 为事后整理的历史练习，不是严格盲测快照",
+        "E002 发布时间未知",
+        "E002 为事后整理的历史练习，不是严格盲测快照"
+      ]
+    },
+    "world": {
+      "state_version": 1,
+      "summary": "根据现有证据，Python 3.13.0 的正式稳定版计划于 2024-10-01 发布，但存在关键问题可能导致计划变更。目前尚未发布正式稳定版。",
+      "variables": {
+        "Q-06b2055e": "Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本？"
+      },
+      "relations": [
+        "E001",
+        "E002"
+      ],
+      "actors": [
+        {
+          "id": "A001",
+          "name": "Python Software Foundation",
+          "goal": "发布 Python 的正式稳定版本",
+          "resources": [
+            "E001",
+            "E002"
+          ],
+          "constraints": [
+            "关键问题可能导致计划变更"
+          ],
+          "visible_evidence_ids": [
+            "E001",
+            "E002"
+          ]
+        }
+      ],
+      "evidence_refs": [
+        "E001",
+        "E002"
+      ],
+      "assumptions": [
+        {
+          "id": "A001",
+          "created_by": "model",
+          "parent_ids": [],
+          "content": "Python 官方计划在 2024-10-01 发布 Python 3.13.0 正式稳定版。",
+          "rationale": "根据 E001 和 E002 的内容，Python 3.13.0 的正式稳定版计划于 2024-10-01 发布。"
+        },
+        {
+          "id": "A002",
+          "created_by": "model",
+          "parent_ids": [],
+          "content": "关键问题可能导致计划变更。",
+          "rationale": "根据 E001 的内容，关键问题可能导致计划变更。"
+        }
+      ],
+      "simulation_branch_reason": "根据现有证据，Python 3.13.0 的正式稳定版计划于 2024-10-01 发布，但存在关键问题可能导致计划变更。目前尚未发布正式稳定版。"
+    },
+    "actions": [
+      {
+        "id": "M1-A001",
+        "created_by": "A001",
+        "parent_ids": [
+          "S0"
+        ],
+        "actor_id": "A001",
+        "round": 1,
+        "parent_state": 0,
+        "action": "检查 Python 官方下载页面是否在指定时间前更新了 Python 3.13.0 的正式稳定版。",
+        "rationale_summary": "根据现有证据，Python 3.13.0 的正式稳定版计划于 2024-10-01 发布，但存在关键问题可能导致计划变更。目前尚未发布正式稳定版。",
+        "expected_impact": "确认 Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本。",
+        "evidence_ids": [
+          "E001",
+          "E002"
+        ],
+        "assumption_ids": [
+          "A001",
+          "A002"
+        ],
+        "conditions": [
+          "关键问题可能导致计划变更",
+          "目前尚未发布正式稳定版"
+        ],
+        "kind": "simulation"
+      },
+      {
+        "id": "M2-A001",
+        "created_by": "A001",
+        "parent_ids": [
+          "S1"
+        ],
+        "actor_id": "A001",
+        "round": 2,
+        "parent_state": 1,
+        "action": "检查 Python 官方下载页面是否在指定时间前更新了 Python 3.13.0 的正式稳定版",
+        "rationale_summary": "根据现有证据，Python 3.13.0 的正式稳定版计划于 2024-10-01 发布，但存在关键问题可能导致计划变更。目前尚未发布正式稳定版。",
+        "expected_impact": "确认 Python 官方是否在 UTC 2024-10-01 23:59 前提供 Python 3.13.0 正式稳定版的可下载版本。",
+        "evidence_ids": [
+          "E001",
+          "E002"
+        ],
+        "assumption_ids": [
+          "A001",
+          "A002"
+        ],
+        "conditions": [
+          "关键问题未被发现",
+          "Python 官方未更改发布计划"
+        ],
+        "kind": "simulation"
+      }
+    ],
+    "simulation": [
+      {
+        "id": "S1",
+        "created_by": "environment",
+        "parent_ids": [
+          "M1-A001"
+        ],
+        "round": 1,
+        "parent_state": 0,
+        "next_state": 1,
+        "summary": "Python 3.13.0 的正式稳定版计划于 2024-10-01 发布，但存在关键问题可能导致计划变更。目前尚未发布正式稳定版。",
+        "state_changes": {
+          "Q-06b2055e": "未确定"
+        },
+        "conflicts": [],
+        "unresolved": [
+          "关键问题可能导致计划变更",
+          "目前尚未发布正式稳定版"
+        ],
+        "evidence_ids": [
+          "E001",
+          "E002"
+        ],
+        "assumption_ids": [
+          "A001",
+          "A002"
+        ],
+        "kind": "simulation"
+      },
+      {
+        "id": "S2",
+        "created_by": "environment",
+        "parent_ids": [
+          "M2-A001"
+        ],
+        "round": 2,
+        "parent_state": 1,
+        "next_state": 2,
+        "summary": "Python 3.13.0 的正式稳定版计划于 2024-10-01 发布，但存在关键问题可能导致计划变更。目前尚未发布正式稳定版。",
+        "state_changes": {
+          "Q-06b2055e": "未确定"
+        },
+        "conflicts": [],
+        "unresolved": [
+          "关键问题可能导致计划变更"
+        ],
+        "evidence_ids": [
+          "E001",
+          "E002"
+        ],
+        "assumption_ids": [
+          "A001",
+          "A002"
+        ],
+        "kind": "simulation"
+      }
+    ],
+    "review": {
+      "status": "blocked",
+      "probability_basis": "none",
+      "issues": [
+        {
+          "severity": "medium",
+          "claim": "预测期结果未知应由概率表达",
+          "explanation": "审查排除了要求未来行情的判断；概率仅使用截至日证据。",
+          "affected_ids": []
+        }
+      ],
+      "unsupported_claims": [],
+      "missing_evidence": [
+        "E001 发布时间未知",
+        "E001 为事后整理的历史练习，不是严格盲测快照",
+        "E002 发布时间未知",
+        "E002 为事后整理的历史练习，不是严格盲测快照"
+      ]
+    },
+    "forecast": {
+      "status": "insufficient_evidence",
+      "probability_basis": "full",
+      "conclusion": "无法确定",
+      "probabilities": null,
+      "calibrated": false,
+      "supporting": [
+        {
+          "text": "Python 3.13.0 的正式稳定版计划于 2024-10-01 发布，但存在关键问题可能导致计划变更。",
+          "evidence_ids": [
+            "E001",
+            "E002"
+          ],
+          "assumption_ids": [
+            "A001",
+            "A002"
+          ],
+          "simulation_ids": [
+            "S1",
+            "S2"
+          ]
+        }
+      ],
+      "opposing": [
+        {
+          "text": "目前尚未发布正式稳定版，且计划日期可能因关键问题而改变。",
+          "evidence_ids": [
+            "E001",
+            "E002"
+          ],
+          "assumption_ids": [
+            "A001",
+            "A002"
+          ],
+          "simulation_ids": [
+            "S1",
+            "S2"
+          ]
+        }
+      ],
+      "key_assumptions": [
+        "A001",
+        "A002"
+      ],
+      "scenarios": [
+        "关键问题可能导致计划变更",
+        "目前尚未发布正式稳定版"
+      ],
+      "limitations": [
+        "E001 发布时间未知",
+        "E001 为事后整理的历史练习，不是严格盲测快照",
+        "E002 发布时间未知",
+        "E002 为事后整理的历史练习，不是严格盲测快照",
+        "历史演练资料是事后按发布日期整理，并非截至日冻结快照；可能存在回看偏差。"
+      ],
+      "new_information": []
+    },
+    "settlement": null,
+    "model": "qwen3-8b",
+    "prompt_version": "v2",
+    "started_at": "2026-10-07T13:33:33.445939Z",
+    "finished_at": "2026-10-07T13:37:29.568869Z",
+    "usage": {
+      "calls": 10,
+      "prompt_tokens": 38373,
+      "completion_tokens": 3170
+    },
+    "errors": [],
+    "retry_history": [],
+    "resume_count": 0
+  },
+  "elapsed_seconds": 236.13
+}
