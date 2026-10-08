@@ -28,7 +28,15 @@ export type ModelCall = { request_id: string; status: string; usage_known: boole
 export type EvidencePassage = { paragraph_id: string; start: number; end: number; text: string; snapshot_hash: string }
 export type FindingCitation = { evidence_id: string; snapshot_hash: string; paragraph_id: string; quote: string; start: number; end: number }
 export type EvidenceFinding = { id: string; target_premise_ids: string[]; claim: string; relation: string; citations: FindingCitation[]; limitation: string }
-export type EvidenceAssessment = { summary: string; findings_validated?: boolean; evidence_ids: string[]; conflicts: string[]; gaps: string[]; findings?: EvidenceFinding[];
+export type EvidenceQualityProfile = {
+  source_count: number; source_group_count: number; body_source_count: number; snippet_only_count: number;
+  primary_label_count: number; unknown_publication_count: number; truncated_count: number;
+  suspected_same_source_count: number; merged_alias_count: number;
+  search_success_count: number; search_empty_count: number; search_failure_count: number;
+  excluded_count: number; validated_finding_count: number; rejected_finding_count: number;
+  unresolved_conflict_count: number; warnings: string[];
+}
+export type EvidenceAssessment = { summary: string; quality_profile?: EvidenceQualityProfile | null; findings_validated?: boolean; evidence_ids: string[]; conflicts: string[]; gaps: string[]; findings?: EvidenceFinding[];
   conflict_details?: { issue: string; finding_ids: string[]; scope_comparison: string; status: string; explanation: string }[];
   gap_details?: { missing: string; cause: string; target_premise_ids: string[]; attempted_query_ids: string[] }[];
   retrieval_log?: { task_id: string; query: string; purpose: string; status: string; result_count: number; error: string | null }[];

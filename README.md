@@ -6,6 +6,8 @@ ForecastLab 现在使用一条正式产品流程：“创建预测 → 问题确
 
 无密钥时可点击“运行教学演示”查看固定虚构材料的完整 ForecastLab 流程；固定 Agent 1/2 fixture 仍保留在后端自动化测试中，但不是正式产品入口。教学材料、固定模型响应和概率不代表真实模型质量。
 
+现在证据阶段还会在同一次预测运行中展示**证据质量概览**（来源组、正文/摘要、检索失败、拒绝候选、未解决冲突），冲突条目可点击关联 E 编号检查原文；相关限制随 EvidenceAssessment 传入 Review，并写入 HTML/JSON 报告。来源组不等于已验证独立性，指标不会自动决定预测概率。详见 [2026-10-08 质量与冲突整合记录](docs/agent12/evidence-quality-integration-2026-10-08.md)。
+
 交接材料：[Agent 1–2 完整实现记录](docs/agent12/implementation-report.md) · [实现与下游兼容](docs/agent12/integration.md) · [API](docs/agent12/api.md) · [验证记录](docs/agent12/validation.md) · [局限](docs/agent12/limitations.md) · [LLM 使用](docs/agent12/llm-usage.md)。原说明的旧路径仍可使用，但未经过新版确认的运行明确标为“旧版直接输入”。
 
 ```bash

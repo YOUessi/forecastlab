@@ -5,6 +5,7 @@ from ..schemas import (AssessmentCandidate, EvidenceAssessment, EvidenceFinding,
                        ConflictDetail, GapDetail, EvidencePassage)
 from ..provenance import load_snapshot, save_snapshot, split_passages, select_passages, resolve_citation
 from ..llm import BudgetExceeded
+from ..evidence_quality import build_quality_profile
 
 PROMPT = """只依据提供的原文段落整理证据，不能用模型记忆补来源或结论。
 每个finding必须有来源E编号、快照hash、段落编号和逐字原文quote。若存在活动前提P，可在target_premise_ids中指向相关P；
@@ -210,7 +211,9 @@ def _source_gaps(retrieval):
     return gaps
 
 
-def _compatibility(assessment):
+def _compatibility(assessment, retrieval=None):
+    if retrieval is not None:
+        assessment.quality_profile = build_quality_profile(retrieval, assessment)
     assessment.conflicts = [f"{'已解释' if c.status == 'resolved' else '未解决'}：{c.issue}；{c.scope_comparison}；{c.explanation}" for c in assessment.conflict_details]
     assessment.gaps = [g.missing for g in assessment.gap_details]
     return assessment
@@ -219,7 +222,7 @@ def _compatibility(assessment):
 def assess_evidence(question, framing, retrieval, model, data_dir) -> EvidenceAssessment:
     if retrieval.status == "failed":
         a = _compatibility(EvidenceAssessment(summary="取证全部失败，请检查检索配置或创建新运行。",
-            retrieval_log=retrieval.retrieval_log, exclusions=retrieval.exclusions, gap_details=_source_gaps(retrieval)))
+            retrieval_log=retrieval.retrieval_log, exclusions=retrieval.exclusions, gap_details=_source_gaps(retrieval)), retrieval)
         raise EvidenceStageError(retrieval, a)
     good_sources = []
     terms = [question.question]
@@ -247,7 +250,7 @@ def assess_evidence(question, framing, retrieval, model, data_dir) -> EvidenceAs
         retrieval_log=retrieval.retrieval_log, exclusions=retrieval.exclusions, gap_details=_source_gaps(retrieval))
     if not good_sources:
         assessment.gap_details.append(GapDetail(missing="证据包中没有可读取的有效来源", cause="not_found"))
-        return _compatibility(assessment)
+        return _compatibility(assessment, retrieval)
     passages = {e.id: e.passages for e in good_sources}
     payload = {"question": question.model_dump(mode="json"), "question_framing": active_framing(framing),
         "evidence": [e.model_dump(mode="json", exclude={"snapshot_path", "content_hash", "excerpt"}) for e in good_sources],
@@ -270,7 +273,7 @@ def assess_evidence(question, framing, retrieval, model, data_dir) -> EvidenceAs
         except BudgetExceeded as exc:
             if candidate is None:
                 assessment.summary = "证据分析额度不足，已保存来源与检索日志。"
-                raise EvidenceStageError(retrieval, _compatibility(assessment)) from exc
+                raise EvidenceStageError(retrieval, _compatibility(assessment, retrieval)) from exc
             assessment.gap_details.append(GapDetail(missing="额度不足，未再修复无效发现", cause="validation_failed"))
             break
         except (ValueError, RuntimeError) as exc:
@@ -278,7 +281,7 @@ def assess_evidence(question, framing, retrieval, model, data_dir) -> EvidenceAs
             payload["validation_feedback"] = assessment.rejected_findings[0].reason
     if assessment.rejected_findings:
         assessment.gap_details.append(GapDetail(missing=f"{len(assessment.rejected_findings)}项候选未通过原文/引用校验，未进入有效发现", cause="validation_failed"))
-    return _compatibility(assessment)
+    return _compatibility(assessment, retrieval)
 
 
 def make_evidence_context(evidence, assessment, *, max_chars_per_source: int) -> dict:
