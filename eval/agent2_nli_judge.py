@@ -15,7 +15,7 @@ from pathlib import Path
 
 DEFAULT_MODEL = os.getenv(
     "ENTAILMENT_NLI_MODEL",
-    "MoritzLaurer/ernie-m-large-mnli-xnli",
+    "MoritzLaurer/mDeBERTa-v3-base-mnli-xnli",
 )
 
 
