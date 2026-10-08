@@ -31,6 +31,10 @@ jobs:
       - name: Backend tests
         run: uv run --group browser pytest -q
 
+      # Preserve and verify teammate v1/v2/v3v4 suites as part of upstream integration.
+      - name: Validate upstream experiment suites
+        run: uv run python experiment/validate_suite.py
+
       - name: Frontend install
         working-directory: frontend
         run: npm ci

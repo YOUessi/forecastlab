@@ -20,3 +20,6 @@ LIVE_CUTOFF_GRACE_SECONDS = int(os.getenv("FORECASTLAB_LIVE_CUTOFF_GRACE_SECONDS
 MODEL_TEMPERATURE = float(os.getenv("FORECASTLAB_MODEL_TEMPERATURE", "0"))
 if not 0 <= MODEL_TEMPERATURE <= 2:
     raise ValueError("FORECASTLAB_MODEL_TEMPERATURE 必须在 0–2 之间")
+
+# Opt-in research shadow forecast: extra model call; never replaces the main result.
+SHADOW_FULL = os.getenv("FORECASTLAB_SHADOW", "0").strip().lower() not in {"", "0", "false", "no"}

@@ -1,0 +1,35 @@
+{
+  "_about": "美联储是否在 2026-03-31（含）前的 FOMC 会议降息的冻结证据包（负例）。信息截至 2026-02-28，3 月会议之前。",
+  "evidence": [
+    {
+      "source_url": "https://www.federalreserve.gov/monetarypolicy/files/monetary20260128a1.pdf",
+      "title": "Implementation Note issued January 28, 2026",
+      "publisher": "Federal Reserve Board",
+      "published_at": "2026-01-28T14:00:00-05:00",
+      "excerpt": "Implementation Note issued January 28, 2026",
+      "claim": "1 月会议维持目标区间不变（3.50%–3.75%），是 3 月会议的起点。",
+      "source_type": "exercise",
+      "source_group": "federalreserve.gov"
+    },
+    {
+      "source_url": "https://www.cnbc.com/2026/01/28/fed-rate-decision-january-2026.html",
+      "title": "Fed rate decision January 2026: Holds key rate steady",
+      "publisher": "CNBC",
+      "published_at": "2026-01-28T14:00:00-05:00",
+      "excerpt": "Fed rate decision January 2026: Holds key rate steady",
+      "claim": "1 月按兵不动，官员强调数据依赖；3 月是否降息并无定论。",
+      "source_type": "exercise",
+      "source_group": "cnbc.com"
+    },
+    {
+      "source_url": "https://www.federalreserve.gov/monetarypolicy/files/monetary20251210a1.pdf",
+      "title": "Implementation Note issued December 10, 2025",
+      "publisher": "Federal Reserve Board",
+      "published_at": "2025-12-10T14:00:00-05:00",
+      "excerpt": "the Committee decided to lower the target range for the federal funds rate by 1/4 percentage point to 3-1/2 to 3-3/4 percent.",
+      "claim": "上一次降息发生在 2025-12；此后转入观望，3 月降息并非既定。",
+      "source_type": "exercise",
+      "source_group": "federalreserve.gov"
+    }
+  ]
+}
