@@ -75,3 +75,72 @@ def test_nli_label_normalization_without_optional_runtime():
     assert m._label_kind("ENTAILMENT") == "entailment"
     assert m._label_kind("contradiction") == "contradiction"
     assert m._label_kind("LABEL_NEUTRAL") == "neutral"
+
+
+def test_hard_negative_benchmark_is_large_balanced_and_reproducible():
+    m = load("build_entailment_benchmark.py")
+    data = m.build()
+    assert data["row_count"] == 317
+    assert data["label_counts"]["entailed"] == 104
+    assert data["label_counts"]["partially_entailed"] == 107
+    assert data["label_counts"]["not_entailed"] == 105
+    assert data["label_counts"]["unclear"] == 1
+    assert len({row["id"] for row in data["rows"]}) == data["row_count"]
+
+    by_id = {row["id"]: row for row in data["rows"]}
+    hard = [row for row in data["rows"] if row["origin"] == "controlled_hard_negative"]
+    assert len(hard) == 182
+    for row in hard:
+        base = by_id[row["mutation"]["base_id"]]
+        assert row["quotes"] == base["quotes"]
+        assert row["claim"] != base["claim"]
+
+
+def test_benchmark_has_multiple_hard_negative_phenomena():
+    m = load("build_entailment_benchmark.py")
+    data = m.build()
+    phenomena = data["phenomenon_counts"]
+    assert phenomena["numeric_shift"] >= 90
+    assert phenomena["quote_external_source_attribution"] >= 70
+    for name in ("event_negation", "quantifier_flip", "entity_status_flip", "ranking_flip", "stance_flip", "modality_flip"):
+        assert phenomena[name] >= 1
+
+
+def test_benchmark_scorer_reports_precision_recall_and_wilson():
+    m = load("score_entailment_benchmark.py")
+    benchmark = {"rows": [
+        {"id": "1", "gold_label": "entailed", "phenomenon": "natural", "case_id": "A", "finding_id": "F1"},
+        {"id": "2", "gold_label": "partially_entailed", "phenomenon": "natural", "case_id": "A", "finding_id": "F2"},
+        {"id": "3", "gold_label": "not_entailed", "phenomenon": "numeric_shift", "case_id": "B", "finding_id": "F1"},
+    ]}
+    judged = {"judge_model": "j", "independent_model": True, "rows": [
+        {"id": "1", "judge": {"label": "entailed", "confidence": 0.99}},
+        {"id": "2", "judge": {"label": "entailed", "confidence": 0.91}},
+        {"id": "3", "judge": {"label": "not_entailed", "confidence": 0.95}},
+    ]}
+    result = m.score(benchmark, judged, thresholds=(0.9,))
+    row = result["thresholds"][0]
+    assert row["accepted"] == 2
+    assert row["strict_support_among_accepted"] == 0.5
+    assert row["supported_recall"] == 1.0
+    assert row["false_accept_count"] == 1
+    assert row["strict_support_wilson95"][0] < 0.5 < row["strict_support_wilson95"][1]
+
+
+def test_cascade_agreement_requires_both_judges():
+    m = load("cascade_entailment_judges.py")
+    benchmark = {"rows": [
+        {"id": "1", "gold_label": "entailed", "claim": "a"},
+        {"id": "2", "gold_label": "partially_entailed", "claim": "b"},
+    ]}
+    nli = {"judge_model": "nli", "independent_model": True, "rows": [
+        {"id": "1", "judge": {"label": "entailed", "confidence": 0.96, "entailment_probability": 0.96, "contradiction_probability": 0.01}},
+        {"id": "2", "judge": {"label": "entailed", "confidence": 0.97, "entailment_probability": 0.97, "contradiction_probability": 0.01}},
+    ]}
+    llm = {"judge_model": "llm", "independent_model": True, "same_as_generator_model": False, "rows": [
+        {"id": "1", "judge": {"label": "entailed", "confidence": 0.97}},
+        {"id": "2", "judge": {"label": "partially_entailed", "confidence": 0.95}},
+    ]}
+    result = m.combine(benchmark, nli, llm, nli_accept=0.9, nli_reject=0.9, llm_accept=0.9, policy="agreement")
+    assert result["rows"][0]["judge"]["label"] == "entailed"
+    assert result["rows"][1]["judge"]["label"] == "partially_entailed"
