@@ -25,6 +25,18 @@ SOURCES = [
     "experiment-2026-10-07-agent12-robustness/results/agent2-finding-quote-audit-labeled.json",
 ]
 
+TEST_CASES = {
+    "C03-apple-m4-mac", "C07-gpt5-availability",
+    "C10-real-madrid-ucl", "C13-worldcup-southamerica",
+    "C16-cop30-roadmap-adopted", "C19-copernicus-h1",
+    "C22-ndx-h2-2025", "C24-gold-q3-2026",
+}
+
+
+def split_for_case(case_id: str) -> str:
+    return "test" if case_id in TEST_CASES else "dev"
+
+
 LABEL_MAP = {
     "supported": "entailed",
     "partially_supported": "partially_entailed",
@@ -90,6 +102,7 @@ def load_natural() -> list[dict]:
                 "source_dataset": source,
                 "case_id": row["case_id"],
                 "finding_id": row["finding_id"],
+                "split": split_for_case(row["case_id"]),
                 "category": row.get("category", "unknown"),
                 "claim": row["claim"],
                 "quotes": [c["quote"] for c in row.get("citations", [])],
