@@ -93,6 +93,8 @@ def load_natural() -> list[dict]:
                 "category": row.get("category", "unknown"),
                 "claim": row["claim"],
                 "quotes": [c["quote"] for c in row.get("citations", [])],
+                "source_titles": [c.get("source_title", "") for c in row.get("citations", [])],
+                "publishers": [c.get("publisher", "") for c in row.get("citations", [])],
                 "gold_label": LABEL_MAP[row["human_label"]],
                 "phenomenon": "natural",
                 "mutation": None,
@@ -108,6 +110,7 @@ def build() -> dict:
     for index, item in enumerate(natural, 1):
         item["id"] = f"natural-{index:04d}"
     generated = []
+    attribution = []
     for item in natural:
         if item["gold_label"] != "entailed":
             continue
@@ -136,7 +139,28 @@ def build() -> dict:
         })
         generated.append(mutated)
 
-    rows = natural + generated
+        quote_blob = "\n".join(item["quotes"])
+        publisher = next((p for p in item["publishers"] if p and p not in quote_blob and p not in item["claim"]), "")
+        if publisher:
+            attributed = dict(item)
+            attributed.update({
+                "id": f"partial-attribution-{len(attribution)+1:04d}",
+                "origin": "controlled_hard_negative",
+                "claim": f"{publisher}称，{item['claim']}",
+                "gold_label": "partially_entailed",
+                "phenomenon": "quote_external_source_attribution",
+                "mutation": {
+                    "operator": "quote_external_source_attribution",
+                    "base_id": item["id"],
+                    "base_claim": item["claim"],
+                    "injected_publisher": publisher,
+                },
+                "human_label": None,
+                "human_notes": "Publisher attribution is correct metadata but is not stated by the exact quote; strict quote-only entailment is therefore partial.",
+            })
+            attribution.append(attributed)
+
+    rows = natural + generated + attribution
     counts = {}
     phenomena = {}
     for row in rows:
