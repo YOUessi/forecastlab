@@ -201,3 +201,17 @@ def test_benchmark_scorer_can_hold_out_test_split():
     assert result["judged_rows"] == 2
     assert result["split"] == "test"
     assert result["four_class_exact_accuracy"] == 1.0
+
+
+def test_nli_then_llm_cascade_respects_llm_accept_threshold():
+    m = load("cascade_entailment_judges.py")
+    benchmark = {"rows": [{"id": "x", "gold_label": "partially_entailed", "claim": "x"}]}
+    nli = {"judge_model": "nli", "independent_model": True, "rows": [
+        {"id": "x", "judge": {"label": "unclear", "confidence": 0.5, "entailment_probability": 0.5, "contradiction_probability": 0.1}},
+    ]}
+    llm = {"judge_model": "llm", "independent_model": True, "same_as_generator_model": False, "rows": [
+        {"id": "x", "judge": {"label": "entailed", "confidence": 0.7}},
+    ]}
+    result = m.combine(benchmark, nli, llm, nli_accept=0.9, nli_reject=0.9, llm_accept=0.9, policy="nli_then_llm")
+    assert result["rows"][0]["judge"]["label"] == "unclear"
+    assert result["rows"][0]["judge"]["route"] == "llm_low_confidence"
