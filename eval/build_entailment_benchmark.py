@@ -105,6 +105,73 @@ def load_natural() -> list[dict]:
     return list(unique.values())
 
 
+
+def semantic_hard_negative(item: dict, index: int) -> tuple[str, str, str]:
+    """Create a Chinese semantic strengthening/role mutation that avoids numeric/metadata leakage."""
+    claim = item["claim"].rstrip("。")
+    replacements = [
+        ("预计", "已经", "plan_to_actual", "not_entailed"),
+        ("将于", "已经于", "plan_to_actual", "not_entailed"),
+        ("将", "已经", "plan_to_actual", "not_entailed"),
+        ("目标", "实际", "target_to_actual", "not_entailed"),
+        ("可能", "必然", "uncertainty_to_certainty", "not_entailed"),
+        ("反对", "支持", "stance_flip", "not_entailed"),
+        ("不会全部", "全部都会", "quantifier_flip", "not_entailed"),
+        ("并非全部", "全部", "quantifier_flip", "not_entailed"),
+    ]
+    for old, new, phenomenon, label in replacements:
+        if old in claim:
+            return claim.replace(old, new, 1) + "。", phenomenon, label
+
+    if index % 3 == 0:
+        return claim + "，因此这足以证明研究问题中的最终结论。", "causal_strengthening", "partially_entailed"
+    if index % 3 == 1:
+        return claim + "，且这一结论适用于整个预测期。", "scope_expansion", "partially_entailed"
+    return claim + "，而且不存在其他可能解释。", "exclusivity_strengthening", "partially_entailed"
+
+
+def build_post_boundary(natural: list[dict] | None = None) -> dict:
+    natural = natural or load_natural()
+    for index, item in enumerate(natural, 1):
+        item["id"] = f"natural-{index:04d}"
+    generated = []
+    supported = [item for item in natural if item["gold_label"] == "entailed"]
+    for index, item in enumerate(supported, 1):
+        claim, phenomenon, label = semantic_hard_negative(item, index)
+        mutated = dict(item)
+        mutated.update({
+            "id": f"semantic-hardneg-{index:04d}",
+            "origin": "controlled_post_boundary_hard_negative",
+            "claim": claim,
+            "gold_label": label,
+            "phenomenon": phenomenon,
+            "mutation": {
+                "operator": phenomenon,
+                "base_id": item["id"],
+                "base_claim": item["claim"],
+            },
+            "human_label": None,
+            "human_notes": "Controlled semantic strengthening/reversal designed to avoid numeric/entity/source-metadata leakage and challenge the post-boundary semantic judge.",
+        })
+        generated.append(mutated)
+
+    rows = natural + generated
+    counts, phenomena = {}, {}
+    for row in rows:
+        counts[row["gold_label"]] = counts.get(row["gold_label"], 0) + 1
+        phenomena[row["phenomenon"]] = phenomena.get(row["phenomenon"], 0) + 1
+    return {
+        "schema_version": 1,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "description": "ForecastLab post-boundary semantic entailment benchmark: natural audits plus semantic hard negatives designed to survive deterministic boundary checks.",
+        "source_files": SOURCES,
+        "row_count": len(rows),
+        "label_counts": counts,
+        "phenomenon_counts": phenomena,
+        "rows": rows,
+    }
+
+
 def build() -> dict:
     natural = load_natural()
     for index, item in enumerate(natural, 1):
@@ -181,15 +248,17 @@ def build() -> dict:
 def main() -> None:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--output", type=Path, default=ROOT / "eval/benchmarks/agent2-entailment-hard-v1.json")
+    p.add_argument("--post-boundary-output", type=Path, default=ROOT / "eval/benchmarks/agent2-entailment-post-boundary-v1.json")
     args = p.parse_args()
+    natural = load_natural()
     result = build()
+    post = build_post_boundary(natural)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    args.post_boundary_output.write_text(json.dumps(post, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({
-        "row_count": result["row_count"],
-        "label_counts": result["label_counts"],
-        "phenomenon_counts": result["phenomenon_counts"],
-        "output": str(args.output),
+        "broad": {"row_count": result["row_count"], "label_counts": result["label_counts"], "output": str(args.output)},
+        "post_boundary": {"row_count": post["row_count"], "label_counts": post["label_counts"], "output": str(args.post_boundary_output)},
     }, ensure_ascii=False, indent=2))
 
 
