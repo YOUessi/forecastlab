@@ -144,3 +144,22 @@ def test_cascade_agreement_requires_both_judges():
     result = m.combine(benchmark, nli, llm, nli_accept=0.9, nli_reject=0.9, llm_accept=0.9, policy="agreement")
     assert result["rows"][0]["judge"]["label"] == "entailed"
     assert result["rows"][1]["judge"]["label"] == "partially_entailed"
+
+
+def test_post_boundary_benchmark_targets_semantic_errors():
+    m = load("build_entailment_benchmark.py")
+    data = m.build_post_boundary()
+    assert data["row_count"] == 239
+    assert data["label_counts"] == {
+        "entailed": 104,
+        "partially_entailed": 91,
+        "unclear": 1,
+        "not_entailed": 43,
+    }
+    phenomena = data["phenomenon_counts"]
+    assert phenomena["plan_to_actual"] >= 30
+    assert phenomena["causal_strengthening"] >= 20
+    assert phenomena["scope_expansion"] >= 20
+    assert phenomena["exclusivity_strengthening"] >= 15
+    assert all(row["phenomenon"] != "numeric_shift" for row in data["rows"])
+    assert all(row["phenomenon"] != "quote_external_source_attribution" for row in data["rows"])
