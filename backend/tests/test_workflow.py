@@ -301,8 +301,28 @@ def test_reuse_keeps_frozen_evidence_and_history(monkeypatch):
     class FakeModel:
         def __init__(self):
             self.usage = {"calls": 0, "prompt_tokens": 0, "completion_tokens": 0}
-        def complete(self, role, payload, schema, instructions):
+        def complete(self, role, payload, schema, instructions, **kwargs):
             self.usage["calls"] += 1
+            if role == "evidence12":
+                # The production route now calls Agent 2 even for imported
+                # evidence. Stub its exact-quote contract, not the legacy
+                # "evidence" response, so the test exercises real validation.
+                evidence = payload["evidence"][0]
+                paragraph = evidence["passages"][0]
+                quote = paragraph["text"][:min(12, len(paragraph["text"]))]
+                return schema.model_validate({
+                    "summary": "测试资料已取得，逐字引用可回溯",
+                    "findings": [{
+                        "claim": quote, "relation": "background",
+                        "target_premise_ids": [],
+                        "citations": [{
+                            "evidence_id": evidence["id"],
+                            "snapshot_hash": evidence["snapshot_hash"],
+                            "paragraph_id": paragraph["paragraph_id"],
+                            "quote": quote,
+                        }],
+                    }],
+                })
             return schema.model_validate(demo_output(role, payload.get("actor", {}).get("id"), payload.get("round", 1)))
     monkeypatch.setattr(config, "MODEL_API_KEY", "test-only")
     monkeypatch.setattr("app.graph.ModelClient", FakeModel)
@@ -320,18 +340,15 @@ def test_reuse_keeps_frozen_evidence_and_history(monkeypatch):
         second_id = client.post("/api/runs", json={"question": question.model_dump(mode="json"), "evidence_mode": "reuse", "parent_run_id": first_id}).json()["run_id"]
         first = client.get(f"/api/runs/{first_id}").json()
         second = client.get(f"/api/runs/{second_id}").json()
-        assert len(first["evidence"]) == 3, {
-            "status": first["status"],
-            "errors": first["errors"],
-            "exclusions": (first.get("retrieval_result") or {}).get("exclusions"),
-            "assessment": first.get("evidence_assessment"),
-            "source_input": [e.model_dump(mode="json") for e in demo_evidence()],
-        }
+        assert len(first["evidence"]) == 3, first["errors"]
         assert second["status"] == "completed", second["errors"]
         # No new E ID or source content appears merely because the user reused a run.
         assert second["parent_run_id"] == first_id
         assert second["question_version"] == 2
         assert second["evidence"] == first["evidence"]
+        assert first["evidence_assessment"]["findings_validated"] is True
+        assert second["evidence_assessment"]["findings_validated"] is True
+        assert all(finding["citations"] for finding in second["evidence_assessment"]["findings"])
 
 
 def test_restart_marks_inflight_record_interrupted():
