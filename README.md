@@ -190,7 +190,7 @@ Exact quote structural validator
 → calibrated gate / cascade
 ```
 
-研究数据集 `eval/benchmarks/agent2-entailment-hard-v1.json` 共 **317 条**：135 条来自五轮历史人工/真人角色审计的唯一自然 claim/quote 对，另有 182 条可复现受控 hard negatives；标签分布为 104 entailed / 107 partially_entained / 105 not_entailed / 1 unclear。
+研究数据集分成两层：\n\n- `eval/benchmarks/agent2-entailment-hard-v1.json`：**317 条 broad benchmark**，覆盖整个语义验证栈；135 条自然样本 + 182 条可复现受控 hard negatives，标签分布为 104 entailed / 107 partially_entailed / 105 not_entailed / 1 unclear。\n- `eval/benchmarks/agent2-entailment-post-boundary-v1.json`：**239 条 post-boundary benchmark**，用于衡量第三层 Judge 的增量价值；刻意不使用 numeric shift / publisher 注入等会被第二层 Boundary validator 提前拦截的简单错误，而聚焦 plan→actual、target→actual、uncertainty→certainty、stance/quantifier flip、causal strengthening、scope expansion 和 exclusivity strengthening。
 
 复现 benchmark：
 
@@ -205,18 +205,18 @@ ENTAILMENT_JUDGE_API_KEY=... \\
 ENTAILMENT_JUDGE_BASE_URL=... \\
 ENTAILMENT_JUDGE_MODEL=... \\
 uv run python eval/agent2_entailment_judge.py \\
-  eval/benchmarks/agent2-entailment-hard-v1.json \\
+  eval/benchmarks/agent2-entailment-post-boundary-v1.json \\
   --output judge.json
 
 uv run python eval/score_entailment_benchmark.py \\
-  eval/benchmarks/agent2-entailment-hard-v1.json judge.json
+  eval/benchmarks/agent2-entailment-post-boundary-v1.json judge.json
 ```
 
 多语种 NLI baseline 为可选研究依赖，不进入生产后端依赖；在独立评测环境安装 `torch + transformers` 后运行：
 
 ```bash
 python eval/agent2_nli_judge.py \\
-  eval/benchmarks/agent2-entailment-hard-v1.json \\
+  eval/benchmarks/agent2-entailment-post-boundary-v1.json \\
   --output nli.json
 ```
 
