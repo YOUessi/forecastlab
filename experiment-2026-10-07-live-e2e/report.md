@@ -38,7 +38,7 @@ The live path exposed issues that frozen-evidence backtests did not reveal:
 3. **Invalid Review locator IDs.** A real Review output used `R002` as an `affected_id`. Retrieval-task IDs are not trusted trace nodes. The system now drops invalid locator IDs, records that removal in the review explanation, and keeps the review prose instead of aborting the whole run.
 4. **Repeated source-date gaps.** Ten live sources without publication metadata previously produced ten duplicate gaps. These are now aggregated into one explicit source-metadata limitation.
 5. **Agent 2 live-page output exhaustion.** Two first repaired live runs hit the `evidence12` completion limit. Full snapshots are still stored server-side, while Agent 2 now receives at most 1400 selected passage characters per source, with tighter output guidance and a bounded completion budget.
-6. **Server-owned world IDs.** Model-generated actor/assumption IDs are canonicalized to stable `A###` / `H###` namespaces before downstream simulation and review.
+6. **Server-owned world IDs.** Inspection of live outputs showed unstable model-generated actor/assumption IDs. After run 4, deterministic server-side normalization was added to map them to stable `A###` / `H###` namespaces before downstream simulation and review. This later change was validated by regression tests; it was not re-run through a paid live model call.
 
 ## Final run (run 4)
 
@@ -60,7 +60,7 @@ Aggregate:
 - completion tokens: **31,793**;
 - summed wall-clock case time: **148.5s**.
 
-All three final runs had `findings_validated=true` and zero rejected findings.
+All three run-4 cases had `findings_validated=true` and zero rejected findings. The subsequent A/H ID normalization was validated separately by regression tests; it is not part of the paid run-4 validation.
 
 ## Important negative result
 

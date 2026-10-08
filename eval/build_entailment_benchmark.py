@@ -16,6 +16,7 @@ from pathlib import Path
 import re
 
 ROOT = Path(__file__).resolve().parents[1]
+FIXTURE_ROOT = ROOT / "eval/fixtures/entailment"
 
 SOURCES = [
     "experiment-2026-10-08-agent2-boundary-v2/results/reviewer2-labeled.json",
@@ -91,7 +92,7 @@ def contradiction(row: dict) -> tuple[str, str]:
 def load_natural() -> list[dict]:
     unique: dict[str, dict] = {}
     for source in SOURCES:
-        data = json.loads((ROOT / source).read_text(encoding="utf-8"))
+        data = json.loads((FIXTURE_ROOT / source).read_text(encoding="utf-8"))
         for row in data.get("rows", []):
             key = stable_key(row)
             if key in unique:
