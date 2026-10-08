@@ -169,10 +169,11 @@ def build_post_boundary(natural: list[dict] | None = None) -> dict:
         generated.append(mutated)
 
     rows = natural + generated
-    counts, phenomena = {}, {}
+    counts, phenomena, split_counts = {}, {}, {}
     for row in rows:
         counts[row["gold_label"]] = counts.get(row["gold_label"], 0) + 1
         phenomena[row["phenomenon"]] = phenomena.get(row["phenomenon"], 0) + 1
+        split_counts[row["split"]] = split_counts.get(row["split"], 0) + 1
     return {
         "schema_version": 1,
         "created_at": datetime.now(timezone.utc).isoformat(),
@@ -182,38 +183,15 @@ def build_post_boundary(natural: list[dict] | None = None) -> dict:
         "label_counts": counts,
         "phenomenon_counts": phenomena,
         "split_counts": split_counts,
-        "split_policy": "case-grouped within category; approximately 60% train / 20% calibration / 20% test",
+        "split_policy": "case-grouped dev/test holdout; all variants from a case stay in the same split",
         "rows": rows,
     }
 
 
-def assign_case_splits(natural: list[dict]) -> dict[str, str]:
-    """Case-grouped split: variants from one case can never cross splits."""
-    by_category: dict[str, list[str]] = {}
-    for item in natural:
-        by_category.setdefault(item["category"], [])
-        if item["case_id"] not in by_category[item["category"]]:
-            by_category[item["category"]].append(item["case_id"])
-    mapping = {}
-    for category, case_ids in sorted(by_category.items()):
-        ids = sorted(case_ids)
-        n = len(ids)
-        train_n = max(1, round(n * 0.6))
-        calib_n = max(1, round(n * 0.2)) if n >= 3 else 0
-        if train_n + calib_n >= n:
-            train_n = max(1, n - 2) if n >= 3 else max(1, n - 1)
-            calib_n = 1 if n >= 3 else 0
-        for i, case_id in enumerate(ids):
-            mapping[case_id] = "train" if i < train_n else ("calibration" if i < train_n + calib_n else "test")
-    return mapping
-
-
 def build() -> dict:
     natural = load_natural()
-    split_map = assign_case_splits(natural)
     for index, item in enumerate(natural, 1):
         item["id"] = f"natural-{index:04d}"
-        item["split"] = split_map[item["case_id"]]
     generated = []
     attribution = []
     for item in natural:
@@ -282,6 +260,8 @@ def build() -> dict:
         "row_count": len(rows),
         "label_counts": counts,
         "phenomenon_counts": phenomena,
+        "split_counts": {name: sum(1 for row in rows if row["split"] == name) for name in ("dev", "test")},
+        "split_policy": "case-grouped dev/test holdout; all variants from a case stay in the same split",
         "rows": rows,
     }
 
