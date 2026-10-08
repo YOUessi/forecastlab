@@ -89,9 +89,12 @@ def run_full_arm(case: dict, data_dir: Path) -> dict:
     execute(record, evidence, store)
     finished = store.get(record.run_id)
     probabilities = finished.forecast.probabilities if finished.forecast else None
+    shadow = finished.shadow_forecast
     return {
         "full_p": probabilities.get(yes_outcome(question)) if probabilities else None,
         "full_status": finished.status,
+        "shadow_full_p": (shadow.probabilities or {}).get(yes_outcome(question)) if shadow and shadow.probabilities else None,
+        "shadow_full_status": shadow.status if shadow else None,
         "full_seconds": round(time.monotonic() - started, 2),
         "full_calls": finished.usage.get("calls"),
         "full_tokens": (finished.usage.get("prompt_tokens") or 0) + (finished.usage.get("completion_tokens") or 0),

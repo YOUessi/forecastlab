@@ -1,0 +1,46 @@
+{
+  "_about": "2026-07-19 世界杯决赛（西班牙 vs 阿根廷）的冻结证据包。信息截至 2026-07-16T23:59Z；此时半决赛已结束、决赛尚未进行，结果未知。",
+  "evidence": [
+    {
+      "source_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/france-spain-match-report-highlights",
+      "title": "Spain outplay France to reach World Cup final",
+      "publisher": "FIFA",
+      "published_at": "2026-07-14T00:00:00Z",
+      "excerpt": "Goals from Mikel Oyarzabal and Pedro Porro earned Spain a deserved 2-0 win over France at Dallas Stadium",
+      "claim": "西班牙 2-0 淘汰法国进入决赛，具备争冠实力；但决赛结果尚未产生。",
+      "source_type": "exercise",
+      "source_group": "fifa.com"
+    },
+    {
+      "source_url": "https://thematchjournal.com/2026/07/16/spain-vs-argentina/",
+      "title": "Spain vs Argentina 2026: World Cup Final Preview",
+      "publisher": "The Match Journal",
+      "published_at": "2026-07-16T00:00:00Z",
+      "excerpt": "Spain arrived after beating France 2-0 in the semi-final. Argentina reached the same stage by defeating England 2-1.",
+      "claim": "决赛对阵为西班牙 vs 阿根廷，两队晋级路径清晰，胜负待定。",
+      "source_type": "exercise",
+      "source_group": "thematchjournal.com"
+    },
+    {
+      "source_url": "https://worldcuptrackers.com/argentina-vs-spain/",
+      "title": "Argentina vs Spain World Cup Final 2026: Preview & Prediction",
+      "publisher": "World Cup Trackers",
+      "published_at": "2026-07-16T00:00:00Z",
+      "excerpt": "Argentina and Spain will meet in the 2026 FIFA World Cup final on Sunday, July 19, at New York New Jersey Stadium in East Rutherford.",
+      "claim": "决赛在 7 月 19 日举行，赛前各方看法不一。",
+      "source_type": "exercise",
+      "source_group": "worldcuptrackers.com"
+    }
+    ,
+    {
+      "source_url": "https://www.espn.com/soccer/story/_/id/49369105/england-argentina-2026-fifa-world-cup-semifinal-final",
+      "title": "Argentina stun England with late rally to reach World Cup final",
+      "publisher": "ESPN",
+      "published_at": "2026-07-15T00:00:00Z",
+      "excerpt": "ATLANTA -- Argentina sealed a dramatic semifinal comeback against England at Mercedes-Benz Stadium with two goals in the closing minutes to clinch a 2-1 win Wednesday and book a World Cup final clash with Spain on Sunday.",
+      "claim": "阿根廷 2-1 逆转英格兰晋级决赛，与西班牙会师；决赛胜负待定。",
+      "source_type": "exercise",
+      "source_group": "espn.com"
+    }
+  ]
+}

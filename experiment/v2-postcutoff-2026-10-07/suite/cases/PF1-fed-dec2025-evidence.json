@@ -1,0 +1,25 @@
+{
+  "_about": "美联储是否在 2025-12-31（含）前的 FOMC 会议上再次下调目标区间的冻结证据包。信息截至 2025-10-31T23:59Z（10 月会议之后、12 月会议之前）。",
+  "evidence": [
+    {
+      "source_url": "https://www.federalreserve.gov/monetarypolicy/files/monetary20251029a1.pdf",
+      "title": "Implementation Note issued October 29, 2025",
+      "publisher": "Federal Reserve Board",
+      "published_at": "2025-10-29T14:00:00-04:00",
+      "excerpt": "the Committee decided to lower the target range for the federal funds rate by 1/4 percentage point to 3-3/4 to 4 percent.",
+      "claim": "10 月会议已降息至 3.75%–4.00%；12 月是否再降取决于后续数据，尚未决定。",
+      "source_type": "exercise",
+      "source_group": "federalreserve.gov"
+    },
+    {
+      "source_url": "https://www.newyorkfed.org/medialibrary/media/markets/fomc-statement-20251029.pdf?sc_lang=en",
+      "title": "FOMC statement (October 29, 2025) — New York Fed copy",
+      "publisher": "Federal Reserve Bank of New York",
+      "published_at": "2025-10-29T14:00:00-04:00",
+      "excerpt": "In support of its goals and in light of the shift in the balance of risks, the Committee decided to lower the target range for the federal funds rate",
+      "claim": "官方声明未对 12 月行动作任何承诺，措辞强调\"风险平衡变化\"。",
+      "source_type": "exercise",
+      "source_group": "newyorkfed.org"
+    }
+  ]
+}

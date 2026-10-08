@@ -1,0 +1,35 @@
+{
+  "_about": "皇家马德里是否夺得 2025/26 欧冠冠军的冻结证据包（负例）。信息截至 2026-04-30，决赛尚未进行。",
+  "evidence": [
+    {
+      "source_url": "https://shaphub.com/2026/04/16/latest-champions-league-quarter-finals-2026-drama-in-munich-bayern-eliminate-real-madrid-arsenal-advance/",
+      "title": "LATEST: Champions League Quarter Finals 2026 — Drama in Munich, Bayern Eliminate Real Madrid, Arsenal Advance",
+      "publisher": "ShapHub",
+      "published_at": "2026-04-16T00:00:00Z",
+      "excerpt": "Bayern eliminate Real Madrid, Arsenal advance",
+      "claim": "皇马已在 1/4 决赛出局，不可能夺得 2025/26 欧冠冠军。",
+      "source_type": "exercise",
+      "source_group": "shaphub.com"
+    },
+    {
+      "source_url": "https://littlebigreddot.com/champions-league-quarter-final-recap-bayern-real-madrid-arsenal-semi-final-draw-2026/",
+      "title": "UCL Quarter-Final Recap: Bayern Stun Madrid, Arsenal Reach Semi-Final",
+      "publisher": "Little Big Red Dot",
+      "published_at": "2026-04-17T00:00:00Z",
+      "excerpt": "Bayern Stun Madrid, Arsenal Reach Semi-Final",
+      "claim": "四强已不含皇马；冠军只能来自其余球队。",
+      "source_type": "exercise",
+      "source_group": "littlebigreddot.com"
+    },
+    {
+      "source_url": "https://next-edition.com/articles/sports-uefa-champions-league-quarter-finals-arsenal-stun-real-madrid-at-the-bernabeu-2026-04-09",
+      "title": "UEFA Champions League quarter-finals: Arsenal stun Real Madrid at the Bernabeu",
+      "publisher": "Next Edition",
+      "published_at": "2026-04-09T00:00:00Z",
+      "excerpt": "Arsenal stun Real Madrid at the Bernabeu",
+      "claim": "皇马在淘汰赛阶段被英超球队淘汰，赛季欧冠征程提前结束。",
+      "source_type": "exercise",
+      "source_group": "next-edition.com"
+    }
+  ]
+}

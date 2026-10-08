@@ -1,0 +1,46 @@
+{
+  "_about": "Apple 是否在 2025-10-31 前实际发售 iPhone 17 系列的冻结证据包。信息截至 2025-08-31T23:59Z（发布会之前）。",
+  "evidence": [
+    {
+      "source_url": "https://www.36kr.com/p/3411446210418823",
+      "title": "刚刚，苹果发布会定档9月，iPhone 17终于不挤牙膏了？",
+      "publisher": "36氪",
+      "published_at": "2025-08-07T11:39:00+08:00",
+      "excerpt": "刚刚，苹果发布会定档9月，iPhone 17终于不挤牙膏了？",
+      "claim": "截至日已有报道称苹果秋季发布会定档 9 月，iPhone 17 系列预计发布。",
+      "source_type": "exercise",
+      "source_group": "36kr.com"
+    },
+    {
+      "source_url": "https://www.macrumors.com/2025/08/26/apple-september-2025-event/",
+      "title": "Apple Announces September 2025 Event for iPhone 17",
+      "publisher": "MacRumors",
+      "published_at": "2025-08-26T00:00:00Z",
+      "excerpt": "Apple Announces September 2025 Event for iPhone 17",
+      "claim": "8 月 26 日苹果发出发布会邀请，但截至信息日尚未有任何机型实际开售。",
+      "source_type": "exercise",
+      "source_group": "macrumors.com"
+    }
+    ,
+    {
+      "source_url": "https://www.apple.com/newsroom/in-the-loop/2025/08/coming-september-9/",
+      "title": "In the Loop: Coming September 9",
+      "publisher": "Apple Newsroom",
+      "published_at": "2025-08-26T00:00:00Z",
+      "excerpt": "Coming September 9",
+      "claim": "苹果官方预告 9 月 9 日活动；截至信息日尚未发布或开售任何机型。",
+      "source_type": "exercise",
+      "source_group": "apple.com"
+    },
+    {
+      "source_url": "https://www.cnet.com/tech/mobile/apple-sends-out-invites-for-its-annual-fall-iphone-event/",
+      "title": "Apple sends out invites for its annual fall iPhone event",
+      "publisher": "CNET",
+      "published_at": "2025-08-26T00:00:00Z",
+      "excerpt": "Apple sends out invites for its annual fall iPhone event",
+      "claim": "媒体确认邀请函已发出，但截至信息日仍无官方开售日期。",
+      "source_type": "exercise",
+      "source_group": "cnet.com"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "_about": "美联储是否在 2026-01-31（含）前的 FOMC 会议上维持目标区间不变的冻结证据包。信息截至 2025-12-31T23:59Z（12 月会议之后、1 月会议之前）。",
+  "evidence": [
+    {
+      "source_url": "https://www.federalreserve.gov/monetarypolicy/files/monetary20251210a1.pdf",
+      "title": "Implementation Note issued December 10, 2025",
+      "publisher": "Federal Reserve Board",
+      "published_at": "2025-12-10T14:00:00-05:00",
+      "excerpt": "the Committee decided to lower the target range for the federal funds rate by 1/4 percentage point to 3-1/2 to 3-3/4 percent.",
+      "claim": "12 月会议降息至 3.50%–3.75%，为 1 月会议的起点；是否继续降息待定。",
+      "source_type": "exercise",
+      "source_group": "federalreserve.gov"
+    },
+    {
+      "source_url": "https://www.cnbc.com/2025/12/10/fed-interest-rate-decision-december-2025-.html",
+      "title": "Fed cuts interest rates in December 2025 as Powell hints at a pause",
+      "publisher": "CNBC",
+      "published_at": "2025-12-10T14:00:00-05:00",
+      "excerpt": "Fed cuts interest rates in December 2025 as Powell hints at a pause",
+      "claim": "会后市场解读为可能暂停降息，1 月维持不变存在较大可能但未确定。",
+      "source_type": "exercise",
+      "source_group": "cnbc.com"
+    }
+    ,
+    {
+      "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20251210a.htm",
+      "title": "Federal Reserve issues FOMC statement (December 10, 2025)",
+      "publisher": "Federal Reserve Board",
+      "published_at": "2025-12-10T14:00:00-05:00",
+      "excerpt": "the Committee decided to lower the target range for the federal funds rate by 1/4 percentage point to 3-1/2 to 3-3/4 percent.",
+      "claim": "官方声明确认 12 月降息至 3.50%–3.75%。",
+      "source_type": "exercise",
+      "source_group": "federalreserve.gov"
+    },
+    {
+      "source_url": "https://www.reuters.com/world/fed-meeting-live-december-interest-rate-decision-2026-outlook-2025-12-10/",
+      "title": "Fed meeting live: December interest rate decision and 2026 outlook",
+      "publisher": "Reuters",
+      "published_at": "2025-12-10T00:00:00Z",
+      "excerpt": "Fed meeting live: December interest rate decision and 2026 outlook",
+      "claim": "主流媒体报道确认本次降息并聚焦 2026 年路径，未给出 1 月的确定结论。",
+      "source_type": "exercise",
+      "source_group": "reuters.com"
+    }
+  ]
+}

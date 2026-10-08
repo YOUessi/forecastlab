@@ -1,0 +1,45 @@
+{
+  "_about": "Artemis II 是否在 2026-03-31 前实际发射的冻结证据包（负例）。信息截至 2026-02-28。",
+  "evidence": [
+    {
+      "source_url": "https://www.nasa.gov/blogs/missions/2026/01/16/artemis-ii-moon-rocket-ready-for-big-move/",
+      "title": "Artemis II Moon Rocket Ready for Big Move",
+      "publisher": "NASA",
+      "published_at": "2026-01-16T00:00:00Z",
+      "excerpt": "All work platforms are retracted from around NASA's Artemis II SLS (Space Launch System) rocket and Orion spacecraft, secured to the mobile launcher, inside the Vehicle Assembly Building on Friday, Jan. 16, 2026, in preparation for rollout to Launch Complex 39B at NASA's Kennedy Space Center in Florida.",
+      "claim": "1 月中旬仍在转运准备，发射日期尚未确定在 3 月之前。",
+      "source_type": "exercise",
+      "source_group": "nasa.gov"
+    },
+    {
+      "source_url": "https://www.sciencedaily.com/releases/2026/01/260119214042.htm",
+      "title": "NASA's Artemis II reaches the launch pad and the Moon is next",
+      "publisher": "ScienceDaily",
+      "published_at": "2026-01-19T00:00:00Z",
+      "excerpt": "At 6:42 p.m. EST on Saturday, Jan. 17, NASA's Artemis II SLS (Space Launch System) rocket arrived at the launch pad",
+      "claim": "火箭刚到发射台，后续还需多项测试；3 月底前能否发射并不确定。",
+      "source_type": "exercise",
+      "source_group": "sciencedaily.com"
+    }
+    ,
+    {
+      "source_url": "https://www.nasa.gov/blogs/missions/2026/01/17/nasas-artemis-ii-moon-rocket-on-way-to-launch-pad/",
+      "title": "NASA's Artemis II Moon Rocket on Way to Launch Pad",
+      "publisher": "NASA",
+      "published_at": "2026-01-17T00:00:00Z",
+      "excerpt": "The mobile launcher with NASA's Artemis II Space Launch System (SLS) rocket and Orion spacecraft secured to it is seen inside the Vehicle Assembly Building following the opening of the doors before rolling out to Launch Pad 39B, Saturday, Jan. 17, 2026, at NASA's Kennedy Space Center in Florida.",
+      "claim": "NASA 官方确认 1 月 17 日转运至发射台。",
+      "source_type": "exercise",
+      "source_group": "nasa.gov"
+    },
+    {
+      "source_url": "https://www.nasa.gov/artemis-ii-news-and-updates/",
+      "title": "Artemis II News and Updates",
+      "publisher": "NASA",
+      "excerpt": "Artemis II News and Updates",
+      "claim": "官方更新合集页持续记录任务进展（长期维护页，无单一发布日）。",
+      "source_type": "exercise",
+      "source_group": "nasa.gov"
+    }
+  ]
+}

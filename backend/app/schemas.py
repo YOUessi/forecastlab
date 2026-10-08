@@ -580,6 +580,7 @@ class RunRecord(BaseModel):
     simulation: list[SimulationStep] = Field(default_factory=list)
     review: Review | None = None
     forecast: Forecast | None = None
+    shadow_forecast: Forecast | None = None
     settlement: Settlement | None = None
     model: str
     prompt_version: str = "v2"

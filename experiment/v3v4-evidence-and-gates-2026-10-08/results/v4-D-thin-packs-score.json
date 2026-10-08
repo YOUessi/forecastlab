@@ -1,0 +1,30 @@
+﻿{
+  "n_rows": 20,
+  "n_settled": 20,
+  "columns": {
+    "single_agent_p": {
+      "settled_n": 20,
+      "valid_n": 20,
+      "coverage": 1.0,
+      "base_rate": 0.5,
+      "brier_on_valid": 0.113025,
+      "brier_with_half_fallback": 0.113025,
+      "brier_reference_half": 0.25,
+      "brier_reference_base_rate": 0.25,
+      "brier_skill_vs_half": 0.5479,
+      "brier_skill_vs_base_rate": 0.5479
+    },
+    "no_evidence_p": {
+      "settled_n": 20,
+      "valid_n": 20,
+      "coverage": 1.0,
+      "base_rate": 0.5,
+      "brier_on_valid": 0.1332,
+      "brier_with_half_fallback": 0.1332,
+      "brier_reference_half": 0.25,
+      "brier_reference_base_rate": 0.25,
+      "brier_skill_vs_half": 0.4672,
+      "brier_skill_vs_base_rate": 0.4672
+    }
+  }
+}

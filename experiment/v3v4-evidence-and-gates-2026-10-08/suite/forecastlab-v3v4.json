@@ -1,0 +1,412 @@
+{
+  "name": "forecastlab-v3v4",
+  "frozen": {
+    "note": "v3v4 合并实验：在 v2 的 20 个案例上，(1) 加厚证据包（46→67 条，多数每包 4 条，优先官方/一手来源与截至日状态证据）；(2) 增加影子全依据预测（evidence_only 分支并联一次含 world+simulation 的预测，默认关闭，需 FORECASTLAB_SHADOW=1）；(3) 固定 temperature=0；(4) 做审查闸门 A/B/C/D 对照。所有案例的 as_of 均 ≥ 2025-07-01，结果在 2026-10-01 前均已实际确定。",
+    "cutoff_basis": "DeepSeek 欧盟训练内容公开摘要：DeepSeek-V4（含 Pro/Flash）部分训练数据不晚于 2025 年 5 月。",
+    "prompt_version": "v2"
+  },
+  "cases": [
+    {
+      "id": "PW1-worldcup-spain",
+      "category": "sport",
+      "question": {
+        "question": "西班牙国家男子足球队是否赢得 2026 年国际足联世界杯决赛（2026-07-19）？",
+        "as_of": "2026-07-16T23:59:00Z",
+        "resolve_by": "2026-07-19T23:59:00Z",
+        "resolution_rule": "以 FIFA 官方赛后报告公布的决赛结果为准：西班牙获胜则答案为\"是\"。",
+        "resolution_source": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/spain-argentina-final-report-highlights",
+        "mode": "binary"
+      },
+      "evidence_file": "experiment/v3v4-evidence-and-gates-2026-10-08/suite/cases/PW1-worldcup-spain-evidence.json",
+      "outcome": 1,
+      "resolution": {
+        "source_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/spain-argentina-final-report-highlights",
+        "observed_value": "西班牙 1-0 阿根廷（加时，Ferran Torres 第 106 分钟进球），西班牙第二次夺得世界杯冠军。",
+        "note": "按规则西班牙获胜，故为是（1）。"
+      },
+      "flags": ["SECONDARY_SOURCE"]
+    },
+    {
+      "id": "PW2-olympics-norway",
+      "category": "sport",
+      "question": {
+        "question": "挪威是否在米兰-科尔蒂纳 2026 冬季奥运会最终金牌榜排名第一？",
+        "as_of": "2026-02-21T23:59:00Z",
+        "resolve_by": "2026-02-22T23:59:00Z",
+        "resolution_rule": "以冬奥会官方奖牌榜最终金牌数为准：挪威金牌数最多则答案为\"是\"。",
+        "resolution_source": "https://www.olympics.com/en/olympic-games/milano-cortina-2026/medallists",
+        "mode": "binary"
+      },
+      "evidence_file": "experiment/v3v4-evidence-and-gates-2026-10-08/suite/cases/PW2-olympics-norway-evidence.json",
+      "outcome": 1,
+      "resolution": {
+        "source_url": "https://www.olympics.com/en/olympic-games/milano-cortina-2026/medallists",
+        "observed_value": "挪威以 18 金居首（美国 12 金，荷兰 10 金），蝉联金牌榜第一。",
+        "note": "按规则挪威金牌最多，故为是（1）。"
+      },
+      "flags": ["SECONDARY_SOURCE"]
+    },
+    {
+      "id": "PS3-nba-east-champ",
+      "category": "sport",
+      "question": {
+        "question": "2026 年 NBA 总冠军是否来自东部联盟（Eastern Conference）？",
+        "as_of": "2026-05-31T23:59:00Z",
+        "resolve_by": "2026-06-30T23:59:00Z",
+        "resolution_rule": "以 NBA 官方总决赛结果为准：夺冠球队所属分区为东部则答案为\"是\"。",
+        "resolution_source": "https://www.nba.com/playoffs/2026/the-finals",
+        "mode": "binary"
+      },
+      "evidence_file": "experiment/v3v4-evidence-and-gates-2026-10-08/suite/cases/PS3-nba-east-champ-evidence.json",
+      "outcome": 1,
+      "resolution": {
+        "source_url": "https://www.nba.com/playoffs/2026/the-finals",
+        "observed_value": "纽约尼克斯（东部）4-1 击败圣安东尼奥马刺（西部），于 2026-06-13 夺冠。",
+        "note": "冠军为东部球队，故为是（1）。"
+      },
+      "flags": ["SECONDARY_SOURCE"]
+    },
+    {
+      "id": "PT1-iphone17-launch",
+      "category": "tech",
+      "question": {
+        "question": "Apple 是否在 2025-10-31 前实际发售 iPhone 17 系列（含 iPhone 17 / Air / Pro）？",
+        "as_of": "2025-08-31T23:59:00Z",
+        "resolve_by": "2025-10-31T23:59:00Z",
+        "resolution_rule": "以 Apple 官方新闻稿与实际开售日期为准：2025-10-31 前已在 Apple 渠道实际开售则答案为\"是\"。",
+        "resolution_source": "https://www.apple.com/newsroom/2025/09/apple-debuts-iphone-17/",
+        "mode": "binary"
+      },
+      "evidence_file": "experiment/v3v4-evidence-and-gates-2026-10-08/suite/cases/PT1-iphone17-launch-evidence.json",
+      "outcome": 1,
+      "resolution": {
+        "source_url": "https://www.apple.com.cn/newsroom/2025/09/the-latest-iphone-apple-watch-and-airpods-arrive-in-apple-store-locations/",
+        "observed_value": "Apple 于 2025-09-09 发布 iPhone 17 系列，2025-09-19（周五）起在全球 Apple Store 正式发售。",
+        "note": "实际开售日期早于 2025-10-31，故为是（1）。"
+      },
+      "flags": ["SECONDARY_SOURCE"]
+    },
+    {
+      "id": "PT2-gpt5-public",
+      "category": "tech",
+      "question": {
+        "question": "OpenAI 是否在 2025-09-30 前向公众发布 GPT-5（正式版，对所有 ChatGPT 用户开放）？",
+        "as_of": "2025-07-31T23:59:00Z",
+        "resolve_by": "2025-09-30T23:59:00Z",
+        "resolution_rule": "以 OpenAI 官方发布为准：2025-09-30 前 GPT-5 正式向公众开放则答案为\"是\"。",
+        "resolution_source": "https://www.36kr.com/p/3413142362918278",
+        "mode": "binary"
+      },
+      "evidence_file": "experiment/v3v4-evidence-and-gates-2026-10-08/suite/cases/PT2-gpt5-public-evidence.json",
+      "outcome": 1,
+      "resolution": {
+        "source_url": "https://www.36kr.com/p/3413142362918278",
+        "observed_value": "OpenAI 于 2025-08-07（北京时间 8 月 8 日凌晨）发布 GPT-5，并向所有 ChatGPT 用户开放。",
+        "note": "发布时间早于 2025-09-30，故为是（1）。"
+      },
+      "flags": ["SECONDARY_SOURCE"]
+    },
+    {
+      "id": "PT3-node24-lts",
+      "category": "tech",
+      "question": {
+        "question": "Node.js 24 是否在 2025-12-31 前成为 Active LTS？",
+        "as_of": "2025-09-30T23:59:00Z",
+        "resolve_by": "2025-12-31T23:59:00Z",
+        "resolution_rule": "以 Node.js 官方发布为准：2025-12-31 前 Node.js 24 被标记为 Active LTS 则答案为\"是\"。",
+        "resolution_source": "https://nodejs.org/en/blog/release/v24.11.0",
+        "mode": "binary"
+      },
+      "evidence_file": "experiment/v3v4-evidence-and-gates-2026-10-08/suite/cases/PT3-node24-lts-evidence.json",
+      "outcome": 1,
+      "resolution": {
+        "source_url": "https://nodejs.org/en/blog/release/v24.11.0",
+        "observed_value": "Node.js 24 于 2025-10-28 发布 v24.11.0，正式进入 Active LTS（代号 Krypton）。",
+        "note": "LTS 升级早于 2025-12-31，故为是（1）。"
+      },
+      "flags": []
+    },
+    {
+      "id": "PF1-fed-dec2025",
+      "category": "finance",
+      "question": {
+        "question": "美联储是否在 2025-12-31（含）前的 FOMC 会议上再次下调联邦基金利率目标区间？",
+        "as_of": "2025-10-31T23:59:00Z",
+        "resolve_by": "2025-12-31T23:59:00Z",
+        "resolution_rule": "以美联储官方 FOMC 声明为准：2025-12-31 前目标区间被下调则答案为\"是\"。",
+        "resolution_source": "https://www.federalreserve.gov/monetarypolicy/files/monetary20251210a1.pdf",
+        "mode": "binary"
+      },
+      "evidence_file": "experiment/v3v4-evidence-and-gates-2026-10-08/suite/cases/PF1-fed-dec2025-evidence.json",
+      "outcome": 1,
+      "resolution": {
+        "source_url": "https://www.federalreserve.gov/monetarypolicy/files/monetary20251210a1.pdf",
+        "observed_value": "2025-12-10 FOMC 将目标区间下调 25bp 至 3.50%–3.75%。",
+        "note": "目标区间被下调，故为是（1）。"
+      },
+      "flags": []
+    },
+    {
+      "id": "PF2-fed-jan2026",
+      "category": "finance",
+      "question": {
+        "question": "美联储是否在 2026-01-31（含）前的 FOMC 会议上维持联邦基金利率目标区间不变？",
+        "as_of": "2025-12-31T23:59:00Z",
+        "resolve_by": "2026-01-31T23:59:00Z",
+        "resolution_rule": "以美联储官方 FOMC 声明为准：2026-01-31 前的会议未改变目标区间则答案为\"是\"。",
+        "resolution_source": "https://www.federalreserve.gov/monetarypolicy/files/monetary20260128a1.pdf",
+        "mode": "binary"
+      },
+      "evidence_file": "experiment/v3v4-evidence-and-gates-2026-10-08/suite/cases/PF2-fed-jan2026-evidence.json",
+      "outcome": 1,
+      "resolution": {
+        "source_url": "https://www.federalreserve.gov/monetarypolicy/files/monetary20260128a1.pdf",
+        "observed_value": "2026-01-28 FOMC 决定维持目标区间在 3.50%–3.75% 不变。",
+        "note": "目标区间未变，故为是（1）。"
+      },
+      "flags": []
+    },
+    {
+      "id": "PP1-artemis2",
+      "category": "public",
+      "question": {
+        "question": "Artemis II 是否在 2026-04-30 前完成载人绕月飞行并安全溅落返回地球？",
+        "as_of": "2026-02-28T23:59:00Z",
+        "resolve_by": "2026-04-30T23:59:00Z",
+        "resolution_rule": "以 NASA 官方任务结果为准：2026-04-30 前完成载人绕月并安全溅落则答案为\"是\"。",
+        "resolution_source": "https://www.nasa.gov/mission/artemis-ii/",
+        "mode": "binary"
+      },
+      "evidence_file": "experiment/v3v4-evidence-and-gates-2026-10-08/suite/cases/PP1-artemis2-evidence.json",
+      "outcome": 1,
+      "resolution": {
+        "source_url": "https://www.nasa.gov/mission/artemis-ii/",
+        "observed_value": "Artemis II 于 2026-04-01 发射，4 月 6 日完成载人绕月飞越，4 月 10 日安全溅落太平洋。",
+        "note": "任务在 2026-04-30 前安全完成，故为是（1）。"
+      },
+      "flags": []
+    },
+    {
+      "id": "PP2-starship-flight11",
+      "category": "public",
+      "question": {
+        "question": "SpaceX 是否在 2025-12-31 前实际执行星舰第 11 次飞行（Starship Flight 11）？",
+        "as_of": "2025-09-30T23:59:00Z",
+        "resolve_by": "2025-12-31T23:59:00Z",
+        "resolution_rule": "以 SpaceX 实际发射为准：2025-12-31 前 Flight 11 实际点火升空则答案为\"是\"。",
+        "resolution_source": "https://nasaspacenews.com/2025/10/spacex-starship-flight-11-final-version-2-test-before-revolutionary-v3-debut/",
+        "mode": "binary"
+      },
+      "evidence_file": "experiment/v3v4-evidence-and-gates-2026-10-08/suite/cases/PP2-starship-flight11-evidence.json",
+      "outcome": 1,
+      "resolution": {
+        "source_url": "https://nasaspacenews.com/2025/10/spacex-starship-flight-11-final-version-2-test-before-revolutionary-v3-debut/",
+        "observed_value": "星舰 Flight 11 于 2025-10-13 发射，完成全部主要目标（V2 构型最后一次飞行）。",
+        "note": "实际执行早于 2025-12-31，故为是（1）。"
+      },
+      "flags": ["SECONDARY_SOURCE"]
+    }
+    ,
+    {
+      "id": "PN1-premier-league-city",
+      "category": "sport",
+      "question": {
+        "question": "曼城是否夺得 2025/26 赛季英格兰超级联赛冠军？",
+        "as_of": "2026-04-30T23:59:00Z",
+        "resolve_by": "2026-05-31T23:59:00Z",
+        "resolution_rule": "以英超官方最终积分榜为准：冠军为曼城则答案为\"是\"。",
+        "resolution_source": "https://www.premierleague.com/en/the-run-in/title-race",
+        "mode": "binary"
+      },
+      "evidence_file": "experiment/v3v4-evidence-and-gates-2026-10-08/suite/cases/PN1-premier-league-city-evidence.json",
+      "outcome": 0,
+      "resolution": {
+        "source_url": "https://www.arsenal.com/news/arsenal-crowned-202526-premier-league-champions-aOhcw4T06mFw",
+        "observed_value": "阿森纳于 2026-05-19 确认夺冠（结束 22 年等待），曼城以 7 分之差位居第二。",
+        "note": "冠军不是曼城，故为否（0）。"
+      },
+      "flags": ["SECONDARY_SOURCE"]
+    },
+    {
+      "id": "PN2-nba-west-champ",
+      "category": "sport",
+      "question": {
+        "question": "2026 年 NBA 总冠军是否来自西部联盟（Western Conference）？",
+        "as_of": "2026-05-31T23:59:00Z",
+        "resolve_by": "2026-06-30T23:59:00Z",
+        "resolution_rule": "以 NBA 官方总决赛结果为准：夺冠球队所属分区为西部则答案为\"是\"。",
+        "resolution_source": "https://www.nba.com/playoffs/2026/the-finals",
+        "mode": "binary"
+      },
+      "evidence_file": "experiment/v3v4-evidence-and-gates-2026-10-08/suite/cases/PN2-nba-west-champ-evidence.json",
+      "outcome": 0,
+      "resolution": {
+        "source_url": "https://www.nba.com/playoffs/2026/the-finals",
+        "observed_value": "东部球队纽约尼克斯 4-1 击败西部球队圣安东尼奥马刺夺冠。",
+        "note": "冠军来自东部，故为否（0）。"
+      },
+      "flags": ["SECONDARY_SOURCE"]
+    },
+    {
+      "id": "PN3-node24-early-lts",
+      "category": "tech",
+      "question": {
+        "question": "Node.js 24 是否在 2025-09-30 前成为 Active LTS？",
+        "as_of": "2025-08-31T23:59:00Z",
+        "resolve_by": "2025-09-30T23:59:00Z",
+        "resolution_rule": "以 Node.js 官方发布为准：2025-09-30 前 Node.js 24 被标记为 Active LTS 则答案为\"是\"。",
+        "resolution_source": "https://nodejs.org/en/about/previous-releases",
+        "mode": "binary"
+      },
+      "evidence_file": "experiment/v3v4-evidence-and-gates-2026-10-08/suite/cases/PN3-node24-early-lts-evidence.json",
+      "outcome": 0,
+      "resolution": {
+        "source_url": "https://nodejs.org/en/blog/release/v24.11.0",
+        "observed_value": "Node.js 24 直到 2025-10-28（v24.11.0）才进入 Active LTS。",
+        "note": "LTS 升级晚于 2025-09-30，故为否（0）。"
+      },
+      "flags": []
+    },
+    {
+      "id": "PN4-fed-jan2026-cut",
+      "category": "finance",
+      "question": {
+        "question": "美联储是否在 2026-01-31（含）前的 FOMC 会议上下调联邦基金利率目标区间？",
+        "as_of": "2025-12-31T23:59:00Z",
+        "resolve_by": "2026-01-31T23:59:00Z",
+        "resolution_rule": "以美联储官方 FOMC 声明为准：2026-01-31 前目标区间被下调则答案为\"是\"。",
+        "resolution_source": "https://www.federalreserve.gov/monetarypolicy/files/monetary20260128a1.pdf",
+        "mode": "binary"
+      },
+      "evidence_file": "experiment/v3v4-evidence-and-gates-2026-10-08/suite/cases/PN4-fed-jan2026-cut-evidence.json",
+      "outcome": 0,
+      "resolution": {
+        "source_url": "https://www.federalreserve.gov/monetarypolicy/files/monetary20260128a1.pdf",
+        "observed_value": "2026-01-28 FOMC 维持目标区间在 3.50%–3.75% 不变，未降息。",
+        "note": "目标区间未下调，故为否（0）。"
+      },
+      "flags": []
+    },
+    {
+      "id": "PN5-artemis2-march",
+      "category": "public",
+      "question": {
+        "question": "Artemis II 是否在 2026-03-31 前实际发射升空？",
+        "as_of": "2026-02-28T23:59:00Z",
+        "resolve_by": "2026-03-31T23:59:00Z",
+        "resolution_rule": "以 NASA 官方记录为准：2026-03-31 前 Artemis II 实际点火升空则答案为\"是\"。",
+        "resolution_source": "https://www.nasa.gov/mission/artemis-ii/",
+        "mode": "binary"
+      },
+      "evidence_file": "experiment/v3v4-evidence-and-gates-2026-10-08/suite/cases/PN5-artemis2-march-evidence.json",
+      "outcome": 0,
+      "resolution": {
+        "source_url": "https://www.nasa.gov/mission/artemis-ii/",
+        "observed_value": "Artemis II 实际发射日期为 2026-04-01，晚于 3 月 31 日。",
+        "note": "3 月底前未发射，故为否（0）。"
+      },
+      "flags": []
+    }
+    ,
+    {
+      "id": "PN6-real-madrid-ucl",
+      "category": "sport",
+      "question": {
+        "question": "皇家马德里是否夺得 2025/26 赛季欧洲冠军联赛冠军？",
+        "as_of": "2026-04-30T23:59:00Z",
+        "resolve_by": "2026-05-31T23:59:00Z",
+        "resolution_rule": "以 UEFA 官方决赛结果为准：冠军为皇家马德里则答案为\"是\"。",
+        "resolution_source": "https://www.uefa.com/uefachampionsleague/match/2047742--paris-vs-arsenal/final/",
+        "mode": "binary"
+      },
+      "evidence_file": "experiment/v3v4-evidence-and-gates-2026-10-08/suite/cases/PN6-real-madrid-ucl-evidence.json",
+      "outcome": 0,
+      "resolution": {
+        "source_url": "https://www.uefa.com/uefachampionsleague/match/2047742--paris-vs-arsenal/final/",
+        "observed_value": "决赛巴黎圣日耳曼 1-1（点球 4-3）击败阿森纳成功卫冕；皇马在 1/4 决赛已被淘汰。",
+        "note": "冠军不是皇马，故为否（0）。"
+      },
+      "flags": ["SECONDARY_SOURCE"]
+    },
+    {
+      "id": "PN7-fed-mar2026-hold",
+      "category": "finance",
+      "question": {
+        "question": "美联储是否在 2026-03-31（含）前的 FOMC 会议上下调联邦基金利率目标区间？",
+        "as_of": "2026-02-28T23:59:00Z",
+        "resolve_by": "2026-03-31T23:59:00Z",
+        "resolution_rule": "以美联储官方 FOMC 声明为准：2026-03-31 前目标区间被下调则答案为\"是\"。",
+        "resolution_source": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260318a1.htm",
+        "mode": "binary"
+      },
+      "evidence_file": "experiment/v3v4-evidence-and-gates-2026-10-08/suite/cases/PN7-fed-mar2026-hold-evidence.json",
+      "outcome": 0,
+      "resolution": {
+        "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260318a1.htm",
+        "observed_value": "2026-03-18 FOMC 决定维持不变（准备金余额利率保持 3.65%），未降息。",
+        "note": "目标区间未下调，故为否（0）。"
+      },
+      "flags": []
+    },
+    {
+      "id": "PN8-worldcup-argentina",
+      "category": "sport",
+      "question": {
+        "question": "阿根廷国家男子足球队是否赢得 2026 年国际足联世界杯决赛（2026-07-19）？",
+        "as_of": "2026-07-16T23:59:00Z",
+        "resolve_by": "2026-07-19T23:59:00Z",
+        "resolution_rule": "以 FIFA 官方赛后报告为准：阿根廷获胜则答案为\"是\"。",
+        "resolution_source": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/spain-argentina-final-report-highlights",
+        "mode": "binary"
+      },
+      "evidence_file": "experiment/v3v4-evidence-and-gates-2026-10-08/suite/cases/PW1-worldcup-spain-evidence.json",
+      "outcome": 0,
+      "resolution": {
+        "source_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/spain-argentina-final-report-highlights",
+        "observed_value": "决赛西班牙 1-0 阿根廷（加时），阿根廷获得亚军。",
+        "note": "阿根廷未夺冠，故为否（0）。（与 PW1 共用证据包，两者互为正反问题。）"
+      },
+      "flags": ["SHARED_EVIDENCE_WITH_PW1"]
+    },
+    {
+      "id": "PN9-olympics-usa",
+      "category": "public",
+      "question": {
+        "question": "美国是否在米兰-科尔蒂纳 2026 冬季奥运会最终金牌榜排名第一？",
+        "as_of": "2026-02-21T23:59:00Z",
+        "resolve_by": "2026-02-22T23:59:00Z",
+        "resolution_rule": "以冬奥会官方奖牌榜最终金牌数为准：美国金牌数最多则答案为\"是\"。",
+        "resolution_source": "https://www.olympics.com/en/olympic-games/milano-cortina-2026/medallists",
+        "mode": "binary"
+      },
+      "evidence_file": "experiment/v3v4-evidence-and-gates-2026-10-08/suite/cases/PW2-olympics-norway-evidence.json",
+      "outcome": 0,
+      "resolution": {
+        "source_url": "https://www.olympics.com/en/olympic-games/milano-cortina-2026/medallists",
+        "observed_value": "美国以 12 金位居第二，第一名是挪威（18 金）。",
+        "note": "美国未排第一，故为否（0）。（与 PW2 共用证据包。）"
+      },
+      "flags": ["SHARED_EVIDENCE_WITH_PW2"]
+    },
+    {
+      "id": "PN10-iphone17-deadline",
+      "category": "tech",
+      "question": {
+        "question": "Apple 是否在 2025-08-31 前实际发售 iPhone 17 系列？",
+        "as_of": "2025-08-31T23:59:00Z",
+        "resolve_by": "2025-09-30T23:59:00Z",
+        "resolution_rule": "以 Apple 官方发售日期为准：2025-08-31 前已在 Apple 渠道开售则答案为\"是\"。",
+        "resolution_source": "https://www.apple.com.cn/newsroom/2025/09/the-latest-iphone-apple-watch-and-airpods-arrive-in-apple-store-locations/",
+        "mode": "binary"
+      },
+      "evidence_file": "experiment/v3v4-evidence-and-gates-2026-10-08/suite/cases/PT1-iphone17-launch-evidence.json",
+      "outcome": 0,
+      "resolution": {
+        "source_url": "https://www.apple.com.cn/newsroom/2025/09/the-latest-iphone-apple-watch-and-airpods-arrive-in-apple-store-locations/",
+        "observed_value": "iPhone 17 系列实际于 2025-09-19 起开售，晚于 8 月 31 日。",
+        "note": "8 月底前未开售，故为否（0）。（与 PT1 共用证据包，窗口不同。）"
+      },
+      "flags": ["SHARED_EVIDENCE_WITH_PT1"]
+    }
+  ]
+}

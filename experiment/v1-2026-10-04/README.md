@@ -33,7 +33,7 @@ C01、C02 的证据包沿用仓库 `examples/` 下已有文件，未在本文件
 
 | 路径 | 说明 |
 | --- | --- |
-| `experiment-2026-10-04/` | 本提交包：报告、套件、证据包、结果、README |
+| `experiment/v1-2026-10-04/` | 本提交包：报告、套件、证据包、结果、README |
 | `eval/suites/forecastlab-v1.json` | 24 案例实验套件 |
 | `eval/cases/` | 案例定义与证据包（49 个 JSON） |
 | `eval/run_suite.py` | 套件运行器：执行三臂并写出结果表 |
@@ -123,7 +123,7 @@ python eval/validate_cases.py
 
 ```powershell
 cd D:\GCB_Study\0code\forecastlab
-git add experiment-2026-10-04
+git add experiment/v1-2026-10-04
 git add eval/cases eval/suites eval/run_suite.py eval/single_agent.py eval/score_table.py eval/validate_cases.py
 git add backend/tests/test_eval_score.py
 git commit -m "Add 24-case multi-arm evaluation package"

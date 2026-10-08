@@ -1,0 +1,34 @@
+{
+  "_about": "曼城是否夺得 2025/26 英超冠军的冻结证据包（负例）。信息截至 2026-04-30，冠军尚未产生。",
+  "evidence": [
+    {
+      "source_url": "https://www.france24.com/en/sport/20260419-manchester-city-beats-arsenal-2-1-reignites-premier-league-title-race",
+      "title": "Manchester City beats Arsenal 2-1, reignites Premier League title race",
+      "publisher": "France 24",
+      "published_at": "2026-04-19T00:00:00Z",
+      "excerpt": "Manchester City beats Arsenal 2-1, reignites Premier League title race",
+      "claim": "4 月中旬曼城击败阿森纳，争冠重新变得胶着，冠军归属未定。",
+      "source_type": "exercise",
+      "source_group": "france24.com"
+    },
+    {
+      "source_url": "https://www.onmanorama.com/sports/football/2026/04/19/premier-league-manchester-city-vs-arsenal.html",
+      "title": "Premier League: Manchester City vs Arsenal — title race blown open",
+      "publisher": "Onmanorama",
+      "published_at": "2026-04-19T00:00:00Z",
+      "excerpt": "Premier League: Manchester City vs Arsenal — title race blown open",
+      "claim": "曼城仍保有争冠希望，但并非领先方，最终结果未定。",
+      "source_type": "exercise",
+      "source_group": "onmanorama.com"
+    },
+    {
+      "source_url": "https://digitalnewsbreak.com/football/premier-league-championship-race-2026-live-updates",
+      "title": "Premier League Title Race 2026: Live Updates & Championship Analysis",
+      "publisher": "Digital News Break",
+      "excerpt": "Arsenal leads the 2026 Premier League title race with 78 points, just 2 points ahead of Manchester City (76) and 4 ahead of Liverpool (74) with 6 games remaining",
+      "claim": "截至信息日阿森纳领先曼城 2 分、还剩 6 轮，冠军归属高度不确定（该页为滚动更新页，无单一发布日，故不填 published_at）。",
+      "source_type": "exercise",
+      "source_group": "digitalnewsbreak.com"
+    }
+  ]
+}

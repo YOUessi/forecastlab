@@ -15,3 +15,6 @@ MODEL_NAME = (os.getenv("QWEN_MODEL", "qwen3.8-flash")
 TAVILY_API_KEY = os.getenv("TAVILY_API_KEY", "")
 MAX_CALLS = int(os.getenv("FORECASTLAB_MAX_CALLS", "18"))
 MAX_SECONDS = int(os.getenv("FORECASTLAB_MAX_SECONDS", "300"))
+# Off by default: the shadow forecast is experiment instrumentation and costs one extra
+# model call per evidence-only run, so the product path stays at one forecast call.
+SHADOW_FULL = os.getenv("FORECASTLAB_SHADOW", "0").strip().lower() not in {"", "0", "false", "no"}
