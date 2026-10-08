@@ -163,3 +163,10 @@ def test_post_boundary_benchmark_targets_semantic_errors():
     assert phenomena["exclusivity_strengthening"] >= 15
     assert all(row["phenomenon"] != "numeric_shift" for row in data["rows"])
     assert all(row["phenomenon"] != "quote_external_source_attribution" for row in data["rows"])
+
+
+def test_local_llm_judge_json_extraction():
+    m = load("agent2_local_llm_judge.py")
+    parsed = m.extract_json('{"label":"partially_entailed","confidence":0.8,"unsupported_spans":["x"],"rationale":"r"}')
+    assert parsed["label"] == "partially_entailed"
+    assert parsed["confidence"] == 0.8
