@@ -165,6 +165,8 @@ Neither cascade reaches the 95% / 90% target.
 
 The failure of NLI, Qwen1.5B, and their cascade is a useful result: the remaining post-boundary errors are genuinely fine-grained semantic entailment problems and cannot be solved reliably by simply adding a small generic judge.
 
-The experiment therefore continues with a stronger independent local Judge. The next run uses `Qwen/Qwen2.5-3B-Instruct` on the frozen 239-row post-boundary benchmark. Threshold selection remains dev-only and the held-out test is evaluated once.
+A stronger independent local Judge (`Qwen/Qwen2.5-3B-Instruct`) was then prepared on Tang using the same frozen prompt/benchmark. The official Hugging Face weight download reached approximately 3.2 GB but stopped making progress because of the current network path; no 3B inference result is therefore reported. This is an environment/download limitation, not a model-quality result, and the partial cache is retained for resumable follow-up.
 
-No production hard gate will be enabled unless the held-out target is met.
+The completed experiment already answers the immediate engineering question: neither same-model judging, multilingual NLI, Qwen2.5-1.5B, nor their tested cascades justify a production semantic hard gate. The correct next experiment is a stronger independent Judge (resume Qwen3B/7B or configure a genuinely independent API model) on the **same frozen post-boundary dev/test protocol**, without changing prompts based on held-out test errors.
+
+No production hard gate is enabled because the held-out target was not met.
