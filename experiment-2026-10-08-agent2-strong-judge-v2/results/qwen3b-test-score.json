@@ -1,0 +1,294 @@
+{
+  "benchmark_rows": 82,
+  "split": "test",
+  "judged_rows": 82,
+  "coverage": 1.0,
+  "four_class_exact_accuracy": 0.4268292682926829,
+  "confusion_matrix": {
+    "entailed": {
+      "entailed": 18,
+      "partially_entailed": 2,
+      "not_entailed": 11,
+      "unclear": 3
+    },
+    "partially_entailed": {
+      "entailed": 3,
+      "partially_entailed": 7,
+      "not_entailed": 23,
+      "unclear": 1
+    },
+    "not_entailed": {
+      "entailed": 1,
+      "partially_entailed": 1,
+      "not_entailed": 10,
+      "unclear": 1
+    },
+    "unclear": {
+      "entailed": 0,
+      "partially_entailed": 0,
+      "not_entailed": 1,
+      "unclear": 0
+    }
+  },
+  "missing_prediction_ids": [],
+  "thresholds": [
+    {
+      "threshold": 0.5,
+      "accepted": 22,
+      "acceptance_rate": 0.2682926829268293,
+      "strict_support_among_accepted": 0.8181818181818182,
+      "strict_support_wilson95": [
+        0.6148297802336213,
+        0.9269323397589488
+      ],
+      "supported_recall": 0.5294117647058824,
+      "false_accept_count": 4,
+      "false_accepts": [
+        {
+          "id": "natural-0008",
+          "case_id": "C16-cop30-roadmap-adopted",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "semantic-hardneg-0011",
+          "case_id": "C19-copernicus-h1",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0038",
+          "case_id": "C10-real-madrid-ucl",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0070",
+          "case_id": "C24-gold-q3-2026",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        }
+      ]
+    },
+    {
+      "threshold": 0.7,
+      "accepted": 22,
+      "acceptance_rate": 0.2682926829268293,
+      "strict_support_among_accepted": 0.8181818181818182,
+      "strict_support_wilson95": [
+        0.6148297802336213,
+        0.9269323397589488
+      ],
+      "supported_recall": 0.5294117647058824,
+      "false_accept_count": 4,
+      "false_accepts": [
+        {
+          "id": "natural-0008",
+          "case_id": "C16-cop30-roadmap-adopted",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "semantic-hardneg-0011",
+          "case_id": "C19-copernicus-h1",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0038",
+          "case_id": "C10-real-madrid-ucl",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0070",
+          "case_id": "C24-gold-q3-2026",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        }
+      ]
+    },
+    {
+      "threshold": 0.8,
+      "accepted": 22,
+      "acceptance_rate": 0.2682926829268293,
+      "strict_support_among_accepted": 0.8181818181818182,
+      "strict_support_wilson95": [
+        0.6148297802336213,
+        0.9269323397589488
+      ],
+      "supported_recall": 0.5294117647058824,
+      "false_accept_count": 4,
+      "false_accepts": [
+        {
+          "id": "natural-0008",
+          "case_id": "C16-cop30-roadmap-adopted",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "semantic-hardneg-0011",
+          "case_id": "C19-copernicus-h1",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0038",
+          "case_id": "C10-real-madrid-ucl",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0070",
+          "case_id": "C24-gold-q3-2026",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        }
+      ]
+    },
+    {
+      "threshold": 0.9,
+      "accepted": 22,
+      "acceptance_rate": 0.2682926829268293,
+      "strict_support_among_accepted": 0.8181818181818182,
+      "strict_support_wilson95": [
+        0.6148297802336213,
+        0.9269323397589488
+      ],
+      "supported_recall": 0.5294117647058824,
+      "false_accept_count": 4,
+      "false_accepts": [
+        {
+          "id": "natural-0008",
+          "case_id": "C16-cop30-roadmap-adopted",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "semantic-hardneg-0011",
+          "case_id": "C19-copernicus-h1",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0038",
+          "case_id": "C10-real-madrid-ucl",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0070",
+          "case_id": "C24-gold-q3-2026",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        }
+      ]
+    },
+    {
+      "threshold": 0.95,
+      "accepted": 22,
+      "acceptance_rate": 0.2682926829268293,
+      "strict_support_among_accepted": 0.8181818181818182,
+      "strict_support_wilson95": [
+        0.6148297802336213,
+        0.9269323397589488
+      ],
+      "supported_recall": 0.5294117647058824,
+      "false_accept_count": 4,
+      "false_accepts": [
+        {
+          "id": "natural-0008",
+          "case_id": "C16-cop30-roadmap-adopted",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "semantic-hardneg-0011",
+          "case_id": "C19-copernicus-h1",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0038",
+          "case_id": "C10-real-madrid-ucl",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "exclusivity_strengthening"
+        },
+        {
+          "id": "semantic-hardneg-0070",
+          "case_id": "C24-gold-q3-2026",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        }
+      ]
+    }
+  ],
+  "by_phenomenon": {
+    "causal_strengthening": {
+      "n": 9,
+      "exact_accuracy": 0.3333333333333333,
+      "entailed_gold": 0,
+      "judge_accepted": 0,
+      "accept_precision": null
+    },
+    "exclusivity_strengthening": {
+      "n": 4,
+      "exact_accuracy": 0.25,
+      "entailed_gold": 0,
+      "judge_accepted": 2,
+      "accept_precision": 0.0
+    },
+    "natural": {
+      "n": 48,
+      "exact_accuracy": 0.4375,
+      "entailed_gold": 34,
+      "judge_accepted": 19,
+      "accept_precision": 0.9473684210526315
+    },
+    "plan_to_actual": {
+      "n": 11,
+      "exact_accuracy": 0.7272727272727273,
+      "entailed_gold": 0,
+      "judge_accepted": 1,
+      "accept_precision": 0.0
+    },
+    "quantifier_flip": {
+      "n": 1,
+      "exact_accuracy": 1.0,
+      "entailed_gold": 0,
+      "judge_accepted": 0,
+      "accept_precision": null
+    },
+    "scope_expansion": {
+      "n": 9,
+      "exact_accuracy": 0.1111111111111111,
+      "entailed_gold": 0,
+      "judge_accepted": 0,
+      "accept_precision": null
+    }
+  },
+  "judge_model": "Qwen/Qwen2.5-3B-Instruct",
+  "judge_type": "local_causal_llm",
+  "independent_model": true,
+  "same_as_generator_model": false
+}

@@ -1,0 +1,329 @@
+{
+  "benchmark_rows": 82,
+  "split": "test",
+  "judged_rows": 82,
+  "coverage": 1.0,
+  "four_class_exact_accuracy": 0.36585365853658536,
+  "confusion_matrix": {
+    "entailed": {
+      "entailed": 16,
+      "partially_entailed": 15,
+      "not_entailed": 2,
+      "unclear": 1
+    },
+    "partially_entailed": {
+      "entailed": 3,
+      "partially_entailed": 13,
+      "not_entailed": 6,
+      "unclear": 12
+    },
+    "not_entailed": {
+      "entailed": 2,
+      "partially_entailed": 7,
+      "not_entailed": 1,
+      "unclear": 3
+    },
+    "unclear": {
+      "entailed": 0,
+      "partially_entailed": 1,
+      "not_entailed": 0,
+      "unclear": 0
+    }
+  },
+  "missing_prediction_ids": [],
+  "thresholds": [
+    {
+      "threshold": 0.5,
+      "accepted": 21,
+      "acceptance_rate": 0.25609756097560976,
+      "strict_support_among_accepted": 0.7619047619047619,
+      "strict_support_wilson95": [
+        0.5490841802765406,
+        0.8937214361088773
+      ],
+      "supported_recall": 0.47058823529411764,
+      "false_accept_count": 5,
+      "false_accepts": [
+        {
+          "id": "natural-0008",
+          "case_id": "C16-cop30-roadmap-adopted",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0033",
+          "case_id": "C22-ndx-h2-2025",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0055",
+          "case_id": "C22-ndx-h2-2025",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "semantic-hardneg-0005",
+          "case_id": "C24-gold-q3-2026",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0030",
+          "case_id": "C24-gold-q3-2026",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        }
+      ]
+    },
+    {
+      "threshold": 0.7,
+      "accepted": 21,
+      "acceptance_rate": 0.25609756097560976,
+      "strict_support_among_accepted": 0.7619047619047619,
+      "strict_support_wilson95": [
+        0.5490841802765406,
+        0.8937214361088773
+      ],
+      "supported_recall": 0.47058823529411764,
+      "false_accept_count": 5,
+      "false_accepts": [
+        {
+          "id": "natural-0008",
+          "case_id": "C16-cop30-roadmap-adopted",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0033",
+          "case_id": "C22-ndx-h2-2025",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0055",
+          "case_id": "C22-ndx-h2-2025",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "semantic-hardneg-0005",
+          "case_id": "C24-gold-q3-2026",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0030",
+          "case_id": "C24-gold-q3-2026",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        }
+      ]
+    },
+    {
+      "threshold": 0.8,
+      "accepted": 21,
+      "acceptance_rate": 0.25609756097560976,
+      "strict_support_among_accepted": 0.7619047619047619,
+      "strict_support_wilson95": [
+        0.5490841802765406,
+        0.8937214361088773
+      ],
+      "supported_recall": 0.47058823529411764,
+      "false_accept_count": 5,
+      "false_accepts": [
+        {
+          "id": "natural-0008",
+          "case_id": "C16-cop30-roadmap-adopted",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0033",
+          "case_id": "C22-ndx-h2-2025",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0055",
+          "case_id": "C22-ndx-h2-2025",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "semantic-hardneg-0005",
+          "case_id": "C24-gold-q3-2026",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0030",
+          "case_id": "C24-gold-q3-2026",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        }
+      ]
+    },
+    {
+      "threshold": 0.9,
+      "accepted": 21,
+      "acceptance_rate": 0.25609756097560976,
+      "strict_support_among_accepted": 0.7619047619047619,
+      "strict_support_wilson95": [
+        0.5490841802765406,
+        0.8937214361088773
+      ],
+      "supported_recall": 0.47058823529411764,
+      "false_accept_count": 5,
+      "false_accepts": [
+        {
+          "id": "natural-0008",
+          "case_id": "C16-cop30-roadmap-adopted",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0033",
+          "case_id": "C22-ndx-h2-2025",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0055",
+          "case_id": "C22-ndx-h2-2025",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "semantic-hardneg-0005",
+          "case_id": "C24-gold-q3-2026",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0030",
+          "case_id": "C24-gold-q3-2026",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        }
+      ]
+    },
+    {
+      "threshold": 0.95,
+      "accepted": 21,
+      "acceptance_rate": 0.25609756097560976,
+      "strict_support_among_accepted": 0.7619047619047619,
+      "strict_support_wilson95": [
+        0.5490841802765406,
+        0.8937214361088773
+      ],
+      "supported_recall": 0.47058823529411764,
+      "false_accept_count": 5,
+      "false_accepts": [
+        {
+          "id": "natural-0008",
+          "case_id": "C16-cop30-roadmap-adopted",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0033",
+          "case_id": "C22-ndx-h2-2025",
+          "finding_id": "F001",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "natural-0055",
+          "case_id": "C22-ndx-h2-2025",
+          "finding_id": "F002",
+          "gold_label": "partially_entailed",
+          "phenomenon": "natural"
+        },
+        {
+          "id": "semantic-hardneg-0005",
+          "case_id": "C24-gold-q3-2026",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        },
+        {
+          "id": "semantic-hardneg-0030",
+          "case_id": "C24-gold-q3-2026",
+          "finding_id": "F002",
+          "gold_label": "not_entailed",
+          "phenomenon": "plan_to_actual"
+        }
+      ]
+    }
+  ],
+  "by_phenomenon": {
+    "causal_strengthening": {
+      "n": 9,
+      "exact_accuracy": 0.4444444444444444,
+      "entailed_gold": 0,
+      "judge_accepted": 0,
+      "accept_precision": null
+    },
+    "exclusivity_strengthening": {
+      "n": 4,
+      "exact_accuracy": 0.25,
+      "entailed_gold": 0,
+      "judge_accepted": 0,
+      "accept_precision": null
+    },
+    "natural": {
+      "n": 48,
+      "exact_accuracy": 0.3958333333333333,
+      "entailed_gold": 34,
+      "judge_accepted": 19,
+      "accept_precision": 0.8421052631578947
+    },
+    "plan_to_actual": {
+      "n": 11,
+      "exact_accuracy": 0.0,
+      "entailed_gold": 0,
+      "judge_accepted": 2,
+      "accept_precision": 0.0
+    },
+    "quantifier_flip": {
+      "n": 1,
+      "exact_accuracy": 1.0,
+      "entailed_gold": 0,
+      "judge_accepted": 0,
+      "accept_precision": null
+    },
+    "scope_expansion": {
+      "n": 9,
+      "exact_accuracy": 0.5555555555555556,
+      "entailed_gold": 0,
+      "judge_accepted": 0,
+      "accept_precision": null
+    }
+  },
+  "judge_model": "/tmp/qwen2.5-7b-awq-local",
+  "judge_type": "local_awq_llm",
+  "independent_model": true,
+  "same_as_generator_model": false
+}

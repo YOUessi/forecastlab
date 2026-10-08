@@ -215,3 +215,12 @@ def test_nli_then_llm_cascade_respects_llm_accept_threshold():
     result = m.combine(benchmark, nli, llm, nli_accept=0.9, nli_reject=0.9, llm_accept=0.9, policy="nli_then_llm")
     assert result["rows"][0]["judge"]["label"] == "unclear"
     assert result["rows"][0]["judge"]["route"] == "llm_low_confidence"
+
+
+def test_local_llm_judge_normalizes_qualitative_confidence():
+    m = load("agent2_local_llm_judge.py")
+    parsed = m.extract_json(
+        '{"label":"entailed","confidence":"high","unsupported_spans":[],"rationale":"ok"}'
+    )
+    assert parsed["label"] == "entailed"
+    assert parsed["confidence"] == 0.95

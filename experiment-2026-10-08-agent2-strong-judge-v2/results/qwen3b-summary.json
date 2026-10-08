@@ -1,0 +1,522 @@
+{
+  "model": "Qwen/Qwen2.5-3B-Instruct",
+  "dev": [
+    {
+      "threshold": 0.5,
+      "accepted": 48,
+      "precision": 0.7291666666666666,
+      "recall": 0.5,
+      "false_accepts": 13,
+      "wilson95": [
+        0.5900276538379887,
+        0.8343419643836709
+      ]
+    },
+    {
+      "threshold": 0.7,
+      "accepted": 48,
+      "precision": 0.7291666666666666,
+      "recall": 0.5,
+      "false_accepts": 13,
+      "wilson95": [
+        0.5900276538379887,
+        0.8343419643836709
+      ]
+    },
+    {
+      "threshold": 0.8,
+      "accepted": 48,
+      "precision": 0.7291666666666666,
+      "recall": 0.5,
+      "false_accepts": 13,
+      "wilson95": [
+        0.5900276538379887,
+        0.8343419643836709
+      ]
+    },
+    {
+      "threshold": 0.9,
+      "accepted": 48,
+      "precision": 0.7291666666666666,
+      "recall": 0.5,
+      "false_accepts": 13,
+      "wilson95": [
+        0.5900276538379887,
+        0.8343419643836709
+      ]
+    },
+    {
+      "threshold": 0.95,
+      "accepted": 48,
+      "precision": 0.7291666666666666,
+      "recall": 0.5,
+      "false_accepts": 13,
+      "wilson95": [
+        0.5900276538379887,
+        0.8343419643836709
+      ]
+    }
+  ],
+  "test": [
+    {
+      "threshold": 0.5,
+      "accepted": 22,
+      "precision": 0.8181818181818182,
+      "recall": 0.5294117647058824,
+      "false_accepts": 4,
+      "wilson95": [
+        0.6148297802336213,
+        0.9269323397589488
+      ]
+    },
+    {
+      "threshold": 0.7,
+      "accepted": 22,
+      "precision": 0.8181818181818182,
+      "recall": 0.5294117647058824,
+      "false_accepts": 4,
+      "wilson95": [
+        0.6148297802336213,
+        0.9269323397589488
+      ]
+    },
+    {
+      "threshold": 0.8,
+      "accepted": 22,
+      "precision": 0.8181818181818182,
+      "recall": 0.5294117647058824,
+      "false_accepts": 4,
+      "wilson95": [
+        0.6148297802336213,
+        0.9269323397589488
+      ]
+    },
+    {
+      "threshold": 0.9,
+      "accepted": 22,
+      "precision": 0.8181818181818182,
+      "recall": 0.5294117647058824,
+      "false_accepts": 4,
+      "wilson95": [
+        0.6148297802336213,
+        0.9269323397589488
+      ]
+    },
+    {
+      "threshold": 0.95,
+      "accepted": 22,
+      "precision": 0.8181818181818182,
+      "recall": 0.5294117647058824,
+      "false_accepts": 4,
+      "wilson95": [
+        0.6148297802336213,
+        0.9269323397589488
+      ]
+    }
+  ],
+  "cascade": {
+    "agreement": {
+      "selected_config": {
+        "nli_accept": 0.95,
+        "nli_reject": 0.9,
+        "llm_accept": 0.5
+      },
+      "dev_meets_target": false,
+      "test_meets_target": false,
+      "dev_gate": {
+        "threshold": 0.5,
+        "accepted": 33,
+        "acceptance_rate": 0.21019108280254778,
+        "strict_support_among_accepted": 0.8181818181818182,
+        "strict_support_wilson95": [
+          0.656114329507048,
+          0.9138934877430174
+        ],
+        "supported_recall": 0.38571428571428573,
+        "false_accept_count": 6,
+        "false_accepts": [
+          {
+            "id": "natural-0015",
+            "case_id": "C09-man-city-top4",
+            "finding_id": "F002",
+            "gold_label": "partially_entailed",
+            "phenomenon": "natural"
+          },
+          {
+            "id": "semantic-hardneg-0002",
+            "case_id": "C21-fed-sep-cut",
+            "finding_id": "F001",
+            "gold_label": "not_entailed",
+            "phenomenon": "plan_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0007",
+            "case_id": "C15-artemis2-complete",
+            "finding_id": "F002",
+            "gold_label": "not_entailed",
+            "phenomenon": "target_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0022",
+            "case_id": "C05-node22-lts",
+            "finding_id": "F002",
+            "gold_label": "not_entailed",
+            "phenomenon": "plan_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0029",
+            "case_id": "C21-fed-sep-cut",
+            "finding_id": "F001",
+            "gold_label": "not_entailed",
+            "phenomenon": "plan_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0031",
+            "case_id": "C15-artemis2-complete",
+            "finding_id": "F002",
+            "gold_label": "not_entailed",
+            "phenomenon": "target_to_actual"
+          }
+        ]
+      },
+      "test_gate": {
+        "threshold": 0.5,
+        "accepted": 18,
+        "acceptance_rate": 0.21951219512195122,
+        "strict_support_among_accepted": 0.9444444444444444,
+        "strict_support_wilson95": [
+          0.7424220019799247,
+          0.9901250641690756
+        ],
+        "supported_recall": 0.5,
+        "false_accept_count": 1,
+        "false_accepts": [
+          {
+            "id": "natural-0008",
+            "case_id": "C16-cop30-roadmap-adopted",
+            "finding_id": "F002",
+            "gold_label": "partially_entailed",
+            "phenomenon": "natural"
+          }
+        ]
+      }
+    },
+    "nli_then_llm": {
+      "selected_config": {
+        "nli_accept": 0.95,
+        "nli_reject": 0.5,
+        "llm_accept": 0.5
+      },
+      "dev_meets_target": false,
+      "test_meets_target": false,
+      "dev_gate": {
+        "threshold": 0.5,
+        "accepted": 84,
+        "acceptance_rate": 0.535031847133758,
+        "strict_support_among_accepted": 0.6547619047619048,
+        "strict_support_wilson95": [
+          0.5483359511039806,
+          0.7476513715313083
+        ],
+        "supported_recall": 0.7857142857142857,
+        "false_accept_count": 29,
+        "false_accepts": [
+          {
+            "id": "natural-0014",
+            "case_id": "C20-g20-summit-held",
+            "finding_id": "F002",
+            "gold_label": "partially_entailed",
+            "phenomenon": "natural"
+          },
+          {
+            "id": "natural-0015",
+            "case_id": "C09-man-city-top4",
+            "finding_id": "F002",
+            "gold_label": "partially_entailed",
+            "phenomenon": "natural"
+          },
+          {
+            "id": "natural-0046",
+            "case_id": "C14-nba-east-champ",
+            "finding_id": "F002",
+            "gold_label": "partially_entailed",
+            "phenomenon": "natural"
+          },
+          {
+            "id": "natural-0048",
+            "case_id": "C01-python313",
+            "finding_id": "F003",
+            "gold_label": "partially_entailed",
+            "phenomenon": "natural"
+          },
+          {
+            "id": "natural-0053",
+            "case_id": "C08-typescript6-release",
+            "finding_id": "F001",
+            "gold_label": "partially_entailed",
+            "phenomenon": "natural"
+          },
+          {
+            "id": "semantic-hardneg-0002",
+            "case_id": "C21-fed-sep-cut",
+            "finding_id": "F001",
+            "gold_label": "not_entailed",
+            "phenomenon": "plan_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0006",
+            "case_id": "C15-artemis2-complete",
+            "finding_id": "F001",
+            "gold_label": "not_entailed",
+            "phenomenon": "target_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0007",
+            "case_id": "C15-artemis2-complete",
+            "finding_id": "F002",
+            "gold_label": "not_entailed",
+            "phenomenon": "target_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0010",
+            "case_id": "C18-xflare-2025",
+            "finding_id": "F002",
+            "gold_label": "not_entailed",
+            "phenomenon": "plan_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0012",
+            "case_id": "C20-g20-summit-held",
+            "finding_id": "F001",
+            "gold_label": "not_entailed",
+            "phenomenon": "plan_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0018",
+            "case_id": "C01-python313",
+            "finding_id": "F001",
+            "gold_label": "not_entailed",
+            "phenomenon": "plan_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0022",
+            "case_id": "C05-node22-lts",
+            "finding_id": "F002",
+            "gold_label": "not_entailed",
+            "phenomenon": "plan_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0023",
+            "case_id": "C06-gb300-delivery",
+            "finding_id": "F001",
+            "gold_label": "not_entailed",
+            "phenomenon": "plan_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0029",
+            "case_id": "C21-fed-sep-cut",
+            "finding_id": "F001",
+            "gold_label": "not_entailed",
+            "phenomenon": "plan_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0031",
+            "case_id": "C15-artemis2-complete",
+            "finding_id": "F002",
+            "gold_label": "not_entailed",
+            "phenomenon": "target_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0034",
+            "case_id": "C18-xflare-2025",
+            "finding_id": "F002",
+            "gold_label": "not_entailed",
+            "phenomenon": "plan_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0035",
+            "case_id": "C20-g20-summit-held",
+            "finding_id": "F002",
+            "gold_label": "not_entailed",
+            "phenomenon": "plan_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0050",
+            "case_id": "C15-artemis2-complete",
+            "finding_id": "F002",
+            "gold_label": "not_entailed",
+            "phenomenon": "plan_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0053",
+            "case_id": "C18-xflare-2025",
+            "finding_id": "F001",
+            "gold_label": "not_entailed",
+            "phenomenon": "uncertainty_to_certainty"
+          },
+          {
+            "id": "semantic-hardneg-0054",
+            "case_id": "C18-xflare-2025",
+            "finding_id": "F002",
+            "gold_label": "not_entailed",
+            "phenomenon": "plan_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0056",
+            "case_id": "C20-g20-summit-held",
+            "finding_id": "F002",
+            "gold_label": "not_entailed",
+            "phenomenon": "plan_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0062",
+            "case_id": "C01-python313",
+            "finding_id": "F003",
+            "gold_label": "partially_entailed",
+            "phenomenon": "exclusivity_strengthening"
+          },
+          {
+            "id": "semantic-hardneg-0065",
+            "case_id": "C04-starship-orbit",
+            "finding_id": "F001",
+            "gold_label": "partially_entailed",
+            "phenomenon": "exclusivity_strengthening"
+          },
+          {
+            "id": "semantic-hardneg-0074",
+            "case_id": "C20-g20-summit-held",
+            "finding_id": "F002",
+            "gold_label": "not_entailed",
+            "phenomenon": "plan_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0075",
+            "case_id": "C11-usa-paris-gold",
+            "finding_id": "F002",
+            "gold_label": "not_entailed",
+            "phenomenon": "plan_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0092",
+            "case_id": "C20-g20-summit-held",
+            "finding_id": "F002",
+            "gold_label": "not_entailed",
+            "phenomenon": "plan_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0094",
+            "case_id": "C11-usa-paris-gold",
+            "finding_id": "F002",
+            "gold_label": "not_entailed",
+            "phenomenon": "plan_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0096",
+            "case_id": "C01-python313",
+            "finding_id": "F001",
+            "gold_label": "not_entailed",
+            "phenomenon": "plan_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0098",
+            "case_id": "C04-starship-orbit",
+            "finding_id": "F002",
+            "gold_label": "partially_entailed",
+            "phenomenon": "exclusivity_strengthening"
+          }
+        ]
+      },
+      "test_gate": {
+        "threshold": 0.5,
+        "accepted": 36,
+        "acceptance_rate": 0.43902439024390244,
+        "strict_support_among_accepted": 0.6944444444444444,
+        "strict_support_wilson95": [
+          0.5314342132091627,
+          0.8199572971719464
+        ],
+        "supported_recall": 0.7352941176470589,
+        "false_accept_count": 11,
+        "false_accepts": [
+          {
+            "id": "natural-0008",
+            "case_id": "C16-cop30-roadmap-adopted",
+            "finding_id": "F002",
+            "gold_label": "partially_entailed",
+            "phenomenon": "natural"
+          },
+          {
+            "id": "natural-0033",
+            "case_id": "C22-ndx-h2-2025",
+            "finding_id": "F001",
+            "gold_label": "partially_entailed",
+            "phenomenon": "natural"
+          },
+          {
+            "id": "semantic-hardneg-0005",
+            "case_id": "C24-gold-q3-2026",
+            "finding_id": "F002",
+            "gold_label": "not_entailed",
+            "phenomenon": "plan_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0011",
+            "case_id": "C19-copernicus-h1",
+            "finding_id": "F002",
+            "gold_label": "partially_entailed",
+            "phenomenon": "exclusivity_strengthening"
+          },
+          {
+            "id": "semantic-hardneg-0019",
+            "case_id": "C03-apple-m4-mac",
+            "finding_id": "F001",
+            "gold_label": "not_entailed",
+            "phenomenon": "plan_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0020",
+            "case_id": "C03-apple-m4-mac",
+            "finding_id": "F002",
+            "gold_label": "not_entailed",
+            "phenomenon": "plan_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0030",
+            "case_id": "C24-gold-q3-2026",
+            "finding_id": "F002",
+            "gold_label": "not_entailed",
+            "phenomenon": "plan_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0038",
+            "case_id": "C10-real-madrid-ucl",
+            "finding_id": "F001",
+            "gold_label": "partially_entailed",
+            "phenomenon": "exclusivity_strengthening"
+          },
+          {
+            "id": "semantic-hardneg-0043",
+            "case_id": "C03-apple-m4-mac",
+            "finding_id": "F002",
+            "gold_label": "not_entailed",
+            "phenomenon": "plan_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0064",
+            "case_id": "C03-apple-m4-mac",
+            "finding_id": "F002",
+            "gold_label": "not_entailed",
+            "phenomenon": "plan_to_actual"
+          },
+          {
+            "id": "semantic-hardneg-0070",
+            "case_id": "C24-gold-q3-2026",
+            "finding_id": "F002",
+            "gold_label": "not_entailed",
+            "phenomenon": "plan_to_actual"
+          }
+        ]
+      }
+    }
+  }
+}

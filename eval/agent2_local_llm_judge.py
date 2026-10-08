@@ -52,6 +52,9 @@ def row_quotes(row: dict) -> list[str]:
     return [c["quote"] for c in row.get("citations", [])]
 
 
+QUALITATIVE_CONFIDENCE = {"high": 0.95, "medium": 0.75, "moderate": 0.75, "low": 0.50}
+
+
 def extract_json(text: str) -> dict:
     cleaned = text.strip()
     cleaned = re.sub(r"^\s*\x60\x60\x60(?:json)?\s*", "", cleaned, flags=re.I)
@@ -61,42 +64,82 @@ def extract_json(text: str) -> dict:
         raise ValueError("no JSON object in model output")
     candidate = cleaned[start:end+1]
     try:
-        return json.loads(candidate)
+        obj = json.loads(candidate)
     except json.JSONDecodeError:
         # Small local models sometimes emit: "rationale": "text".}
         # Repair syntax punctuation only; never change semantic content.
         repaired = re.sub(r'"\s*\.\s*([,}])', r'"\1', candidate)
         repaired = re.sub(r",\s*}", "}", repaired)
-        return json.loads(repaired)
+        obj = json.loads(repaired)
+    confidence = obj.get("confidence")
+    if isinstance(confidence, str):
+        mapped = QUALITATIVE_CONFIDENCE.get(confidence.strip().casefold())
+        if mapped is not None:
+            obj["confidence"] = mapped
+    return obj
 
 
-def load_runtime(model_name: str):
+def load_runtime(model_name: str, *, awq: bool = False):
     try:
         import torch
         from transformers import AutoModelForCausalLM, AutoTokenizer
     except ImportError as exc:
         raise SystemExit("本地 LLM Judge 需要可选研究依赖 torch + transformers") from exc
     tokenizer = AutoTokenizer.from_pretrained(model_name)
-    dtype = torch.float16 if torch.cuda.is_available() else torch.float32
-    model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=dtype)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model.to(device)
+    if awq:
+        if not torch.cuda.is_available():
+            raise SystemExit("AWQ Judge 当前要求 CUDA")
+        try:
+            from awq import AutoAWQForCausalLM
+        except ImportError as exc:
+            raise SystemExit("AWQ Judge 需要可选研究依赖 autoawq") from exc
+        model = AutoAWQForCausalLM.from_quantized(
+            model_name,
+            fuse_layers=True,
+            trust_remote_code=True,
+        )
+    else:
+        dtype = torch.float16 if torch.cuda.is_available() else torch.float32
+        model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=dtype)
+        model.to(device)
     model.eval()
-    model.generation_config.do_sample = False
-    model.generation_config.temperature = None
-    model.generation_config.top_p = None
-    model.generation_config.top_k = None
+    if hasattr(model, "generation_config"):
+        model.generation_config.do_sample = False
+        model.generation_config.temperature = None
+        model.generation_config.top_p = None
+        model.generation_config.top_k = None
     return torch, tokenizer, model, device
 
 
-def judge_row(torch, tokenizer, model, device, row: dict, max_new_tokens: int) -> tuple[Decision, float]:
+def prompt_for_row(tokenizer, row: dict, *, disable_thinking: bool = False) -> str:
     payload = {"claim": row["claim"], "exact_quotes": row_quotes(row)}
     messages = [
         {"role": "system", "content": PROMPT},
         {"role": "user", "content": json.dumps(payload, ensure_ascii=False)},
     ]
-    prompt_text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-    encoded = tokenizer(prompt_text, return_tensors="pt", truncation=True, max_length=1536)
+    kwargs = {"tokenize": False, "add_generation_prompt": True}
+    if disable_thinking:
+        kwargs["enable_thinking"] = False
+    return tokenizer.apply_chat_template(messages, **kwargs)
+
+
+def judge_batch(torch, tokenizer, model, device, rows: list[dict], max_new_tokens: int, *, disable_thinking: bool = False) -> tuple[list[Decision], float]:
+    prompts = [prompt_for_row(tokenizer, row, disable_thinking=disable_thinking) for row in rows]
+    if tokenizer.pad_token_id is None:
+        tokenizer.pad_token = tokenizer.eos_token
+    old_padding_side = tokenizer.padding_side
+    tokenizer.padding_side = "left"
+    try:
+        encoded = tokenizer(
+            prompts,
+            return_tensors="pt",
+            padding=True,
+            truncation=True,
+            max_length=1536,
+        )
+    finally:
+        tokenizer.padding_side = old_padding_side
     encoded = {k: v.to(device) for k, v in encoded.items()}
     started = time.monotonic()
     with torch.no_grad():
@@ -104,15 +147,26 @@ def judge_row(torch, tokenizer, model, device, row: dict, max_new_tokens: int) -
             **encoded,
             max_new_tokens=max_new_tokens,
             do_sample=False,
-            pad_token_id=tokenizer.eos_token_id,
+            pad_token_id=tokenizer.pad_token_id,
         )
     elapsed = time.monotonic() - started
-    generated = output[0, encoded["input_ids"].shape[1]:]
-    raw = tokenizer.decode(generated, skip_special_tokens=True)
-    try:
-        return Decision.model_validate(extract_json(raw)), elapsed
-    except (ValidationError, json.JSONDecodeError, ValueError) as exc:
-        raise RuntimeError(f"invalid local judge output: {raw[:500]}") from exc
+    prefix_len = encoded["input_ids"].shape[1]
+    decisions = []
+    for generated in output[:, prefix_len:]:
+        raw = tokenizer.decode(generated, skip_special_tokens=True)
+        try:
+            decisions.append(Decision.model_validate(extract_json(raw)))
+        except (ValidationError, json.JSONDecodeError, ValueError) as exc:
+            raise RuntimeError(f"invalid local judge output: {raw[:500]}") from exc
+    return decisions, elapsed
+
+
+def judge_row(torch, tokenizer, model, device, row: dict, max_new_tokens: int, *, disable_thinking: bool = False) -> tuple[Decision, float]:
+    decisions, elapsed = judge_batch(
+        torch, tokenizer, model, device, [row], max_new_tokens,
+        disable_thinking=disable_thinking,
+    )
+    return decisions[0], elapsed
 
 
 def make_output(args, judged, total_elapsed: float, device) -> dict:
@@ -122,7 +176,7 @@ def make_output(args, judged, total_elapsed: float, device) -> dict:
         "judge_model": args.model,
         "same_as_generator_model": False,
         "independent_model": True,
-        "judge_type": "local_causal_llm",
+        "judge_type": "local_awq_llm" if getattr(args, "awq", False) else "local_causal_llm",
         "device": str(device),
         "total_elapsed_seconds": total_elapsed,
         "rows": judged,
@@ -142,8 +196,11 @@ def main() -> None:
     p.add_argument("--output", type=Path, required=True)
     p.add_argument("--model", default=DEFAULT_MODEL)
     p.add_argument("--limit", type=int)
-    p.add_argument("--max-new-tokens", type=int, default=192)
+    p.add_argument("--max-new-tokens", type=int, default=320)
     p.add_argument("--resume", action="store_true")
+    p.add_argument("--awq", action="store_true", help="load an AutoAWQ quantized model")
+    p.add_argument("--batch-size", type=int, default=1, help="batch prompts for local GPU inference")
+    p.add_argument("--disable-thinking", action="store_true", help="disable model-specific thinking mode when supported by the chat template")
     args = p.parse_args()
 
     data = json.loads(args.benchmark.read_text(encoding="utf-8"))
@@ -151,7 +208,7 @@ def main() -> None:
     if args.limit:
         rows = rows[:args.limit]
 
-    torch, tokenizer, model, device = load_runtime(args.model)
+    torch, tokenizer, model, device = load_runtime(args.model, awq=args.awq)
     judged, total_elapsed = [], 0.0
     if args.resume and args.output.exists():
         previous = json.loads(args.output.read_text(encoding="utf-8"))
@@ -159,30 +216,45 @@ def main() -> None:
         total_elapsed = float(previous.get("total_elapsed_seconds", 0))
     done = {row.get("id") for row in judged}
 
-    for i, row in enumerate(rows, 1):
-        if row.get("id") in done:
-            continue
-        error = None
+    pending = [row for row in rows if row.get("id") not in done]
+    batch_size = max(1, args.batch_size)
+    completed = len(rows) - len(pending)
+    for start in range(0, len(pending), batch_size):
+        batch = pending[start:start + batch_size]
+        batch_error = None
         try:
-            decision, elapsed = judge_row(torch, tokenizer, model, device, row, args.max_new_tokens)
-        except Exception as exc:
-            elapsed = 0.0
-            error = f"{type(exc).__name__}: {str(exc)[:300]}"
-            decision = Decision(
-                label="unclear",
-                confidence=0.0,
-                unsupported_spans=[],
-                rationale="Judge output could not be parsed; fail-closed as unclear.",
+            decisions, batch_elapsed = judge_batch(
+                torch, tokenizer, model, device, batch, args.max_new_tokens,
+                disable_thinking=args.disable_thinking,
             )
-        total_elapsed += elapsed
-        item = json.loads(json.dumps(row, ensure_ascii=False))
-        item["judge"] = {**decision.model_dump(), "elapsed_seconds": elapsed}
-        if error:
-            item["judge"]["error"] = error
-        judged.append(item)
+        except Exception as exc:
+            batch_error = f"{type(exc).__name__}: {str(exc)[:300]}"
+            decisions = [
+                Decision(
+                    label="unclear",
+                    confidence=0.0,
+                    unsupported_spans=[],
+                    rationale="Judge batch/output failed; fail-closed as unclear.",
+                )
+                for _ in batch
+            ]
+            batch_elapsed = 0.0
+        total_elapsed += batch_elapsed
+        per_row_elapsed = batch_elapsed / len(batch) if batch else 0.0
+        for row, decision in zip(batch, decisions):
+            completed += 1
+            item = json.loads(json.dumps(row, ensure_ascii=False))
+            item["judge"] = {**decision.model_dump(), "elapsed_seconds": per_row_elapsed}
+            if batch_error:
+                item["judge"]["error"] = batch_error
+            judged.append(item)
+            row_name = row.get("id") or row.get("case_id") or str(completed)
+            print(
+                f"[{completed}/{len(rows)}] {row_name} -> "
+                f"{decision.label} {decision.confidence:.2f}",
+                flush=True,
+            )
         checkpoint(args, judged, total_elapsed, device)
-        row_name = row.get("id") or row.get("case_id") or str(i)
-        print(f"[{i}/{len(rows)}] {row_name} -> {decision.label} {decision.confidence:.2f}", flush=True)
 
     checkpoint(args, judged, total_elapsed, device)
     print(json.dumps(

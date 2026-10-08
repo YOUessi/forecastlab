@@ -1,0 +1,777 @@
+{
+  "agreement": {
+    "policy": "agreement",
+    "target_precision": 0.95,
+    "min_recall": 0.9,
+    "selected_config": {
+      "nli_accept": 0.8,
+      "nli_reject": 0.9,
+      "llm_accept": 0.5
+    },
+    "dev": {
+      "benchmark_rows": 157,
+      "split": "dev",
+      "judged_rows": 157,
+      "coverage": 1.0,
+      "four_class_exact_accuracy": 0.5859872611464968,
+      "confusion_matrix": {
+        "entailed": {
+          "entailed": 40,
+          "partially_entailed": 26,
+          "not_entailed": 4,
+          "unclear": 0
+        },
+        "partially_entailed": {
+          "entailed": 1,
+          "partially_entailed": 47,
+          "not_entailed": 9,
+          "unclear": 0
+        },
+        "not_entailed": {
+          "entailed": 6,
+          "partially_entailed": 19,
+          "not_entailed": 5,
+          "unclear": 0
+        },
+        "unclear": {
+          "entailed": 0,
+          "partially_entailed": 0,
+          "not_entailed": 0,
+          "unclear": 0
+        }
+      },
+      "missing_prediction_ids": [],
+      "thresholds": [
+        {
+          "threshold": 0.5,
+          "accepted": 47,
+          "acceptance_rate": 0.29936305732484075,
+          "strict_support_among_accepted": 0.851063829787234,
+          "strict_support_wilson95": [
+            0.7231410342888723,
+            0.925933739125025
+          ],
+          "supported_recall": 0.5714285714285714,
+          "false_accept_count": 7,
+          "false_accepts": [
+            {
+              "id": "natural-0053",
+              "case_id": "C08-typescript6-release",
+              "finding_id": "F001",
+              "gold_label": "partially_entailed",
+              "phenomenon": "natural"
+            },
+            {
+              "id": "semantic-hardneg-0002",
+              "case_id": "C21-fed-sep-cut",
+              "finding_id": "F001",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0007",
+              "case_id": "C15-artemis2-complete",
+              "finding_id": "F002",
+              "gold_label": "not_entailed",
+              "phenomenon": "target_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0018",
+              "case_id": "C01-python313",
+              "finding_id": "F001",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0029",
+              "case_id": "C21-fed-sep-cut",
+              "finding_id": "F001",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0031",
+              "case_id": "C15-artemis2-complete",
+              "finding_id": "F002",
+              "gold_label": "not_entailed",
+              "phenomenon": "target_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0096",
+              "case_id": "C01-python313",
+              "finding_id": "F001",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            }
+          ]
+        }
+      ],
+      "by_phenomenon": {
+        "causal_strengthening": {
+          "n": 13,
+          "exact_accuracy": 1.0,
+          "entailed_gold": 0,
+          "judge_accepted": 0,
+          "accept_precision": null
+        },
+        "exclusivity_strengthening": {
+          "n": 15,
+          "exact_accuracy": 0.8,
+          "entailed_gold": 0,
+          "judge_accepted": 0,
+          "accept_precision": null
+        },
+        "natural": {
+          "n": 87,
+          "exact_accuracy": 0.6206896551724138,
+          "entailed_gold": 70,
+          "judge_accepted": 41,
+          "accept_precision": 0.975609756097561
+        },
+        "plan_to_actual": {
+          "n": 24,
+          "exact_accuracy": 0.16666666666666666,
+          "entailed_gold": 0,
+          "judge_accepted": 4,
+          "accept_precision": 0.0
+        },
+        "scope_expansion": {
+          "n": 12,
+          "exact_accuracy": 0.6666666666666666,
+          "entailed_gold": 0,
+          "judge_accepted": 0,
+          "accept_precision": null
+        },
+        "stance_flip": {
+          "n": 1,
+          "exact_accuracy": 1.0,
+          "entailed_gold": 0,
+          "judge_accepted": 0,
+          "accept_precision": null
+        },
+        "target_to_actual": {
+          "n": 4,
+          "exact_accuracy": 0.0,
+          "entailed_gold": 0,
+          "judge_accepted": 2,
+          "accept_precision": 0.0
+        },
+        "uncertainty_to_certainty": {
+          "n": 1,
+          "exact_accuracy": 0.0,
+          "entailed_gold": 0,
+          "judge_accepted": 0,
+          "accept_precision": null
+        }
+      },
+      "judge_model": "cascade:MoritzLaurer/mDeBERTa-v3-base-mnli-xnli+/tmp/qwen2.5-7b-awq-local",
+      "judge_type": "cascade:agreement",
+      "independent_model": true,
+      "same_as_generator_model": false
+    },
+    "test": {
+      "benchmark_rows": 82,
+      "split": "test",
+      "judged_rows": 82,
+      "coverage": 1.0,
+      "four_class_exact_accuracy": 0.524390243902439,
+      "confusion_matrix": {
+        "entailed": {
+          "entailed": 16,
+          "partially_entailed": 15,
+          "not_entailed": 3,
+          "unclear": 0
+        },
+        "partially_entailed": {
+          "entailed": 2,
+          "partially_entailed": 26,
+          "not_entailed": 6,
+          "unclear": 0
+        },
+        "not_entailed": {
+          "entailed": 2,
+          "partially_entailed": 10,
+          "not_entailed": 1,
+          "unclear": 0
+        },
+        "unclear": {
+          "entailed": 0,
+          "partially_entailed": 1,
+          "not_entailed": 0,
+          "unclear": 0
+        }
+      },
+      "missing_prediction_ids": [],
+      "thresholds": [
+        {
+          "threshold": 0.5,
+          "accepted": 20,
+          "acceptance_rate": 0.24390243902439024,
+          "strict_support_among_accepted": 0.8,
+          "strict_support_wilson95": [
+            0.5839782779742401,
+            0.9193436467288
+          ],
+          "supported_recall": 0.47058823529411764,
+          "false_accept_count": 4,
+          "false_accepts": [
+            {
+              "id": "natural-0008",
+              "case_id": "C16-cop30-roadmap-adopted",
+              "finding_id": "F002",
+              "gold_label": "partially_entailed",
+              "phenomenon": "natural"
+            },
+            {
+              "id": "natural-0033",
+              "case_id": "C22-ndx-h2-2025",
+              "finding_id": "F001",
+              "gold_label": "partially_entailed",
+              "phenomenon": "natural"
+            },
+            {
+              "id": "semantic-hardneg-0005",
+              "case_id": "C24-gold-q3-2026",
+              "finding_id": "F002",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0030",
+              "case_id": "C24-gold-q3-2026",
+              "finding_id": "F002",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            }
+          ]
+        }
+      ],
+      "by_phenomenon": {
+        "causal_strengthening": {
+          "n": 9,
+          "exact_accuracy": 0.6666666666666666,
+          "entailed_gold": 0,
+          "judge_accepted": 0,
+          "accept_precision": null
+        },
+        "exclusivity_strengthening": {
+          "n": 4,
+          "exact_accuracy": 0.75,
+          "entailed_gold": 0,
+          "judge_accepted": 0,
+          "accept_precision": null
+        },
+        "natural": {
+          "n": 48,
+          "exact_accuracy": 0.5208333333333334,
+          "entailed_gold": 34,
+          "judge_accepted": 18,
+          "accept_precision": 0.8888888888888888
+        },
+        "plan_to_actual": {
+          "n": 11,
+          "exact_accuracy": 0.0,
+          "entailed_gold": 0,
+          "judge_accepted": 2,
+          "accept_precision": 0.0
+        },
+        "quantifier_flip": {
+          "n": 1,
+          "exact_accuracy": 1.0,
+          "entailed_gold": 0,
+          "judge_accepted": 0,
+          "accept_precision": null
+        },
+        "scope_expansion": {
+          "n": 9,
+          "exact_accuracy": 0.8888888888888888,
+          "entailed_gold": 0,
+          "judge_accepted": 0,
+          "accept_precision": null
+        }
+      },
+      "judge_model": "cascade:MoritzLaurer/mDeBERTa-v3-base-mnli-xnli+/tmp/qwen2.5-7b-awq-local",
+      "judge_type": "cascade:agreement",
+      "independent_model": true,
+      "same_as_generator_model": false
+    },
+    "dev_meets_target": false,
+    "test_meets_target": false,
+    "candidate_count": 25
+  },
+  "nli_then_llm": {
+    "policy": "nli_then_llm",
+    "target_precision": 0.95,
+    "min_recall": 0.9,
+    "selected_config": {
+      "nli_accept": 0.95,
+      "nli_reject": 0.5,
+      "llm_accept": 0.5
+    },
+    "dev": {
+      "benchmark_rows": 157,
+      "split": "dev",
+      "judged_rows": 157,
+      "coverage": 1.0,
+      "four_class_exact_accuracy": 0.5414012738853503,
+      "confusion_matrix": {
+        "entailed": {
+          "entailed": 52,
+          "partially_entailed": 9,
+          "not_entailed": 4,
+          "unclear": 5
+        },
+        "partially_entailed": {
+          "entailed": 7,
+          "partially_entailed": 30,
+          "not_entailed": 9,
+          "unclear": 11
+        },
+        "not_entailed": {
+          "entailed": 20,
+          "partially_entailed": 4,
+          "not_entailed": 3,
+          "unclear": 3
+        },
+        "unclear": {
+          "entailed": 0,
+          "partially_entailed": 0,
+          "not_entailed": 0,
+          "unclear": 0
+        }
+      },
+      "missing_prediction_ids": [],
+      "thresholds": [
+        {
+          "threshold": 0.5,
+          "accepted": 79,
+          "acceptance_rate": 0.5031847133757962,
+          "strict_support_among_accepted": 0.6582278481012658,
+          "strict_support_wilson95": [
+            0.548488933568034,
+            0.7532918142688015
+          ],
+          "supported_recall": 0.7428571428571429,
+          "false_accept_count": 27,
+          "false_accepts": [
+            {
+              "id": "natural-0014",
+              "case_id": "C20-g20-summit-held",
+              "finding_id": "F002",
+              "gold_label": "partially_entailed",
+              "phenomenon": "natural"
+            },
+            {
+              "id": "natural-0015",
+              "case_id": "C09-man-city-top4",
+              "finding_id": "F002",
+              "gold_label": "partially_entailed",
+              "phenomenon": "natural"
+            },
+            {
+              "id": "natural-0046",
+              "case_id": "C14-nba-east-champ",
+              "finding_id": "F002",
+              "gold_label": "partially_entailed",
+              "phenomenon": "natural"
+            },
+            {
+              "id": "natural-0053",
+              "case_id": "C08-typescript6-release",
+              "finding_id": "F001",
+              "gold_label": "partially_entailed",
+              "phenomenon": "natural"
+            },
+            {
+              "id": "semantic-hardneg-0002",
+              "case_id": "C21-fed-sep-cut",
+              "finding_id": "F001",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0006",
+              "case_id": "C15-artemis2-complete",
+              "finding_id": "F001",
+              "gold_label": "not_entailed",
+              "phenomenon": "target_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0007",
+              "case_id": "C15-artemis2-complete",
+              "finding_id": "F002",
+              "gold_label": "not_entailed",
+              "phenomenon": "target_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0008",
+              "case_id": "C17-iss-crewed-2024",
+              "finding_id": "F001",
+              "gold_label": "partially_entailed",
+              "phenomenon": "exclusivity_strengthening"
+            },
+            {
+              "id": "semantic-hardneg-0010",
+              "case_id": "C18-xflare-2025",
+              "finding_id": "F002",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0012",
+              "case_id": "C20-g20-summit-held",
+              "finding_id": "F001",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0018",
+              "case_id": "C01-python313",
+              "finding_id": "F001",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0021",
+              "case_id": "C04-starship-orbit",
+              "finding_id": "F002",
+              "gold_label": "partially_entailed",
+              "phenomenon": "causal_strengthening"
+            },
+            {
+              "id": "semantic-hardneg-0022",
+              "case_id": "C05-node22-lts",
+              "finding_id": "F002",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0023",
+              "case_id": "C06-gb300-delivery",
+              "finding_id": "F001",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0029",
+              "case_id": "C21-fed-sep-cut",
+              "finding_id": "F001",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0031",
+              "case_id": "C15-artemis2-complete",
+              "finding_id": "F002",
+              "gold_label": "not_entailed",
+              "phenomenon": "target_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0033",
+              "case_id": "C17-iss-crewed-2024",
+              "finding_id": "F001",
+              "gold_label": "partially_entailed",
+              "phenomenon": "causal_strengthening"
+            },
+            {
+              "id": "semantic-hardneg-0034",
+              "case_id": "C18-xflare-2025",
+              "finding_id": "F002",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0035",
+              "case_id": "C20-g20-summit-held",
+              "finding_id": "F002",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0053",
+              "case_id": "C18-xflare-2025",
+              "finding_id": "F001",
+              "gold_label": "not_entailed",
+              "phenomenon": "uncertainty_to_certainty"
+            },
+            {
+              "id": "semantic-hardneg-0054",
+              "case_id": "C18-xflare-2025",
+              "finding_id": "F002",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0056",
+              "case_id": "C20-g20-summit-held",
+              "finding_id": "F002",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0061",
+              "case_id": "C01-python313",
+              "finding_id": "F001",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0074",
+              "case_id": "C20-g20-summit-held",
+              "finding_id": "F002",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0083",
+              "case_id": "C21-fed-sep-cut",
+              "finding_id": "F001",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0092",
+              "case_id": "C20-g20-summit-held",
+              "finding_id": "F002",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0096",
+              "case_id": "C01-python313",
+              "finding_id": "F001",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            }
+          ]
+        }
+      ],
+      "by_phenomenon": {
+        "causal_strengthening": {
+          "n": 13,
+          "exact_accuracy": 0.6923076923076923,
+          "entailed_gold": 0,
+          "judge_accepted": 2,
+          "accept_precision": 0.0
+        },
+        "exclusivity_strengthening": {
+          "n": 15,
+          "exact_accuracy": 0.4666666666666667,
+          "entailed_gold": 0,
+          "judge_accepted": 1,
+          "accept_precision": 0.0
+        },
+        "natural": {
+          "n": 87,
+          "exact_accuracy": 0.7011494252873564,
+          "entailed_gold": 70,
+          "judge_accepted": 56,
+          "accept_precision": 0.9285714285714286
+        },
+        "plan_to_actual": {
+          "n": 24,
+          "exact_accuracy": 0.08333333333333333,
+          "entailed_gold": 0,
+          "judge_accepted": 16,
+          "accept_precision": 0.0
+        },
+        "scope_expansion": {
+          "n": 12,
+          "exact_accuracy": 0.4166666666666667,
+          "entailed_gold": 0,
+          "judge_accepted": 0,
+          "accept_precision": null
+        },
+        "stance_flip": {
+          "n": 1,
+          "exact_accuracy": 1.0,
+          "entailed_gold": 0,
+          "judge_accepted": 0,
+          "accept_precision": null
+        },
+        "target_to_actual": {
+          "n": 4,
+          "exact_accuracy": 0.0,
+          "entailed_gold": 0,
+          "judge_accepted": 3,
+          "accept_precision": 0.0
+        },
+        "uncertainty_to_certainty": {
+          "n": 1,
+          "exact_accuracy": 0.0,
+          "entailed_gold": 0,
+          "judge_accepted": 1,
+          "accept_precision": 0.0
+        }
+      },
+      "judge_model": "cascade:MoritzLaurer/mDeBERTa-v3-base-mnli-xnli+/tmp/qwen2.5-7b-awq-local",
+      "judge_type": "cascade:nli_then_llm",
+      "independent_model": true,
+      "same_as_generator_model": false
+    },
+    "test": {
+      "benchmark_rows": 82,
+      "split": "test",
+      "judged_rows": 82,
+      "coverage": 1.0,
+      "four_class_exact_accuracy": 0.4634146341463415,
+      "confusion_matrix": {
+        "entailed": {
+          "entailed": 24,
+          "partially_entailed": 7,
+          "not_entailed": 2,
+          "unclear": 1
+        },
+        "partially_entailed": {
+          "entailed": 3,
+          "partially_entailed": 13,
+          "not_entailed": 6,
+          "unclear": 12
+        },
+        "not_entailed": {
+          "entailed": 6,
+          "partially_entailed": 3,
+          "not_entailed": 1,
+          "unclear": 3
+        },
+        "unclear": {
+          "entailed": 0,
+          "partially_entailed": 1,
+          "not_entailed": 0,
+          "unclear": 0
+        }
+      },
+      "missing_prediction_ids": [],
+      "thresholds": [
+        {
+          "threshold": 0.5,
+          "accepted": 33,
+          "acceptance_rate": 0.4024390243902439,
+          "strict_support_among_accepted": 0.7272727272727273,
+          "strict_support_wilson95": [
+            0.5578211674561319,
+            0.849327273436772
+          ],
+          "supported_recall": 0.7058823529411765,
+          "false_accept_count": 9,
+          "false_accepts": [
+            {
+              "id": "natural-0008",
+              "case_id": "C16-cop30-roadmap-adopted",
+              "finding_id": "F002",
+              "gold_label": "partially_entailed",
+              "phenomenon": "natural"
+            },
+            {
+              "id": "natural-0033",
+              "case_id": "C22-ndx-h2-2025",
+              "finding_id": "F001",
+              "gold_label": "partially_entailed",
+              "phenomenon": "natural"
+            },
+            {
+              "id": "natural-0055",
+              "case_id": "C22-ndx-h2-2025",
+              "finding_id": "F002",
+              "gold_label": "partially_entailed",
+              "phenomenon": "natural"
+            },
+            {
+              "id": "semantic-hardneg-0005",
+              "case_id": "C24-gold-q3-2026",
+              "finding_id": "F002",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0019",
+              "case_id": "C03-apple-m4-mac",
+              "finding_id": "F001",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0020",
+              "case_id": "C03-apple-m4-mac",
+              "finding_id": "F002",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0030",
+              "case_id": "C24-gold-q3-2026",
+              "finding_id": "F002",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0043",
+              "case_id": "C03-apple-m4-mac",
+              "finding_id": "F002",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            },
+            {
+              "id": "semantic-hardneg-0064",
+              "case_id": "C03-apple-m4-mac",
+              "finding_id": "F002",
+              "gold_label": "not_entailed",
+              "phenomenon": "plan_to_actual"
+            }
+          ]
+        }
+      ],
+      "by_phenomenon": {
+        "causal_strengthening": {
+          "n": 9,
+          "exact_accuracy": 0.4444444444444444,
+          "entailed_gold": 0,
+          "judge_accepted": 0,
+          "accept_precision": null
+        },
+        "exclusivity_strengthening": {
+          "n": 4,
+          "exact_accuracy": 0.25,
+          "entailed_gold": 0,
+          "judge_accepted": 0,
+          "accept_precision": null
+        },
+        "natural": {
+          "n": 48,
+          "exact_accuracy": 0.5625,
+          "entailed_gold": 34,
+          "judge_accepted": 27,
+          "accept_precision": 0.8888888888888888
+        },
+        "plan_to_actual": {
+          "n": 11,
+          "exact_accuracy": 0.0,
+          "entailed_gold": 0,
+          "judge_accepted": 6,
+          "accept_precision": 0.0
+        },
+        "quantifier_flip": {
+          "n": 1,
+          "exact_accuracy": 1.0,
+          "entailed_gold": 0,
+          "judge_accepted": 0,
+          "accept_precision": null
+        },
+        "scope_expansion": {
+          "n": 9,
+          "exact_accuracy": 0.5555555555555556,
+          "entailed_gold": 0,
+          "judge_accepted": 0,
+          "accept_precision": null
+        }
+      },
+      "judge_model": "cascade:MoritzLaurer/mDeBERTa-v3-base-mnli-xnli+/tmp/qwen2.5-7b-awq-local",
+      "judge_type": "cascade:nli_then_llm",
+      "independent_model": true,
+      "same_as_generator_model": false
+    },
+    "dev_meets_target": false,
+    "test_meets_target": false,
+    "candidate_count": 125
+  }
+}
