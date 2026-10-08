@@ -43,7 +43,11 @@ def combine(benchmark: dict, nli: dict, llm: dict, *, nli_accept: float, nli_rej
             elif nj["label"] == "not_entailed" and cp >= nli_reject:
                 label, route = "not_entailed", "nli_reject"
             else:
-                label, route = lj["label"], "llm_fallback"
+                llm_conf = float(lj.get("confidence", 0))
+                if lj["label"] == "entailed" and llm_conf < llm_accept:
+                    label, route = "unclear", "llm_low_confidence"
+                else:
+                    label, route = lj["label"], "llm_fallback"
         else:
             raise ValueError(f"unknown policy: {policy}")
 
