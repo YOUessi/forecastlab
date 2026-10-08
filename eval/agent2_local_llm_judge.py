@@ -112,17 +112,20 @@ def load_runtime(model_name: str, *, awq: bool = False):
     return torch, tokenizer, model, device
 
 
-def prompt_for_row(tokenizer, row: dict) -> str:
+def prompt_for_row(tokenizer, row: dict, *, disable_thinking: bool = False) -> str:
     payload = {"claim": row["claim"], "exact_quotes": row_quotes(row)}
     messages = [
         {"role": "system", "content": PROMPT},
         {"role": "user", "content": json.dumps(payload, ensure_ascii=False)},
     ]
-    return tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+    kwargs = {"tokenize": False, "add_generation_prompt": True}
+    if disable_thinking:
+        kwargs["enable_thinking"] = False
+    return tokenizer.apply_chat_template(messages, **kwargs)
 
 
-def judge_batch(torch, tokenizer, model, device, rows: list[dict], max_new_tokens: int) -> tuple[list[Decision], float]:
-    prompts = [prompt_for_row(tokenizer, row) for row in rows]
+def judge_batch(torch, tokenizer, model, device, rows: list[dict], max_new_tokens: int, *, disable_thinking: bool = False) -> tuple[list[Decision], float]:
+    prompts = [prompt_for_row(tokenizer, row, disable_thinking=disable_thinking) for row in rows]
     if tokenizer.pad_token_id is None:
         tokenizer.pad_token = tokenizer.eos_token
     old_padding_side = tokenizer.padding_side
@@ -158,8 +161,11 @@ def judge_batch(torch, tokenizer, model, device, rows: list[dict], max_new_token
     return decisions, elapsed
 
 
-def judge_row(torch, tokenizer, model, device, row: dict, max_new_tokens: int) -> tuple[Decision, float]:
-    decisions, elapsed = judge_batch(torch, tokenizer, model, device, [row], max_new_tokens)
+def judge_row(torch, tokenizer, model, device, row: dict, max_new_tokens: int, *, disable_thinking: bool = False) -> tuple[Decision, float]:
+    decisions, elapsed = judge_batch(
+        torch, tokenizer, model, device, [row], max_new_tokens,
+        disable_thinking=disable_thinking,
+    )
     return decisions[0], elapsed
 
 
@@ -194,6 +200,7 @@ def main() -> None:
     p.add_argument("--resume", action="store_true")
     p.add_argument("--awq", action="store_true", help="load an AutoAWQ quantized model")
     p.add_argument("--batch-size", type=int, default=1, help="batch prompts for local GPU inference")
+    p.add_argument("--disable-thinking", action="store_true", help="disable model-specific thinking mode when supported by the chat template")
     args = p.parse_args()
 
     data = json.loads(args.benchmark.read_text(encoding="utf-8"))
@@ -217,7 +224,8 @@ def main() -> None:
         batch_error = None
         try:
             decisions, batch_elapsed = judge_batch(
-                torch, tokenizer, model, device, batch, args.max_new_tokens
+                torch, tokenizer, model, device, batch, args.max_new_tokens,
+                disable_thinking=args.disable_thinking,
             )
         except Exception as exc:
             batch_error = f"{type(exc).__name__}: {str(exc)[:300]}"
