@@ -114,7 +114,7 @@ def main() -> None:
     p.add_argument("benchmark", type=Path)
     p.add_argument("judged", type=Path)
     p.add_argument("--output", type=Path)
-    p.add_argument("--split", choices=["all", "train", "calibration", "test"], default="all")
+    p.add_argument("--split", choices=["all", "dev", "test"], default="all")
     args = p.parse_args()
     result = score(
         json.loads(args.benchmark.read_text(encoding="utf-8")),
